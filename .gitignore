@@ -1,0 +1,8 @@
+# backend
+.idea
+.serverless
+.project
+*.iml
+.DS_Store
+.classpath
+.
