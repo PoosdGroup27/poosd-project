@@ -1,10 +1,6 @@
-name: Build and lint Java on Jesse branches
+name: Build and lint Java
 
 on:
-  push:
-    branches:
-      - 'jesse/**'
-      - 'adam/**'
   pull_request:
     branches:
       - 'main'
