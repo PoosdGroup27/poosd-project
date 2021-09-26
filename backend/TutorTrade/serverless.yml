@@ -4,7 +4,7 @@ frameworkVersion: "2"
 
 provider:
   name: aws
-  runtime: java8
+  runtime: java11
   lambdaHashingVersion: 20201221
 
   iamRoleStatements:
@@ -42,7 +42,7 @@ package:
 
 functions:
   user:
-    handler: com.tutor.UserHandler
+    handler: com.tutor.user.UserHandler
     events:
       - http:
           path: /user/create
