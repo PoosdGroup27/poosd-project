@@ -4,7 +4,7 @@ frameworkVersion: "2"
 
 provider:
   name: aws
-  runtime: java8
+  runtime: java11
   lambdaHashingVersion: 20201221
 
   iamRoleStatements:
@@ -13,7 +13,7 @@ provider:
         - "dynamodb:*"
       Resource: "*"
 
-  stage: jesse-dev
+  stage: adam-dev
   region: us-east-1
 
 # you can add statements to the Lambda function's IAM Role here
@@ -42,7 +42,7 @@ package:
 
 functions:
   user:
-    handler: com.tutor.UserHandler
+    handler: com.tutor.user.UserHandler
     events:
       - http:
           path: /user/create
@@ -52,7 +52,6 @@ resources:
     usersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: usersTable
         AttributeDefinitions:
           - AttributeName: userID
             AttributeType: S

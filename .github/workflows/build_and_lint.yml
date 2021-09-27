@@ -4,7 +4,9 @@ on:
   pull_request:
     branches:
       - 'main'
-
+  push:
+    branches:
+      - 'jesse/**'
 jobs:
   build-and-lint:
     name: Build backend components
@@ -27,8 +29,8 @@ jobs:
         uses: github/super-linter/slim@v4
         env :
           VALIDATE_JAVA: true
+          JAVA_FILE_NAME: google_checks.xml
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 
 
 
