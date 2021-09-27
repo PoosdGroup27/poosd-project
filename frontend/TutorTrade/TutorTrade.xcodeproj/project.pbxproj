@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4AC9501126ED771F00FC4A97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC9501026ED771F00FC4A97 /* AppDelegate.swift */; };
-		4AC9501326ED771F00FC4A97 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC9501226ED771F00FC4A97 /* SceneDelegate.swift */; };
 		4AC9501526ED771F00FC4A97 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC9501426ED771F00FC4A97 /* ViewController.swift */; };
 		4AC9501826ED771F00FC4A97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AC9501626ED771F00FC4A97 /* Main.storyboard */; };
 		4AC9501A26ED771F00FC4A97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AC9501926ED771F00FC4A97 /* Assets.xcassets */; };
@@ -37,7 +36,6 @@
 /* Begin PBXFileReference section */
 		4AC9500D26ED771F00FC4A97 /* TutorTrade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TutorTrade.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AC9501026ED771F00FC4A97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4AC9501226ED771F00FC4A97 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		4AC9501426ED771F00FC4A97 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4AC9501726ED771F00FC4A97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4AC9501926ED771F00FC4A97 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -147,7 +145,6 @@
 			children = (
 				4AC9501926ED771F00FC4A97 /* Assets.xcassets */,
 				4AC9501026ED771F00FC4A97 /* AppDelegate.swift */,
-				4AC9501226ED771F00FC4A97 /* SceneDelegate.swift */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -300,7 +297,6 @@
 			files = (
 				4AC9501526ED771F00FC4A97 /* ViewController.swift in Sources */,
 				4AC9501126ED771F00FC4A97 /* AppDelegate.swift in Sources */,
-				4AC9501326ED771F00FC4A97 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -479,6 +475,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S5YGMA5VUJ;
 				INFOPLIST_FILE = TutorTrade/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -486,7 +483,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = PoosdGroup27.TutorTrade;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -498,6 +495,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S5YGMA5VUJ;
 				INFOPLIST_FILE = TutorTrade/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -505,7 +503,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = PoosdGroup27.TutorTrade;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
