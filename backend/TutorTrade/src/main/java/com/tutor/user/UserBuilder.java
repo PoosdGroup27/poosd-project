@@ -1,0 +1,56 @@
+package com.tutor.user;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
+
+/**
+ * Builder method for User class. Allows for chained
+ * set methods and validation during construction
+ * (i.e. new UserBuilder.withName("name).withSchool("school").build())
+ */
+public class UserBuilder {
+  public String name;
+  public String school;
+  public Date dateCreated;
+  public boolean isActive;
+  public int points;
+  public ArrayList<UUID> sessionIds;
+
+  private static void validateUser(User user) throws UserBuilderException {
+    ArrayList<String> nullValues = new ArrayList<>();
+
+    if (user.getName() == null) {
+      nullValues.add("name");
+    }
+    if (user.getSchool() == null) {
+      nullValues.add("school");
+    }
+
+    if (!nullValues.isEmpty()) {
+      throw new UserBuilderException("No values provided for these fields: " + nullValues);
+    }
+  }
+
+  public UserBuilder withName(String name) {
+    this.name = name;
+    return this;
+  }
+
+  public UserBuilder withSchool(String school) {
+    this.school = school;
+    return this;
+  }
+
+  /**
+   * Validates that User contains non-empty name and school.
+   *
+   * @return Valid User object
+   * @throws UserBuilderException Occurs when validation fails
+   */
+  public User build() throws UserBuilderException {
+    User user = new User(this);
+    validateUser(user);
+    return user;
+  }
+}
