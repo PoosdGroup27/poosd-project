@@ -2,6 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Dosis-SemiBold.ttf</string>
+		<string>Dosis-Regular.ttf</string>
+		<string>Dosis-Medium.ttf</string>
+		<string>Dosis-Light.ttf</string>
+		<string>Dosis-ExtraLight.ttf</string>
+		<string>Dosis-ExtraBold.ttf</string>
+		<string>Dosis-Bold.ttf</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
