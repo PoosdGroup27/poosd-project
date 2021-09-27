@@ -14,12 +14,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        do {
-            sleep(3)
-        }
+        
+        let tabBar = TutorTradeTabBarController()
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = ViewController()
+        window?.rootViewController = tabBar
         window?.makeKeyAndVisible()
         return true
     }
