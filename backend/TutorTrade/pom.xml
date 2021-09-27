@@ -5,7 +5,7 @@
     <groupId>com.tutor</groupId>
     <artifactId>tutor-api</artifactId>
     <packaging>jar</packaging>
-    <version>jesse-dev</version>
+    <version>adam-dev</version>
     <name>tutor-api</name>
 
     <properties>

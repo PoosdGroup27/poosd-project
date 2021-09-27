@@ -8,9 +8,12 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,7 +24,7 @@ import org.apache.logging.log4j.Logger;
  * input.
  */
 public class UserHandler
-    implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse> {
+    implements RequestHandler<Map<Object, Object>, String> {
 
   private static final Logger LOG = LogManager.getLogger(UserHandler.class);
   private static final AmazonDynamoDB DYNAMO_DB =
@@ -29,47 +32,57 @@ public class UserHandler
   private static final DynamoDBMapper MAPPER = new DynamoDBMapper(DYNAMO_DB);
 
   @Override
-  public APIGatewayV2HTTPResponse handleRequest(APIGatewayV2HTTPEvent input, Context context) {
+  public String handleRequest(Map<Object, Object> event, Context context) {
     APIGatewayV2HTTPResponse errorResponse = new APIGatewayV2HTTPResponse();
     JsonNode body;
 
-    String path = input.getRawPath();
-    // grab the last element in API path
-    String method = path.split("/")[path.length() - 1];
+    HashMap<String, String> bodyJson = (HashMap<String, String>) event.get("body-json");
+    HashMap<String, String> contextMap = (HashMap<String, String>) event.get("context");
 
-    try {
-      body = new ObjectMapper().readTree(input.getBody());
-    } catch (IOException ex) {
-      errorResponse.setStatusCode(400);
-      errorResponse.setBody("Request does not contain a body for creating a user.");
-      return errorResponse;
-    }
+    String path = contextMap.get("resource-path");
+
+    // grab the last element in API path
+    String [] splitPath = path.split("/");
+    String method = splitPath[splitPath.length - 1];
 
     // route requests
     switch (method) {
       case "create":
-        return createUser(body);
+        try {
+          return createUser(bodyJson);
+        } catch (JsonProcessingException e) {
+          e.printStackTrace();
+        }
+        break;
       default:
         errorResponse.setStatusCode(400);
         errorResponse.setBody(
                 String.format("Request path is malformed or method not known. Path: %s", path));
     }
 
-    return errorResponse;
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      return mapper.writeValueAsString(errorResponse);
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+      return "An error occurred; see stack trace.";
+    }
   }
 
-  private APIGatewayV2HTTPResponse createUser(JsonNode body) {
-    String name = body.get("name").textValue();
-    String school = body.get("school").textValue();
+  private String createUser(HashMap<String, String> body) throws JsonProcessingException {
+    String name = body.get("name");
+    String school = body.get("school");
 
     User user = new UserBuilder().withName(name).withSchool(school).build();
 
     MAPPER.save(user);
 
     APIGatewayV2HTTPResponse response = new APIGatewayV2HTTPResponse();
-    response.setIsBase64Encoded(false);
+    response.setIsBase64Encoded(true);
     response.setStatusCode(200);
-    response.setBody(user.toString());
-    return response;
+    response.setBody(user.getName() + " " + user.getSchool());
+
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.writeValueAsString(response);
   }
 }

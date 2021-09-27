@@ -8,9 +8,8 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * User object corresponds to schema of User table. All data must be
- * first marshalling to User object before being written to DynamoDB.
- * User data coming from DynamoDB is read into User object.
+ * User object corresponds to schema of User table. All data must be first marshalling to User
+ * object before being written to DynamoDB. User data coming from DynamoDB is read into User object.
  */
 @DynamoDBTable(tableName = "usersTable")
 public class User {
@@ -24,12 +23,9 @@ public class User {
   private static final int STARTING_POINTS = 100;
 
   /**
-   * Constructor is a wrapper for builder and should
-   * not be called directly.
+   * Constructor is a wrapper for builder and should not be called directly.
    *
-   * @param builder Builder class allows user to
-   *                set fields of object as chained
-   *                method calls.
+   * @param builder Builder class allows user to set fields of object as chained method calls.
    */
   public User(UserBuilder builder) {
     this.name = builder.name;

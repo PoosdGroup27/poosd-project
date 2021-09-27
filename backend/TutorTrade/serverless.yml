@@ -13,7 +13,7 @@ provider:
         - "dynamodb:*"
       Resource: "*"
 
-  stage: jesse-dev
+  stage: adam-dev
   region: us-east-1
 
 # you can add statements to the Lambda function's IAM Role here
@@ -52,7 +52,6 @@ resources:
     usersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: usersTable
         AttributeDefinitions:
           - AttributeName: userID
             AttributeType: S
