@@ -32,6 +32,11 @@ class TutorTradeTabBarController: UITabBarController {
         profileNavController.navigationBar.prefersLargeTitles = true
         
         view.backgroundColor = .white
+<<<<<<< HEAD
+        
+//        viewControllers = [matchingController, requestController, chatController, profileController]
+=======
+>>>>>>> main
 
         setViewControllers([matchingNavController, requestNavController, chatNavController, profileNavController], animated: false)
         selectedViewController = matchingNavController

@@ -8,6 +8,21 @@
 import UIKit
 
 class RequestController: UIViewController {
+<<<<<<< HEAD
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        title = "Request"
+        tabBarItem = UITabBarItem(title: "Request", image: UIImage(systemName: "hand.raised"), tag: 1)
+    }
+
+    override func viewDidLoad() {
+    }
+=======
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,4 +42,5 @@ class RequestController: UIViewController {
     }
     */
 
+>>>>>>> main
 }

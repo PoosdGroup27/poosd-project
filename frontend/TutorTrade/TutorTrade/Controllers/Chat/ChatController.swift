@@ -8,6 +8,22 @@
 import UIKit
 
 class ChatController: UIViewController {
+<<<<<<< HEAD
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        title = "Chat"
+        tabBarItem = UITabBarItem(title: "Chat", image: UIImage(systemName: "message"), tag: 2)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+=======
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,4 +43,5 @@ class ChatController: UIViewController {
     }
     */
 
+>>>>>>> main
 }
