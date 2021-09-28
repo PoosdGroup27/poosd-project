@@ -2,6 +2,8 @@
 //  ProfileController.swift
 //  TutorTrade
 //
+//  Serves as the root view controller for the user's profile page
+//
 //  Created by Sebastian Hernandez on 9/27/21.
 //
 
@@ -9,35 +11,13 @@ import UIKit
 
 class ProfileController: UIViewController {
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-    init() {
-        super.init(nibName: nil, bundle: nil)
+    convenience init() {
+        self.init(nibName: nil, bundle: nil)
         title = "Profile"
         tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), tag: 3)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-<<<<<<< HEAD
     }
-=======
-
-        // Do any additional setup after loading the view.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
->>>>>>> main
 }
