@@ -13,17 +13,19 @@ import java.util.UUID;
  */
 @DynamoDBTable(tableName = "usersTable")
 public class User {
-  private final String name;
-  private final String school;
-  private final Date dateCreated;
-  private final boolean isActive;
-  private final int points;
-  private final ArrayList<UUID> sessionIds;
-  private final UUID userId;
+  private String name;
+
+  private String school;
+  private Date dateCreated;
+  private boolean isActive;
+  private int points;
+  private ArrayList<UUID> sessionIds;
+  private UUID userId;
   private static final int STARTING_POINTS = 100;
 
   /**
-   * Constructor is a wrapper for builder and should not be called directly.
+   * Constructor is a wrapper for builder and should not be called directly, unless creating user
+   * object to serve as DynamoDB key (i.e. user with only an id).
    *
    * @param builder Builder class allows user to set fields of object as chained method calls.
    */
@@ -40,9 +42,25 @@ public class User {
     this.sessionIds = new ArrayList<>();
   }
 
+  /**
+   * Used for creating object to serve as DynamoDB key (i.e. user with only an id).
+   *
+   * @param userId UUID uniquely identifying user
+   */
+  public User(UUID userId) {
+    this.userId = userId;
+  }
+
+  /** Default constructor for use by DynamoDB mapper. Should not be used directly. */
+  public User() {}
+
   @DynamoDBAttribute(attributeName = "name")
   public String getName() {
     return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   @DynamoDBAttribute(attributeName = "school")
@@ -50,9 +68,17 @@ public class User {
     return school;
   }
 
+  public void setSchool(String school) {
+    this.school = school;
+  }
+
   @DynamoDBAttribute(attributeName = "dateCreated")
   public Date getDateCreated() {
     return dateCreated;
+  }
+
+  public void setDateCreated(Date dateCreated) {
+    this.dateCreated = dateCreated;
   }
 
   @DynamoDBAttribute(attributeName = "isActive")
@@ -60,18 +86,56 @@ public class User {
     return isActive;
   }
 
+  public void setIsActive(boolean active) {
+    isActive = active;
+  }
+
   @DynamoDBAttribute(attributeName = "points")
   public int getPoints() {
     return points;
   }
 
-  @DynamoDBAttribute(attributeName = "sessionID")
+  public void setPoints(int points) {
+    this.points = points;
+  }
+
+  @DynamoDBAttribute(attributeName = "sessionIds")
   public ArrayList<UUID> getSessionIds() {
     return sessionIds;
+  }
+
+  public void setSessionIds(ArrayList<UUID> sessionIds) {
+    this.sessionIds = sessionIds;
   }
 
   @DynamoDBHashKey(attributeName = "userID")
   public UUID getUserId() {
     return userId;
+  }
+
+  public void setUserId(UUID userId) {
+    this.userId = userId;
+  }
+
+  @Override
+  public String toString() {
+    return "User{"
+        + "name='"
+        + name
+        + '\''
+        + ", school='"
+        + school
+        + '\''
+        + ", dateCreated="
+        + dateCreated
+        + ", isActive="
+        + isActive
+        + ", points="
+        + points
+        + ", sessionIds="
+        + sessionIds
+        + ", userId="
+        + userId
+        + '}';
   }
 }
