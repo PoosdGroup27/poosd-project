@@ -11,7 +11,7 @@ import java.util.UUID;
  * User object corresponds to schema of User table. All data must be first marshalling to User
  * object before being written to DynamoDB. User data coming from DynamoDB is read into User object.
  */
-@DynamoDBTable(tableName = "usersTable")
+@DynamoDBTable(tableName = "userTable")
 public class User {
   private String name;
 
