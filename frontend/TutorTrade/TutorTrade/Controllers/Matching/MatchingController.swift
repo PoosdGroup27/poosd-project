@@ -22,4 +22,8 @@ class MatchingController: UIViewController {
         title = "Matching"
         tabBarItem = UITabBarItem(title: "Matching", image: UIImage(systemName: "house"), tag: 0)
     }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
 }
