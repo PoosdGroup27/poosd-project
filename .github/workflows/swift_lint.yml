@@ -1,0 +1,16 @@
+name: Lint Swift in frontend directory
+
+on:
+  pull_request:
+    paths:
+      - 'frontend/**'
+
+jobs:
+  SwiftLint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: GitHub Action for SwiftLint
+        uses: norio-nomura/action-swiftlint@3.2.1
+        env:
+          WORKING_DIRECTORY: ./frontend/TutorTrade
