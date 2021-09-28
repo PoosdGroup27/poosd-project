@@ -40,7 +40,7 @@ class TutorTradeTabBarController: UITabBarController {
         view.backgroundColor = .white
         
         // Add child view controllers to tab bar
-        viewControllers = [matchingController, requestController, chatController, profileController]
+        viewControllers = [matchingNavController, requestNavController, chatNavController, profileNavController]
 
         // Set the initially selected view controller upon app launch
         selectedViewController = matchingNavController
