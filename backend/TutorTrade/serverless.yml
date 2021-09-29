@@ -13,6 +13,7 @@ provider:
         - "dynamodb:*"
       Resource: "*"
 
+  # change stage when deploying dev stack
   stage: prod
   region: us-east-1
 
@@ -66,8 +67,7 @@ resources:
     usersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        # remove name when deploying dev stacks
-        TableName: userTable
+        TableName: userTable-${self:provider.stage}
         AttributeDefinitions:
           - AttributeName: userID
             AttributeType: S
