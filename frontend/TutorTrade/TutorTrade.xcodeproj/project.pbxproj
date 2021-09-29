@@ -11,6 +11,7 @@
 		4A29D5982702601D00D25088 /* MatchingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A29D5972702601D00D25088 /* MatchingController.swift */; };
 		4A29D59A2702602700D25088 /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A29D5992702602700D25088 /* ChatController.swift */; };
 		4A29D59C2702603200D25088 /* RequestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A29D59B2702603200D25088 /* RequestController.swift */; };
+		4AA06BE22704832900B58926 /* RequestSubjectTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA06BE12704832900B58926 /* RequestSubjectTextField.swift */; };
 		4AC9501126ED771F00FC4A97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC9501026ED771F00FC4A97 /* AppDelegate.swift */; };
 		4AC9501526ED771F00FC4A97 /* TutorTradeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC9501426ED771F00FC4A97 /* TutorTradeTabBarController.swift */; };
 		4AC9501A26ED771F00FC4A97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AC9501926ED771F00FC4A97 /* Assets.xcassets */; };
@@ -48,6 +49,7 @@
 		4A29D5972702601D00D25088 /* MatchingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingController.swift; sourceTree = "<group>"; };
 		4A29D5992702602700D25088 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 		4A29D59B2702603200D25088 /* RequestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestController.swift; sourceTree = "<group>"; };
+		4AA06BE12704832900B58926 /* RequestSubjectTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSubjectTextField.swift; sourceTree = "<group>"; };
 		4AC9500D26ED771F00FC4A97 /* TutorTrade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TutorTrade.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AC9501026ED771F00FC4A97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4AC9501426ED771F00FC4A97 /* TutorTradeTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorTradeTabBarController.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				4A29D59B2702603200D25088 /* RequestController.swift */,
+				4AA06BE12704832900B58926 /* RequestSubjectTextField.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 			files = (
 				4AC9501526ED771F00FC4A97 /* TutorTradeTabBarController.swift in Sources */,
 				4AC9501126ED771F00FC4A97 /* AppDelegate.swift in Sources */,
+				4AA06BE22704832900B58926 /* RequestSubjectTextField.swift in Sources */,
 				4A29D5982702601D00D25088 /* MatchingController.swift in Sources */,
 				4A29D59C2702603200D25088 /* RequestController.swift in Sources */,
 				4A29D59A2702602700D25088 /* ChatController.swift in Sources */,
