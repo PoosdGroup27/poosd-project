@@ -7,9 +7,28 @@
 
 import UIKit
 
-class RequestSubjectTextField: UITextField {
+class SubjectRequestView: UITextField {
     
     convenience init() {
-        self.init(frame: CGRect.zero)
+        self.init(frame: CGRect(x: 10, y: 210, width: 374, height: 50))
+        
+        guard let subjectLabelFont = UIFont(name: "Lato-Bold", size: 25) else {
+            fatalError(" Failed to load Lato-Font")
+        }
+        
+        guard let subjectPlaceHolderFont = UIFont(name: "Lato-Bold", size: 15) else {
+            fatalError(" Failed to load Lato-Font")
+        }
+
+        let subjectLabel: UILabel = UILabel(frame: CGRect(x: 0, y: -50, width: 374, height: 50))
+        
+        self.placeholder = "Subject"
+        self.font = UIFontMetrics.default.scaledFont(for: subjectPlaceHolderFont)
+        self.borderStyle = UITextField.BorderStyle.roundedRect
+        
+        subjectLabel.text = "Subject"
+        subjectLabel.font = UIFontMetrics.default.scaledFont(for: subjectLabelFont)
+        
+        self.addSubview(subjectLabel)
     }
 }

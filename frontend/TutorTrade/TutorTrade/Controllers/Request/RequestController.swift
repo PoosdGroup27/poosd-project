@@ -12,13 +12,19 @@ import UIKit
 
 class RequestController: UIViewController {
     
+    let subjectRequestView: UITextField! = {
+        let textField = SubjectRequestView()
+        return textField
+    }()
+
     convenience init() {
         self.init(nibName: nil, bundle: nil)
         title = "Request"
         tabBarItem = UITabBarItem(title: "Request", image: UIImage(systemName: "hand.raised"), tag: 1)
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func loadView() {
+        super.loadView()
+        self.view.addSubview(subjectRequestView)
     }
 }
