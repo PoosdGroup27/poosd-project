@@ -61,13 +61,13 @@ functions:
             template:
               application/json: ${file(./mapping_template.yml):mapping_template}\
 
-
 resources:
   Resources:
     usersTable:
-      name: userTable
       Type: AWS::DynamoDB::Table
       Properties:
+        # remove name when deploying dev stacks
+        TableName: userTable
         AttributeDefinitions:
           - AttributeName: userID
             AttributeType: S
