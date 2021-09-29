@@ -13,30 +13,9 @@ provider:
         - "dynamodb:*"
       Resource: "*"
 
-  stage: adam-dev
+  stage: prod
   region: us-east-1
 
-# you can add statements to the Lambda function's IAM Role here
-#  iamRoleStatements:
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:ListBucket"
-#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:PutObject"
-#      Resource:
-#        Fn::Join:
-#          - ""
-#          - - "arn:aws:s3:::"
-#            - "Ref" : "ServerlessDeploymentBucket"
-#            - "/*"
-
-# you can define service wide environment variables here
-#  environment:
-#    variable1: value1
-
-# you can add packaging information here
 package:
   artifact: target/${self:service}-${self:provider.stage}.jar
 
@@ -47,9 +26,46 @@ functions:
       - http:
           path: /user/create
           method: post
+          integration: lambda
+          request:
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
+      - http:
+          path: /user/{id}
+          method: get
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                id: true
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
+      - http:
+          path: /user/{id}
+          method: patch
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                id: true
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
+      - http:
+          path: /user/{id}
+          method: delete
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                id: true
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
+
+
 resources:
   Resources:
     usersTable:
+      name: userTable
       Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
