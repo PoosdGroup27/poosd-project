@@ -10,8 +10,10 @@ import java.util.UUID;
 /**
  * User object corresponds to schema of User table. All data must be first marshalling to User
  * object before being written to DynamoDB. User data coming from DynamoDB is read into User object.
+ *
+ * Regarding table name: set equal to userTable-{stage_name} if deploying to none prod stage
  */
-@DynamoDBTable(tableName = "userTable")
+@DynamoDBTable(tableName = "userTable-prod")
 public class User {
   private String name;
 
