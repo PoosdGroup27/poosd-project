@@ -8,6 +8,7 @@
 //  Created by Sebastian Hernandez on 9/27/21.
 //
 
+// TO DO: Create Preferred Mediums using a collectionView
 import UIKit
 
 class RequestController: UIViewController {
