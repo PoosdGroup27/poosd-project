@@ -24,6 +24,7 @@
 		4AA06BF727048D7000B58926 /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BEC27048D7000B58926 /* Lato-LightItalic.ttf */; };
 		4AA06BF827048D7000B58926 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BED27048D7000B58926 /* Lato-Regular.ttf */; };
 		4AA06BFA2704E4FF00B58926 /* RequestScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA06BF92704E4FF00B58926 /* RequestScrollView.swift */; };
+		4AB7809F270548D000A2443D /* SubmitRequestButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7809E270548D000A2443D /* SubmitRequestButton.swift */; };
 		4AC9501126ED771F00FC4A97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC9501026ED771F00FC4A97 /* AppDelegate.swift */; };
 		4AC9501526ED771F00FC4A97 /* TutorTradeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC9501426ED771F00FC4A97 /* TutorTradeTabBarController.swift */; };
 		4AC9501A26ED771F00FC4A97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AC9501926ED771F00FC4A97 /* Assets.xcassets */; };
@@ -74,6 +75,7 @@
 		4AA06BEC27048D7000B58926 /* Lato-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-LightItalic.ttf"; path = "../../../../../../../Downloads/Lato/Lato-LightItalic.ttf"; sourceTree = "<group>"; };
 		4AA06BED27048D7000B58926 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Regular.ttf"; path = "../../../../../../../Downloads/Lato/Lato-Regular.ttf"; sourceTree = "<group>"; };
 		4AA06BF92704E4FF00B58926 /* RequestScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestScrollView.swift; sourceTree = "<group>"; };
+		4AB7809E270548D000A2443D /* SubmitRequestButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitRequestButton.swift; sourceTree = "<group>"; };
 		4AC9500D26ED771F00FC4A97 /* TutorTrade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TutorTrade.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AC9501026ED771F00FC4A97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4AC9501426ED771F00FC4A97 /* TutorTradeTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorTradeTabBarController.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				4A29D59B2702603200D25088 /* RequestController.swift */,
 				4AA06BE12704832900B58926 /* SubjectRequestView.swift */,
 				4AA06BF92704E4FF00B58926 /* RequestScrollView.swift */,
+				4AB7809E270548D000A2443D /* SubmitRequestButton.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -422,6 +425,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4AC9501526ED771F00FC4A97 /* TutorTradeTabBarController.swift in Sources */,
+				4AB7809F270548D000A2443D /* SubmitRequestButton.swift in Sources */,
 				4AC9501126ED771F00FC4A97 /* AppDelegate.swift in Sources */,
 				4AA06BE22704832900B58926 /* SubjectRequestView.swift in Sources */,
 				4A29D5982702601D00D25088 /* MatchingController.swift in Sources */,
