@@ -21,12 +21,18 @@ class RequestScrollView: UIScrollView {
         let button = SubmitRequestButton()
         return button
     }()
+    
+    let nowButton: NowButton! = {
+        let button = NowButton()
+        return button
+    }()
 
     convenience init(scrollWidth: CGFloat, scrollHeight: CGFloat) {
         self.init(frame: CGRect(x: 10, y: 10, width: scrollWidth, height: scrollHeight))
         self.backgroundColor = .white
         self.contentSize = CGSize(width: 0, height: scrollHeight * 2)
         self.addSubview(subjectRequestView)
+        self.addSubview(nowButton)
         self.addSubview(submitRequestButton)
         
         submitRequestButton.addTarget(self, action: #selector(didTapSubmitRequestButton), for: .touchUpInside)
