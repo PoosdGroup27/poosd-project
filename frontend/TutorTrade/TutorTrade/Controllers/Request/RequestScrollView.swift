@@ -26,15 +26,33 @@ class RequestScrollView: UIScrollView {
         let button = NowButton()
         return button
     }()
+    
+    let todayButton: TodayButton! = {
+        let button = TodayButton()
+        return button
+    }()
+    
+    let thisWeekButton: ThisWeekButton! = {
+        let button = ThisWeekButton()
+        return button
+    }()
+    
+    let urgencyLabel: UrgencyLabel! = {
+        let label = UrgencyLabel()
+        return label
+    }()
 
     convenience init(scrollWidth: CGFloat, scrollHeight: CGFloat) {
         self.init(frame: CGRect(x: 10, y: 10, width: scrollWidth, height: scrollHeight))
         self.backgroundColor = .white
         self.contentSize = CGSize(width: 0, height: scrollHeight * 2)
         self.addSubview(subjectRequestView)
+        self.addSubview(urgencyLabel)
         self.addSubview(nowButton)
+        self.addSubview(todayButton)
+        self.addSubview(thisWeekButton)
         self.addSubview(submitRequestButton)
-        
+        print(self.frame.width)
         submitRequestButton.addTarget(self, action: #selector(didTapSubmitRequestButton), for: .touchUpInside)
     }
     

@@ -11,6 +11,9 @@
 		4A29D5982702601D00D25088 /* MatchingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A29D5972702601D00D25088 /* MatchingController.swift */; };
 		4A29D59A2702602700D25088 /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A29D5992702602700D25088 /* ChatController.swift */; };
 		4A29D59C2702603200D25088 /* RequestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A29D59B2702603200D25088 /* RequestController.swift */; };
+		4A2DFD2E270774E700332EE2 /* TodayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2DFD2D270774E700332EE2 /* TodayButton.swift */; };
+		4A2DFD30270775FB00332EE2 /* ThisWeekButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2DFD2F270775FB00332EE2 /* ThisWeekButton.swift */; };
+		4A2DFD3227077D4A00332EE2 /* UrgencyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2DFD3127077D4A00332EE2 /* UrgencyLabel.swift */; };
 		4A820D4627068D240062E94C /* NowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A820D4527068D240062E94C /* NowButton.swift */; };
 		4AA06BE22704832900B58926 /* SubjectRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA06BE12704832900B58926 /* SubjectRequestView.swift */; };
 		4AA06BEE27048D7000B58926 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BE327048D7000B58926 /* Lato-Bold.ttf */; };
@@ -63,6 +66,9 @@
 		4A29D5972702601D00D25088 /* MatchingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingController.swift; sourceTree = "<group>"; };
 		4A29D5992702602700D25088 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 		4A29D59B2702603200D25088 /* RequestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestController.swift; sourceTree = "<group>"; };
+		4A2DFD2D270774E700332EE2 /* TodayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayButton.swift; sourceTree = "<group>"; };
+		4A2DFD2F270775FB00332EE2 /* ThisWeekButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThisWeekButton.swift; sourceTree = "<group>"; };
+		4A2DFD3127077D4A00332EE2 /* UrgencyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgencyLabel.swift; sourceTree = "<group>"; };
 		4A820D4527068D240062E94C /* NowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowButton.swift; sourceTree = "<group>"; };
 		4AA06BE12704832900B58926 /* SubjectRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectRequestView.swift; sourceTree = "<group>"; };
 		4AA06BE327048D7000B58926 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Bold.ttf"; path = "../../../../../../../Downloads/Lato/Lato-Bold.ttf"; sourceTree = "<group>"; };
@@ -132,6 +138,9 @@
 				4AA06BF92704E4FF00B58926 /* RequestScrollView.swift */,
 				4AB7809E270548D000A2443D /* SubmitRequestButton.swift */,
 				4A820D4527068D240062E94C /* NowButton.swift */,
+				4A2DFD2D270774E700332EE2 /* TodayButton.swift */,
+				4A2DFD2F270775FB00332EE2 /* ThisWeekButton.swift */,
+				4A2DFD3127077D4A00332EE2 /* UrgencyLabel.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -429,6 +438,9 @@
 			files = (
 				4AC9501526ED771F00FC4A97 /* TutorTradeTabBarController.swift in Sources */,
 				4AB7809F270548D000A2443D /* SubmitRequestButton.swift in Sources */,
+				4A2DFD2E270774E700332EE2 /* TodayButton.swift in Sources */,
+				4A2DFD3227077D4A00332EE2 /* UrgencyLabel.swift in Sources */,
+				4A2DFD30270775FB00332EE2 /* ThisWeekButton.swift in Sources */,
 				4A820D4627068D240062E94C /* NowButton.swift in Sources */,
 				4AC9501126ED771F00FC4A97 /* AppDelegate.swift in Sources */,
 				4AA06BE22704832900B58926 /* SubjectRequestView.swift in Sources */,
