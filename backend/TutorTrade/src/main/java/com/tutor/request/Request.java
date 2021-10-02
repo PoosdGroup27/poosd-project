@@ -13,6 +13,8 @@ public class Request {
   private LocalDateTime sessionTime;
   private Platform platform;
   private Integer costInPoints;
+  private Urgency urgency;
+  private Status status;
 
   public Request(RequestBuilder builder) {
     this.requesterId = builder.requesterId;
@@ -22,6 +24,8 @@ public class Request {
     this.platform = builder.platform;
     this.requestId = UUID.randomUUID();
     this.dateRequested = LocalDateTime.now();
+    this.urgency = builder.urgency;
+    this.status = builder.status;
   }
 
   /** Default constructor for use by DynanmoDB mapper. Not for use by programmer. */
@@ -90,6 +94,24 @@ public class Request {
     this.costInPoints = costInPoints;
   }
 
+  @DynamoDBAttribute(attributeName = "urgency")
+  public Urgency getUrgency() {
+    return urgency;
+  }
+
+  public void setUrgency(Urgency urgency) {
+    this.urgency = urgency;
+  }
+
+  @DynamoDBAttribute(attributeName = "status")
+  public Status getStatus() {
+    return status;
+  }
+
+  public void setStatus(Status status) {
+    this.status = status;
+  }
+
   @Override
   public String toString() {
     return "\"request\" : {"
@@ -120,6 +142,14 @@ public class Request {
         + ", \"costInPoints\" : "
         + "\""
         + costInPoints
+        + "\""
+        + ", \"urgency\" : "
+        + "\""
+        + urgency
+        + "\""
+        + ", \"status\" : "
+        + "\""
+        + status
         + "\""
         + '}';
   }
