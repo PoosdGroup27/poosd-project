@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public class Request {
   private UUID requesterId;
+  private UUID helperId;
   private UUID requestId;
   private Subject subject;
   private LocalDateTime dateRequested;
@@ -18,6 +19,7 @@ public class Request {
 
   public Request(RequestBuilder builder) {
     this.requesterId = builder.requesterId;
+    this.helperId = builder.helperId;
     this.subject = builder.subject;
     this.sessionTime = builder.sessionTime;
     this.costInPoints = builder.costInPoints;
@@ -38,6 +40,15 @@ public class Request {
 
   public void setRequesterId(UUID requesterId) {
     this.requesterId = requesterId;
+  }
+
+  @DynamoDBAttribute(attributeName = "helperId")
+  public UUID getHelperId() {
+    return helperId;
+  }
+
+  public void setHelperId(UUID helperId) {
+    this.helperId = helperId;
   }
 
   @DynamoDBHashKey(attributeName = "requestId")
@@ -122,6 +133,10 @@ public class Request {
         + ", \"requestId\" : "
         + "\""
         + requestId
+        + "\""
+        + ", \"helperId\" : "
+        + "\""
+        + helperId
         + "\""
         + ", \"subject\" : "
         + "\""

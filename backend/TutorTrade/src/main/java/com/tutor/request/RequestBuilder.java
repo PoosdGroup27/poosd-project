@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 /**
- * Builder method for Requests class. Allows for chained set methods and validation during construction
- * (i.e. new UserBuilder.withName("name).withSchool("school").build())
+ * Builder method for Requests class. Allows for chained set methods and validation during construction.
  */
 public class RequestBuilder {
   public UUID requesterId;
+  public UUID helperId;
   public Subject subject;
   public LocalDateTime sessionTime;
   public Platform platform;
@@ -24,6 +24,9 @@ public class RequestBuilder {
 
     if (request.getRequesterId() == null) {
       nullValues.add("requesterId");
+    }
+    if (request.getHelperId() == null) {
+      nullValues.add("helperId");
     }
     if (request.getSubject() == null) {
       nullValues.add("subject");
@@ -53,6 +56,11 @@ public class RequestBuilder {
 
   public RequestBuilder withRequesterId(String requesterId) {
     this.requesterId = UUID.fromString(requesterId);
+    return this;
+  }
+
+  public RequestBuilder withHelperId(String helperId) {
+    this.helperId = UUID.fromString(helperId);
     return this;
   }
 
