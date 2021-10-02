@@ -5,4 +5,5 @@
 *.iml
 .DS_Store
 .classpath
+target/
 .
