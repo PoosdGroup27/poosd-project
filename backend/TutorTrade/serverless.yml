@@ -14,7 +14,7 @@ provider:
       Resource: "*"
 
   # change stage when deploying dev stack
-  stage: prod
+  stage: jesse-dev
   region: us-east-1
 
 package:
@@ -23,6 +23,8 @@ package:
 functions:
   user:
     handler: com.tutor.user.UserHandler
+    enivironment:
+      STAGE: ${self:provider.stage}
     events:
       - http:
           path: /user/create
@@ -59,6 +61,21 @@ functions:
             parameters:
               paths:
                 id: true
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
+  matching:
+    handler: com.tutor.matching.MatchingHandler
+    enivironment:
+      STAGE: ${self:provider.stage}
+    events:
+      - http:
+          path: /match/{requestId}
+          method: get
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                requestId: true
             template:
               application/json: ${file(./mapping_template.yml):mapping_template}\
 
