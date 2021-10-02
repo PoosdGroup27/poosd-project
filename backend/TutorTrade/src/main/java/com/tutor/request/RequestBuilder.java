@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 /**
- * Builder method for User class. Allows for chained set methods and validation during construction
+ * Builder method for Requests class. Allows for chained set methods and validation during construction
  * (i.e. new UserBuilder.withName("name).withSchool("school").build())
  */
 public class RequestBuilder {
@@ -16,6 +16,8 @@ public class RequestBuilder {
   public LocalDateTime sessionTime;
   public Platform platform;
   public int costInPoints;
+  public Urgency urgency;
+  public Status status;
 
   private static void validateRequest(Request request) throws RequestBuilderException {
     ArrayList<String> nullValues = new ArrayList<>();
@@ -49,7 +51,7 @@ public class RequestBuilder {
   }
 
   public RequestBuilder withSubject(String subject) {
-    this.subject = RequestSubjects.getType(subject);
+    this.subject = Subject.valueOf(subject);
     return this;
   }
 
@@ -66,6 +68,16 @@ public class RequestBuilder {
 
   public RequestBuilder withCost(int cost) {
     this.costInPoints = cost;
+    return this;
+  }
+
+  public RequestBuilder withUrgency(Urgency urgency) {
+    this.urgency = urgency;
+    return this;
+  }
+
+  public RequestBuilder withStatus(Status status) {
+    this.status = status;
     return this;
   }
 
