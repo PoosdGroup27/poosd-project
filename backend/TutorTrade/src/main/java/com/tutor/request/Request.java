@@ -2,9 +2,17 @@ package com.tutor.request;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * Request object corresponds to schema of Request table. All data must be first marshalling to Request
+ * object before being written to DynamoDB. Request data coming from DynamoDB is read into Request object.
+ * Regarding table name: set equal to requestTable-{stage_name} if deploying to non prod stage.
+ */
+@DynamoDBTable(tableName = "requestTable-adam-dev")
 public class Request {
   private UUID requesterId;
   private UUID helperId;
@@ -28,6 +36,14 @@ public class Request {
     this.dateRequested = LocalDateTime.now();
     this.urgency = builder.urgency;
     this.status = builder.status;
+  }
+
+  /**
+   * Used for creating object to serve as DynamoDB key.
+   * @param requestId
+   */
+  public Request(UUID requestId) {
+    this.requestId = requestId;
   }
 
   /** Default constructor for use by DynanmoDB mapper. Not for use by programmer. */
