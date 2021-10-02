@@ -37,6 +37,12 @@ public class RequestBuilder {
     if (request.getCostInPoints() == null) {
       nullValues.add("cost");
     }
+    if (request.getUrgency() == null) {
+      nullValues.add("urgency");
+    }
+    if (request.getStatus() == null) {
+      nullValues.add("status");
+    }
 
     if (!nullValues.isEmpty()) {
       throw new RequestBuilderException("No values provided for these fields: " + nullValues);
@@ -71,13 +77,13 @@ public class RequestBuilder {
     return this;
   }
 
-  public RequestBuilder withUrgency(Urgency urgency) {
-    this.urgency = urgency;
+  public RequestBuilder withUrgency(String urgency) {
+    this.urgency = Urgency.valueOf(urgency);
     return this;
   }
 
-  public RequestBuilder withStatus(Status status) {
-    this.status = status;
+  public RequestBuilder withStatus(String status) {
+    this.status = Status.valueOf(status);
     return this;
   }
 
