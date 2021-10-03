@@ -18,6 +18,9 @@ import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Handles any HTTP requests to the API's /request/ path.
+ */
 public class RequestsHandler implements RequestHandler<Map<Object, Object>, String> {
   private static final Logger LOG = LogManager.getLogger(RequestsHandler.class);
   private static final AmazonDynamoDB DYNAMO_DB =
@@ -82,8 +85,6 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
     String costInPoints = (String) body.get("costInPoints");
     String urgency = (String) body.get("urgency");
     String platform = (String) body.get("platform");
-    String helperId = (String) body.get("helperId");
-    String sessionTime = (String) body.get("sessionTime");
     String status = "PENDING";
 
     Request request =
@@ -94,8 +95,6 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
             .withUrgency(urgency)
             .withPlatform(platform)
             .withStatus(status)
-            .withHelperId(helperId)
-            .withSessionTime(sessionTime)
             .build();
 
     MAPPER.save(request);
@@ -104,11 +103,11 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
   }
 
   /**
-   * TODO: make this a helper method
+   * TODO: make this a helper method.
    *
-   * @param statusCode
-   * @param body
-   * @return
+   * @param statusCode HTTP status code.
+   * @param body string for the body of the response.
+   * @return string response.
    */
   private String getResponseAsString(int statusCode, String body) {
     APIGatewayV2HTTPResponse response = new APIGatewayV2HTTPResponse();

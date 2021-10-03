@@ -2,8 +2,6 @@ package com.tutor.request;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -25,15 +23,8 @@ public class RequestBuilder {
     ArrayList<String> nullValues = new ArrayList<>();
 
     // May not be a good idea to throw exceptions for null values of
-    // helperId and sessionTime, as these will be figured out later.
-    if (request.getHelperId() == null) {
-      nullValues.add("helperId");
-    }
-    if (request.getSessionTime() == null) {
-      nullValues.add("sessionTime");
-    }
+    // helperId and sessionTime, as these will be figured out later/sent via PATCH.
 
-    // ~~~~~~~~~~~
     if (request.getRequesterId() == null) {
       nullValues.add("requesterId");
     }
