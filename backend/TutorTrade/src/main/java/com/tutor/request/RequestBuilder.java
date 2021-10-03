@@ -75,8 +75,8 @@ public class RequestBuilder {
     return this;
   }
 
-  public RequestBuilder withPlatform(Platform platform) {
-    this.platform = platform;
+  public RequestBuilder withPlatform(String platform) {
+    this.platform = Platform.valueOf(platform);
     return this;
   }
 
