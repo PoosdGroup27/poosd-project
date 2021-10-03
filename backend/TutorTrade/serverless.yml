@@ -23,6 +23,8 @@ package:
 functions:
   user:
     handler: com.tutor.user.UserHandler
+    environment:
+      STAGE: ${self:provider.stage}
     events:
       - http:
           path: /user/create
@@ -61,6 +63,43 @@ functions:
                 id: true
             template:
               application/json: ${file(./mapping_template.yml):mapping_template}\
+  request:
+    handler: com.tutor.request.RequestsHandler
+    environment:
+      STAGE: ${self:provider.stage}
+    events:
+      - http:
+          path: /request/create
+          method: post
+          integration: lambda
+          request:
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
+      - http:
+          path: /request/{requestId}
+          method: get
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                requestId: true
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
+  matching:
+    handler: com.tutor.matching.MatchingHandler
+    environment:
+      STAGE: ${self:provider.stage}
+    events:
+      - http:
+          path: /match/{requestId}
+          method: get
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                requestId: true
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
 
 resources:
   Resources:
@@ -73,6 +112,19 @@ resources:
             AttributeType: S
         KeySchema:
           - AttributeName: userID
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    requestsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: requestTable-${self:provider.stage}
+        AttributeDefinitions:
+          - AttributeName: requestId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: requestId
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
