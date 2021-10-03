@@ -199,7 +199,9 @@ public class Request {
         + "}";
   }
 
-  /** This is necessary in order for the DynamoDB mapper to save LocalDateTime objects. */
+  /** This is necessary in order for the DynamoDB mapper to save LocalDateTime objects.
+   * https://stackoverflow.com/questions/28077435/dynamodbmapper-for-java-time-localdatetime
+   */
   public static class LocalDateTimeConverter
       implements DynamoDBTypeConverter<String, LocalDateTime> {
 
