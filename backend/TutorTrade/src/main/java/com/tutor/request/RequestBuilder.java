@@ -2,12 +2,14 @@ package com.tutor.request;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.UUID;
 
 /**
- * Builder method for Requests class. Allows for chained set methods and validation during construction.
+ * Builder method for Requests class. Allows for chained set methods and validation during
+ * construction.
  */
 public class RequestBuilder {
   public UUID requesterId;
@@ -70,8 +72,7 @@ public class RequestBuilder {
   }
 
   public RequestBuilder withSessionTime(String sessionTime) {
-    DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
-    this.sessionTime = LocalDateTime.parse(sessionTime, formatter);
+    this.sessionTime = LocalDateTime.parse(sessionTime, DateTimeFormatter.ofPattern("M/d/yyyy H:mm"));
     return this;
   }
 
