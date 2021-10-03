@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RequestScrollView: UIScrollView {
+class RequestScrollView: UIScrollView, UITextFieldDelegate {
     
     var scrollWidth: CGFloat = 0.0
     var scrollHeight: CGFloat = 0.0
@@ -41,6 +41,9 @@ class RequestScrollView: UIScrollView {
         self.init(frame: CGRect(x: 10, y: 10, width: scrollWidth, height: scrollHeight))
         self.backgroundColor = .white
         self.contentSize = CGSize(width: 0, height: scrollHeight + 50)
+        
+        self.subjectRequestView.delegate = self
+        self.descriptionRequestView.delegate = self
 
         self.addSubview(subjectRequestView)
         self.addSubview(urgencyView)
@@ -83,5 +86,16 @@ class RequestScrollView: UIScrollView {
     
     @objc func didTapOnlineButton() {
         print("Pressed online button!")
+    }
+    
+    // Hide keyboard fucntions
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.subjectRequestView.resignFirstResponder()
+        self.descriptionRequestView.resignFirstResponder()
+        return true
     }
 }
