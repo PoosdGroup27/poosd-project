@@ -12,7 +12,7 @@ public class RequestMarshallingTest {
             .withCost(100)
             .withRequesterId(UUID.randomUUID().toString())
             .withHelperId(UUID.randomUUID().toString())
-            .withPlatform(Platform.IN_PERSON)
+            .withPlatform("IN PERSON")
             .withStatus("PENDING")
             .withSessionTime("8/10/2021 10:00")
             .withUrgency("IMMEDIATE")
