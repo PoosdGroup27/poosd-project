@@ -24,17 +24,21 @@ public class RequestBuilder {
   private static void validateRequest(Request request) throws RequestBuilderException {
     ArrayList<String> nullValues = new ArrayList<>();
 
-    if (request.getRequesterId() == null) {
-      nullValues.add("requesterId");
-    }
+    // May not be a good idea to throw exceptions for null values of
+    // helperId and sessionTime, as these will be figured out later.
     if (request.getHelperId() == null) {
       nullValues.add("helperId");
     }
-    if (request.getSubject() == null) {
-      nullValues.add("subject");
-    }
     if (request.getSessionTime() == null) {
       nullValues.add("sessionTime");
+    }
+
+    // ~~~~~~~~~~~
+    if (request.getRequesterId() == null) {
+      nullValues.add("requesterId");
+    }
+    if (request.getSubject() == null) {
+      nullValues.add("subject");
     }
     if (request.getPlatform() == null) {
       nullValues.add("platform");

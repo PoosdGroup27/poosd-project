@@ -42,6 +42,13 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
       params = (HashMap<?, ?>) event.get("params");
       pathParameters = (HashMap<?, ?>) params.get("path");
       return getRequestById((String) pathParameters.get("requestId"));
+    } else if (httpMethod.equals("POST") && method.equals("create")) {
+      bodyJson = (HashMap<?, ?>) event.get("body-json");
+      try {
+        return createRequest(bodyJson);
+      } catch (RequestBuilderException e) {
+        e.printStackTrace();
+      }
     }
 
     return getResponseAsString(
@@ -69,12 +76,36 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
     return getResponseAsString(HttpURLConnection.HTTP_OK, requestById.get(0).toString());
   }
 
-    /**
-     * TODO: make this a helper method
-     * @param statusCode
-     * @param body
-     * @return
-     */
+  private String createRequest(HashMap<?, ?> body) throws RequestBuilderException {
+    String requesterId = (String) body.get("requesterId");
+    String subject = (String) body.get("subject");
+    String costInPoints = (String) body.get("costInPoints");
+    String urgency = (String) body.get("urgency");
+    String platform = (String) body.get("platform");
+    String status = "PENDING";
+
+    Request request =
+        new RequestBuilder()
+            .withRequesterId(requesterId)
+            .withSubject(subject)
+            .withCost(Integer.parseInt(costInPoints))
+            .withUrgency(urgency)
+            .withPlatform(platform)
+            .withStatus(status)
+            .build();
+
+    MAPPER.save(request);
+
+    return getResponseAsString(HttpURLConnection.HTTP_OK, request.toString());
+  }
+
+  /**
+   * TODO: make this a helper method
+   *
+   * @param statusCode
+   * @param body
+   * @return
+   */
   private String getResponseAsString(int statusCode, String body) {
     APIGatewayV2HTTPResponse response = new APIGatewayV2HTTPResponse();
     response.setStatusCode(statusCode);
