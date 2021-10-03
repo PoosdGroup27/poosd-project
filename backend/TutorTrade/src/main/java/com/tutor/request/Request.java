@@ -1,7 +1,6 @@
 package com.tutor.request;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -24,6 +23,11 @@ public class Request {
   private Urgency urgency;
   private Status status;
 
+  /**
+   * Constructs a Request object from a well-formed RequestBuilder.
+   *
+   * @param builder Takes in a RequestBuilder object.
+   */
   public Request(RequestBuilder builder) {
     this.requesterId = builder.requesterId;
     this.helperId = builder.helperId;
@@ -195,9 +199,7 @@ public class Request {
         + "}";
   }
 
-  /**
-   * This is necessary in order for the DynamoDB mapper to save LocalDateTime objects.
-   */
+  /** This is necessary in order for the DynamoDB mapper to save LocalDateTime objects. */
   public static class LocalDateTimeConverter
       implements DynamoDBTypeConverter<String, LocalDateTime> {
 

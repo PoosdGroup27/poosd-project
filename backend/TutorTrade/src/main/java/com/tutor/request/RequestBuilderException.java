@@ -1,5 +1,6 @@
 package com.tutor.request;
 
+/** Custom exception for request objects. */
 public class RequestBuilderException extends Exception {
   /**
    * Problems with building a Request object.

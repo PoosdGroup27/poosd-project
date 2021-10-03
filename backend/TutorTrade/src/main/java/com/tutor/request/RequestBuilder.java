@@ -66,8 +66,15 @@ public class RequestBuilder {
     return this;
   }
 
+  /**
+   * Accepts a string representing a session of the form "M/d/yyyy H:mm".
+   *
+   * @param sessionTime string of the above form.
+   * @return the RequestBuilder object, to be able to chain "with" methods.
+   */
   public RequestBuilder withSessionTime(String sessionTime) {
-    this.sessionTime = LocalDateTime.parse(sessionTime, DateTimeFormatter.ofPattern("M/d/yyyy H:mm"));
+    this.sessionTime =
+        LocalDateTime.parse(sessionTime, DateTimeFormatter.ofPattern("M/d/yyyy H:mm"));
     return this;
   }
 
