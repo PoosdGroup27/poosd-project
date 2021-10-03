@@ -23,7 +23,7 @@ package:
 functions:
   user:
     handler: com.tutor.user.UserHandler
-    enivironment:
+    environment:
       STAGE: ${self:provider.stage}
     events:
       - http:
@@ -65,7 +65,7 @@ functions:
               application/json: ${file(./mapping_template.yml):mapping_template}\
   request:
     handler: com.tutor.request.RequestsHandler
-    enivironment:
+    environment:
       STAGE: ${self:provider.stage}
     events:
       - http:
@@ -87,7 +87,7 @@ functions:
               application/json: ${file(./mapping_template.yml):mapping_template}\
   matching:
     handler: com.tutor.matching.MatchingHandler
-    enivironment:
+    environment:
       STAGE: ${self:provider.stage}
     events:
       - http:

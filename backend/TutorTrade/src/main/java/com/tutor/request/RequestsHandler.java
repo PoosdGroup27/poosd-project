@@ -19,7 +19,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class RequestsHandler implements RequestHandler<Map<Object, Object>, String> {
-  private static final Logger LOG = LogManager.getLogger(RequestHandler.class);
+  private static final Logger LOG = LogManager.getLogger(RequestsHandler.class);
   private static final AmazonDynamoDB DYNAMO_DB =
       AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
   private static final DynamoDBMapper MAPPER = new DynamoDBMapper(DYNAMO_DB);
@@ -82,6 +82,8 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
     String costInPoints = (String) body.get("costInPoints");
     String urgency = (String) body.get("urgency");
     String platform = (String) body.get("platform");
+    String helperId = (String) body.get("helperId");
+    String sessionTime = (String) body.get("sessionTime");
     String status = "PENDING";
 
     Request request =
@@ -92,6 +94,8 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
             .withUrgency(urgency)
             .withPlatform(platform)
             .withStatus(status)
+            .withHelperId(helperId)
+            .withSessionTime(sessionTime)
             .build();
 
     MAPPER.save(request);

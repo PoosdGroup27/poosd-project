@@ -1,17 +1,16 @@
 package com.tutor.request;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 /**
- * Request object corresponds to schema of Request table. All data must be first marshalling to Request
- * object before being written to DynamoDB. Request data coming from DynamoDB is read into Request object.
- * Regarding table name: set equal to requestTable-{stage_name} if deploying to non prod stage.
+ * Request object corresponds to schema of Request table. All data must be first marshalling to
+ * Request object before being written to DynamoDB. Request data coming from DynamoDB is read into
+ * Request object. Regarding table name: set equal to requestTable-{stage_name} if deploying to non
+ * prod stage.
  */
 @DynamoDBTable(tableName = "requestTable-adam-dev")
 public class Request {
@@ -41,6 +40,7 @@ public class Request {
 
   /**
    * Used for creating object to serve as DynamoDB key.
+   *
    * @param requestId Generated on creation UUID unique to request.
    */
   public Request(UUID requestId) {
@@ -77,6 +77,7 @@ public class Request {
     this.requestId = requestId;
   }
 
+  @DynamoDBTypeConvertedEnum
   @DynamoDBAttribute(attributeName = "subject")
   public Subject getSubject() {
     return subject;
@@ -86,6 +87,7 @@ public class Request {
     this.subject = subject;
   }
 
+  @DynamoDBTypeConverted(converter = LocalDateTimeConverter.class)
   @DynamoDBAttribute(attributeName = "dateRequested")
   public LocalDateTime getDateRequested() {
     return dateRequested;
@@ -99,6 +101,7 @@ public class Request {
     this.dateRequested = LocalDateTime.parse(dateRequested);
   }
 
+  @DynamoDBTypeConverted(converter = LocalDateTimeConverter.class)
   @DynamoDBAttribute(attributeName = "sessionTime")
   public LocalDateTime getSessionTime() {
     return sessionTime;
@@ -108,6 +111,7 @@ public class Request {
     this.sessionTime = LocalDateTime.parse(sessionTime);
   }
 
+  @DynamoDBTypeConvertedEnum
   @DynamoDBAttribute(attributeName = "platform")
   public Platform getPlatform() {
     return platform;
@@ -126,6 +130,7 @@ public class Request {
     this.costInPoints = costInPoints;
   }
 
+  @DynamoDBTypeConvertedEnum
   @DynamoDBAttribute(attributeName = "urgency")
   public Urgency getUrgency() {
     return urgency;
@@ -135,6 +140,7 @@ public class Request {
     this.urgency = urgency;
   }
 
+  @DynamoDBTypeConvertedEnum
   @DynamoDBAttribute(attributeName = "status")
   public Status getStatus() {
     return status;
@@ -188,5 +194,20 @@ public class Request {
         + status
         + "\""
         + "}";
+  }
+
+  // https://stackoverflow.com/questions/28077435/dynamodbmapper-for-java-time-localdatetime
+  public static class LocalDateTimeConverter
+      implements DynamoDBTypeConverter<String, LocalDateTime> {
+
+    @Override
+    public String convert(final LocalDateTime time) {
+      return time.toString();
+    }
+
+    @Override
+    public LocalDateTime unconvert(final String stringValue) {
+      return LocalDateTime.parse(stringValue);
+    }
   }
 }
