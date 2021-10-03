@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 /**
@@ -40,7 +41,7 @@ public class Request {
 
   /**
    * Used for creating object to serve as DynamoDB key.
-   * @param requestId
+   * @param requestId Generated on creation UUID unique to request.
    */
   public Request(UUID requestId) {
     this.requestId = requestId;
@@ -94,13 +95,17 @@ public class Request {
     this.dateRequested = dateRequested;
   }
 
+  public void setDateRequested(String dateRequested) {
+    this.dateRequested = LocalDateTime.parse(dateRequested);
+  }
+
   @DynamoDBAttribute(attributeName = "sessionTime")
   public LocalDateTime getSessionTime() {
     return sessionTime;
   }
 
-  public void setSessionTime(LocalDateTime sessionTime) {
-    this.sessionTime = sessionTime;
+  public void setSessionTime(String sessionTime) {
+    this.sessionTime = LocalDateTime.parse(sessionTime);
   }
 
   @DynamoDBAttribute(attributeName = "platform")
@@ -141,7 +146,7 @@ public class Request {
 
   @Override
   public String toString() {
-    return "\"request\" : {"
+    return "{"
         + "\"requesterId\" : "
         + "\""
         + requesterId
@@ -182,6 +187,6 @@ public class Request {
         + "\""
         + status
         + "\""
-        + '}';
+        + "}";
   }
 }
