@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * Request object corresponds to schema of Request table. All data must be first marshalling to
+ * Request object corresponds to schema of Request table. All data must be first marshaled to
  * Request object before being written to DynamoDB. Request data coming from DynamoDB is read into
  * Request object. Regarding table name: set equal to requestTable-{stage_name} if deploying to non
  * prod stage.
