@@ -22,24 +22,9 @@ class RequestScrollView: UIScrollView {
         return button
     }()
     
-    let nowButton: NowButton! = {
-        let button = NowButton()
-        return button
-    }()
-    
-    let todayButton: TodayButton! = {
-        let button = TodayButton()
-        return button
-    }()
-    
-    let thisWeekButton: ThisWeekButton! = {
-        let button = ThisWeekButton()
-        return button
-    }()
-    
-    let urgencyLabel: UrgencyLabel! = {
-        let label = UrgencyLabel()
-        return label
+    let urgencyView: UrgencyView! = {
+        let view = UrgencyView()
+        return view
     }()
     
     let descriptionRequestView: UITextField! = {
@@ -48,28 +33,31 @@ class RequestScrollView: UIScrollView {
     }()
     
     let preferredMediumView: PreferredMediumView! = {
-        let label = PreferredMediumView()
-        return label
+        let view = PreferredMediumView()
+        return view
     }()
 
     convenience init(scrollWidth: CGFloat, scrollHeight: CGFloat) {
         self.init(frame: CGRect(x: 10, y: 10, width: scrollWidth, height: scrollHeight))
         self.backgroundColor = .white
-        self.contentSize = CGSize(width: 0, height: scrollHeight)
+        self.contentSize = CGSize(width: 0, height: scrollHeight + 50)
 
         self.addSubview(subjectRequestView)
-        self.addSubview(urgencyLabel)
-        self.addSubview(nowButton)
-        self.addSubview(todayButton)
-        self.addSubview(thisWeekButton)
+        self.addSubview(urgencyView)
         self.addSubview(submitRequestButton)
         self.addSubview(descriptionRequestView)
         self.addSubview(preferredMediumView)
         
+        addButtonTargets()
+    }
+    
+    func addButtonTargets() {
         submitRequestButton.addTarget(self, action: #selector(didTapSubmitRequestButton), for: .touchUpInside)
-        nowButton.addTarget(self, action: #selector(didTapNowButton), for: .touchUpInside)
-        todayButton.addTarget(self, action: #selector(didTapTodayButton), for: .touchUpInside)
-        thisWeekButton.addTarget(self, action: #selector(didTapThisWeekButton), for: .touchUpInside)
+        urgencyView.nowButton.addTarget(self, action: #selector(didTapNowButton), for: .touchUpInside)
+        urgencyView.todayButton.addTarget(self, action: #selector(didTapTodayButton), for: .touchUpInside)
+        urgencyView.thisWeekButton.addTarget(self, action: #selector(didTapThisWeekButton), for: .touchUpInside)
+        preferredMediumView.inPersonButton.addTarget(self, action: #selector(didTapInPersonButton), for: .touchUpInside)
+        preferredMediumView.onlineButton.addTarget(self, action: #selector(didTapOnlineButton), for: .touchUpInside)
     }
     
     @objc func didTapSubmitRequestButton() {
@@ -87,5 +75,13 @@ class RequestScrollView: UIScrollView {
     
     @objc func didTapThisWeekButton() {
         print("Pressed the this week!")
+    }
+    
+    @objc func didTapInPersonButton() {
+        print("Pressed in person button!")
+    }
+    
+    @objc func didTapOnlineButton() {
+        print("Pressed online button!")
     }
 }
