@@ -18,6 +18,8 @@ class SubmitRequestButton: UIButton {
         }
 
         self.layer.cornerRadius = 20
+        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.borderWidth = 1
         self.clipsToBounds = true
         self.titleLabel?.font = buttonFont
         self.setTitleColor(.white, for: .normal)

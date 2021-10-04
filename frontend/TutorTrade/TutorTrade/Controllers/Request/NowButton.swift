@@ -28,6 +28,5 @@ class NowButton: UIButton {
         self.setTitle("Now", for: .normal)
         self.titleLabel?.font = buttonFont
         self.setTitleColor(.black, for: .normal)
-        self.setTitleColor(.white, for: .highlighted)
     }
 }

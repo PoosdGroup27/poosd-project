@@ -55,39 +55,29 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
     }
     
     func addButtonTargets() {
-        submitRequestButton.addTarget(self, action: #selector(didTapSubmitRequestButton), for: .touchUpInside)
-        urgencyView.nowButton.addTarget(self, action: #selector(didTapNowButton), for: .touchUpInside)
-        urgencyView.todayButton.addTarget(self, action: #selector(didTapTodayButton), for: .touchUpInside)
-        urgencyView.thisWeekButton.addTarget(self, action: #selector(didTapThisWeekButton), for: .touchUpInside)
-        preferredMediumView.inPersonButton.addTarget(self, action: #selector(didTapInPersonButton), for: .touchUpInside)
-        preferredMediumView.onlineButton.addTarget(self, action: #selector(didTapOnlineButton), for: .touchUpInside)
+        submitRequestButton.addTarget(self, action: #selector(onTapButton), for: .touchDown)
+        submitRequestButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        urgencyView.nowButton.addTarget(self, action: #selector(onTapButton), for: .touchDown)
+        urgencyView.nowButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        urgencyView.todayButton.addTarget(self, action: #selector(onTapButton), for: .touchDown)
+        urgencyView.todayButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        urgencyView.thisWeekButton.addTarget(self, action: #selector(onTapButton), for: .touchDown)
+        urgencyView.thisWeekButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        preferredMediumView.inPersonButton.addTarget(self, action: #selector(onTapButton), for: .touchDown)
+        preferredMediumView.inPersonButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        preferredMediumView.onlineButton.addTarget(self, action: #selector(onTapButton), for: .touchDown)
+        preferredMediumView.onlineButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
     }
     
-    @objc func didTapSubmitRequestButton() {
-        print("Pressed the button!")
-        print(subjectRequestView.text ?? "no text entered")
+    @objc func didTapButton(_ selector: UIButton) {
+        print(selector.titleLabel?.text ?? "error" )
+        selector.layer.borderWidth = 1
     }
     
-    @objc func didTapNowButton() {
-        print("Pressed the now!")
+    @objc func onTapButton(_ selector: UIButton) {
+        selector.layer.borderWidth = 3
     }
-    
-    @objc func didTapTodayButton() {
-        print("Pressed the today!")
-    }
-    
-    @objc func didTapThisWeekButton() {
-        print("Pressed the this week!")
-    }
-    
-    @objc func didTapInPersonButton() {
-        print("Pressed in person button!")
-    }
-    
-    @objc func didTapOnlineButton() {
-        print("Pressed online button!")
-    }
-    
+
     // Hide keyboard fucntions
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.endEditing(true)

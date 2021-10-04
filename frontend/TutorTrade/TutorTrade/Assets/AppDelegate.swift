@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
      */
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     
-        // Creates window the size of the device's screen
+        // Creates window the size of the device's screenq
         window = UIWindow(frame: UIScreen.main.bounds)
         
         // Creates the tab bar controller and set it as the root controller of the app
@@ -30,4 +30,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 }
-

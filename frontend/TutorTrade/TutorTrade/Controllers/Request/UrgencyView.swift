@@ -37,8 +37,7 @@ class UrgencyView: UIView {
         button.setTitle("Now", for: .normal)
         button.titleLabel?.font = buttonFont
         button.setTitleColor(.black, for: .normal)
-        button.setTitleColor(.white, for: .highlighted)
-        
+
         return button
     }()
     
@@ -58,7 +57,6 @@ class UrgencyView: UIView {
         button.setTitle("Today", for: .normal)
         button.titleLabel?.font = buttonFont
         button.setTitleColor(.black, for: .normal)
-        button.setTitleColor(.white, for: .highlighted)
         
         return button
     }()
@@ -79,7 +77,6 @@ class UrgencyView: UIView {
         button.setTitle("This Week", for: .normal)
         button.titleLabel?.font = buttonFont
         button.setTitleColor(.black, for: .normal)
-        button.setTitleColor(.white, for: .highlighted)
         
         return button
     }()
