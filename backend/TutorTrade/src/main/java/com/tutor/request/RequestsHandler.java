@@ -26,7 +26,6 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
   private static final AmazonDynamoDB DYNAMO_DB =
       AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
   private static final DynamoDBMapper MAPPER = new DynamoDBMapper(DYNAMO_DB);
-  private static final int HTTP_UNPROCESSABLE_ENTITY = 422;
 
   @Override
   public String handleRequest(Map<Object, Object> event, Context context) {
@@ -53,7 +52,7 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
       } catch (RequestBuilderException e) {
         e.printStackTrace();
         return getResponseAsString(
-                HTTP_UNPROCESSABLE_ENTITY,
+                HttpURLConnection.HTTP_BAD_REQUEST,
                 e.getMessage());
       }
     }
