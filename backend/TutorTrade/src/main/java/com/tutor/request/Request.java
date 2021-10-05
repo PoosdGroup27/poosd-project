@@ -1,6 +1,8 @@
 package com.tutor.request;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import org.apache.commons.math3.stat.StatUtils;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -10,7 +12,7 @@ import java.util.UUID;
  * Request object. Regarding table name: set equal to requestTable-{stage_name} if deploying to non
  * prod stage.
  */
-@DynamoDBTable(tableName = "requestTable-prod")
+@DynamoDBTable(tableName = "requestTable-jesse-dev")
 public class Request {
   private UUID requesterId;
   private UUID helperId;
@@ -151,6 +153,28 @@ public class Request {
 
   public void setStatus(Status status) {
     this.status = status;
+  }
+
+  /**
+   * Get array of values for use in data matrix. Values must all be created the exact same way in
+   * the exact same order. IMPORTANT: if this section is modified from order of cost, platform,
+   * subject or scaling factor is changed for platform or subject from 3 or 7 respectively, you must
+   * recreate dataset using createFreshNormalizedData()
+   *
+   * @return double array of normalized request data
+   */
+  public double[] getNormalizedArrayData() {
+    // verifyUnchangedEnumSchemas()
+    // verifyUnchangedMultipliers()
+
+    double[] requestData =
+            new double[] {
+                    (double) this.getCostInPoints(),
+                    ((double) this.getPlatform().ordinal()),
+                    ((double) this.getSubject().ordinal())
+            };
+
+    return StatUtils.normalize(requestData);
   }
 
   @Override

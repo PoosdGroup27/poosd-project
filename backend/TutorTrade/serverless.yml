@@ -14,7 +14,7 @@ provider:
       Resource: "*"
 
   # change stage when deploying dev stack
-  stage: prod
+  stage: jesse-dev
   region: us-east-1
 
 package:
