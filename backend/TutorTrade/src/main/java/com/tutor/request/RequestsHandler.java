@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,6 +27,7 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
   private static final AmazonDynamoDB DYNAMO_DB =
       AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
   private static final DynamoDBMapper MAPPER = new DynamoDBMapper(DYNAMO_DB);
+  private static final int HTTP_UNPROCESSABLE_ENTITY = 422;
 
   @Override
   public String handleRequest(Map<Object, Object> event, Context context) {
@@ -51,6 +53,9 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
         return createRequest(bodyJson);
       } catch (RequestBuilderException e) {
         e.printStackTrace();
+        return getResponseAsString(
+                HTTP_UNPROCESSABLE_ENTITY,
+                e.getMessage());
       }
     }
 
