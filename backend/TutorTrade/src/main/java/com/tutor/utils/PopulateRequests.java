@@ -1,7 +1,6 @@
-package com.tutor;
+package com.tutor.utils;
 
 import com.tutor.request.Platform;
-import com.tutor.request.RequestBuilderException;
 import com.tutor.request.Subject;
 import com.tutor.request.Urgency;
 

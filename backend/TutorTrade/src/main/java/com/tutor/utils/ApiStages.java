@@ -1,4 +1,4 @@
-package com.tutor;
+package com.tutor.utils;
 
 public enum ApiStages {
   JESSE_DEV("https://bpbzrj9x3b.execute-api.us-east-1.amazonaws.com/jesse-dev"),
