@@ -20,7 +20,7 @@ public class PopulateRequests {
     private static final List<Urgency> URGENCIES =
             Collections.unmodifiableList(Arrays.asList(Urgency.values()));
     private static final Random RANDOM = new Random();
-    private static final String stage = System.getenv("STAGE").replace('-', '_').toUpperCase(Locale.ROOT);
+    private static final String stage = System.getenv("STAGE").replace('-', '_').toUpperCase(Locale.ENGLISH);
 
 
     private static void postRandomRequest() throws IOException {
