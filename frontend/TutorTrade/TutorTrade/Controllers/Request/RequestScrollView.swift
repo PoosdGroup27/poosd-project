@@ -36,6 +36,11 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
         let view = PreferredMediumView()
         return view
     }()
+    
+    let pointsView: PointsView! = {
+        let view = PointsView()
+        return view
+    }()
 
     convenience init(scrollWidth: CGFloat, scrollHeight: CGFloat) {
         self.init(frame: CGRect(x: 10, y: 10, width: scrollWidth, height: scrollHeight))
@@ -47,9 +52,10 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
 
         self.addSubview(subjectRequestView)
         self.addSubview(urgencyView)
-        self.addSubview(submitRequestButton)
+//        self.addSubview(submitRequestButton)
         self.addSubview(descriptionRequestView)
         self.addSubview(preferredMediumView)
+        self.addSubview(pointsView)
         
         addButtonTargets()
     }
