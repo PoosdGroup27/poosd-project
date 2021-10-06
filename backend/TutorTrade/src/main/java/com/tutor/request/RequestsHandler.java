@@ -140,12 +140,16 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
       return getResponseAsString(HttpURLConnection.HTTP_NOT_FOUND, "Request not found.");
     }
 
-    // The only fields that make sense to change are: helperId, subject, sessionTime,
-    // platform, cost, urgency, and status.
+    // The only fields that make sense to change are:
+    // helperId, subject, sessionTime, platform, cost, urgency, and status.
 
     String helperIdString = (String) body.get("helperId");
     if (helperIdString != null) {
-      requestToUpdate.setHelperId(UUID.fromString(helperIdString));
+      try {
+        requestToUpdate.setHelperId(UUID.fromString(helperIdString));
+      } catch (Exception ex) {
+        return returnErrorString(ex);
+      }
     }
 
     String subjectString = (String) body.get("subject");
@@ -175,10 +179,10 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
       }
     }
 
-    Integer costInPoints = (Integer) body.get("costInPoints");
-    if (platformString != null) {
+    String costInPointsString = (String) body.get("costInPoints");
+    if (costInPointsString != null) {
       try {
-        requestToUpdate.setCostInPoints(costInPoints);
+        requestToUpdate.setCostInPoints(Integer.parseInt(costInPointsString));
       } catch (Exception ex) {
         return returnErrorString(ex);
       }
