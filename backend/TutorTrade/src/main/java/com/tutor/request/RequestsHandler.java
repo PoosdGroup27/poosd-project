@@ -213,6 +213,11 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
 
   private String deleteRequest(String requestId) {
     Request requestToBeDeleted = getRequestObjectById(requestId);
+
+    if (requestToBeDeleted == null) {
+      return getResponseAsString(HttpURLConnection.HTTP_NOT_FOUND, "Request not found.");
+    }
+
     MAPPER.delete(requestToBeDeleted);
     return getResponseAsString(HttpURLConnection.HTTP_OK, requestToBeDeleted.toString());
   }
