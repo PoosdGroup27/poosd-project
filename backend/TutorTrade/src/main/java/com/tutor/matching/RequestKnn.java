@@ -1,24 +1,28 @@
 package com.tutor.matching;
 
 import com.tutor.request.Request;
-
 import java.util.*;
 
+/**
+ * RequestKnn retrieves the data store containing all completed request objects from s3, compares
+ * each point to a new request which we'd like to match, and returns the k tutors who fulfilled the
+ * requests most similar to the to-be-matched request.
+ */
 public class RequestKnn {
-  private final List<RequestKnnDataNormalized> normalizedData;
+  private final List<RequestKnnData> normalizedData;
   private final Request newRequest;
-  private HashMap<UUID, Double> distances;
+  private Map<UUID, Double> distances = new HashMap<>();
 
-  public RequestKnn(List<RequestKnnDataNormalized> data, Request newRequest) {
+  public RequestKnn(List<RequestKnnData> data, Request newRequest) {
     this.normalizedData = data;
     this.newRequest = newRequest;
   }
 
   public ArrayList<UUID> getNearestNeighbors(int k) {
-    RequestKnnDataNormalized newRequest = new RequestKnnDataNormalized(this.newRequest);
-    for (RequestKnnDataNormalized dataPoint : this.normalizedData) {
+    RequestKnnData newRequest = new RequestKnnData(this.newRequest);
+    for (RequestKnnData dataPoint : this.normalizedData) {
       UUID helperId = dataPoint.getHelperId();
-      distances.put(helperId, getEuclideanDistance(dataPoint, newRequest));
+      distances.put(helperId, getScaledEuclideanDistance(dataPoint, newRequest));
     }
 
     List<Map.Entry<UUID, Double>> distancesToNewRequest = new LinkedList<>(distances.entrySet());
@@ -31,15 +35,16 @@ public class RequestKnn {
     return results;
   }
 
-  private double getEuclideanDistance(
-      RequestKnnDataNormalized requestDataStorePoint, RequestKnnDataNormalized newRequestData) {
+  // Scale the values so that subjects are the most important factor of a request
+  // followed by platform and then points.
+  private double getScaledEuclideanDistance(
+      RequestKnnData requestDataStorePoint, RequestKnnData newRequestData) {
     double sumOfSquaredDifference = 0.0;
+    sumOfSquaredDifference += requestDataStorePoint.getCost() / 10 - newRequestData.getCost() / 10;
     sumOfSquaredDifference +=
-        requestDataStorePoint.getNormalizedCost() - newRequestData.getNormalizedCost();
+        requestDataStorePoint.getPlatform() * 100 - newRequestData.getPlatform() + 100;
     sumOfSquaredDifference +=
-        requestDataStorePoint.getNormalizedPlatform() - newRequestData.getNormalizedPlatform();
-    sumOfSquaredDifference +=
-        requestDataStorePoint.getNormalizedSubject() - newRequestData.getNormalizedSubject();
+        requestDataStorePoint.getSubject() * 1000 - newRequestData.getSubject() * 1000;
     return Math.sqrt(sumOfSquaredDifference);
   }
 }

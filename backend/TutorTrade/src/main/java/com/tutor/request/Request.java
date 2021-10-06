@@ -12,7 +12,7 @@ import java.util.UUID;
  * Request object. Regarding table name: set equal to requestTable-{stage_name} if deploying to non
  * prod stage.
  */
-@DynamoDBTable(tableName = "requestTable-jesse-dev")
+@DynamoDBTable(tableName = "requestTable-prod")
 public class Request {
   private UUID requesterId;
   private UUID helperId;
@@ -163,6 +163,7 @@ public class Request {
    *
    * @return double array of normalized request data
    */
+  @DynamoDBIgnore
   public double[] getNormalizedArrayData() {
     // verifyUnchangedEnumSchemas()
     // verifyUnchangedMultipliers()
