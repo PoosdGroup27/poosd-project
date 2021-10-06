@@ -18,6 +18,12 @@ public class RequestKnn {
     this.newRequest = newRequest;
   }
 
+  /**
+   * Implementation of the k nearest neighbors algorithm on tutor request data.
+   * @param k The number of matches to return
+   * @return A list of the k tutors who completed requests most similar to the
+   * request we're matching
+   */
   public ArrayList<UUID> getNearestNeighbors(int k) {
     RequestKnnData newRequest = new RequestKnnData(this.newRequest);
     for (RequestKnnData dataPoint : this.normalizedData) {
@@ -35,8 +41,10 @@ public class RequestKnn {
     return results;
   }
 
-  // Scale the values so that subjects are the most important factor of a request
-  // followed by platform and then points.
+  /**
+   * Method calculates distance between two request points and scales the values so that subjects
+   * are the most important factor of a request followed by platform and then points.
+   */
   private double getScaledEuclideanDistance(
       RequestKnnData requestDataStorePoint, RequestKnnData newRequestData) {
     double sumOfSquaredDifference = 0.0;

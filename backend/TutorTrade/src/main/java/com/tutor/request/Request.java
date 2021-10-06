@@ -155,29 +155,6 @@ public class Request {
     this.status = status;
   }
 
-  /**
-   * Get array of values for use in data matrix. Values must all be created the exact same way in
-   * the exact same order. IMPORTANT: if this section is modified from order of cost, platform,
-   * subject or scaling factor is changed for platform or subject from 3 or 7 respectively, you must
-   * recreate dataset using createFreshNormalizedData()
-   *
-   * @return double array of normalized request data
-   */
-  @DynamoDBIgnore
-  public double[] getNormalizedArrayData() {
-    // verifyUnchangedEnumSchemas()
-    // verifyUnchangedMultipliers()
-
-    double[] requestData =
-            new double[] {
-                    (double) this.getCostInPoints(),
-                    ((double) this.getPlatform().ordinal()),
-                    ((double) this.getSubject().ordinal())
-            };
-
-    return StatUtils.normalize(requestData);
-  }
-
   @Override
   public String toString() {
     return "{"

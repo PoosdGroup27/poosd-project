@@ -20,14 +20,14 @@ import java.util.stream.Collectors;
 
 public class MatchingHandler implements RequestHandler<Map<Object, Object>, String> {
 
-  private static final ObjectMapper MAPPER = new ObjectMapper();
+  private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
   private static final String STAGE =
       System.getenv("STAGE").replace('-', '_').toUpperCase(Locale.ENGLISH);
   private static final String KNN_BUCKET = String.format("request-normalized-data-%s", STAGE);
-  private static final String KNN_MODEL = "knn-request-model.json";
   private static final AmazonDynamoDB DYNAMO_DB =
       AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
   private static final DynamoDBMapper DYNAMO_DB_MAPPER = new DynamoDBMapper(DYNAMO_DB);
+  private static final String KNN_MODEL = MatchingConstants.KNN_MODEL;
 
   @Override
   public String handleRequest(Map<Object, Object> event, Context context) {
@@ -49,8 +49,8 @@ public class MatchingHandler implements RequestHandler<Map<Object, Object>, Stri
     S3ObjectInputStream input = object.getObjectContent();
     try {
       CollectionType requestArray =
-          MAPPER.getTypeFactory().constructCollectionType(List.class, RequestKnnData.class);
-      data = MAPPER.readValue(input, requestArray);
+          OBJECT_MAPPER.getTypeFactory().constructCollectionType(List.class, RequestKnnData.class);
+      data = OBJECT_MAPPER.readValue(input, requestArray);
     } catch (IOException e) {
       e.printStackTrace();
       return null;
