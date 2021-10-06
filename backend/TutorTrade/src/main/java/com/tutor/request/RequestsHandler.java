@@ -51,6 +51,9 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
         return createRequest(bodyJson);
       } catch (RequestBuilderException e) {
         e.printStackTrace();
+        return getResponseAsString(
+                HttpURLConnection.HTTP_BAD_REQUEST,
+                e.getMessage());
       }
     }
 
