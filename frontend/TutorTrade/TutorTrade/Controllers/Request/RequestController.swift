@@ -18,13 +18,14 @@ class RequestController: UIViewController {
         title = "✋ Get Help"
         tabBarItem = UITabBarItem(title: "Request", image: UIImage(systemName: "hand.raised"), tag: 1)
         
-        let requestScrollView: UIScrollView = RequestScrollView(scrollWidth: self.view.frame.size.width,
+        let requestScrollView = RequestScrollView(scrollWidth: self.view.frame.size.width,
                                                                 scrollHeight: self.view.frame.size.height - 100)
         
         self.view.addSubview(requestScrollView)
+        print(requestScrollView.requestModel!)
     }
 
     override func loadView() {
         super.loadView()
-    }
+    }    
 }
