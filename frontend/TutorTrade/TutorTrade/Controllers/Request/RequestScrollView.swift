@@ -12,14 +12,14 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
     var scrollWidth: CGFloat = 0.0
     var scrollHeight: CGFloat = 0.0
     
-    let subjectRequestView: UITextField! = {
-        let textField = SubjectRequestView()
-        return textField
+    let subjectRequestView: SubjectView! = {
+        let view = SubjectView()
+        return view
     }()
     
-    let submitRequestButton: UIButton! = {
-        let button = SubmitRequestButton()
-        return button
+    let submitRequestButton: SubmitButtonView! = {
+        let view = SubmitButtonView()
+        return view
     }()
     
     let urgencyView: UrgencyView! = {
@@ -27,9 +27,9 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
         return view
     }()
     
-    let descriptionRequestView: UITextField! = {
-        let textField = DescriptionTextField()
-        return textField
+    let descriptionRequestView: DescriptionView! = {
+        let view = DescriptionView()
+        return view
     }()
     
     let preferredMediumView: PreferredMediumView! = {
@@ -44,12 +44,16 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
 
     convenience init(scrollWidth: CGFloat, scrollHeight: CGFloat) {
         self.init(frame: CGRect(x: 10, y: 10, width: scrollWidth, height: scrollHeight))
+        
+        // Configuring scrollview
         self.backgroundColor = .white
         self.contentSize = CGSize(width: 0, height: scrollHeight + 210)
         
-        self.subjectRequestView.delegate = self
-        self.descriptionRequestView.delegate = self
-
+        // Adding delegates to text fields
+        self.subjectRequestView.subjectTextField.delegate = self
+        self.descriptionRequestView.descriptionTextField.delegate = self
+        
+        // Adding subviews
         self.addSubview(subjectRequestView)
         self.addSubview(urgencyView)
         self.addSubview(descriptionRequestView)
@@ -57,12 +61,14 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
         self.addSubview(pointsView)
         self.addSubview(submitRequestButton)
         
+        // Adding button targets
         addButtonTargets()
     }
     
+    // Adding all of the targets to the buttons in request page
     func addButtonTargets() {
-        submitRequestButton.addTarget(self, action: #selector(onTapButton), for: .touchDown)
-        submitRequestButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        submitRequestButton.submitButton.addTarget(self, action: #selector(onTapButton), for: .touchDown)
+        submitRequestButton.submitButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         urgencyView.nowButton.addTarget(self, action: #selector(onTapButton), for: .touchDown)
         urgencyView.nowButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         urgencyView.todayButton.addTarget(self, action: #selector(onTapButton), for: .touchDown)
@@ -79,6 +85,7 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
         pointsView.reducePointsButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
     }
     
+    // Button animations
     @objc func didTapButton(_ selector: UIButton) {
         print(selector.titleLabel?.text ?? "error" )
         selector.layer.borderWidth = 1
@@ -94,8 +101,8 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.subjectRequestView.resignFirstResponder()
-        self.descriptionRequestView.resignFirstResponder()
+        self.subjectRequestView.subjectTextField.resignFirstResponder()
+        self.descriptionRequestView.descriptionTextField.resignFirstResponder()
         return true
     }
 }

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A22D9F7270E0D8C00E8DA7E /* SubjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A22D9F6270E0D8C00E8DA7E /* SubjectView.swift */; };
+		4A22D9F9270E138200E8DA7E /* DescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A22D9F8270E138200E8DA7E /* DescriptionView.swift */; };
+		4A22D9FB270E15E700E8DA7E /* SubmitButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A22D9FA270E15E700E8DA7E /* SubmitButtonView.swift */; };
 		4A29D5962702600500D25088 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A29D5952702600500D25088 /* ProfileController.swift */; };
 		4A29D5982702601D00D25088 /* MatchingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A29D5972702601D00D25088 /* MatchingController.swift */; };
 		4A29D59A2702602700D25088 /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A29D5992702602700D25088 /* ChatController.swift */; };
@@ -67,6 +70,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A22D9F6270E0D8C00E8DA7E /* SubjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectView.swift; sourceTree = "<group>"; };
+		4A22D9F8270E138200E8DA7E /* DescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionView.swift; sourceTree = "<group>"; };
+		4A22D9FA270E15E700E8DA7E /* SubmitButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SubmitButtonView.swift; path = TutorTrade/Controllers/Request/SubmitButtonView.swift; sourceTree = "<group>"; };
 		4A29D5952702600500D25088 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		4A29D5972702601D00D25088 /* MatchingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingController.swift; sourceTree = "<group>"; };
 		4A29D5992702602700D25088 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
@@ -146,6 +152,8 @@
 				4A29D59B2702603200D25088 /* RequestController.swift */,
 				4AA06BE12704832900B58926 /* SubjectRequestView.swift */,
 				4AA06BF92704E4FF00B58926 /* RequestScrollView.swift */,
+				4A22D9F8270E138200E8DA7E /* DescriptionView.swift */,
+				4A22D9F6270E0D8C00E8DA7E /* SubjectView.swift */,
 				4AB7809E270548D000A2443D /* SubmitRequestButton.swift */,
 				4A820D4527068D240062E94C /* NowButton.swift */,
 				4A2DFD2D270774E700332EE2 /* TodayButton.swift */,
@@ -187,6 +195,7 @@
 		4AC9500426ED771F00FC4A97 = {
 			isa = PBXGroup;
 			children = (
+				4A22D9FA270E15E700E8DA7E /* SubmitButtonView.swift */,
 				5ECB1D8027025203005BDD89 /* Fonts */,
 				4AC9500F26ED771F00FC4A97 /* TutorTrade */,
 				4AC9502626ED771F00FC4A97 /* TutorTradeTests */,
@@ -451,6 +460,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A22D9FB270E15E700E8DA7E /* SubmitButtonView.swift in Sources */,
+				4A22D9F7270E0D8C00E8DA7E /* SubjectView.swift in Sources */,
 				4AC9501526ED771F00FC4A97 /* TutorTradeTabBarController.swift in Sources */,
 				4AB7809F270548D000A2443D /* SubmitRequestButton.swift in Sources */,
 				4A2DFD2E270774E700332EE2 /* TodayButton.swift in Sources */,
@@ -469,6 +480,7 @@
 				4A29D59A2702602700D25088 /* ChatController.swift in Sources */,
 				4A29D5962702600500D25088 /* ProfileController.swift in Sources */,
 				4A2DFD3C27078BA600332EE2 /* PreferredMediumView.swift in Sources */,
+				4A22D9F9270E138200E8DA7E /* DescriptionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

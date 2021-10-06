@@ -118,7 +118,5 @@ class PointsView: UIView {
         self.addSubview(pointsTextField)
         self.addSubview(availableBalanceLabel)
         self.addSubview(availableBalance)
-//        self.addSubview(reducePointsButton)
-//        self.addSubview(addPointsButton)
     }
 }
