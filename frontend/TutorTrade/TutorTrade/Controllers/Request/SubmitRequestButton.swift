@@ -9,7 +9,7 @@ import UIKit
 
 class SubmitRequestButton: UIButton {
     convenience init() {
-        self.init(frame: CGRect(x: 250, y: 650, width: 100, height: 50))
+        self.init(frame: CGRect(x: 250, y: 850, width: 100, height: 50))
         self.backgroundColor = .systemBlue
         self.setTitle("Submit", for: .normal)
         

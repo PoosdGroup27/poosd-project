@@ -45,17 +45,17 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
     convenience init(scrollWidth: CGFloat, scrollHeight: CGFloat) {
         self.init(frame: CGRect(x: 10, y: 10, width: scrollWidth, height: scrollHeight))
         self.backgroundColor = .white
-        self.contentSize = CGSize(width: 0, height: scrollHeight + 50)
+        self.contentSize = CGSize(width: 0, height: scrollHeight + 210)
         
         self.subjectRequestView.delegate = self
         self.descriptionRequestView.delegate = self
 
         self.addSubview(subjectRequestView)
         self.addSubview(urgencyView)
-//        self.addSubview(submitRequestButton)
         self.addSubview(descriptionRequestView)
         self.addSubview(preferredMediumView)
         self.addSubview(pointsView)
+        self.addSubview(submitRequestButton)
         
         addButtonTargets()
     }
@@ -73,6 +73,10 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
         preferredMediumView.inPersonButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         preferredMediumView.onlineButton.addTarget(self, action: #selector(onTapButton), for: .touchDown)
         preferredMediumView.onlineButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        pointsView.addPointsButton.addTarget(self, action: #selector(onTapButton), for: .touchDown)
+        pointsView.addPointsButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        pointsView.reducePointsButton.addTarget(self, action: #selector(onTapButton), for: .touchDown)
+        pointsView.reducePointsButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
     }
     
     @objc func didTapButton(_ selector: UIButton) {
