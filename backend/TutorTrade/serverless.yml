@@ -85,6 +85,26 @@ functions:
                 requestId: true
             template:
               application/json: ${file(./mapping_template.yml):mapping_template}\
+      - http:
+          path: /request/{requestId}
+          method: patch
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                requestId: true
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
+      - http:
+          path: /request/{requestId}
+          method: delete
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                requestId: true
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
   matching:
     handler: com.tutor.matching.MatchingHandler
     environment:

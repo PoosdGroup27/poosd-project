@@ -4,6 +4,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
@@ -55,6 +56,15 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
                 HttpURLConnection.HTTP_BAD_REQUEST,
                 e.getMessage());
       }
+    } else if (httpMethod.equals("PATCH")) {
+      bodyJson = (HashMap<?, ?>) event.get("body-json");
+      params = (HashMap<?, ?>) event.get("params");
+      pathParameters = (HashMap<?, ?>) params.get("path");
+      return updateRequest(bodyJson, (String) pathParameters.get("requestId"));
+    } else if (httpMethod.equals("DELETE")) {
+      params = (HashMap<?, ?>) event.get("params");
+      pathParameters = (HashMap<?, ?>) params.get("path");
+      return deleteRequest((String) pathParameters.get("requestId"));
     }
 
     return getResponseAsString(
@@ -103,6 +113,117 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
     MAPPER.save(request);
 
     return getResponseAsString(HttpURLConnection.HTTP_OK, request.toString());
+  }
+
+  private Request getRequestObjectById(String requestId) {
+    Request key = new Request(UUID.fromString(requestId));
+    DynamoDBQueryExpression<Request> queryExpression =
+            new DynamoDBQueryExpression<Request>().withHashKeyValues(key);
+
+    List<Request> requestById = MAPPER.query(Request.class, queryExpression);
+
+    if (requestById.size() != 1) {
+      return null;
+    }
+
+    return requestById.get(0);
+  }
+
+  private String returnErrorString(Exception ex) {
+    return getResponseAsString(HttpURLConnection.HTTP_BAD_REQUEST, ex.getMessage());
+  }
+
+  private String updateRequest(HashMap<?, ?> body, String requestId) {
+    Request requestToUpdate = getRequestObjectById(requestId);
+
+    if (requestToUpdate == null) {
+      return getResponseAsString(HttpURLConnection.HTTP_NOT_FOUND, "Request not found.");
+    }
+
+    // The only fields that make sense to change are:
+    // helperId, subject, sessionTime, platform, cost, urgency, and status.
+
+    String helperIdString = (String) body.get("helperId");
+    if (helperIdString != null) {
+      try {
+        requestToUpdate.setHelperId(UUID.fromString(helperIdString));
+      } catch (Exception ex) {
+        return returnErrorString(ex);
+      }
+    }
+
+    String subjectString = (String) body.get("subject");
+    if (subjectString != null) {
+      try {
+        requestToUpdate.setSubject(Subject.valueOf(subjectString));
+      } catch (Exception ex) {
+        return returnErrorString(ex);
+      }
+    }
+
+    String sessionTimeString = (String) body.get("sessionTime");
+    if (sessionTimeString != null) {
+      try {
+        requestToUpdate.setSessionTime(sessionTimeString);
+      } catch (Exception ex) {
+        return returnErrorString(ex);
+      }
+    }
+
+    String platformString = (String) body.get("platform");
+    if (platformString != null) {
+      try {
+        requestToUpdate.setPlatform(Platform.valueOf(platformString));
+      } catch (Exception ex) {
+        return returnErrorString(ex);
+      }
+    }
+
+    String costInPointsString = (String) body.get("costInPoints");
+    if (costInPointsString != null) {
+      try {
+        requestToUpdate.setCostInPoints(Integer.parseInt(costInPointsString));
+      } catch (Exception ex) {
+        return returnErrorString(ex);
+      }
+    }
+
+    String urgencyString = (String) body.get("urgency");
+    if (urgencyString != null) {
+      try {
+        requestToUpdate.setUrgency(Urgency.valueOf(urgencyString));
+      } catch (Exception ex) {
+        return returnErrorString(ex);
+      }
+    }
+
+    String statusString = (String) body.get("status");
+    if (statusString != null) {
+      try {
+        requestToUpdate.setStatus(Status.valueOf(statusString));
+      } catch (Exception ex) {
+        return returnErrorString(ex);
+      }
+    }
+
+    MAPPER.save(
+            requestToUpdate,
+            DynamoDBMapperConfig.builder()
+                    .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
+                    .build());
+
+    return getResponseAsString(HttpURLConnection.HTTP_OK, requestToUpdate.toString());
+  }
+
+  private String deleteRequest(String requestId) {
+    Request requestToBeDeleted = getRequestObjectById(requestId);
+
+    if (requestToBeDeleted == null) {
+      return getResponseAsString(HttpURLConnection.HTTP_NOT_FOUND, "Request not found.");
+    }
+
+    MAPPER.delete(requestToBeDeleted);
+    return getResponseAsString(HttpURLConnection.HTTP_OK, requestToBeDeleted.toString());
   }
 
   /**

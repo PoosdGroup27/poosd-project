@@ -110,6 +110,10 @@ public class Request {
     return sessionTime;
   }
 
+  public void setSessionTime(LocalDateTime sessionTime) {
+    this.sessionTime = sessionTime;
+  }
+
   public void setSessionTime(String sessionTime) {
     this.sessionTime = LocalDateTime.parse(sessionTime);
   }
