@@ -11,6 +11,7 @@ provider:
     - Effect: "Allow"
       Action:
         - "dynamodb:*"
+        - "s3:*"
       Resource: "*"
 
   # change stage when deploying dev stack
@@ -111,15 +112,27 @@ functions:
       STAGE: ${self:provider.stage}
     events:
       - http:
-          path: /match/{requestId}
+          path: /match/{requestId}/{numMatches}
           method: get
           integration: lambda
           request:
             parameters:
               paths:
                 requestId: true
+                numMatches: true
             template:
               application/json: ${file(./mapping_template.yml):mapping_template}\
+  updateRequestData:
+    handler: com.tutor.matching.UpdateNormalizedRequestData
+    environment:
+      STAGE: ${self:provider.stage}
+    events:
+      - stream:
+          type: dynamodb
+          arn:
+            Fn::GetAtt: [ requestsTable, StreamArn ]
+          maximumRetryAttempts: 1
+
 
 resources:
   Resources:
@@ -149,3 +162,9 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+        StreamSpecification:
+          StreamViewType: NEW_AND_OLD_IMAGES
+    requestDataBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: request-normalized-data-${self:provider.stage}
