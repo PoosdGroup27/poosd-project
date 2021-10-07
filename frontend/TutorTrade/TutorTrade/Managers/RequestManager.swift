@@ -9,45 +9,36 @@ import Foundation
 
 final class RequestManager {
     
-    let url = "endpoint"
+    let url = "https://1k0cm1e1n9.execute-api.us-east-1.amazonaws.com/prod/request/create"
     
     func postRequestData(requestModel: RequestModel) {
         let requestURL = URL(string: url)
         var request = URLRequest(url: requestURL!)
         let jsonEncoder = JSONEncoder()
         let requestData = try? jsonEncoder.encode(requestModel)
-        let jsonBody = String(data: requestData!, encoding: String.Encoding.utf16)
-        
-        // method, body, headers
+        guard let body = try? JSONSerialization.jsonObject(with: requestData!, options: .allowFragments) as? [String: Any] else {
+            print("error!")
+            return
+        }
+
+        // Give the request a method, body, headers
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try? JSONSerialization.data(withJSONObject: jsonBody ?? "error", options: .fragmentsAllowed)
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
         
         // make the request
         let task = URLSession.shared.dataTask(with: request) { data, _, error in
             guard let data = data, error == nil else {
                 return
             }
-            
             do {
                 let response = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                print("SUCCESS: \(response)")
+                print("RESPONSE: \(response)")
             }
             catch {
                 print(error)
             }
         }
-        
         task.resume()
     }
-
-// Potentially use these for cleaner code
-//    struct RequestResponse: Codable {
-//        let result: RequestResult
-//        let status: String
-//    }
-//
-//    struct RequestResult: Codable {
-//
-//    }
 }

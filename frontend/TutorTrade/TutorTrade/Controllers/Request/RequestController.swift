@@ -43,20 +43,18 @@ class RequestController: UIViewController {
     
     // Function that handles sending RequestModel to API
     func sendRequestModel(requestModel: RequestModel) {
-        print("Making request...")
         let requestManager = RequestManager()
         requestManager.postRequestData(requestModel: requestModel)
     }
 }
 
 extension RequestController: RequestScrollViewDelegate {
-    func onTapSubmitButton(subject: String, urgency: Int, description: String, preferredMedium: Int, budget: String) {
+    func onTapSubmitButton(subject: String, urgency: String, description: String, preferredMedium: String, budget: String) {
         requestModel.subject = subject
         requestModel.urgency = urgency
         requestModel.description = description
-        requestModel.preferredMedium = preferredMedium
-        requestModel.budget = budget
-        print(requestModel!)
+        requestModel.platform = preferredMedium
+        requestModel.costInPoints = budget
 
         // Send the requestModel to backend
         sendRequestModel(requestModel: requestModel)

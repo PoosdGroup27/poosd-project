@@ -8,7 +8,7 @@
 import UIKit
 
 protocol RequestScrollViewDelegate {
-    func onTapSubmitButton(subject: String, urgency: Int, description: String, preferredMedium: Int, budget: String)
+    func onTapSubmitButton(subject: String, urgency: String, description: String, preferredMedium: String, budget: String)
 }
 
 class RequestScrollView: UIScrollView, UITextFieldDelegate {
@@ -16,9 +16,9 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
     var scrollWidth: CGFloat = 0.0
     var scrollHeight: CGFloat = 0.0
     var subject: String = ""
-    var urgency: Int = 0
+    var urgency: String = ""
     var descriptionText: String = ""
-    var preferredMedium: Int = 0
+    var preferredMedium: String = ""
     var budget: String = ""
     var requestScrollViewDelegate: RequestScrollViewDelegate!
     
@@ -114,20 +114,20 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
     @objc func onTapUrgencyButtons(_ selector: UIButton) {
         selector.layer.borderWidth = 3
         if (selector.titleLabel?.text == "Now") {
-            self.urgency = 0
+            self.urgency = "IMMEDIATE"
         } else if (selector.titleLabel?.text == "Today") {
-            self.urgency = 1
+            self.urgency = "IMMEDIATE"
         } else {
-            self.urgency = 2
+            self.urgency = "IMMEDIATE"
         }
     }
     
     @objc func onTapPreferredMediumButtons(_ selector: UIButton) {
         selector.layer.borderWidth = 3
         if (selector.titleLabel?.text == "Person") {
-            self.preferredMedium = 0
+            self.preferredMedium = "IN_PERSON"
         } else if (selector.titleLabel?.text == "Online") {
-            self.preferredMedium = 1
+            self.preferredMedium = "ONLINE"
         }
     }
     
