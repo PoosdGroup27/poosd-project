@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol RequestScrollViewDelegate {
+    func onTapSubmitButton(subject: String, urgency: Int, description: String, preferredMedium: Int, budget: String)
+}
+
 class RequestScrollView: UIScrollView, UITextFieldDelegate {
     
     var scrollWidth: CGFloat = 0.0
@@ -16,7 +20,7 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
     var descriptionText: String = ""
     var preferredMedium: Int = 0
     var budget: String = ""
-    var requestModel: RequestModel! = nil
+    var requestScrollViewDelegate: RequestScrollViewDelegate!
     
     let subjectRequestView: SubjectView! = {
         let view = SubjectView()
@@ -69,17 +73,14 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
         
         // Adding button targets
         addButtonTargets()
-        self.requestModel = RequestModel(urgency: urgency, preferredMedium: preferredMedium, subject: subject, description: descriptionText, budget: budget)
     }
 
-    func setRequestModel() {
-        requestModel.subject = subjectRequestView.subjectTextField.text ?? "no user input"
-        requestModel.description = descriptionRequestView.descriptionTextField.text ?? "no user input"
-        requestModel.budget = pointsView.pointsTextField.text ?? "no user input"
-        requestModel.urgency = self.urgency
-        requestModel.preferredMedium = self.preferredMedium
+    func setScrollViewInputs() {
+        self.subject = subjectRequestView.subjectTextField.text ?? "no user input"
+        self.descriptionText = descriptionRequestView.descriptionTextField.text ?? "no user input"
+        self.budget = pointsView.pointsTextField.text ?? "no user input"
     }
-    
+
     // Adding all of the targets to the buttons in request page
     func addButtonTargets() {
         submitRequestButton.submitButton.addTarget(self, action: #selector(onTapSubmitButton), for: .touchDown)
@@ -119,8 +120,6 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
         } else {
             self.urgency = 2
         }
-        
-        print(self.urgency)
     }
     
     @objc func onTapPreferredMediumButtons(_ selector: UIButton) {
@@ -130,16 +129,12 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
         } else if (selector.titleLabel?.text == "Online") {
             self.preferredMedium = 1
         }
-
-        print(self.preferredMedium)
     }
     
     @objc func onTapSubmitButton(_ selector: UIButton) {
         selector.layer.borderWidth = 3
-        
-        setRequestModel()
-        
-        print(requestModel ?? "Model error")
+        setScrollViewInputs()
+        requestScrollViewDelegate.onTapSubmitButton(subject: subject, urgency: urgency, description: descriptionText, preferredMedium: preferredMedium, budget: budget)
     }
 
     // Hide keyboard fucntions

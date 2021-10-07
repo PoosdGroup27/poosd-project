@@ -8,9 +8,9 @@
 import Foundation
 
 struct RequestModel: Codable {
-    var urgency: Int
-    var preferredMedium: Int
-    var subject: String
-    var description: String
-    var budget: String
+    var urgency: Int?
+    var preferredMedium: Int?
+    var subject: String!
+    var description: String?
+    var budget: String?
 }
