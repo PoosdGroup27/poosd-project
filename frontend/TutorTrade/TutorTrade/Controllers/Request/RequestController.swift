@@ -41,6 +41,10 @@ extension RequestController: RequestScrollViewDelegate {
         requestModel.preferredMedium = preferredMedium
         requestModel.budget = budget
         
-        print(requestModel)
+        print(requestModel!)
+        print("Making request...")
+        let requestManager = RequestManager()
+        requestManager.postRequestData(requestModel: requestModel)
+        
     }
 }
