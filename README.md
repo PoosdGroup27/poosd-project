@@ -8,7 +8,7 @@ Repository for POOSD Group 27, Fall 2021 - TutorTrade
 # Deployment
 
 ## Deploying + Building Frontend App
-1. Install Xcode (The version that works best for your Mac) _Brock and I are using Xcode 13, but that might not be compatible with every mac._
+1. Install Xcode (version 13 recommended)
 2. Clone repo
 3. Open Xcode
 4. Open  [TutorTrade.xcodeproj](https://github.com/PoosdGroup27/poosd-project/tree/main/frontend/TutorTrade/TutorTrade.xcodeproj)  file
@@ -21,7 +21,7 @@ Repository for POOSD Group 27, Fall 2021 - TutorTrade
 3. Download [NodeJS](https://nodejs.org/en/download/)
 4. Using NPM, which was installed with Node, `npm install -g serverless` to install the [Serverless Framework](https://www.serverless.com/)
 5. Ensure you have Java 11 and Maven on your machine and available in the project directory
-   1. If using Intellji (recommended), go to File -> Project Structure -> Project and select Amazon Corretto 11 JDK in the SDK dropdown. You will need to add it first using the edit and then + buttons. Then right click on the pom.xml file in the backend directory and select Maven -> add as Maven project.
+   1. If using Intellji (recommended), go to File -> Project Structure -> Project and select Amazon Corretto 11 JDK in the SDK dropdown. You will need to add it first using the edit and then + buttons. Then right click on the pom.xml file in the backend directory and select Maven -> add as Maven project
 6. Change `prod` to `<your stage name>` in the folder locations:
    1. `<version>prod</version>` in pom.xml
    2. `stage: prod` in serverless.yml
