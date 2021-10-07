@@ -12,24 +12,40 @@ import UIKit
 
 class RequestController: UIViewController {
     
+    // Declare and initialize scroll view
     let requestScrollView: RequestScrollView! = {
          let scrollView = RequestScrollView(scrollWidth: 390, scrollHeight: 840 - 100)
         return scrollView
     }()
     
+    // Declare request model
     var requestModel: RequestModel! = nil
 
     convenience init() {
+        // Style VC
         self.init(nibName: nil, bundle: nil)
         title = "✋ Get Help"
         tabBarItem = UITabBarItem(title: "Request", image: UIImage(systemName: "hand.raised"), tag: 1)
+        
+        // Create request model
         self.requestModel = RequestModel()
+        
+        // Add delegate
         requestScrollView.requestScrollViewDelegate = self
+        
+        // Add scrollview as a subview
         self.view.addSubview(requestScrollView)
     }
 
     override func loadView() {
         super.loadView()
+    }
+    
+    // Function that handles sending RequestModel to API
+    func sendRequestModel(requestModel: RequestModel) {
+        print("Making request...")
+        let requestManager = RequestManager()
+        requestManager.postRequestData(requestModel: requestModel)
     }
 }
 
@@ -40,11 +56,9 @@ extension RequestController: RequestScrollViewDelegate {
         requestModel.description = description
         requestModel.preferredMedium = preferredMedium
         requestModel.budget = budget
-        
         print(requestModel!)
-        print("Making request...")
-        let requestManager = RequestManager()
-        requestManager.postRequestData(requestModel: requestModel)
-        
+
+        // Send the requestModel to backend
+        sendRequestModel(requestModel: requestModel)
     }
 }
