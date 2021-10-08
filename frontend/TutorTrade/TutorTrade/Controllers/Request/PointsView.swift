@@ -111,7 +111,7 @@ class PointsView: UIView {
     }()
     
     convenience init() {
-        self.init(frame: CGRect(x: 0, y: 660, width: 350, height: 100))
+        self.init(frame: CGRect(x: 0, y: 700, width: 350, height: 100))
         self.backgroundColor = .systemGreen
         self.layer.cornerRadius = 20
         self.addSubview(pointsLabel)
