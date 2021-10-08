@@ -9,6 +9,11 @@ import UIKit
 
 class PreferredMediumView: UIView {
     
+    enum PreferredMediumTags: Int {
+        case inPerson = 0
+        case online = 1
+    }
+    
     let preferredMediumLabel: UILabel! = {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 374, height: 50))
         

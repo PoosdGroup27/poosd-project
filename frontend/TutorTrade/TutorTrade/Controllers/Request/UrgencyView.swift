@@ -9,6 +9,12 @@ import UIKit
 
 class UrgencyView: UIView {
     
+    enum UrgencyButtonTags: Int {
+        case today = 0
+        case tomorrow = 1
+        case thisWeek = 2
+    }
+
     let urgencyLabel: UILabel! = {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 374, height: 50))
         
@@ -34,7 +40,7 @@ class UrgencyView: UIView {
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.black.cgColor
         
-        button.setTitle("Now", for: .normal)
+        button.setTitle("Today", for: .normal)
         button.titleLabel?.font = buttonFont
         button.setTitleColor(.black, for: .normal)
 
@@ -54,7 +60,7 @@ class UrgencyView: UIView {
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.black.cgColor
         
-        button.setTitle("Today", for: .normal)
+        button.setTitle("Tomorrow", for: .normal)
         button.titleLabel?.font = buttonFont
         button.setTitleColor(.black, for: .normal)
         

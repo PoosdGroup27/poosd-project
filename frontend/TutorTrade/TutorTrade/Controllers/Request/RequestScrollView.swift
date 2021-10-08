@@ -13,6 +13,17 @@ protocol RequestScrollViewDelegate {
 
 class RequestScrollView: UIScrollView, UITextFieldDelegate {
     
+    private enum PreferredMediumEnum : String {
+        case inPerson = "IN_PERSON"
+        case online = "ONLINE"
+    }
+
+    private enum UrgencyEnum: String {
+        case today = "IMMEDIATE" // change this to today later on
+        case tomorrow = "TOMORROW"
+        case thisWeek = "THIS_WEEK"
+    }
+    
     var scrollWidth: CGFloat = 0.0
     var scrollHeight: CGFloat = 0.0
     var subject: String = ""
@@ -59,6 +70,7 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
         self.backgroundColor = .white
         self.contentSize = CGSize(width: 0, height: scrollHeight + 210)
         
+        
         // Adding delegates to text fields
         self.subjectRequestView.subjectTextField.delegate = self
         self.descriptionRequestView.descriptionTextField.delegate = self
@@ -81,22 +93,41 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
         self.budget = pointsView.pointsTextField.text ?? "no user input"
     }
 
-    // Adding all of the targets to the buttons in request page
     func addButtonTargets() {
+        addSubmitButtonActions()
+        addUrgencyButtonActions()
+        addPreferredMediumButtonActions()
+        addPointsButtonActions()
+    }
+    
+    func addSubmitButtonActions() {
         submitRequestButton.submitButton.addTarget(self, action: #selector(onTapSubmitButton), for: .touchDown)
         submitRequestButton.submitButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+    }
+    
+    func addUrgencyButtonActions() {
         urgencyView.nowButton.addTarget(self, action: #selector(onTapUrgencyButtons), for: .touchDown)
         urgencyView.nowButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        
         urgencyView.todayButton.addTarget(self, action: #selector(onTapUrgencyButtons), for: .touchDown)
         urgencyView.todayButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        
         urgencyView.thisWeekButton.addTarget(self, action: #selector(onTapUrgencyButtons), for: .touchDown)
         urgencyView.thisWeekButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+    }
+    
+    func addPreferredMediumButtonActions() {
         preferredMediumView.inPersonButton.addTarget(self, action: #selector(onTapInPersonButton), for: .touchDown)
         preferredMediumView.inPersonButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        
         preferredMediumView.onlineButton.addTarget(self, action: #selector(onTapOnlineButton), for: .touchDown)
         preferredMediumView.onlineButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+    }
+    
+    func addPointsButtonActions() {
         pointsView.addPointsButton.addTarget(self, action: #selector(onTapButton), for: .touchDown)
         pointsView.addPointsButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        
         pointsView.reducePointsButton.addTarget(self, action: #selector(onTapButton), for: .touchDown)
         pointsView.reducePointsButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
     }
@@ -114,23 +145,23 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
     
     @objc func onTapUrgencyButtons(_ selector: UIButton) {
         selector.layer.borderWidth = 3
-        if (selector.titleLabel?.text == "Now") {
-            self.urgency = "IMMEDIATE"
-        } else if (selector.titleLabel?.text == "Today") {
-            self.urgency = "IMMEDIATE"
+        if (selector.titleLabel?.text == "Today") {
+            self.urgency = UrgencyEnum.today.rawValue
+        } else if (selector.titleLabel?.text == "Tomorrow") {
+            self.urgency = UrgencyEnum.tomorrow.rawValue
         } else {
-            self.urgency = "IMMEDIATE"
+            self.urgency = UrgencyEnum.thisWeek.rawValue
         }
     }
     
     @objc func onTapInPersonButton(_ selector: UIButton) {
         selector.layer.borderWidth = 3
-        self.preferredMedium = "IN_PERSON"
+        self.preferredMedium = PreferredMediumEnum.inPerson.rawValue
     }
     
     @objc func onTapOnlineButton(_ selector: UIButton) {
         selector.layer.borderWidth = 3
-        self.preferredMedium = "ONLINE"
+        self.preferredMedium = PreferredMediumEnum.online.rawValue
     }
     
     @objc func onTapSubmitButton(_ selector: UIButton) {

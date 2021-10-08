@@ -13,9 +13,10 @@ final class RequestManager {
     
     func postRequestData(requestModel: RequestModel) {
         let requestURL = URL(string: url)
-        var request = URLRequest(url: requestURL!)
         let jsonEncoder = JSONEncoder()
         let requestData = try? jsonEncoder.encode(requestModel)
+        var request = URLRequest(url: requestURL!)
+
         guard let body = try? JSONSerialization.jsonObject(with: requestData!, options: .allowFragments) as? [String: Any] else {
             print("error!")
             return
