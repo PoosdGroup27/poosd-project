@@ -7,17 +7,6 @@
 import UIKit
 
 class PointsView: UIView {
-
-    // we need to format the view ✅
-    // create the label outside of view - ✅
-    // create the label inside of view - ✅
-    // create the buttons - ✅
-    // add so text field is only numbers - ✅
-    // add animation to buttons - ✅
-    // tie button to textfield OR label
-    // scrollview brings up keyboard, scrollview needs to adjust.
-    // reject input if over balance
-    // get the balance from endpoint or from the user profile?
     
     let pointsLabel: UILabel! = {
         let label = UILabel(frame: CGRect(x: 0, y: -50, width: 374, height: 50))
