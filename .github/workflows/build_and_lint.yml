@@ -1,12 +1,10 @@
-name: Build and lint Java
+name: Backend Build + Lint
 
 on:
   pull_request:
     branches:
       - 'main'
-  push:
-    branches:
-      - 'jesse/**'
+
 jobs:
   build-and-lint:
     name: Build backend components
