@@ -1,4 +1,4 @@
-name: Lint Swift in frontend directory
+name: Frontend Lint
 
 on:
   pull_request:
