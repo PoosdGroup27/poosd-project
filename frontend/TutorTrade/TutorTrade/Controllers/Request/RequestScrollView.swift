@@ -91,9 +91,9 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
         urgencyView.todayButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         urgencyView.thisWeekButton.addTarget(self, action: #selector(onTapUrgencyButtons), for: .touchDown)
         urgencyView.thisWeekButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
-        preferredMediumView.inPersonButton.addTarget(self, action: #selector(onTapPreferredMediumButtons), for: .touchDown)
+        preferredMediumView.inPersonButton.addTarget(self, action: #selector(onTapInPersonButton), for: .touchDown)
         preferredMediumView.inPersonButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
-        preferredMediumView.onlineButton.addTarget(self, action: #selector(onTapPreferredMediumButtons), for: .touchDown)
+        preferredMediumView.onlineButton.addTarget(self, action: #selector(onTapOnlineButton), for: .touchDown)
         preferredMediumView.onlineButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         pointsView.addPointsButton.addTarget(self, action: #selector(onTapButton), for: .touchDown)
         pointsView.addPointsButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
@@ -103,7 +103,8 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
     
     // Button animations
     @objc func didTapButton(_ selector: UIButton) {
-        print(selector.titleLabel?.text ?? "error" )
+        print(self.preferredMedium)
+        print(self.urgency)
         selector.layer.borderWidth = 1
     }
     
@@ -122,13 +123,14 @@ class RequestScrollView: UIScrollView, UITextFieldDelegate {
         }
     }
     
-    @objc func onTapPreferredMediumButtons(_ selector: UIButton) {
+    @objc func onTapInPersonButton(_ selector: UIButton) {
         selector.layer.borderWidth = 3
-        if (selector.titleLabel?.text == "Person") {
-            self.preferredMedium = "IN_PERSON"
-        } else if (selector.titleLabel?.text == "Online") {
-            self.preferredMedium = "ONLINE"
-        }
+        self.preferredMedium = "IN_PERSON"
+    }
+    
+    @objc func onTapOnlineButton(_ selector: UIButton) {
+        selector.layer.borderWidth = 3
+        self.preferredMedium = "ONLINE"
     }
     
     @objc func onTapSubmitButton(_ selector: UIButton) {
