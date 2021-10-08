@@ -14,6 +14,8 @@ import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.tutor.request.Request;
+import com.tutor.utils.RequestUtils;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -35,11 +37,7 @@ public class MatchingHandler implements RequestHandler<Map<Object, Object>, Stri
     HashMap<?, ?> params = (HashMap<?, ?>) event.get("params");
     requestId = (String) params.get("requestId");
 
-    Request newRequest;
-    Request key = new Request(UUID.fromString(requestId));
-    DynamoDBQueryExpression<Request> queryExpression =
-        new DynamoDBQueryExpression<Request>().withHashKeyValues(key);
-    newRequest = DYNAMO_DB_MAPPER.query(Request.class, queryExpression).get(0);
+    Request newRequest = RequestUtils.getRequestObjectById(requestId);
 
     // get normalized, serialized request data from S3
     AmazonS3 s3Client = AmazonS3ClientBuilder.defaultClient();

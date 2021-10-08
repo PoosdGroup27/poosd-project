@@ -8,19 +8,12 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPResponse;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tutor.utils.ApiUtils;
+import com.tutor.utils.UserUtils;
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 
 /**
  * Handle all incoming requests to UserService through user API. API request is routed to User
@@ -54,7 +47,7 @@ public class UserHandler implements RequestHandler<Map<Object, Object>, String> 
     } else if (httpMethod.equals("GET")) {
       params = (HashMap<?, ?>) event.get("params");
       pathParameters = (HashMap<?, ?>) params.get("path");
-      return getUserById((String) pathParameters.get("id"));
+      return UserUtils.getUserById((String) pathParameters.get("id"));
     } else if (httpMethod.equals("PATCH")) {
       bodyJson = (HashMap<?, ?>) event.get("body-json");
       params = (HashMap<?, ?>) event.get("params");
@@ -66,7 +59,7 @@ public class UserHandler implements RequestHandler<Map<Object, Object>, String> 
       return deleteUser((String) pathParameters.get("id"));
     }
 
-    return getResponseAsString(
+    return ApiUtils.getResponseAsString(
         HttpURLConnection.HTTP_BAD_METHOD,
         String.format("Requested method was not found. Full request path was: %s", path));
   }
@@ -79,46 +72,14 @@ public class UserHandler implements RequestHandler<Map<Object, Object>, String> 
 
     MAPPER.save(user);
 
-    return getResponseAsString(HttpURLConnection.HTTP_OK, user.toString());
-  }
-
-  private String getUserById(String userId) {
-    User key = new User(UUID.fromString(userId));
-    DynamoDBQueryExpression<User> queryExpression =
-        new DynamoDBQueryExpression<User>().withHashKeyValues(key);
-
-    List<User> userById = MAPPER.query(User.class, queryExpression);
-
-    if (userById.size() == 0) {
-      return getResponseAsString(HttpURLConnection.HTTP_NOT_FOUND, "User not found.");
-    } else if (userById.size() > 1) {
-      return getResponseAsString(
-          HttpURLConnection.HTTP_CONFLICT,
-          String.format("Found %d users with id: %s. 1 expected.", userById.size(), userId));
-    }
-
-    // found only 1 user with ID, as desired
-    return getResponseAsString(HttpURLConnection.HTTP_OK, userById.get(0).toString());
-  }
-
-  private User getUserObjectById(String userId) {
-    User key = new User(UUID.fromString(userId));
-    DynamoDBQueryExpression<User> queryExpression =
-        new DynamoDBQueryExpression<User>().withHashKeyValues(key);
-
-    List<User> userById = MAPPER.query(User.class, queryExpression);
-
-    if (userById.size() != 1) {
-      return null;
-    }
-    return userById.get(0);
+    return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_OK, user.toString());
   }
 
   private String updateUser(HashMap<?, ?> body, String userId) {
-    User userToUpdate = getUserObjectById(userId);
+    User userToUpdate = UserUtils.getUserObjectById(userId);
 
     if (userToUpdate == null) {
-      return getResponseAsString(HttpURLConnection.HTTP_NOT_FOUND, "User not found.");
+      return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_NOT_FOUND, "User not found.");
     }
 
     Date date = (Date) body.get("date");
@@ -161,27 +122,12 @@ public class UserHandler implements RequestHandler<Map<Object, Object>, String> 
             .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
             .build());
 
-    return getResponseAsString(HttpURLConnection.HTTP_OK, userToUpdate.toString());
+    return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_OK, userToUpdate.toString());
   }
 
   private String deleteUser(String userId) {
     HashMap<String, Boolean> inactiveStatus = new HashMap<>();
     inactiveStatus.put("isActive", false);
     return updateUser(inactiveStatus, userId);
-  }
-
-  private String getResponseAsString(int statusCode, String body) {
-    APIGatewayV2HTTPResponse response = new APIGatewayV2HTTPResponse();
-    response.setStatusCode(statusCode);
-    response.setBody(body);
-
-    ObjectMapper mapper = new ObjectMapper();
-
-    try {
-      return mapper.writeValueAsString(response);
-    } catch (JsonProcessingException e) {
-      e.printStackTrace();
-      return "Status Code: 400. Response was malformed." + response;
-    }
   }
 }
