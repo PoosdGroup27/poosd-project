@@ -16,9 +16,10 @@ final class RequestManager {
         let jsonEncoder = JSONEncoder()
         let requestData = try? jsonEncoder.encode(requestModel)
         var request = URLRequest(url: requestURL!)
-
+        
+        // Create body of http request
         guard let body = try? JSONSerialization.jsonObject(with: requestData!, options: .allowFragments) as? [String: Any] else {
-            print("error!")
+            print("Error getting serialized object inside of request manager.")
             return
         }
 
