@@ -1,23 +1,43 @@
 package com.tutor.utils;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+
+import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpEntity;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 /**
  * Utility classes for making GET and POST requests to tutor API.
  */
 public class ApiUtils {
+    public enum ApiStages {
+        JESSE_DEV("https://bpbzrj9x3b.execute-api.us-east-1.amazonaws.com/jesse-dev"),
+        ADAM_DEV("https://mlxlapjbhh.execute-api.us-east-1.amazonaws.com/adam-dev"),
+        PROD("https://75j9h7est2.execute-api.us-east-1.amazonaws.com/prod"),
+        UNSUPPORTED("UNSUPPORTED");
+
+        private final String url;
+
+        ApiStages(String url) {
+            this.url = url;
+        }
+
+        @Override
+        public String toString() {
+            return this.url;
+        }
+    }
     /**
      * Helper method for making GET requests to tutor API.
      *
@@ -74,5 +94,30 @@ public class ApiUtils {
             e.printStackTrace();
         }
         return "Encountered error. See stack trace.";
+    }
+
+    /**
+     *
+     * @param statusCode HTTP status code.
+     * @param body string for the body of the response.
+     * @return string response.
+     */
+    public static String getResponseAsString(int statusCode, String body) {
+        APIGatewayV2HTTPResponse response = new APIGatewayV2HTTPResponse();
+        response.setStatusCode(statusCode);
+        response.setBody(body);
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            return mapper.writeValueAsString(response);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "Status Code: 400. Response was malformed." + response;
+        }
+    }
+
+    public static String returnErrorString(Exception ex) {
+        return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_BAD_REQUEST, ex.getMessage());
     }
 }
