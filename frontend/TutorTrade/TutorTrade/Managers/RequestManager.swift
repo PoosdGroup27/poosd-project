@@ -10,26 +10,37 @@ import Foundation
 final class RequestManager {
     
     let url = "https://1k0cm1e1n9.execute-api.us-east-1.amazonaws.com/prod/request/create"
+    var requestURL: URL?
+    let jsonEncoder = JSONEncoder()
+    var requestData: Data?
+    var request: URLRequest?
     
-    func postRequestData(requestModel: RequestModel) {
-        let requestURL = URL(string: url)
-        let jsonEncoder = JSONEncoder()
-        let requestData = try? jsonEncoder.encode(requestModel)
-        var request = URLRequest(url: requestURL!)
-        
-        // Create body of http request
+    convenience init(requestModel: RequestModel) {
+        self.init()
+        setUpRequestManager(requestModel: requestModel)
+        setUpRequest()
+        postRequestData()
+    }
+
+    func setUpRequestManager(requestModel: RequestModel) {
+        requestURL = URL(string: url)
+        requestData = try? jsonEncoder.encode(requestModel)
+        request = URLRequest(url: requestURL!)
+    }
+    
+    func setUpRequest() {
         guard let body = try? JSONSerialization.jsonObject(with: requestData!, options: .allowFragments) as? [String: Any] else {
             print("Error getting serialized object inside of request manager.")
             return
         }
 
-        // Give the request a method, body, headers
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
-        
-        // make the request
-        let task = URLSession.shared.dataTask(with: request) { data, _, error in
+        request?.httpMethod = "POST"
+        request?.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request?.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
+    }
+    
+    func postRequestData() {
+        let task = URLSession.shared.dataTask(with: request!) { data, _, error in
             guard let data = data, error == nil else {
                 return
             }

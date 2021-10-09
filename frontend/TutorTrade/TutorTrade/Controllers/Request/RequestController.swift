@@ -14,12 +14,13 @@ class RequestController: UIViewController {
     
     // Declare and initialize scroll view
     let requestScrollView: RequestScrollView! = {
-         let scrollView = RequestScrollView(scrollWidth: 390, scrollHeight: 840 - 100)
+        let scrollView = RequestScrollView(scrollWidth: 390, scrollHeight: 840 - 100)
         return scrollView
     }()
     
     // Declare request model
-    var requestModel: RequestModel! = nil
+    var requestModel: RequestModel?
+    var requestManager: RequestManager?
 
     convenience init() {
         // Style VC
@@ -42,21 +43,20 @@ class RequestController: UIViewController {
     }
     
     // Function that handles sending RequestModel to API
-    func sendRequestModel(requestModel: RequestModel) {
-        let requestManager = RequestManager()
-        requestManager.postRequestData(requestModel: requestModel)
+    func createRequestManager(requestModel: RequestModel) {
+        requestManager = RequestManager(requestModel: requestModel)
     }
 }
 
 extension RequestController: RequestScrollViewDelegate {
     func onTapSubmitButton(subject: String, urgency: String, description: String, preferredMedium: String, budget: String) {
-        requestModel.subject = subject
-        requestModel.urgency = urgency
-        requestModel.description = description
-        requestModel.platform = preferredMedium
-        requestModel.costInPoints = budget
+        requestModel?.subject = subject
+        requestModel?.urgency = urgency
+        requestModel?.description = description
+        requestModel?.platform = preferredMedium
+        requestModel?.costInPoints = budget
 
         // Send the requestModel to backend
-        sendRequestModel(requestModel: requestModel)
+        createRequestManager(requestModel: requestModel!)
     }
 }
