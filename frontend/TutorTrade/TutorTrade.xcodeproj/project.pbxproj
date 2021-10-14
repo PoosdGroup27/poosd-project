@@ -7,10 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A22D9F9270E138200E8DA7E /* DescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A22D9F8270E138200E8DA7E /* DescriptionView.swift */; };
+		4A22D9FB270E15E700E8DA7E /* SubmitButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A22D9FA270E15E700E8DA7E /* SubmitButtonView.swift */; };
+		4A22D9FD270E17F700E8DA7E /* SubjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A22D9FC270E17F700E8DA7E /* SubjectView.swift */; };
+		4A22D9FF270E231B00E8DA7E /* RequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A22D9FE270E231B00E8DA7E /* RequestModel.swift */; };
 		4A29D5962702600500D25088 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A29D5952702600500D25088 /* ProfileController.swift */; };
 		4A29D5982702601D00D25088 /* MatchingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A29D5972702601D00D25088 /* MatchingController.swift */; };
 		4A29D59A2702602700D25088 /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A29D5992702602700D25088 /* ChatController.swift */; };
 		4A29D59C2702603200D25088 /* RequestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A29D59B2702603200D25088 /* RequestController.swift */; };
+		4A2DFD3C27078BA600332EE2 /* PreferredMediumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2DFD3B27078BA600332EE2 /* PreferredMediumView.swift */; };
+		4A386F3B270F3E2F002BEC06 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A386F3A270F3E2F002BEC06 /* RequestManager.swift */; };
+		4A4CB600270BA47C00D7D215 /* PointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4CB5FF270BA47C00D7D215 /* PointsView.swift */; };
+		4AA06BEE27048D7000B58926 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BE327048D7000B58926 /* Lato-Bold.ttf */; };
+		4AA06BEF27048D7000B58926 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BE427048D7000B58926 /* Lato-Light.ttf */; };
+		4AA06BF027048D7000B58926 /* Lato-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BE527048D7000B58926 /* Lato-BlackItalic.ttf */; };
+		4AA06BF127048D7000B58926 /* Lato-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BE627048D7000B58926 /* Lato-ThinItalic.ttf */; };
+		4AA06BF227048D7000B58926 /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BE727048D7000B58926 /* Lato-BoldItalic.ttf */; };
+		4AA06BF327048D7000B58926 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BE827048D7000B58926 /* Lato-Black.ttf */; };
+		4AA06BF427048D7000B58926 /* Lato-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BE927048D7000B58926 /* Lato-Thin.ttf */; };
+		4AA06BF527048D7000B58926 /* Lato-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BEA27048D7000B58926 /* Lato-Italic.ttf */; };
+		4AA06BF627048D7000B58926 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BEB27048D7000B58926 /* OFL.txt */; };
+		4AA06BF727048D7000B58926 /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BEC27048D7000B58926 /* Lato-LightItalic.ttf */; };
+		4AA06BF827048D7000B58926 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BED27048D7000B58926 /* Lato-Regular.ttf */; };
+		4AA06BFA2704E4FF00B58926 /* RequestScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA06BF92704E4FF00B58926 /* RequestScrollView.swift */; };
+		4ABAC5D3270A0D2E00CBB85B /* UrgencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABAC5D2270A0D2E00CBB85B /* UrgencyView.swift */; };
 		4AC9501126ED771F00FC4A97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC9501026ED771F00FC4A97 /* AppDelegate.swift */; };
 		4AC9501526ED771F00FC4A97 /* TutorTradeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC9501426ED771F00FC4A97 /* TutorTradeTabBarController.swift */; };
 		4AC9501A26ED771F00FC4A97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AC9501926ED771F00FC4A97 /* Assets.xcassets */; };
@@ -44,10 +64,30 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A22D9F8270E138200E8DA7E /* DescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionView.swift; sourceTree = "<group>"; };
+		4A22D9FA270E15E700E8DA7E /* SubmitButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SubmitButtonView.swift; path = TutorTrade/Controllers/Request/SubmitButtonView.swift; sourceTree = "<group>"; };
+		4A22D9FC270E17F700E8DA7E /* SubjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectView.swift; sourceTree = "<group>"; };
+		4A22D9FE270E231B00E8DA7E /* RequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestModel.swift; sourceTree = "<group>"; };
 		4A29D5952702600500D25088 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		4A29D5972702601D00D25088 /* MatchingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingController.swift; sourceTree = "<group>"; };
 		4A29D5992702602700D25088 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 		4A29D59B2702603200D25088 /* RequestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestController.swift; sourceTree = "<group>"; };
+		4A2DFD3B27078BA600332EE2 /* PreferredMediumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferredMediumView.swift; sourceTree = "<group>"; };
+		4A386F3A270F3E2F002BEC06 /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
+		4A4CB5FF270BA47C00D7D215 /* PointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsView.swift; sourceTree = "<group>"; };
+		4AA06BE327048D7000B58926 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Bold.ttf"; path = "../../../../../../../Downloads/Lato/Lato-Bold.ttf"; sourceTree = "<group>"; };
+		4AA06BE427048D7000B58926 /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Light.ttf"; path = "../../../../../../../Downloads/Lato/Lato-Light.ttf"; sourceTree = "<group>"; };
+		4AA06BE527048D7000B58926 /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-BlackItalic.ttf"; path = "../../../../../../../Downloads/Lato/Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
+		4AA06BE627048D7000B58926 /* Lato-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-ThinItalic.ttf"; path = "../../../../../../../Downloads/Lato/Lato-ThinItalic.ttf"; sourceTree = "<group>"; };
+		4AA06BE727048D7000B58926 /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-BoldItalic.ttf"; path = "../../../../../../../Downloads/Lato/Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
+		4AA06BE827048D7000B58926 /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Black.ttf"; path = "../../../../../../../Downloads/Lato/Lato-Black.ttf"; sourceTree = "<group>"; };
+		4AA06BE927048D7000B58926 /* Lato-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Thin.ttf"; path = "../../../../../../../Downloads/Lato/Lato-Thin.ttf"; sourceTree = "<group>"; };
+		4AA06BEA27048D7000B58926 /* Lato-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Italic.ttf"; path = "../../../../../../../Downloads/Lato/Lato-Italic.ttf"; sourceTree = "<group>"; };
+		4AA06BEB27048D7000B58926 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = OFL.txt; path = ../../../../../../../Downloads/Lato/OFL.txt; sourceTree = "<group>"; };
+		4AA06BEC27048D7000B58926 /* Lato-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-LightItalic.ttf"; path = "../../../../../../../Downloads/Lato/Lato-LightItalic.ttf"; sourceTree = "<group>"; };
+		4AA06BED27048D7000B58926 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Regular.ttf"; path = "../../../../../../../Downloads/Lato/Lato-Regular.ttf"; sourceTree = "<group>"; };
+		4AA06BF92704E4FF00B58926 /* RequestScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestScrollView.swift; sourceTree = "<group>"; };
+		4ABAC5D2270A0D2E00CBB85B /* UrgencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgencyView.swift; sourceTree = "<group>"; };
 		4AC9500D26ED771F00FC4A97 /* TutorTrade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TutorTrade.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AC9501026ED771F00FC4A97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4AC9501426ED771F00FC4A97 /* TutorTradeTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorTradeTabBarController.swift; sourceTree = "<group>"; };
@@ -98,6 +138,12 @@
 			isa = PBXGroup;
 			children = (
 				4A29D59B2702603200D25088 /* RequestController.swift */,
+				4AA06BF92704E4FF00B58926 /* RequestScrollView.swift */,
+				4A22D9F8270E138200E8DA7E /* DescriptionView.swift */,
+				4A22D9FC270E17F700E8DA7E /* SubjectView.swift */,
+				4A2DFD3B27078BA600332EE2 /* PreferredMediumView.swift */,
+				4ABAC5D2270A0D2E00CBB85B /* UrgencyView.swift */,
+				4A4CB5FF270BA47C00D7D215 /* PointsView.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -126,9 +172,18 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		4A386F39270F3E1F002BEC06 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				4A386F3A270F3E2F002BEC06 /* RequestManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		4AC9500426ED771F00FC4A97 = {
 			isa = PBXGroup;
 			children = (
+				4A22D9FA270E15E700E8DA7E /* SubmitButtonView.swift */,
 				5ECB1D8027025203005BDD89 /* Fonts */,
 				4AC9500F26ED771F00FC4A97 /* TutorTrade */,
 				4AC9502626ED771F00FC4A97 /* TutorTradeTests */,
@@ -150,6 +205,7 @@
 		4AC9500F26ED771F00FC4A97 /* TutorTrade */ = {
 			isa = PBXGroup;
 			children = (
+				4A386F39270F3E1F002BEC06 /* Managers */,
 				4AC9504526ED778200FC4A97 /* Storyboards */,
 				4AC9504426ED776D00FC4A97 /* Models */,
 				4AC9504226ED774000FC4A97 /* Assets */,
@@ -209,6 +265,7 @@
 		4AC9504426ED776D00FC4A97 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				4A22D9FE270E231B00E8DA7E /* RequestModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -224,6 +281,17 @@
 		5ECB1D8027025203005BDD89 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				4AA06BE827048D7000B58926 /* Lato-Black.ttf */,
+				4AA06BE527048D7000B58926 /* Lato-BlackItalic.ttf */,
+				4AA06BE327048D7000B58926 /* Lato-Bold.ttf */,
+				4AA06BE727048D7000B58926 /* Lato-BoldItalic.ttf */,
+				4AA06BEA27048D7000B58926 /* Lato-Italic.ttf */,
+				4AA06BE427048D7000B58926 /* Lato-Light.ttf */,
+				4AA06BEC27048D7000B58926 /* Lato-LightItalic.ttf */,
+				4AA06BED27048D7000B58926 /* Lato-Regular.ttf */,
+				4AA06BE927048D7000B58926 /* Lato-Thin.ttf */,
+				4AA06BE627048D7000B58926 /* Lato-ThinItalic.ttf */,
+				4AA06BEB27048D7000B58926 /* OFL.txt */,
 				5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */,
 				5ECB1D8227025276005BDD89 /* Dosis-ExtraBold.ttf */,
 				5ECB1D8627025277005BDD89 /* Dosis-ExtraLight.ttf */,
@@ -339,13 +407,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				5ECB1D8B27025277005BDD89 /* Dosis-Medium.ttf in Resources */,
+				4AA06BF527048D7000B58926 /* Lato-Italic.ttf in Resources */,
+				4AA06BEE27048D7000B58926 /* Lato-Bold.ttf in Resources */,
 				5ECB1D8827025277005BDD89 /* Dosis-SemiBold.ttf in Resources */,
+				4AA06BEF27048D7000B58926 /* Lato-Light.ttf in Resources */,
 				5ECB1D8D27025277005BDD89 /* Dosis-ExtraLight.ttf in Resources */,
+				4AA06BF227048D7000B58926 /* Lato-BoldItalic.ttf in Resources */,
+				4AA06BF827048D7000B58926 /* Lato-Regular.ttf in Resources */,
 				5ECB1D8C27025277005BDD89 /* Dosis-Bold.ttf in Resources */,
 				4AC9501D26ED771F00FC4A97 /* LaunchScreen.storyboard in Resources */,
 				4AC9501A26ED771F00FC4A97 /* Assets.xcassets in Resources */,
+				4AA06BF427048D7000B58926 /* Lato-Thin.ttf in Resources */,
+				4AA06BF027048D7000B58926 /* Lato-BlackItalic.ttf in Resources */,
+				4AA06BF627048D7000B58926 /* OFL.txt in Resources */,
 				5ECB1D8E27025277005BDD89 /* Dosis-Regular.ttf in Resources */,
 				5ECB1D8927025277005BDD89 /* Dosis-ExtraBold.ttf in Resources */,
+				4AA06BF727048D7000B58926 /* Lato-LightItalic.ttf in Resources */,
+				4AA06BF127048D7000B58926 /* Lato-ThinItalic.ttf in Resources */,
+				4AA06BF327048D7000B58926 /* Lato-Black.ttf in Resources */,
 				5ECB1D8A27025277005BDD89 /* Dosis-Light.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -371,12 +450,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A386F3B270F3E2F002BEC06 /* RequestManager.swift in Sources */,
+				4A22D9FB270E15E700E8DA7E /* SubmitButtonView.swift in Sources */,
 				4AC9501526ED771F00FC4A97 /* TutorTradeTabBarController.swift in Sources */,
+				4ABAC5D3270A0D2E00CBB85B /* UrgencyView.swift in Sources */,
 				4AC9501126ED771F00FC4A97 /* AppDelegate.swift in Sources */,
 				4A29D5982702601D00D25088 /* MatchingController.swift in Sources */,
+				4A4CB600270BA47C00D7D215 /* PointsView.swift in Sources */,
 				4A29D59C2702603200D25088 /* RequestController.swift in Sources */,
+				4AA06BFA2704E4FF00B58926 /* RequestScrollView.swift in Sources */,
+				4A22D9FD270E17F700E8DA7E /* SubjectView.swift in Sources */,
 				4A29D59A2702602700D25088 /* ChatController.swift in Sources */,
 				4A29D5962702600500D25088 /* ProfileController.swift in Sources */,
+				4A22D9FF270E231B00E8DA7E /* RequestModel.swift in Sources */,
+				4A2DFD3C27078BA600332EE2 /* PreferredMediumView.swift in Sources */,
+				4A22D9F9270E138200E8DA7E /* DescriptionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
