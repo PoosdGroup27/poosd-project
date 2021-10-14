@@ -132,6 +132,18 @@ functions:
           arn:
             Fn::GetAtt: [ requestsTable, StreamArn ]
           maximumRetryAttempts: 1
+  subjects:
+    handler: com.tutor.subjects.SubjectsHandler
+    environment:
+      STAGE: ${self:provider.stage}
+    events:
+      - http:
+          path: /subjects/
+          method: get
+          integration: lambda
+          request:
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
 
 
 resources:
