@@ -34,6 +34,11 @@ public class SubjectsHandler implements RequestHandler<Map<Object, Object>, Stri
         HttpURLConnection.HTTP_BAD_METHOD, "Requested method was not found.");
   }
 
+  /**
+   * Returns a list of available subjects of the Subjects enum
+   *
+   * @return JSONified string with all available subjects
+   */
   private String getListOfSubjects() {
     StringBuilder subjectsBuilder = new StringBuilder("");
 
