@@ -3,6 +3,7 @@ package com.tutor.user;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
@@ -120,23 +121,21 @@ public class User {
 
   @Override
   public String toString() {
-    return "User{"
-        + "name='"
-        + name
-        + '\''
-        + ", school='"
-        + school
-        + '\''
-        + ", dateCreated="
-        + dateCreated
-        + ", isActive="
-        + isActive
-        + ", points="
-        + points
-        + ", sessionIds="
-        + sessionIds
-        + ", userId="
-        + userId
+    return "{"
+        + "\"name\": "
+        + String.format("\"%s\"", name)
+        + ", \"school\": "
+        + String.format("\"%s\"", school)
+        + ", \"dateCreated\": "
+        + String.format("\"%s\"", dateCreated)
+        + ", \"isActive\": "
+        + String.format("\"%b\"", isActive)
+        + ", \"points\": "
+        + String.format("\"%d\"", points)
+        + ", \"sessionIds\": "
+        + String.format("\"%s\"", sessionIds.toString())
+        + ", \"userId\": "
+        + String.format("\"%s\"", userId.toString())
         + '}';
   }
 }

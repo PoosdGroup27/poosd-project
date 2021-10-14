@@ -1,13 +1,8 @@
 package com.tutor.subjects;
 
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.sun.tools.javac.util.DefinedBy;
 import com.tutor.request.Subject;
 import com.tutor.utils.ApiUtils;
 import java.net.HttpURLConnection;
