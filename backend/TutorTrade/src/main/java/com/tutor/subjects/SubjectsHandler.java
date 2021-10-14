@@ -6,6 +6,8 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.sun.tools.javac.util.DefinedBy;
 import com.tutor.request.Subject;
 import com.tutor.utils.ApiUtils;
 import java.net.HttpURLConnection;
@@ -17,9 +19,6 @@ import org.apache.logging.log4j.Logger;
 public class SubjectsHandler implements RequestHandler<Map<Object, Object>, String> {
 
   private static final Logger LOG = LogManager.getLogger(SubjectsHandler.class);
-  private static final AmazonDynamoDB DYNAMO_DB =
-      AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
-  private static final DynamoDBMapper MAPPER = new DynamoDBMapper(DYNAMO_DB);
 
   @Override
   public String handleRequest(Map<Object, Object> event, Context context) {
@@ -27,7 +26,11 @@ public class SubjectsHandler implements RequestHandler<Map<Object, Object>, Stri
     String httpMethod = (String) contextMap.get("http-method");
 
     if (httpMethod.equals("GET")) {
-      return getListOfSubjects();
+      try {
+        return getListOfSubjects();
+      } catch (JsonProcessingException e) {
+        return ApiUtils.returnErrorString(e);
+      }
     }
 
     return ApiUtils.getResponseAsString(
@@ -39,27 +42,7 @@ public class SubjectsHandler implements RequestHandler<Map<Object, Object>, Stri
    *
    * @return JSONified string with all available subjects
    */
-  private String getListOfSubjects() {
-    StringBuilder subjectsBuilder = new StringBuilder("");
-
-    subjectsBuilder.append("{");
-
-    for (int i = 0; i < Subject.values().length; i++) {
-      Subject subject = Subject.values()[i];
-
-      subjectsBuilder.append(String.format("\"%s\": {", subject.name()));
-      subjectsBuilder.append(String.format("\"subjectName\": \"%s\", ", subject.getSubjectName()));
-      subjectsBuilder.append(String.format("\"emoji\": \"%s\"", subject.getEmoji()));
-      subjectsBuilder.append("}");
-
-      // include comma for next subject for all subjects except last one
-      if (i != Subject.values().length - 1) {
-        subjectsBuilder.append(", ");
-      }
-    }
-
-    subjectsBuilder.append("}");
-
-    return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_OK, subjectsBuilder.toString());
+  private String getListOfSubjects() throws JsonProcessingException {
+    return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_OK, Subject.getListOfSubjectsAsString());
   }
 }

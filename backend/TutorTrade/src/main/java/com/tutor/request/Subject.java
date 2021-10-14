@@ -1,18 +1,22 @@
 package com.tutor.request;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.Arrays;
+import java.util.stream.*;
 
 /**
- * Enum of different subjects users can be tutored for. Format of underlying string is
- * <name>:<emoji>
+ * Enum of different subjects users can be tutored for. Format of underlying string is <emoji>
+ * <name>
  */
 public enum Subject {
-  BIO("BIOLOGY:🧬"),
-  CHEM("CHEMISTRY:🧪"),
-  PHY("PHYSICS:🚗"),
-  CS("COMPUTER SCIENCE:💻"),
-  LIT("LITERATURE:📚"),
-  UNSUPPORTED("UNSUPPORTED:🤷");
+  BIO("🧬 BIOLOGY"),
+  CHEM("🧪 CHEMISTRY"),
+  PHY("🚗 PHYSICS"),
+  CS("💻 COMPUTER SCIENCE"),
+  LIT("📚 LITERATURE"),
+  UNSUPPORTED("🤷 UNSUPPORTED");
 
   private final String subjectName;
 
@@ -25,11 +29,19 @@ public enum Subject {
     return this.subjectName;
   }
 
-  public String getEmoji() {
-    return toString().split(":")[1];
-  }
+  /**
+   * Returns a string of a list with all the subject names and emojis
+   * @return
+   * @throws JsonProcessingException
+   */
+  public static String getListOfSubjectsAsString() throws JsonProcessingException {
+    ObjectMapper mapper = new ObjectMapper();
 
-  public String getSubjectName() {
-    return toString().split(":")[0];
+    return mapper
+        .writerWithDefaultPrettyPrinter()
+        .writeValueAsString(
+            Arrays.stream(Subject.values())
+                .map(val -> val.toString())
+                .collect(Collectors.toList()));
   }
 }
