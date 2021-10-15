@@ -1,7 +1,6 @@
 package com.tutor.matching;
 
 import com.tutor.request.Request;
-
 import java.util.UUID;
 
 /** Helper intermediary class for moving request data to the completed request data store. */
@@ -44,6 +43,10 @@ public class RequestKnnData {
   private double platform;
   private double subject;
 
+  /**
+   * Constructor to extract data from request which is relevant to KNN, and shift ordinals such that
+   * we never have a zero value.
+   */
   public RequestKnnData(Request request) {
     this.helperId = request.getHelperId();
     this.cost = (double) request.getCostInPoints();

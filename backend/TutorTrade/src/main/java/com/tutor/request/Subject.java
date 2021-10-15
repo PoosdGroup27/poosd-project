@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Enum of different subjects users can be tutored for. Format of underlying string is <emoji>
- * <name>
+ * Enum of different subjects users can be tutored for. Format of underlying string is "{emoji}
+ * {name}"
  */
 public enum Subject {
   AGRICULTURE("🌾 Agriculture"),

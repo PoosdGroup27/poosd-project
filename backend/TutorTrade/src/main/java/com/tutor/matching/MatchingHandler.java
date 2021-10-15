@@ -4,7 +4,6 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.s3.AmazonS3;
@@ -15,13 +14,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.tutor.request.Request;
 import com.tutor.utils.RequestUtils;
-
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Class gets requests to find matches for a given requestId and returns a list of userIds for
+ * users who are well suited to fulfill that request.
+ */
 public class MatchingHandler implements RequestHandler<Map<Object, Object>, String> {
-
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
   private static final String STAGE =
       System.getenv("STAGE").replace('-', '_').toUpperCase(Locale.ENGLISH);

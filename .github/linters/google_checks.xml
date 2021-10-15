@@ -13,7 +13,7 @@
     Authors: Max Vetrenko, Ruslan Diachenko, Roman Ivanov.
  -->
 
-<module name = "Checker">
+<module name="Checker">
     <property name="charset" value="UTF-8"/>
 
     <property name="severity" value="warning"/>
@@ -27,7 +27,7 @@
     <!-- https://checkstyle.org/config_filters.html#SuppressionFilter -->
     <module name="SuppressionFilter">
         <property name="file" value="${org.checkstyle.google.suppressionfilter.config}"
-                  default="checkstyle-suppressions.xml" />
+                  default="checkstyle-suppressions.xml"/>
         <property name="optional" value="true"/>
     </module>
 
@@ -57,7 +57,9 @@
             <property name="allowByTailComment" value="true"/>
             <property name="allowNonPrintableEscapes" value="true"/>
         </module>
-        <module name="AvoidStarImport"/>
+        <module name="AvoidStarImport">
+            <property name="allowClassImports" value="true"/>
+        </module>
         <module name="OneTopLevelClass"/>
         <module name="NoLineWrap">
             <property name="tokens" value="PACKAGE_DEF, IMPORT, STATIC_IMPORT"/>
@@ -354,7 +356,7 @@
         <!-- https://checkstyle.org/config_filters.html#SuppressionXpathFilter -->
         <module name="SuppressionXpathFilter">
             <property name="file" value="${org.checkstyle.google.suppressionxpathfilter.config}"
-                      default="checkstyle-xpath-suppressions.xml" />
+                      default="checkstyle-xpath-suppressions.xml"/>
             <property name="optional" value="true"/>
         </module>
     </module>
