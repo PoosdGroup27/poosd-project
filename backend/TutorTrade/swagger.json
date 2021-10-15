@@ -1,0 +1,457 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is the internal API for the TutorTrade application.",
+    "version": "1.0.0",
+    "title": "TutorTrade"
+  },
+  "host": "1k0cm1e1n9.execute-api.us-east-1.amazonaws.com",
+  "basePath": "/prod/",
+  "tags": [
+    {
+      "name": "user",
+      "description": "User operations"
+    },
+    {
+      "name": "request",
+      "description": "Request operations"
+    },
+    {
+      "name": "subjects",
+      "description": "Information relating to supported subjects"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/user/create": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Create a new user.",
+        "description": "",
+        "operationId": "createUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User parameters",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserPost"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/user/{userId}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Find user by id.",
+        "description": "Return the user corresponding to given id.",
+        "operationId": "getUserById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "UUID representing desired user",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "404": {
+            "description": "User not found."
+          },
+          "409": {
+            "description": "Found more than one user with id. An error has occured if this happens."
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Update an existing user.",
+        "description": "Update user and return new object. Any fields not included in body will not be modified.",
+        "operationId": "updateUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "UUID representing desired requestId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "404": {
+            "description": "Request not found."
+          },
+          "409": {
+            "description": "Found more than one request with id. An error has occured if this happens."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Delete an existing user.",
+        "description": "Set isActive field of user to false and return now object.",
+        "operationId": "deleteUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "UUID representing desired user",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "404": {
+            "description": "User not found."
+          },
+          "409": {
+            "description": "Found more than one user with id. An error has occured if this happens."
+          }
+        }
+      }
+    },
+    "/request/create": {
+      "post": {
+        "tags": [
+          "request"
+        ],
+        "summary": "Create a new request for tutoring services.",
+        "description": "",
+        "operationId": "createRequest",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Request parameters",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/request/{requestId}": {
+      "get": {
+        "tags": [
+          "request"
+        ],
+        "summary": "Find request by id.",
+        "description": "Return the request corresponding to given id.",
+        "operationId": "getRequestById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "UUID representing desired requestId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/Request"
+              }
+            }
+          },
+          "404": {
+            "description": "Request not found."
+          },
+          "409": {
+            "description": "Found more than one request with id. An error has occured if this happens."
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "request"
+        ],
+        "summary": "Update an existing request.",
+        "description": "Update request and return new object. Any fields not included in body will not be modified.",
+        "operationId": "updateRequest",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "UUID representing desired requestId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/Request"
+              }
+            }
+          },
+          "404": {
+            "description": "Request not found."
+          },
+          "409": {
+            "description": "Found more than one request with id. An error has occured if this happens."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "request"
+        ],
+        "summary": "Delete an existing request.",
+        "description": "Delete request and return now deleted object.",
+        "operationId": "deleteRequest",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "description": "UUID representing desired requestId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/Request"
+              }
+            }
+          },
+          "404": {
+            "description": "Request not found."
+          },
+          "409": {
+            "description": "Found more than one request with id. An error has occured if this happens."
+          }
+        }
+      }
+    },
+    "/subjects": {
+      "get": {
+        "tags": [
+          "subjects"
+        ],
+        "summary": "Return all supported tutoring subjects.",
+        "operationId": "getSubjects",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Request"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "format": "UUID"
+        },
+        "school": {
+          "type": "string"
+        },
+        "dateCreated": {
+          "type": "string",
+          "format": "ISO8601"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "points": {
+          "type": "string",
+          "format": "int64"
+        },
+        "sessionIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Request"
+          }
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "UserPost": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "school": {
+          "type": "string"
+        }
+      }
+    },
+    "Request": {
+      "type": "object",
+      "required": [
+        "requesterId",
+        "subject",
+        "costInPoints",
+        "urgency",
+        "platform"
+      ],
+      "properties": {
+        "requesterId": {
+          "type": "string",
+          "format": "<UUID>"
+        },
+        "subject": {
+          "$ref": "#/definitions/Subject"
+        },
+        "costInPoints": {
+          "type": "string",
+          "format": "int64",
+          "example": "1000"
+        },
+        "urgency": {
+          "$ref": "#/definitions/Urgency"
+        },
+        "platform": {
+          "$ref": "#/definitions/Platform"
+        }
+      }
+    },
+    "Subject": {
+      "type": "string",
+      "description": "Subject with which assistance is required.",
+      "enum": [
+        "CS",
+        "BIO",
+        "LIT",
+        "CHEM",
+        "PHY"
+      ]
+    },
+    "Urgency": {
+      "type": "string",
+      "enum": [
+        "IMMEDIATE",
+        "THREE_DAYS",
+        "WEEK",
+        "LONG_TERM"
+      ]
+    },
+    "Platform": {
+      "type": "string",
+      "enum": [
+        "ONLINE",
+        "IN_PERSON"
+      ]
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more",
+    "url": "https://github.com/PoosdGroup27/poosd-project#readme"
+  }
+}
