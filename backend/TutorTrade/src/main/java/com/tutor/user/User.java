@@ -1,10 +1,10 @@
 package com.tutor.user;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.tutor.request.Request;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -17,7 +17,7 @@ public class User {
   private String name;
 
   private String school;
-  private Date dateCreated;
+  private LocalDateTime dateCreated;
   private boolean isActive;
   private int points;
   private ArrayList<UUID> sessionIds;
@@ -33,10 +33,9 @@ public class User {
   public User(UserBuilder builder) {
     this.name = builder.name;
     this.school = builder.school;
-
     this.points = STARTING_POINTS;
     this.userId = UUID.randomUUID();
-    this.dateCreated = new Date();
+    this.dateCreated = LocalDateTime.now();
     this.isActive = true;
 
     // users shouldn't have session IDs at creation time
@@ -73,13 +72,18 @@ public class User {
     this.school = school;
   }
 
+  @DynamoDBTypeConverted(converter = Request.LocalDateTimeConverter.class)
   @DynamoDBAttribute(attributeName = "dateCreated")
-  public Date getDateCreated() {
+  public LocalDateTime getDateCreated() {
     return dateCreated;
   }
 
-  public void setDateCreated(Date dateCreated) {
+  public void setDateCreated(LocalDateTime dateCreated) {
     this.dateCreated = dateCreated;
+  }
+
+  public void setDateCreated(String dateCreated) {
+    this.dateCreated = LocalDateTime.parse(dateCreated);
   }
 
   @DynamoDBAttribute(attributeName = "isActive")
@@ -136,5 +140,23 @@ public class User {
         + ", \"userId\": "
         + String.format("\"%s\"", userId.toString())
         + '}';
+  }
+
+  /**
+   * This is necessary in order for the DynamoDB mapper to save LocalDateTime objects.
+   * https://stackoverflow.com/questions/28077435/dynamodbmapper-for-java-time-localdatetime
+   */
+  public static class LocalDateTimeConverter
+      implements DynamoDBTypeConverter<String, LocalDateTime> {
+
+    @Override
+    public String convert(final LocalDateTime time) {
+      return time.toString();
+    }
+
+    @Override
+    public LocalDateTime unconvert(final String stringValue) {
+      return LocalDateTime.parse(stringValue);
+    }
   }
 }

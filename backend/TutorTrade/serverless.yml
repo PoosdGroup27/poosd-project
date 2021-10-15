@@ -133,12 +133,12 @@ functions:
             Fn::GetAtt: [ requestsTable, StreamArn ]
           maximumRetryAttempts: 1
   subjects:
-    handler: com.tutor.subjects.SubjectsHandler
+    handler: com.tutor.subject.SubjectsHandler
     environment:
       STAGE: ${self:provider.stage}
     events:
       - http:
-          path: /subjects/
+          path: /subject/
           method: get
           integration: lambda
           request:

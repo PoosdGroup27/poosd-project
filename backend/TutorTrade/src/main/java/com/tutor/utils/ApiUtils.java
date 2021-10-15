@@ -1,8 +1,5 @@
 package com.tutor.utils;
 
-import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPResponse;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -95,30 +92,10 @@ public class ApiUtils {
     return "Encountered error. See stack trace.";
   }
 
-  /**
-   * Returns an API response with status code and body as a string
-   * with valid JSON format.
-   *
-   * @param statusCode HTTP status code.
-   * @param body string for the body of the response.
-   * @return string response.
-   */
-  public static String getResponseAsString(int statusCode, String body) {
-    APIGatewayV2HTTPResponse response = new APIGatewayV2HTTPResponse();
-    response.setStatusCode(statusCode);
-    response.setBody(body);
-
-    ObjectMapper mapper = new ObjectMapper();
-
-    try {
-      return mapper.writeValueAsString(response);
-    } catch (JsonProcessingException e) {
-      e.printStackTrace();
-      return "Status Code: 400. Response was malformed." + response;
-    }
-  }
-
-  public static String returnErrorString(Exception ex) {
-    return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_BAD_REQUEST, ex.getMessage());
+  public static ApiResponse<String> returnErrorResponse(Exception ex) {
+    return ApiResponse.<String>builder()
+            .statusCode(HttpURLConnection.HTTP_OK)
+            .body(ex.toString())
+            .build();
   }
 }

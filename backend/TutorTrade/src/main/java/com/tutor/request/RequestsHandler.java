@@ -7,26 +7,27 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.tutor.subject.Subject;
+import com.tutor.utils.ApiResponse;
 import com.tutor.utils.ApiUtils;
 import com.tutor.utils.RequestUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-
 
 /** Handles any HTTP requests to the API's /request/ path. */
-public class RequestsHandler implements RequestHandler<Map<Object, Object>, String> {
+public class RequestsHandler implements RequestHandler<Map<Object, Object>, ApiResponse<?>> {
   private static final Logger LOG = LogManager.getLogger(RequestsHandler.class);
   private static final AmazonDynamoDB DYNAMO_DB =
       AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
   private static final DynamoDBMapper DYNAMO_DB_MAPPER = new DynamoDBMapper(DYNAMO_DB);
 
   @Override
-  public String handleRequest(Map<Object, Object> event, Context context) {
+  public ApiResponse<?> handleRequest(Map<Object, Object> event, Context context) {
     HashMap<?, ?> contextMap = (HashMap<?, ?>) event.get("context");
     String httpMethod = (String) contextMap.get("http-method");
     String path = (String) contextMap.get("resource-path");
@@ -42,14 +43,19 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
     if (httpMethod.equals("GET")) {
       params = (HashMap<?, ?>) event.get("params");
       pathParameters = (HashMap<?, ?>) params.get("path");
-      return RequestUtils.getRequestById((String) pathParameters.get("requestId"));
+      Request request =
+          RequestUtils.getRequestObjectById(((String) pathParameters.get("requestId")));
+      return ApiResponse.<Request>builder()
+          .statusCode(HttpURLConnection.HTTP_OK)
+          .body(request)
+          .build();
     } else if (httpMethod.equals("POST") && method.equals("create")) {
       bodyJson = (HashMap<?, ?>) event.get("body-json");
       try {
         return createRequest(bodyJson);
       } catch (RequestBuilderException e) {
         e.printStackTrace();
-        return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_BAD_REQUEST, e.getMessage());
+        return ApiUtils.returnErrorResponse(e);
       }
     } else if (httpMethod.equals("PATCH")) {
       bodyJson = (HashMap<?, ?>) event.get("body-json");
@@ -62,12 +68,13 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
       return deleteRequest((String) pathParameters.get("requestId"));
     }
 
-    return ApiUtils.getResponseAsString(
-        HttpURLConnection.HTTP_BAD_METHOD,
-        String.format("Requested method was not found. Full request path was: %s", path));
+    return ApiResponse.<String>builder()
+        .statusCode(HttpURLConnection.HTTP_NOT_FOUND)
+        .body("Request not found.")
+        .build();
   }
 
-  private String createRequest(HashMap<?, ?> body) throws RequestBuilderException {
+  private ApiResponse<Request> createRequest(HashMap<?, ?> body) throws RequestBuilderException {
     String requesterId = (String) body.get("requesterId");
     String subject = (String) body.get("subject");
     String costInPoints = (String) body.get("costInPoints");
@@ -87,25 +94,29 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
 
     DYNAMO_DB_MAPPER.save(request);
 
-    return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_OK, request.toString());
+    return ApiResponse.<Request>builder()
+            .statusCode(HttpURLConnection.HTTP_OK)
+            .body(request)
+            .build();
   }
 
-  private String updateRequest(HashMap<?, ?> body, String requestId) {
+  private ApiResponse<?> updateRequest(HashMap<?, ?> body, String requestId) {
     Request requestToUpdate = RequestUtils.getRequestObjectById(requestId);
-
     if (requestToUpdate == null) {
-      return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_NOT_FOUND, "Request not found.");
+      return ApiResponse.<String>builder()
+          .statusCode(HttpURLConnection.HTTP_NOT_FOUND)
+          .body("Request not found.")
+          .build();
     }
 
     // The only fields that make sense to change are:
     // helperId, subject, sessionTime, platform, cost, urgency, and status.
-
     String helperIdString = (String) body.get("helperId");
     if (helperIdString != null) {
       try {
         requestToUpdate.setHelperId(UUID.fromString(helperIdString));
       } catch (Exception ex) {
-        return ApiUtils.returnErrorString(ex);
+        return ApiUtils.returnErrorResponse(ex);
       }
     }
 
@@ -114,7 +125,7 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
       try {
         requestToUpdate.setSubject(Subject.valueOf(subjectString));
       } catch (Exception ex) {
-        return ApiUtils.returnErrorString(ex);
+        return ApiUtils.returnErrorResponse(ex);
       }
     }
 
@@ -123,7 +134,7 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
       try {
         requestToUpdate.setSessionTime(sessionTimeString);
       } catch (Exception ex) {
-        return ApiUtils.returnErrorString(ex);
+        return ApiUtils.returnErrorResponse(ex);
       }
     }
 
@@ -132,7 +143,7 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
       try {
         requestToUpdate.setPlatform(Platform.valueOf(platformString));
       } catch (Exception ex) {
-        return ApiUtils.returnErrorString(ex);
+        return ApiUtils.returnErrorResponse(ex);
       }
     }
 
@@ -141,7 +152,7 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
       try {
         requestToUpdate.setCostInPoints(Integer.parseInt(costInPointsString));
       } catch (Exception ex) {
-        return ApiUtils.returnErrorString(ex);
+        return ApiUtils.returnErrorResponse(ex);
       }
     }
 
@@ -150,7 +161,7 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
       try {
         requestToUpdate.setUrgency(Urgency.valueOf(urgencyString));
       } catch (Exception ex) {
-        return ApiUtils.returnErrorString(ex);
+        return ApiUtils.returnErrorResponse(ex);
       }
     }
 
@@ -159,7 +170,7 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
       try {
         requestToUpdate.setStatus(Status.valueOf(statusString));
       } catch (Exception ex) {
-        return ApiUtils.returnErrorString(ex);
+        return ApiUtils.returnErrorResponse(ex);
       }
     }
 
@@ -169,17 +180,26 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, Stri
             .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
             .build());
 
-    return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_OK, requestToUpdate.toString());
+    return ApiResponse.<Request>builder()
+        .statusCode(HttpURLConnection.HTTP_OK)
+        .body(requestToUpdate)
+        .build();
   }
 
-  private String deleteRequest(String requestId) {
+  private ApiResponse<?> deleteRequest(String requestId) {
     Request requestToBeDeleted = RequestUtils.getRequestObjectById(requestId);
 
     if (requestToBeDeleted == null) {
-      return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_NOT_FOUND, "Request not found.");
+      return ApiResponse.<String>builder()
+          .statusCode(HttpURLConnection.HTTP_NOT_FOUND)
+          .body("Request not found.")
+          .build();
     }
 
     DYNAMO_DB_MAPPER.delete(requestToBeDeleted);
-    return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_OK, requestToBeDeleted.toString());
+    return ApiResponse.<Request>builder()
+        .statusCode(HttpURLConnection.HTTP_OK)
+        .body(requestToBeDeleted)
+        .build();
   }
 }

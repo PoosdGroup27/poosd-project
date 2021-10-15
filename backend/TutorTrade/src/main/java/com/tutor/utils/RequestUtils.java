@@ -7,10 +7,9 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.tutor.request.Platform;
 import com.tutor.request.Request;
-import com.tutor.request.Subject;
+import com.tutor.subject.Subject;
 import com.tutor.request.Urgency;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.util.*;
 
 /** Utility class for operations on request objects. */
@@ -70,33 +69,6 @@ public class RequestUtils {
 
     System.out.println(
         ApiUtils.post(ApiUtils.ApiStages.valueOf(stage).toString(), "/request/create", json));
-  }
-
-  /**
-   * Method finds request in DB and returns an API response with request.
-   *
-   * @param requestId UUID representing a valid and existing request
-   * @return API response with HTTP_OK and request as body, if request is found, response with error
-   *     code otherwise
-   */
-  public static String getRequestById(String requestId) {
-    Request key = new Request(UUID.fromString(requestId));
-    DynamoDBQueryExpression<Request> queryExpression =
-        new DynamoDBQueryExpression<Request>().withHashKeyValues(key);
-
-    List<Request> requestById = DYNAMO_DB_MAPPER.query(Request.class, queryExpression);
-
-    if (requestById.size() == 0) {
-      return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_NOT_FOUND, "Request not found.");
-    } else if (requestById.size() > 1) {
-      return ApiUtils.getResponseAsString(
-          HttpURLConnection.HTTP_CONFLICT,
-          String.format(
-              "Found %d requests with id: %s. 1 expected.", requestById.size(), requestId));
-    }
-
-    // found only 1 request with ID, as desired
-    return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_OK, requestById.get(0).toString());
   }
 
   /**

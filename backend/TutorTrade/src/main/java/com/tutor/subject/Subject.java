@@ -1,4 +1,4 @@
-package com.tutor.request;
+package com.tutor.subject;
 
 import java.util.Arrays;
 import java.util.List;
@@ -50,8 +50,7 @@ public enum Subject {
   JOURNALISM("✍️ Journalism"),
   POLITICS("🗳 Politics"),
   HOSPITALITY("🏨 Hospitality"),
-  AVIATION("✈️ Aviation"),
-  UNSUPPORTED("🤷 UNSUPPORTED");
+  AVIATION("✈️ Aviation");
 
   private final String subjectName;
 
@@ -59,8 +58,7 @@ public enum Subject {
     this.subjectName = subjectName;
   }
 
-  @Override
-  public String toString() {
+  public String getSubjectName() {
     return this.subjectName;
   }
 
@@ -70,6 +68,6 @@ public enum Subject {
    * @return List of subjects
    */
   public static List<String> getListOfSubjects() {
-    return Arrays.stream(Subject.values()).map(Subject::toString).collect(Collectors.toList());
+    return Arrays.stream(Subject.values()).map(Subject::getSubjectName).collect(Collectors.toList());
   }
 }

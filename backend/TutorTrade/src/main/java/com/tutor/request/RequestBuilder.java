@@ -1,5 +1,7 @@
 package com.tutor.request;
 
+import com.tutor.subject.Subject;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -46,8 +48,6 @@ public class RequestBuilder {
 
     if (!nullValues.isEmpty()) {
       throw new RequestBuilderException("No values provided for these fields: " + nullValues);
-    } else if (request.getSubject() == Subject.UNSUPPORTED) {
-      throw new RequestBuilderException("Subject is unsupported");
     }
   }
 
@@ -61,8 +61,12 @@ public class RequestBuilder {
     return this;
   }
 
-  public RequestBuilder withSubject(String subject) {
-    this.subject = Subject.valueOf(subject);
+  public RequestBuilder withSubject(String subject) throws RequestBuilderException {
+    try {
+      this.subject = Subject.valueOf(subject);
+    } catch (IllegalArgumentException e) {
+      throw new RequestBuilderException(String.format("Subject %s is unsupported.", subject));
+    }
     return this;
   }
 
