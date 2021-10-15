@@ -1,6 +1,8 @@
 package com.tutor.user;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.request.Request;
 
 import java.time.LocalDateTime;
@@ -23,6 +25,7 @@ public class User {
   private ArrayList<UUID> sessionIds;
   private UUID userId;
   private static final int STARTING_POINTS = 100;
+  private String phoneNumber;
 
   /**
    * Constructor is a wrapper for builder and should not be called directly, unless creating user
@@ -37,6 +40,7 @@ public class User {
     this.userId = UUID.randomUUID();
     this.dateCreated = LocalDateTime.now();
     this.isActive = true;
+    this.phoneNumber = builder.phoneNumber;
 
     // users shouldn't have session IDs at creation time
     this.sessionIds = new ArrayList<>();
@@ -122,24 +126,26 @@ public class User {
     this.userId = userId;
   }
 
+  @DynamoDBAttribute(attributeName = "phoneNumber")
+  public String getPhoneNumber() {
+    return phoneNumber;
+  }
+
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+  }
+
   @Override
   public String toString() {
-    return "{"
-        + "\"name\": "
-        + String.format("\"%s\"", name)
-        + ", \"school\": "
-        + String.format("\"%s\"", school)
-        + ", \"dateCreated\": "
-        + String.format("\"%s\"", dateCreated)
-        + ", \"isActive\": "
-        + String.format("\"%b\"", isActive)
-        + ", \"points\": "
-        + String.format("\"%d\"", points)
-        + ", \"sessionIds\": "
-        + String.format("\"%s\"", sessionIds.toString())
-        + ", \"userId\": "
-        + String.format("\"%s\"", userId.toString())
-        + '}';
+    ObjectMapper mapper = new ObjectMapper();
+
+    try {
+      return mapper.writeValueAsString(this);
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    }
+
+    return "ERROR";
   }
 
   /**
