@@ -288,11 +288,49 @@ definitions:
     type: "string"
     description: "Subject with which assistance is required."
     enum:
-    - "CS"
-    - "BIO"
-    - "LIT"
-    - "CHEM"
-    - "PHY"
+    - "AGRICULTURE",
+    - "ASTRONOMY",
+    - "CHEMISTRY",
+    - "GEOGRAPHY",
+    - "BIOLOGY",
+    - "FORENSICS",
+    - "MATERIALS",
+    - "PHYSICS",
+    - "BIOMED",
+    - "ENVIRONMENTAL",
+    - "SPORTS",
+    - "MATHEMATICS",
+    - "ARCHITECTURE",
+    - "CONSTRUCTION",
+    - "ACCOUNTING",
+    - "BUSINESS",
+    - "FINANCE",
+    - "MARKETING",
+    - "HR",
+    - "CS",
+    - "IT",
+    - "ART",
+    - "MUSIC",
+    - "GRAPHICS",
+    - "THEATRE",
+    - "EDUCATION",
+    - "CIVILENG",
+    - "PSYCH",
+    - "NURSING",
+    - "PHYSIOLOGY",
+    - "PHILOSOPHY",
+    - "LANGUAGES",
+    - "ARCHAEOLOGY",
+    - "LIT",
+    - "HISTORY",
+    - "RELIGION",
+    - "LAW",
+    - "JOURNALISM",
+    - "POLITICS",
+    - "HOSPITALITY",
+    - "AVIATION",
+    - "UNSUPPORTED";
+    - "RETAIL",
   Urgency:
     type: "string"
     enum:

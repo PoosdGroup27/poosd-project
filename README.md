@@ -16,8 +16,7 @@ Repository for POOSD Group 27, Fall 2021 - TutorTrade
 1. Install Xcode (version 13 recommended)
 2. Clone repo
 3. Open Xcode
-4.
-Open  [TutorTrade.xcodeproj](https://github.com/PoosdGroup27/poosd-project/tree/main/frontend/TutorTrade/TutorTrade.xcodeproj)
+4. Open  [TutorTrade.xcodeproj](https://github.com/PoosdGroup27/poosd-project/tree/main/frontend/TutorTrade/TutorTrade.xcodeproj)
 file
 5. Change emulator to iPhone 12 or iPhone 12 Pro
 6. Command R or Hit *play* button on Xcode to run and build project
