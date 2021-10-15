@@ -81,6 +81,7 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, ApiR
     String urgency = (String) body.get("urgency");
     String platform = (String) body.get("platform");
     String status = "PENDING";
+    String description = (String) body.get("description");
 
     Request request =
         new RequestBuilder()
@@ -90,6 +91,7 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, ApiR
             .withUrgency(urgency)
             .withPlatform(platform)
             .withStatus(status)
+            .withDescription(description)
             .build();
 
     DYNAMO_DB_MAPPER.save(request);
@@ -110,7 +112,7 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, ApiR
     }
 
     // The only fields that make sense to change are:
-    // helperId, subject, sessionTime, platform, cost, urgency, and status.
+    // helperId, subject, sessionTime, platform, cost, urgency, status, and description.
     String helperIdString = (String) body.get("helperId");
     if (helperIdString != null) {
       try {
@@ -169,6 +171,15 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, ApiR
     if (statusString != null) {
       try {
         requestToUpdate.setStatus(Status.valueOf(statusString));
+      } catch (Exception ex) {
+        return ApiUtils.returnErrorResponse(ex);
+      }
+    }
+
+    String description = (String) body.get("description");
+    if (description != null) {
+      try {
+        requestToUpdate.setDescription(description);
       } catch (Exception ex) {
         return ApiUtils.returnErrorResponse(ex);
       }
