@@ -1,10 +1,9 @@
 package com.tutor.request;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.util.Arrays;
-import java.util.stream.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Enum of different subjects users can be tutored for. Format of underlying string is <emoji>
@@ -67,18 +66,12 @@ public enum Subject {
   }
 
   /**
-   * Returns a string of a list with all the subject names and emojis
+   * Returns a list with all the subject names and emojis
+   *
    * @return
    * @throws JsonProcessingException
    */
-  public static String getListOfSubjectsAsString() throws JsonProcessingException {
-    ObjectMapper mapper = new ObjectMapper();
-
-    return mapper
-        .writerWithDefaultPrettyPrinter()
-        .writeValueAsString(
-            Arrays.stream(Subject.values())
-                .map(val -> val.toString())
-                .collect(Collectors.toList()));
+  public static List<String> getListOfSubjects() throws JsonProcessingException {
+    return Arrays.stream(Subject.values()).map(Subject::toString).collect(Collectors.toList());
   }
 }
