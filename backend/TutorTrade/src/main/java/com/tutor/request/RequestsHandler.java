@@ -9,13 +9,14 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.tutor.utils.ApiUtils;
 import com.tutor.utils.RequestUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 
 /** Handles any HTTP requests to the API's /request/ path. */
 public class RequestsHandler implements RequestHandler<Map<Object, Object>, String> {

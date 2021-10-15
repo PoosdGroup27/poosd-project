@@ -1,10 +1,8 @@
 package com.tutor.request;
 
-/**
- * Request status values.
- */
+/** Request status values. */
 public enum Status {
-    PENDING,
-    MATCHED,
-    COMPLETED
+  PENDING,
+  MATCHED,
+  COMPLETED
 }

@@ -3,7 +3,6 @@ package com.tutor.user;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;

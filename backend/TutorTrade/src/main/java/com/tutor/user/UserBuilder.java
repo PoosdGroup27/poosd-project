@@ -5,8 +5,7 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * Builder method for User class. Allows for chained
- * set methods and validation during construction
+ * Builder method for User class. Allows for chained set methods and validation during construction
  * (i.e. new UserBuilder.withName("name).withSchool("school").build())
  */
 public class UserBuilder {

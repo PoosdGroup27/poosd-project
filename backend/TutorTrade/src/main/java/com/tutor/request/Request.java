@@ -1,8 +1,6 @@
 package com.tutor.request;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
-import org.apache.commons.math3.stat.StatUtils;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -205,7 +203,8 @@ public class Request {
         + "}";
   }
 
-  /** This is necessary in order for the DynamoDB mapper to save LocalDateTime objects.
+  /**
+   * This is necessary in order for the DynamoDB mapper to save LocalDateTime objects.
    * https://stackoverflow.com/questions/28077435/dynamodbmapper-for-java-time-localdatetime
    */
   public static class LocalDateTimeConverter

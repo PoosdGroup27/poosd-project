@@ -20,9 +20,10 @@ public class RequestKnn {
 
   /**
    * Implementation of the k nearest neighbors algorithm on tutor request data.
+   *
    * @param k The number of matches to return
-   * @return A list of the k tutors who completed requests most similar to the
-   * request we're matching
+   * @return A list of the k tutors who completed requests most similar to the request we're
+   *     matching
    */
   public ArrayList<UUID> getNearestNeighbors(int k) {
     RequestKnnData newRequest = new RequestKnnData(this.newRequest);

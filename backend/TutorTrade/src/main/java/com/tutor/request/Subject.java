@@ -2,13 +2,12 @@ package com.tutor.request;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.util.Arrays;
-import java.util.stream.*;
+import java.util.stream.Collectors;
 
 /**
- * Enum of different subjects users can be tutored for. Format of underlying string is <emoji>
- * <name>
+ * Enum of different subjects users can be tutored for. Format of underlying string is "{emoji}
+ * {name}"
  */
 public enum Subject {
   AGRICULTURE("🌾 Agriculture"),
@@ -67,9 +66,11 @@ public enum Subject {
   }
 
   /**
-   * Returns a string of a list with all the subject names and emojis
-   * @return
-   * @throws JsonProcessingException
+   * Returns a string of a list with all the subject names and emojis.
+   *
+   * @return String representation of all available subjects in list form.
+   * @throws JsonProcessingException if ObjectMapper is unable to parse list. This should not occur
+   *     and would indicate an issue with the subject constant names.
    */
   public static String getListOfSubjectsAsString() throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();

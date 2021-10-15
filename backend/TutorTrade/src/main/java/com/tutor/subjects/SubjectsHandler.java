@@ -6,9 +6,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tutor.request.Subject;
 import com.tutor.utils.ApiUtils;
 import java.net.HttpURLConnection;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+
 
 /** Handle requests to the Subjects endpoint. Currently only supports get requests. */
 public class SubjectsHandler implements RequestHandler<Map<Object, Object>, String> {
@@ -33,11 +36,12 @@ public class SubjectsHandler implements RequestHandler<Map<Object, Object>, Stri
   }
 
   /**
-   * Returns a list of available subjects of the Subjects enum
+   * Returns a list of available subjects of the Subjects enum.
    *
    * @return JSONified string with all available subjects
    */
   private String getListOfSubjects() throws JsonProcessingException {
-    return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_OK, Subject.getListOfSubjectsAsString());
+    return ApiUtils.getResponseAsString(
+        HttpURLConnection.HTTP_OK, Subject.getListOfSubjectsAsString());
   }
 }
