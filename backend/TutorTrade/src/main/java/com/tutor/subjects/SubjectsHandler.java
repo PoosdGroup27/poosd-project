@@ -2,11 +2,9 @@ package com.tutor.subjects;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tutor.request.Subject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,12 +19,7 @@ public class SubjectsHandler implements RequestHandler<Map<Object, Object>, List
     String httpMethod = (String) contextMap.get("http-method");
 
     if (httpMethod.equals("GET")) {
-      try {
-        return Subject.getListOfSubjects();
-      } catch (JsonProcessingException e) {
-        e.printStackTrace();
-        return null;
-      }
+      return Subject.getListOfSubjects();
     }
     return null;
   }

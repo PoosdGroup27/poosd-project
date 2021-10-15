@@ -1,6 +1,5 @@
 package com.tutor.request;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -68,10 +67,9 @@ public enum Subject {
   /**
    * Returns a list with all the subject names and emojis
    *
-   * @return
-   * @throws JsonProcessingException
+   * @return List of subjects
    */
-  public static List<String> getListOfSubjects() throws JsonProcessingException {
+  public static List<String> getListOfSubjects() {
     return Arrays.stream(Subject.values()).map(Subject::toString).collect(Collectors.toList());
   }
 }
