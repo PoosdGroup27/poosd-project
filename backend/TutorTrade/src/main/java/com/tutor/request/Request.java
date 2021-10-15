@@ -1,6 +1,8 @@
 package com.tutor.request;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.tutor.subject.Subject;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 

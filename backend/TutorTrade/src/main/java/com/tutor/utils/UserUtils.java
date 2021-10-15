@@ -17,32 +17,6 @@ public class UserUtils {
   private static final DynamoDBMapper MAPPER = new DynamoDBMapper(DYNAMO_DB);
 
   /**
-   * Method finds request in DB and returns an API response with user.
-   *
-   * @param userId UUID representing a valid and existing user
-   * @return API response with HTTP_OK and request as body, if user is found, response with error
-   *     code otherwise
-   */
-  public static String getUserById(String userId) {
-    User key = new User(UUID.fromString(userId));
-    DynamoDBQueryExpression<User> queryExpression =
-        new DynamoDBQueryExpression<User>().withHashKeyValues(key);
-
-    List<User> userById = MAPPER.query(User.class, queryExpression);
-
-    if (userById.size() == 0) {
-      return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_NOT_FOUND, "User not found.");
-    } else if (userById.size() > 1) {
-      return ApiUtils.getResponseAsString(
-          HttpURLConnection.HTTP_CONFLICT,
-          String.format("Found %d users with id: %s. 1 expected.", userById.size(), userId));
-    }
-
-    // found only 1 user with ID, as desired
-    return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_OK, userById.get(0).toString());
-  }
-
-  /**
    * Method finds user in DB and returns the corresponding user as a Java object.
    *
    * @param userId UUID representing a valid and existing user

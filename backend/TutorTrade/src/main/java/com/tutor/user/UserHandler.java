@@ -7,21 +7,20 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.tutor.utils.ApiUtils;
+import com.tutor.utils.ApiResponse;
 import com.tutor.utils.UserUtils;
 import java.net.HttpURLConnection;
+import java.time.LocalDateTime;
 import java.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-
 
 /**
  * Handle all incoming requests to UserService through user API. API request is routed to User
  * Lambda. Requests are then further routed to correct method based on information found in context
  * input.
  */
-public class UserHandler implements RequestHandler<Map<Object, Object>, String> {
+public class UserHandler implements RequestHandler<Map<Object, Object>, ApiResponse<?>> {
 
   private static final Logger LOG = LogManager.getLogger(UserHandler.class);
   private static final AmazonDynamoDB DYNAMO_DB =
@@ -29,7 +28,7 @@ public class UserHandler implements RequestHandler<Map<Object, Object>, String> 
   private static final DynamoDBMapper MAPPER = new DynamoDBMapper(DYNAMO_DB);
 
   @Override
-  public String handleRequest(Map<Object, Object> event, Context context) {
+  public ApiResponse<?> handleRequest(Map<Object, Object> event, Context context) {
     HashMap<?, ?> contextMap = (HashMap<?, ?>) event.get("context");
     String httpMethod = (String) contextMap.get("http-method");
     String path = (String) contextMap.get("resource-path");
@@ -48,7 +47,8 @@ public class UserHandler implements RequestHandler<Map<Object, Object>, String> 
     } else if (httpMethod.equals("GET")) {
       params = (HashMap<?, ?>) event.get("params");
       pathParameters = (HashMap<?, ?>) params.get("path");
-      return UserUtils.getUserById((String) pathParameters.get("id"));
+      User user = UserUtils.getUserObjectById(((String) pathParameters.get("id")));
+      return ApiResponse.<User>builder().statusCode(HttpURLConnection.HTTP_OK).body(user).build();
     } else if (httpMethod.equals("PATCH")) {
       bodyJson = (HashMap<?, ?>) event.get("body-json");
       params = (HashMap<?, ?>) event.get("params");
@@ -60,12 +60,13 @@ public class UserHandler implements RequestHandler<Map<Object, Object>, String> 
       return deleteUser((String) pathParameters.get("id"));
     }
 
-    return ApiUtils.getResponseAsString(
-        HttpURLConnection.HTTP_BAD_METHOD,
-        String.format("Requested method was not found. Full request path was: %s", path));
+    return ApiResponse.<String>builder()
+        .statusCode(HttpURLConnection.HTTP_BAD_METHOD)
+        .body(String.format("Requested method was not found. Full request path was: %s", path))
+        .build();
   }
 
-  private String createUser(HashMap<?, ?> body) {
+  private ApiResponse<User> createUser(HashMap<?, ?> body) {
     String name = (String) body.get("name");
     String school = (String) body.get("school");
 
@@ -73,19 +74,23 @@ public class UserHandler implements RequestHandler<Map<Object, Object>, String> 
 
     MAPPER.save(user);
 
-    return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_OK, user.toString());
+    return ApiResponse.<User>builder().statusCode(HttpURLConnection.HTTP_OK).body(user).build();
   }
 
-  private String updateUser(HashMap<?, ?> body, String userId) {
+  private ApiResponse<?> updateUser(HashMap<?, ?> body, String userId) {
     User userToUpdate = UserUtils.getUserObjectById(userId);
 
     if (userToUpdate == null) {
-      return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_NOT_FOUND, "User not found.");
+      return ApiResponse.<String>builder()
+          .statusCode(HttpURLConnection.HTTP_NOT_FOUND)
+          .body("User not found.")
+          .build();
     }
 
-    Date date = (Date) body.get("date");
+    String date = (String) body.get("date");
     if (date != null) {
-      userToUpdate.setDateCreated(date);
+      LocalDateTime dateTime = LocalDateTime.parse(date);
+      userToUpdate.setDateCreated(dateTime);
     }
 
     String name = (String) body.get("name");
@@ -123,10 +128,13 @@ public class UserHandler implements RequestHandler<Map<Object, Object>, String> 
             .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
             .build());
 
-    return ApiUtils.getResponseAsString(HttpURLConnection.HTTP_OK, userToUpdate.toString());
+    return ApiResponse.<User>builder()
+        .statusCode(HttpURLConnection.HTTP_OK)
+        .body(userToUpdate)
+        .build();
   }
 
-  private String deleteUser(String userId) {
+  private ApiResponse<?> deleteUser(String userId) {
     HashMap<String, Boolean> inactiveStatus = new HashMap<>();
     inactiveStatus.put("isActive", false);
     return updateUser(inactiveStatus, userId);
