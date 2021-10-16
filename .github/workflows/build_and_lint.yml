@@ -29,12 +29,8 @@ jobs:
         working-directory: ./backend/TutorTrade
         run: mvn clean install
       - name: Test Report
-        uses: dorny/test-reporter@v1
-        if: success() || failure()    # run this step even if previous step failed
-        with:
-          name: JUNIT Tests            # Name of the check run which will be created
-          path: target/surfire-reports/TEST-*.xml    # Path to test results
-          reporter: java-junit        # Format of test results
+        if: ${{ always() }}
+        uses: scacap/action-surefire-report@v1
       - name: Lint files in backend directory
         uses: github/super-linter/slim@v4
         env:
