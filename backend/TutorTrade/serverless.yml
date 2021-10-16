@@ -108,30 +108,19 @@ functions:
               application/json: ${file(./mapping_template.yml):mapping_template}\
   matching:
     handler: com.tutor.matching.MatchingHandler
+    # make sure we don't invoke tons of concurrent stream responses here
+    reservedConcurrency: 1
     environment:
       STAGE: ${self:provider.stage}
-    events:
-      - http:
-          path: /match/{requestId}/{numMatches}
-          method: get
-          integration: lambda
-          request:
-            parameters:
-              paths:
-                requestId: true
-                numMatches: true
-            template:
-              application/json: ${file(./mapping_template.yml):mapping_template}\
-  updateRequestData:
-    handler: com.tutor.matching.UpdateNormalizedRequestData
-    environment:
-      STAGE: ${self:provider.stage}
-    events:
-      - stream:
-          type: dynamodb
-          arn:
-            Fn::GetAtt: [ requestsTable, StreamArn ]
-          maximumRetryAttempts: 1
+#    let's keep this disabled for now, so we don't trigger tons of
+#    invocations during testing. Can reactivate when we're nearing
+#    demo
+#    events:
+#      - stream:
+#          type: dynamodb
+#          arn:
+#            Fn::GetAtt: [ requestsTable, StreamArn ]
+#          maximumRetryAttempts: 0
   subjects:
     handler: com.tutor.subject.SubjectsHandler
     environment:
@@ -144,7 +133,6 @@ functions:
           request:
             template:
               application/json: ${file(./mapping_template.yml):mapping_template}\
-
 
 resources:
   Resources:
