@@ -25,12 +25,16 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: maven
-      - name: Build project with Maven
+      - name: Build and test project with Maven
         working-directory: ./backend/TutorTrade
         run: mvn clean install
-      - name: Run tests
-        working-directory: ./backend/TutorTrade
-        run: mvn clean test
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()    # run this step even if previous step failed
+        with:
+          name: JUNIT Tests            # Name of the check run which will be created
+          path: target/surfire-reports/TEST-*.xml    # Path to test results
+          reporter: java-junit        # Format of test results
       - name: Lint files in backend directory
         uses: github/super-linter/slim@v4
         env:
