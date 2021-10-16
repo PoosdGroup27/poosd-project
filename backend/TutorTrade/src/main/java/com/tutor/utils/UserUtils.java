@@ -50,7 +50,7 @@ public class UserUtils {
    * Method generates a user with random but valid values and posts it to the /user/create endpoint
    * of whichever stage is defined in environmental variables.
    */
-  public static String postRandomUser() throws IOException {
+  public static String postRandomUser(boolean isTest) throws IOException {
     Random rand = new Random();
 
     String name = String.format("RandomUser%s", rand.nextInt());
@@ -87,8 +87,10 @@ public class UserUtils {
             + "\""
             + "}";
 
+    String finalStage = isTest ? "TEST" : stage;
+    
     String response =
-        ApiUtils.post(ApiUtils.ApiStages.valueOf(stage).toString(), "/user/create", json);
+        ApiUtils.post(ApiUtils.ApiStages.valueOf(finalStage).toString(), "/user/create", json);
 
     return response;
   }
