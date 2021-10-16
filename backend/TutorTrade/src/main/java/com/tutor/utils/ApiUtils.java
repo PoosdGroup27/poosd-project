@@ -19,6 +19,7 @@ public class ApiUtils {
     JESSE_DEV("https://bpbzrj9x3b.execute-api.us-east-1.amazonaws.com/jesse-dev"),
     ADAM_DEV("https://mlxlapjbhh.execute-api.us-east-1.amazonaws.com/adam-dev"),
     PROD("https://75j9h7est2.execute-api.us-east-1.amazonaws.com/prod"),
+    TEST("https://od85mau9h3.execute-api.us-east-1.amazonaws.com/test/"),
     UNSUPPORTED("UNSUPPORTED");
 
     private final String url;

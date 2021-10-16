@@ -19,7 +19,7 @@ import java.util.UUID;
  * Request object. Regarding table name: set equal to requestTable-{stage_name} if deploying to non
  * prod stage.
  */
-@DynamoDBTable(tableName = "requestTable-prod")
+@DynamoDBTable(tableName = "requestTable-test")
 public class Request {
   private UUID requesterId;
   private UUID helperId;
