@@ -4,9 +4,11 @@ on:
   pull_request:
     branches:
       - 'main'
-      - 'backend/test_infrastructure'
     paths:
       - 'backend/**'
+  push:
+    branches:
+      - 'backend/test_infrastructure'
 
 jobs:
   build-and-lint:
