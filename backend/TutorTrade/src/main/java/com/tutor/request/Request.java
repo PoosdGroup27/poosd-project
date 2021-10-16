@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.subject.Subject;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -27,6 +29,7 @@ public class Request {
   private Urgency urgency;
   private Status status;
   private String description;
+  private List<UUID> orderedMatches;
 
   /**
    * Constructs a Request object from a well-formed RequestBuilder.
@@ -45,6 +48,7 @@ public class Request {
     this.urgency = builder.urgency;
     this.status = builder.status;
     this.description = builder.description;
+    this.orderedMatches = new ArrayList<>();
   }
 
   /**
@@ -170,6 +174,15 @@ public class Request {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  @DynamoDBAttribute(attributeName = "orderedMatches")
+  public List<UUID> getOrderedMatches() {
+    return orderedMatches;
+  }
+
+  public void setOrderedMatches(List<UUID> orderedMatches) {
+    this.orderedMatches = orderedMatches;
   }
 
   @Override
