@@ -36,7 +36,7 @@ public class RequestKnn {
     distancesToNewRequest.sort(Map.Entry.comparingByValue());
 
     ArrayList<UUID> results = new ArrayList<>();
-    for (int i = 0; i < k; i++) {
+    for (int i = 0; i < k && i < normalizedData.size(); i++) {
       results.add(distancesToNewRequest.get(i).getKey());
     }
     return results;
