@@ -1,13 +1,16 @@
 package com.tutor.request;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.subject.Subject;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -111,7 +114,8 @@ public class Request {
   }
 
   public void setDateRequested(String dateRequested) {
-    this.dateRequested = LocalDateTime.parse(dateRequested);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.nnnnnn");
+    this.dateRequested = LocalDateTime.parse(dateRequested, formatter);
   }
 
   @DynamoDBTypeConverted(converter = LocalDateTimeConverter.class)
