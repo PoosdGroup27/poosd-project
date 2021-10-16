@@ -16,12 +16,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserHandlerTest {
-  private static final AmazonDynamoDB DYNAMO_DB =
-      AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
-  private static final DynamoDBMapper DYNAMO_DB_MAPPER = new DynamoDBMapper(DYNAMO_DB);
-  private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
   ArrayList<String> createdUsers = new ArrayList<>();
-  private static boolean isTest;
 
   @AfterEach
   void tearDown() {
@@ -32,6 +27,7 @@ class UserHandlerTest {
 
   @Test
   void GIVENvalidUserWHENpostRequestANDgetRequestTHENallFieldsCorrect() throws IOException {
+    boolean isTest;
     User user = UserUtils.getUserFromAPIResponse(UserUtils.postRandomUser(isTest = true));
 
     // get user we just posted
