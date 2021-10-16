@@ -6,9 +6,6 @@ on:
       - 'main'
     paths:
       - 'backend/**'
-  push:
-    branches:
-      - 'backend/test_infrastructure'
 
 jobs:
   build-and-lint:

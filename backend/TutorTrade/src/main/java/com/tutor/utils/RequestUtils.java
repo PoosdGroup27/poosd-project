@@ -20,14 +20,14 @@ import java.util.*;
 /** Utility class for operations on request objects. */
 public class RequestUtils {
   private static final List<Platform> PLATFORMS =
-      Collections.unmodifiableList(Arrays.asList(Platform.values()));
+          List.of(Platform.values());
   private static final List<Subject> SUBJECTS =
-      Collections.unmodifiableList(Arrays.asList(Subject.values()));
+          List.of(Subject.values());
   private static final List<Urgency> URGENCIES =
-      Collections.unmodifiableList(Arrays.asList(Urgency.values()));
+          List.of(Urgency.values());
   private static final Random RANDOM = new Random();
-  private static final String stage = "JESSE_DEV";
-  //      System.getenv("STAGE").replace('-', '_').toUpperCase(Locale.ENGLISH);
+  private static final String stage =
+        System.getenv("STAGE").replace('-', '_').toUpperCase(Locale.ENGLISH);
   private static final AmazonDynamoDB DYNAMO_DB =
       AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
   private static final DynamoDBMapper DYNAMO_DB_MAPPER = new DynamoDBMapper(DYNAMO_DB);
@@ -36,13 +36,14 @@ public class RequestUtils {
    * Method generates a request with random but valid values and posts it to the /request/create
    * endpoint of whichever stage is defined in environmental variables.
    */
-  public static String postRandomRequest() throws IOException {
+  public static String postRandomRequest(Boolean test) throws IOException {
     String requesterId = UUID.randomUUID().toString();
     String subject = SUBJECTS.get(RANDOM.nextInt(SUBJECTS.size() - 1)).toString();
-    int costInPoints = RANDOM.nextInt();
+    int costInPoints = RANDOM.nextInt(1000);
     String urgency = URGENCIES.get(RANDOM.nextInt(URGENCIES.size())).toString();
     String platform = PLATFORMS.get(RANDOM.nextInt(PLATFORMS.size())).toString();
     String status = "PENDING";
+    String description = "TEST";
 
     String json =
         "{"
@@ -70,14 +71,72 @@ public class RequestUtils {
             + "\""
             + status
             + "\""
+            + ", \"description\" : "
+            + "\""
+            + description
+            + "\""
             + "}";
 
-    String response =
-        ApiUtils.post(ApiUtils.ApiStages.valueOf(stage).toString(), "/request/create", json);
+    String finalStage =
+        test
+            ? ApiUtils.ApiStages.valueOf("TEST").toString()
+            : ApiUtils.ApiStages.valueOf(stage).toString();
 
-    System.out.println(response);
+    return ApiUtils.post(finalStage, "/request/create", json);
+  }
 
-    return response;
+  /**
+   * Method generates a request with defined request values and posts it to the /request/create
+   * endpoint of whichever stage is defined in environmental variables, or to the test stage is test
+   * boolean is true.
+   */
+  public static String postCustomRequest(Request request, Boolean test) throws IOException {
+    String requesterId = request.getRequesterId().toString();
+    String subject = request.getSubject().toString();
+    int costInPoints = request.getCostInPoints();
+    String urgency = request.getUrgency().toString();
+    String platform = request.getPlatform().toString();
+    String status = request.getStatus().toString();
+    String description = request.getDescription();
+
+    String json =
+        "{"
+            + "\"requesterId\" : "
+            + "\""
+            + requesterId
+            + "\""
+            + ", \"subject\" : "
+            + "\""
+            + subject
+            + "\""
+            + ", \"platform\" : "
+            + "\""
+            + platform
+            + "\""
+            + ", \"costInPoints\" : "
+            + "\""
+            + costInPoints
+            + "\""
+            + ", \"urgency\" : "
+            + "\""
+            + urgency
+            + "\""
+            + ", \"status\" : "
+            + "\""
+            + status
+            + "\""
+            + ", \"description\" : "
+            + "\""
+            + description
+            + "\""
+            + "}";
+
+    String finalStage =
+        test
+            ? ApiUtils.ApiStages.valueOf("TEST").toString()
+            : ApiUtils.ApiStages.valueOf(stage).toString();
+
+    return ApiUtils.post(finalStage, "/request/create", json);
   }
 
   /**
@@ -116,13 +175,5 @@ public class RequestUtils {
 
     requestTree.put("dateRequested", String.valueOf(date));
     return mapper.treeToValue(requestTree, Request.class);
-  }
-
-  public static void main(String[] args) throws IOException {
-    Request request =
-        getRequestFromAPIResponse(
-            ApiUtils.get(
-                ApiUtils.ApiStages.valueOf(stage).toString(),
-                "/request/6ac080fb-3b11-4330-92b5-c3e7b873ee8d"));
   }
 }
