@@ -15,6 +15,7 @@ public class UserBuilder {
   public boolean isActive;
   public int points;
   public ArrayList<UUID> sessionIds;
+  public String phoneNumber;
 
   private static void validateUser(User user) throws UserBuilderException {
     ArrayList<String> nullValues = new ArrayList<>();
@@ -24,6 +25,9 @@ public class UserBuilder {
     }
     if (user.getSchool() == null) {
       nullValues.add("school");
+    }
+    if (user.getPhoneNumber() == null) {
+      nullValues.add("phoneNumber");
     }
 
     if (!nullValues.isEmpty()) {
@@ -38,6 +42,11 @@ public class UserBuilder {
 
   public UserBuilder withSchool(String school) {
     this.school = school;
+    return this;
+  }
+
+  public UserBuilder withPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
     return this;
   }
 

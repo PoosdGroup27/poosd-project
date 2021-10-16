@@ -69,8 +69,10 @@ public class UserHandler implements RequestHandler<Map<Object, Object>, ApiRespo
   private ApiResponse<User> createUser(HashMap<?, ?> body) {
     String name = (String) body.get("name");
     String school = (String) body.get("school");
+    String phoneNumber = (String) body.get("phoneNumber");
 
-    User user = new UserBuilder().withName(name).withSchool(school).build();
+    User user =
+        new UserBuilder().withName(name).withSchool(school).withPhoneNumber(phoneNumber).build();
 
     MAPPER.save(user);
 
@@ -120,6 +122,11 @@ public class UserHandler implements RequestHandler<Map<Object, Object>, ApiRespo
         newSessionIds.add(UUID.fromString((String) sessionId));
       }
       userToUpdate.setSessionIds(newSessionIds);
+    }
+
+    String phoneNumber = (String) body.get("phoneNumber");
+    if (phoneNumber != null) {
+      userToUpdate.setPhoneNumber(phoneNumber);
     }
 
     MAPPER.save(

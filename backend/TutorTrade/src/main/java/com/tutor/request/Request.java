@@ -1,6 +1,8 @@
 package com.tutor.request;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.subject.Subject;
 
 import java.time.LocalDateTime;
@@ -24,6 +26,7 @@ public class Request {
   private Integer costInPoints;
   private Urgency urgency;
   private Status status;
+  private String description;
 
   /**
    * Constructs a Request object from a well-formed RequestBuilder.
@@ -41,6 +44,7 @@ public class Request {
     this.dateRequested = LocalDateTime.now();
     this.urgency = builder.urgency;
     this.status = builder.status;
+    this.description = builder.description;
   }
 
   /**
@@ -159,50 +163,25 @@ public class Request {
     this.status = status;
   }
 
+  @DynamoDBAttribute(attributeName = "description")
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
   @Override
   public String toString() {
-    return "{"
-        + "\"requesterId\" : "
-        + "\""
-        + requesterId
-        + "\""
-        + ", \"requestId\" : "
-        + "\""
-        + requestId
-        + "\""
-        + ", \"helperId\" : "
-        + "\""
-        + helperId
-        + "\""
-        + ", \"subject\" : "
-        + "\""
-        + subject
-        + "\""
-        + ", \"dateRequested\" : "
-        + "\""
-        + dateRequested
-        + "\""
-        + ", \"sessionTime\" : "
-        + "\""
-        + sessionTime
-        + "\""
-        + ", \"platform\" : "
-        + "\""
-        + platform
-        + "\""
-        + ", \"costInPoints\" : "
-        + "\""
-        + costInPoints
-        + "\""
-        + ", \"urgency\" : "
-        + "\""
-        + urgency
-        + "\""
-        + ", \"status\" : "
-        + "\""
-        + status
-        + "\""
-        + "}";
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      return mapper.writeValueAsString(this);
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+    }
+
+    return "ERROR";
   }
 
   /**
