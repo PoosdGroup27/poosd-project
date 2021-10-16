@@ -19,15 +19,12 @@ import java.util.*;
 
 /** Utility class for operations on request objects. */
 public class RequestUtils {
-  private static final List<Platform> PLATFORMS =
-          List.of(Platform.values());
-  private static final List<Subject> SUBJECTS =
-          List.of(Subject.values());
-  private static final List<Urgency> URGENCIES =
-          List.of(Urgency.values());
+  private static final List<Platform> PLATFORMS = List.of(Platform.values());
+  private static final List<Subject> SUBJECTS = List.of(Subject.values());
+  private static final List<Urgency> URGENCIES = List.of(Urgency.values());
   private static final Random RANDOM = new Random();
   private static final String stage =
-        System.getenv("STAGE").replace('-', '_').toUpperCase(Locale.ENGLISH);
+      System.getenv("STAGE").replace('-', '_').toUpperCase(Locale.ENGLISH);
   private static final AmazonDynamoDB DYNAMO_DB =
       AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
   private static final DynamoDBMapper DYNAMO_DB_MAPPER = new DynamoDBMapper(DYNAMO_DB);
@@ -36,7 +33,7 @@ public class RequestUtils {
    * Method generates a request with random but valid values and posts it to the /request/create
    * endpoint of whichever stage is defined in environmental variables.
    */
-  public static String postRandomRequest(Boolean test) throws IOException {
+  public static String postRandomRequest(Boolean isTest) throws IOException {
     String requesterId = UUID.randomUUID().toString();
     String subject = SUBJECTS.get(RANDOM.nextInt(SUBJECTS.size() - 1)).toString();
     int costInPoints = RANDOM.nextInt(1000);
@@ -77,12 +74,10 @@ public class RequestUtils {
             + "\""
             + "}";
 
-    String finalStage =
-        test
-            ? ApiUtils.ApiStages.valueOf("TEST").toString()
-            : ApiUtils.ApiStages.valueOf(stage).toString();
+    String finalStage = isTest ? "TEST" : stage;
 
-    return ApiUtils.post(finalStage, "/request/create", json);
+    return ApiUtils.post(
+        ApiUtils.ApiStages.valueOf(finalStage).toString(), "/request/create", json);
   }
 
   /**
@@ -90,7 +85,7 @@ public class RequestUtils {
    * endpoint of whichever stage is defined in environmental variables, or to the test stage is test
    * boolean is true.
    */
-  public static String postCustomRequest(Request request, Boolean test) throws IOException {
+  public static String postCustomRequest(Request request, Boolean isTest) throws IOException {
     String requesterId = request.getRequesterId().toString();
     String subject = request.getSubject().toString();
     int costInPoints = request.getCostInPoints();
@@ -131,12 +126,10 @@ public class RequestUtils {
             + "\""
             + "}";
 
-    String finalStage =
-        test
-            ? ApiUtils.ApiStages.valueOf("TEST").toString()
-            : ApiUtils.ApiStages.valueOf(stage).toString();
+    String finalStage = isTest ? "TEST" : stage;
 
-    return ApiUtils.post(finalStage, "/request/create", json);
+    return ApiUtils.post(
+        ApiUtils.ApiStages.valueOf(finalStage).toString(), "/request/create", json);
   }
 
   /**
