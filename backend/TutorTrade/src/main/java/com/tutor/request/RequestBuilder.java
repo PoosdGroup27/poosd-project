@@ -20,6 +20,7 @@ public class RequestBuilder {
   public int costInPoints;
   public Urgency urgency;
   public Status status;
+  public String description;
 
   private static void validateRequest(Request request) throws RequestBuilderException {
     ArrayList<String> nullValues = new ArrayList<>();
@@ -44,6 +45,8 @@ public class RequestBuilder {
     }
     if (request.getStatus() == null) {
       nullValues.add("status");
+    } if (request.getDescription() == null) {
+      nullValues.add("description");
     }
 
     if (!nullValues.isEmpty()) {
@@ -99,6 +102,11 @@ public class RequestBuilder {
 
   public RequestBuilder withStatus(String status) {
     this.status = Status.valueOf(status);
+    return this;
+  }
+
+  public RequestBuilder withDescription(String description) {
+    this.description = description;
     return this;
   }
 
