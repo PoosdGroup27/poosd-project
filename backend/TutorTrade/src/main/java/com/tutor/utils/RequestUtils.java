@@ -5,7 +5,6 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -23,11 +22,20 @@ public class RequestUtils {
   private static final List<Subject> SUBJECTS = List.of(Subject.values());
   private static final List<Urgency> URGENCIES = List.of(Urgency.values());
   private static final Random RANDOM = new Random();
-  private static final String stage =
-      System.getenv("STAGE").replace('-', '_').toUpperCase(Locale.ENGLISH);
+  private static final String stage;
   private static final AmazonDynamoDB DYNAMO_DB =
       AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
   private static final DynamoDBMapper DYNAMO_DB_MAPPER = new DynamoDBMapper(DYNAMO_DB);
+
+  static {
+    String finalStage;
+    try {
+      finalStage = System.getenv("STAGE").replace('-', '_').toUpperCase(Locale.ENGLISH);
+    } catch (NullPointerException e) {
+      finalStage = "TEST";
+    }
+    stage = finalStage;
+  }
 
   /**
    * Method generates a request with random but valid values and posts it to the /request/create
