@@ -7,6 +7,7 @@ import com.tutor.request.Request;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -146,6 +147,14 @@ public class User {
     }
 
     return "ERROR";
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    User user = (User) o;
+    return isActive == user.isActive && points == user.points && Objects.equals(name, user.name) && Objects.equals(school, user.school) && Objects.equals(dateCreated, user.dateCreated) && Objects.equals(sessionIds, user.sessionIds) && Objects.equals(userId, user.userId) && Objects.equals(phoneNumber, user.phoneNumber);
   }
 
   /**

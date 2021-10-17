@@ -1,4 +1,4 @@
-name: Backend Build + Lint
+name: Backend Build + Test + Lint
 
 on:
   pull_request:
@@ -22,9 +22,12 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: maven
-      - name: Build project with Maven
+      - name: Build and test project with Maven
         working-directory: ./backend/TutorTrade
         run: mvn clean install
+      - name: Test Report
+        if: ${{ always() }}
+        uses: scacap/action-surefire-report@v1
       - name: Lint files in backend directory
         uses: github/super-linter/slim@v4
         env:

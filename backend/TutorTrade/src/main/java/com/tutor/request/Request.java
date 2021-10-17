@@ -1,14 +1,15 @@
 package com.tutor.request;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.tutor.subject.Subject;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 /**
  * Request object corresponds to schema of Request table. All data must be first marshaled to
@@ -111,7 +112,8 @@ public class Request {
   }
 
   public void setDateRequested(String dateRequested) {
-    this.dateRequested = LocalDateTime.parse(dateRequested);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.nnnnnn");
+    this.dateRequested = LocalDateTime.parse(dateRequested, formatter);
   }
 
   @DynamoDBTypeConverted(converter = LocalDateTimeConverter.class)
@@ -189,12 +191,31 @@ public class Request {
   public String toString() {
     ObjectMapper mapper = new ObjectMapper();
     try {
-      return mapper.writeValueAsString(this);
+      return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
     } catch (JsonProcessingException e) {
       e.printStackTrace();
     }
 
     return "ERROR";
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Request request = (Request) o;
+    return requesterId.equals(request.requesterId)
+        && Objects.equals(helperId, request.helperId)
+        && requestId.equals(request.requestId)
+        && subject == request.subject
+        && dateRequested.equals(request.dateRequested)
+        && Objects.equals(sessionTime, request.sessionTime)
+        && platform == request.platform
+        && costInPoints.equals(request.costInPoints)
+        && urgency == request.urgency
+        && status == request.status
+        && description.equals(request.description)
+        && Objects.equals(orderedMatches, request.orderedMatches);
   }
 
   /**
