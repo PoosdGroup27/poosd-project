@@ -27,8 +27,8 @@ jobs:
           cache: maven
       - name: Build and test project with Maven
         env:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_GITHUB }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_GITHUB }}
+          AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID_GITHUB }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_GITHUB }}
         working-directory: ./backend/TutorTrade
         run: mvn clean install
       - name: Test Report
