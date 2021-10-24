@@ -7,8 +7,9 @@ on:
     paths:
       - 'backend/**'
   push:
-    paths:
-      - 'backend/**'
+    branches:
+      - 'jesse/**'
+      - 'adam/**'
 
 jobs:
   build-and-lint:
