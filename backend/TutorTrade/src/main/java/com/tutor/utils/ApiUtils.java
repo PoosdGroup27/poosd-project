@@ -89,7 +89,7 @@ public class ApiUtils {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return "Encountered error. See stack trace.";
+    return null;
   }
 
   /**
@@ -123,7 +123,7 @@ public class ApiUtils {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return "Encountered error. See stack trace.";
+    return null;
   }
 
   /**
@@ -147,7 +147,7 @@ public class ApiUtils {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return "Encountered error. See stack trace.";
+    return null;
   }
 
   public static ApiResponse<String> returnErrorResponse(Exception ex) {

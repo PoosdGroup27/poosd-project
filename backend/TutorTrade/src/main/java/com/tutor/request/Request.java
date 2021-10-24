@@ -1,15 +1,17 @@
 package com.tutor.request;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.tutor.subject.Subject;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Request object corresponds to schema of Request table. All data must be first marshaled to
@@ -208,7 +210,9 @@ public class Request {
         && Objects.equals(helperId, request.helperId)
         && requestId.equals(request.requestId)
         && subject == request.subject
-        && dateRequested.equals(request.dateRequested)
+        && dateRequested
+            .truncatedTo(ChronoUnit.SECONDS)
+            .equals(request.dateRequested.truncatedTo(ChronoUnit.SECONDS))
         && Objects.equals(sessionTime, request.sessionTime)
         && platform == request.platform
         && costInPoints.equals(request.costInPoints)

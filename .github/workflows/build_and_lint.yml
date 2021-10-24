@@ -6,6 +6,10 @@ on:
       - 'main'
     paths:
       - 'backend/**'
+  push:
+    branches:
+      - 'jesse/**'
+      - 'adam/**'
 
 jobs:
   build-and-lint:
@@ -23,6 +27,9 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build and test project with Maven
+        env:
+          AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID_GITHUB }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_GITHUB }}
         working-directory: ./backend/TutorTrade
         run: mvn clean install
       - name: Test Report
