@@ -14,33 +14,35 @@ import UIKit
 
 class TutorTradeTabBarController: UITabBarController {
     
-    convenience init() {
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) not implemented")
+    }
+    
+    init(displaySettings: AppDisplaySettings) {
         // Create VC with default/non-storyboard root view
-        self.init(nibName: nil, bundle: nil)
+        super.init(nibName: nil, bundle: nil)
         
         // Initialize tab bar controller's children
         let matchingController = MatchingController()
         let requestController = RequestController()
         let chatController = ChatController()
-        let profileController = ProfileController()
+        let profileController = ProfileController(factory: DefaultProfilePageFactory(imageDrawer: DefaultImageDrawer()), modelManager: DefaultTutorProfileManager(), displaySettings: displaySettings)
         
         // Encapsulate view controllers within Navigation Controllers (Temporary)
         let matchingNavController = UINavigationController(rootViewController: matchingController)
         let requestNavController = UINavigationController(rootViewController: requestController)
         let chatNavController = UINavigationController(rootViewController: chatController)
-        let profileNavController = UINavigationController(rootViewController: profileController)
         
         // Aesthetic preferences
         matchingNavController.navigationBar.prefersLargeTitles = true
         requestNavController.navigationBar.prefersLargeTitles = true
         chatNavController.navigationBar.prefersLargeTitles = true
-        profileNavController.navigationBar.prefersLargeTitles = true
         
         // Set tab bar color
         view.backgroundColor = .white
         
         // Add child view controllers to tab bar
-        viewControllers = [matchingNavController, requestNavController, chatNavController, profileNavController]
+        viewControllers = [matchingNavController, requestNavController, chatNavController, profileController]
 
         // Set the initially selected view controller upon app launch
         selectedViewController = matchingNavController

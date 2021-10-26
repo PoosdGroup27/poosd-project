@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,32 +11,38 @@
 		4A22D9FB270E15E700E8DA7E /* SubmitButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A22D9FA270E15E700E8DA7E /* SubmitButtonView.swift */; };
 		4A22D9FD270E17F700E8DA7E /* SubjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A22D9FC270E17F700E8DA7E /* SubjectView.swift */; };
 		4A22D9FF270E231B00E8DA7E /* RequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A22D9FE270E231B00E8DA7E /* RequestModel.swift */; };
-		4A29D5962702600500D25088 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A29D5952702600500D25088 /* ProfileController.swift */; };
 		4A29D5982702601D00D25088 /* MatchingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A29D5972702601D00D25088 /* MatchingController.swift */; };
 		4A29D59A2702602700D25088 /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A29D5992702602700D25088 /* ChatController.swift */; };
 		4A29D59C2702603200D25088 /* RequestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A29D59B2702603200D25088 /* RequestController.swift */; };
 		4A2DFD3C27078BA600332EE2 /* PreferredMediumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2DFD3B27078BA600332EE2 /* PreferredMediumView.swift */; };
 		4A386F3B270F3E2F002BEC06 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A386F3A270F3E2F002BEC06 /* RequestManager.swift */; };
 		4A4CB600270BA47C00D7D215 /* PointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4CB5FF270BA47C00D7D215 /* PointsView.swift */; };
-		4AA06BEE27048D7000B58926 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BE327048D7000B58926 /* Lato-Bold.ttf */; };
-		4AA06BEF27048D7000B58926 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BE427048D7000B58926 /* Lato-Light.ttf */; };
-		4AA06BF027048D7000B58926 /* Lato-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BE527048D7000B58926 /* Lato-BlackItalic.ttf */; };
-		4AA06BF127048D7000B58926 /* Lato-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BE627048D7000B58926 /* Lato-ThinItalic.ttf */; };
-		4AA06BF227048D7000B58926 /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BE727048D7000B58926 /* Lato-BoldItalic.ttf */; };
-		4AA06BF327048D7000B58926 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BE827048D7000B58926 /* Lato-Black.ttf */; };
-		4AA06BF427048D7000B58926 /* Lato-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BE927048D7000B58926 /* Lato-Thin.ttf */; };
-		4AA06BF527048D7000B58926 /* Lato-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BEA27048D7000B58926 /* Lato-Italic.ttf */; };
-		4AA06BF627048D7000B58926 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BEB27048D7000B58926 /* OFL.txt */; };
-		4AA06BF727048D7000B58926 /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BEC27048D7000B58926 /* Lato-LightItalic.ttf */; };
-		4AA06BF827048D7000B58926 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA06BED27048D7000B58926 /* Lato-Regular.ttf */; };
 		4AA06BFA2704E4FF00B58926 /* RequestScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA06BF92704E4FF00B58926 /* RequestScrollView.swift */; };
 		4ABAC5D3270A0D2E00CBB85B /* UrgencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABAC5D2270A0D2E00CBB85B /* UrgencyView.swift */; };
-		4AC9501126ED771F00FC4A97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC9501026ED771F00FC4A97 /* AppDelegate.swift */; };
 		4AC9501526ED771F00FC4A97 /* TutorTradeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC9501426ED771F00FC4A97 /* TutorTradeTabBarController.swift */; };
-		4AC9501A26ED771F00FC4A97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AC9501926ED771F00FC4A97 /* Assets.xcassets */; };
 		4AC9501D26ED771F00FC4A97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AC9501B26ED771F00FC4A97 /* LaunchScreen.storyboard */; };
 		4AC9502826ED771F00FC4A97 /* TutorTradeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC9502726ED771F00FC4A97 /* TutorTradeTests.swift */; };
 		4AC9503326ED771F00FC4A97 /* TutorTradeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC9503226ED771F00FC4A97 /* TutorTradeUITests.swift */; };
+		5E7EA99D2718E08A0066B189 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E7EA99C2718E08A0066B189 /* Lato-Black.ttf */; };
+		5E7EA99F2718E0900066B189 /* Lato-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E7EA99E2718E0900066B189 /* Lato-BlackItalic.ttf */; };
+		5E7EA9A12718E09B0066B189 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E7EA9A02718E09B0066B189 /* Lato-Bold.ttf */; };
+		5E7EA9A32718E0A40066B189 /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E7EA9A22718E0A40066B189 /* Lato-BoldItalic.ttf */; };
+		5E7EA9A52718E3250066B189 /* TutorProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9A42718E3250066B189 /* TutorProfileManager.swift */; };
+		5E7EA9AE2718E3C30066B189 /* AppDisplaySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9AB2718E3C30066B189 /* AppDisplaySettings.swift */; };
+		5E7EA9AF2718E3C30066B189 /* TutorProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9AD2718E3C30066B189 /* TutorProfile.swift */; };
+		5E7EA9B12718E45B0066B189 /* TutorTradeApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9B02718E45A0066B189 /* TutorTradeApplication.swift */; };
+		5E7EA9B32718E49A0066B189 /* Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9B22718E49A0066B189 /* Properties.swift */; };
+		5E7EA9B52718E4EA0066B189 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E7EA9B42718E4EA0066B189 /* Assets.xcassets */; };
+		5E7EA9BD2718E5EC0066B189 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9BC2718E5EC0066B189 /* ProfileController.swift */; };
+		5E7EA9DC2718E6800066B189 /* TutoringSubjectsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9CD2718E6800066B189 /* TutoringSubjectsScrollView.swift */; };
+		5E7EA9DD2718E6800066B189 /* NameAndRatingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9CE2718E6800066B189 /* NameAndRatingLabel.swift */; };
+		5E7EA9DE2718E6800066B189 /* BorderedDisplayBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9CF2718E6800066B189 /* BorderedDisplayBox.swift */; };
+		5E7EA9DF2718E6800066B189 /* CircularBorderedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9D02718E6800066B189 /* CircularBorderedImageView.swift */; };
+		5E7EA9E02718E6800066B189 /* ProfilePageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9D22718E6800066B189 /* ProfilePageFactory.swift */; };
+		5E7EA9E32718E6910066B189 /* CoreGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9E22718E6910066B189 /* CoreGraphics.swift */; };
+		5E7EA9E52718E7480066B189 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E7EA9E42718E7020066B189 /* Roboto-Bold.ttf */; };
+		5E7EA9E7271900AE0066B189 /* DisplaySettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9E6271900AE0066B189 /* DisplaySettingsManager.swift */; };
+		5E7EA9EB271A52B40066B189 /* SubjectsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9EA271A52B40066B189 /* SubjectsResponse.swift */; };
 		5ECB1D8827025277005BDD89 /* Dosis-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ECB1D8127025276005BDD89 /* Dosis-SemiBold.ttf */; };
 		5ECB1D8927025277005BDD89 /* Dosis-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ECB1D8227025276005BDD89 /* Dosis-ExtraBold.ttf */; };
 		5ECB1D8A27025277005BDD89 /* Dosis-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ECB1D8327025276005BDD89 /* Dosis-Light.ttf */; };
@@ -44,6 +50,10 @@
 		5ECB1D8C27025277005BDD89 /* Dosis-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */; };
 		5ECB1D8D27025277005BDD89 /* Dosis-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ECB1D8627025277005BDD89 /* Dosis-ExtraLight.ttf */; };
 		5ECB1D8E27025277005BDD89 /* Dosis-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ECB1D8727025277005BDD89 /* Dosis-Regular.ttf */; };
+		5EF5C44C2720FB2100C74ADF /* Auth0 in Frameworks */ = {isa = PBXBuildFile; productRef = 5EF5C44B2720FB2100C74ADF /* Auth0 */; };
+		5EF5C44E2720FE5C00C74ADF /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5EF5C44D2720FE5C00C74ADF /* Auth0.plist */; };
+		5EF5C4522726F72300C74ADF /* SchoolSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF5C4512726F72300C74ADF /* SchoolSelectionViewController.swift */; };
+		5EF5C4542727517000C74ADF /* SchoolSelectionViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF5C4532727517000C74ADF /* SchoolSelectionViewFactory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,30 +78,16 @@
 		4A22D9FA270E15E700E8DA7E /* SubmitButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SubmitButtonView.swift; path = TutorTrade/Controllers/Request/SubmitButtonView.swift; sourceTree = "<group>"; };
 		4A22D9FC270E17F700E8DA7E /* SubjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectView.swift; sourceTree = "<group>"; };
 		4A22D9FE270E231B00E8DA7E /* RequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestModel.swift; sourceTree = "<group>"; };
-		4A29D5952702600500D25088 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		4A29D5972702601D00D25088 /* MatchingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingController.swift; sourceTree = "<group>"; };
 		4A29D5992702602700D25088 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 		4A29D59B2702603200D25088 /* RequestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestController.swift; sourceTree = "<group>"; };
 		4A2DFD3B27078BA600332EE2 /* PreferredMediumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferredMediumView.swift; sourceTree = "<group>"; };
 		4A386F3A270F3E2F002BEC06 /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
 		4A4CB5FF270BA47C00D7D215 /* PointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsView.swift; sourceTree = "<group>"; };
-		4AA06BE327048D7000B58926 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Bold.ttf"; path = "../../../../../../../Downloads/Lato/Lato-Bold.ttf"; sourceTree = "<group>"; };
-		4AA06BE427048D7000B58926 /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Light.ttf"; path = "../../../../../../../Downloads/Lato/Lato-Light.ttf"; sourceTree = "<group>"; };
-		4AA06BE527048D7000B58926 /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-BlackItalic.ttf"; path = "../../../../../../../Downloads/Lato/Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
-		4AA06BE627048D7000B58926 /* Lato-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-ThinItalic.ttf"; path = "../../../../../../../Downloads/Lato/Lato-ThinItalic.ttf"; sourceTree = "<group>"; };
-		4AA06BE727048D7000B58926 /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-BoldItalic.ttf"; path = "../../../../../../../Downloads/Lato/Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
-		4AA06BE827048D7000B58926 /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Black.ttf"; path = "../../../../../../../Downloads/Lato/Lato-Black.ttf"; sourceTree = "<group>"; };
-		4AA06BE927048D7000B58926 /* Lato-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Thin.ttf"; path = "../../../../../../../Downloads/Lato/Lato-Thin.ttf"; sourceTree = "<group>"; };
-		4AA06BEA27048D7000B58926 /* Lato-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Italic.ttf"; path = "../../../../../../../Downloads/Lato/Lato-Italic.ttf"; sourceTree = "<group>"; };
-		4AA06BEB27048D7000B58926 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = OFL.txt; path = ../../../../../../../Downloads/Lato/OFL.txt; sourceTree = "<group>"; };
-		4AA06BEC27048D7000B58926 /* Lato-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-LightItalic.ttf"; path = "../../../../../../../Downloads/Lato/Lato-LightItalic.ttf"; sourceTree = "<group>"; };
-		4AA06BED27048D7000B58926 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Regular.ttf"; path = "../../../../../../../Downloads/Lato/Lato-Regular.ttf"; sourceTree = "<group>"; };
 		4AA06BF92704E4FF00B58926 /* RequestScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestScrollView.swift; sourceTree = "<group>"; };
 		4ABAC5D2270A0D2E00CBB85B /* UrgencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgencyView.swift; sourceTree = "<group>"; };
 		4AC9500D26ED771F00FC4A97 /* TutorTrade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TutorTrade.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		4AC9501026ED771F00FC4A97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4AC9501426ED771F00FC4A97 /* TutorTradeTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorTradeTabBarController.swift; sourceTree = "<group>"; };
-		4AC9501926ED771F00FC4A97 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4AC9501C26ED771F00FC4A97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4AC9501E26ED771F00FC4A97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4AC9502326ED771F00FC4A97 /* TutorTradeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TutorTradeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,6 +96,26 @@
 		4AC9502E26ED771F00FC4A97 /* TutorTradeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TutorTradeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AC9503226ED771F00FC4A97 /* TutorTradeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorTradeUITests.swift; sourceTree = "<group>"; };
 		4AC9503426ED771F00FC4A97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5E7EA99C2718E08A0066B189 /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Black.ttf"; sourceTree = "<group>"; };
+		5E7EA99E2718E0900066B189 /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
+		5E7EA9A02718E09B0066B189 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Bold.ttf"; sourceTree = "<group>"; };
+		5E7EA9A22718E0A40066B189 /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
+		5E7EA9A42718E3250066B189 /* TutorProfileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorProfileManager.swift; sourceTree = "<group>"; };
+		5E7EA9AB2718E3C30066B189 /* AppDisplaySettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDisplaySettings.swift; sourceTree = "<group>"; };
+		5E7EA9AD2718E3C30066B189 /* TutorProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorProfile.swift; sourceTree = "<group>"; };
+		5E7EA9B02718E45A0066B189 /* TutorTradeApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorTradeApplication.swift; sourceTree = "<group>"; };
+		5E7EA9B22718E49A0066B189 /* Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Properties.swift; sourceTree = "<group>"; };
+		5E7EA9B42718E4EA0066B189 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5E7EA9BC2718E5EC0066B189 /* ProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileController.swift; path = "/Users/brockdavis/Desktop/CS/cop4331/poosd-project/frontend/TutorTrade/TutorTrade/Controllers/Profile/ProfileController.swift"; sourceTree = "<absolute>"; };
+		5E7EA9CD2718E6800066B189 /* TutoringSubjectsScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutoringSubjectsScrollView.swift; sourceTree = "<group>"; };
+		5E7EA9CE2718E6800066B189 /* NameAndRatingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameAndRatingLabel.swift; sourceTree = "<group>"; };
+		5E7EA9CF2718E6800066B189 /* BorderedDisplayBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedDisplayBox.swift; sourceTree = "<group>"; };
+		5E7EA9D02718E6800066B189 /* CircularBorderedImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularBorderedImageView.swift; sourceTree = "<group>"; };
+		5E7EA9D22718E6800066B189 /* ProfilePageFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePageFactory.swift; sourceTree = "<group>"; };
+		5E7EA9E22718E6910066B189 /* CoreGraphics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreGraphics.swift; sourceTree = "<group>"; };
+		5E7EA9E42718E7020066B189 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		5E7EA9E6271900AE0066B189 /* DisplaySettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplaySettingsManager.swift; sourceTree = "<group>"; };
+		5E7EA9EA271A52B40066B189 /* SubjectsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectsResponse.swift; sourceTree = "<group>"; };
 		5ECB1D8127025276005BDD89 /* Dosis-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-SemiBold.ttf"; sourceTree = "<group>"; };
 		5ECB1D8227025276005BDD89 /* Dosis-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-ExtraBold.ttf"; sourceTree = "<group>"; };
 		5ECB1D8327025276005BDD89 /* Dosis-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-Light.ttf"; sourceTree = "<group>"; };
@@ -107,6 +123,9 @@
 		5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-Bold.ttf"; sourceTree = "<group>"; };
 		5ECB1D8627025277005BDD89 /* Dosis-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-ExtraLight.ttf"; sourceTree = "<group>"; };
 		5ECB1D8727025277005BDD89 /* Dosis-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-Regular.ttf"; sourceTree = "<group>"; };
+		5EF5C44D2720FE5C00C74ADF /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
+		5EF5C4512726F72300C74ADF /* SchoolSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSelectionViewController.swift; sourceTree = "<group>"; };
+		5EF5C4532727517000C74ADF /* SchoolSelectionViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSelectionViewFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +133,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EF5C44C2720FB2100C74ADF /* Auth0 in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,7 +187,8 @@
 		4A29D59427025FDE00D25088 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				4A29D5952702600500D25088 /* ProfileController.swift */,
+				5E7EA9BC2718E5EC0066B189 /* ProfileController.swift */,
+				5EF5C4512726F72300C74ADF /* SchoolSelectionViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -175,7 +196,9 @@
 		4A386F39270F3E1F002BEC06 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				5E7EA9A42718E3250066B189 /* TutorProfileManager.swift */,
 				4A386F3A270F3E2F002BEC06 /* RequestManager.swift */,
+				5E7EA9E6271900AE0066B189 /* DisplaySettingsManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -205,13 +228,17 @@
 		4AC9500F26ED771F00FC4A97 /* TutorTrade */ = {
 			isa = PBXGroup;
 			children = (
+				5E7EA9E12718E6910066B189 /* Extensions */,
+				5E7EA9C02718E6800066B189 /* Views */,
+				5E7EA9B02718E45A0066B189 /* TutorTradeApplication.swift */,
+				5E7EA9AA2718E3C30066B189 /* Model */,
 				4A386F39270F3E1F002BEC06 /* Managers */,
 				4AC9504526ED778200FC4A97 /* Storyboards */,
 				4AC9504426ED776D00FC4A97 /* Models */,
-				4AC9504226ED774000FC4A97 /* Assets */,
-				4AC9504126ED773400FC4A97 /* Views */,
+				4AC9504226ED774000FC4A97 /* Resources */,
 				4AC9504026ED772F00FC4A97 /* Controllers */,
 				4AC9501E26ED771F00FC4A97 /* Info.plist */,
+				5EF5C44D2720FE5C00C74ADF /* Auth0.plist */,
 			);
 			path = TutorTrade;
 			sourceTree = "<group>";
@@ -246,20 +273,13 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		4AC9504126ED773400FC4A97 /* Views */ = {
+		4AC9504226ED774000FC4A97 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5E7EA9B42718E4EA0066B189 /* Assets.xcassets */,
+				5E7EA9B22718E49A0066B189 /* Properties.swift */,
 			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		4AC9504226ED774000FC4A97 /* Assets */ = {
-			isa = PBXGroup;
-			children = (
-				4AC9501926ED771F00FC4A97 /* Assets.xcassets */,
-				4AC9501026ED771F00FC4A97 /* AppDelegate.swift */,
-			);
-			path = Assets;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		4AC9504426ED776D00FC4A97 /* Models */ = {
@@ -278,20 +298,77 @@
 			path = Storyboards;
 			sourceTree = "<group>";
 		};
+		5E7EA9AA2718E3C30066B189 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5E7EA9AB2718E3C30066B189 /* AppDisplaySettings.swift */,
+				5E7EA9AC2718E3C30066B189 /* Profile */,
+				5E7EA9EA271A52B40066B189 /* SubjectsResponse.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		5E7EA9AC2718E3C30066B189 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				5E7EA9AD2718E3C30066B189 /* TutorProfile.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		5E7EA9C02718E6800066B189 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5E7EA9C12718E6800066B189 /* Builders */,
+				5E7EA9CC2718E6800066B189 /* Profile */,
+				5E7EA9D12718E6800066B189 /* Factories */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		5E7EA9C12718E6800066B189 /* Builders */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Builders;
+			sourceTree = "<group>";
+		};
+		5E7EA9CC2718E6800066B189 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				5E7EA9CD2718E6800066B189 /* TutoringSubjectsScrollView.swift */,
+				5E7EA9CE2718E6800066B189 /* NameAndRatingLabel.swift */,
+				5E7EA9CF2718E6800066B189 /* BorderedDisplayBox.swift */,
+				5E7EA9D02718E6800066B189 /* CircularBorderedImageView.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		5E7EA9D12718E6800066B189 /* Factories */ = {
+			isa = PBXGroup;
+			children = (
+				5E7EA9D22718E6800066B189 /* ProfilePageFactory.swift */,
+				5EF5C4532727517000C74ADF /* SchoolSelectionViewFactory.swift */,
+			);
+			path = Factories;
+			sourceTree = "<group>";
+		};
+		5E7EA9E12718E6910066B189 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5E7EA9E22718E6910066B189 /* CoreGraphics.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		5ECB1D8027025203005BDD89 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				4AA06BE827048D7000B58926 /* Lato-Black.ttf */,
-				4AA06BE527048D7000B58926 /* Lato-BlackItalic.ttf */,
-				4AA06BE327048D7000B58926 /* Lato-Bold.ttf */,
-				4AA06BE727048D7000B58926 /* Lato-BoldItalic.ttf */,
-				4AA06BEA27048D7000B58926 /* Lato-Italic.ttf */,
-				4AA06BE427048D7000B58926 /* Lato-Light.ttf */,
-				4AA06BEC27048D7000B58926 /* Lato-LightItalic.ttf */,
-				4AA06BED27048D7000B58926 /* Lato-Regular.ttf */,
-				4AA06BE927048D7000B58926 /* Lato-Thin.ttf */,
-				4AA06BE627048D7000B58926 /* Lato-ThinItalic.ttf */,
-				4AA06BEB27048D7000B58926 /* OFL.txt */,
+				5E7EA9E42718E7020066B189 /* Roboto-Bold.ttf */,
+				5E7EA9A22718E0A40066B189 /* Lato-BoldItalic.ttf */,
+				5E7EA9A02718E09B0066B189 /* Lato-Bold.ttf */,
+				5E7EA99E2718E0900066B189 /* Lato-BlackItalic.ttf */,
+				5E7EA99C2718E08A0066B189 /* Lato-Black.ttf */,
 				5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */,
 				5ECB1D8227025276005BDD89 /* Dosis-ExtraBold.ttf */,
 				5ECB1D8627025277005BDD89 /* Dosis-ExtraLight.ttf */,
@@ -319,6 +396,9 @@
 			dependencies = (
 			);
 			name = TutorTrade;
+			packageProductDependencies = (
+				5EF5C44B2720FB2100C74ADF /* Auth0 */,
+			);
 			productName = TutorTrade;
 			productReference = 4AC9500D26ED771F00FC4A97 /* TutorTrade.app */;
 			productType = "com.apple.product-type.application";
@@ -390,6 +470,9 @@
 				Base,
 			);
 			mainGroup = 4AC9500426ED771F00FC4A97;
+			packageReferences = (
+				5EF5C44A2720FB2100C74ADF /* XCRemoteSwiftPackageReference "Auth0.swift" */,
+			);
 			productRefGroup = 4AC9500E26ED771F00FC4A97 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -406,26 +489,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E7EA9E52718E7480066B189 /* Roboto-Bold.ttf in Resources */,
 				5ECB1D8B27025277005BDD89 /* Dosis-Medium.ttf in Resources */,
-				4AA06BF527048D7000B58926 /* Lato-Italic.ttf in Resources */,
-				4AA06BEE27048D7000B58926 /* Lato-Bold.ttf in Resources */,
 				5ECB1D8827025277005BDD89 /* Dosis-SemiBold.ttf in Resources */,
-				4AA06BEF27048D7000B58926 /* Lato-Light.ttf in Resources */,
 				5ECB1D8D27025277005BDD89 /* Dosis-ExtraLight.ttf in Resources */,
-				4AA06BF227048D7000B58926 /* Lato-BoldItalic.ttf in Resources */,
-				4AA06BF827048D7000B58926 /* Lato-Regular.ttf in Resources */,
 				5ECB1D8C27025277005BDD89 /* Dosis-Bold.ttf in Resources */,
+				5E7EA9B52718E4EA0066B189 /* Assets.xcassets in Resources */,
+				5E7EA99F2718E0900066B189 /* Lato-BlackItalic.ttf in Resources */,
 				4AC9501D26ED771F00FC4A97 /* LaunchScreen.storyboard in Resources */,
-				4AC9501A26ED771F00FC4A97 /* Assets.xcassets in Resources */,
-				4AA06BF427048D7000B58926 /* Lato-Thin.ttf in Resources */,
-				4AA06BF027048D7000B58926 /* Lato-BlackItalic.ttf in Resources */,
-				4AA06BF627048D7000B58926 /* OFL.txt in Resources */,
+				5E7EA9A12718E09B0066B189 /* Lato-Bold.ttf in Resources */,
 				5ECB1D8E27025277005BDD89 /* Dosis-Regular.ttf in Resources */,
+				5EF5C44E2720FE5C00C74ADF /* Auth0.plist in Resources */,
 				5ECB1D8927025277005BDD89 /* Dosis-ExtraBold.ttf in Resources */,
-				4AA06BF727048D7000B58926 /* Lato-LightItalic.ttf in Resources */,
-				4AA06BF127048D7000B58926 /* Lato-ThinItalic.ttf in Resources */,
-				4AA06BF327048D7000B58926 /* Lato-Black.ttf in Resources */,
+				5E7EA99D2718E08A0066B189 /* Lato-Black.ttf in Resources */,
 				5ECB1D8A27025277005BDD89 /* Dosis-Light.ttf in Resources */,
+				5E7EA9A32718E0A40066B189 /* Lato-BoldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,19 +530,33 @@
 			files = (
 				4A386F3B270F3E2F002BEC06 /* RequestManager.swift in Sources */,
 				4A22D9FB270E15E700E8DA7E /* SubmitButtonView.swift in Sources */,
+				5E7EA9BD2718E5EC0066B189 /* ProfileController.swift in Sources */,
 				4AC9501526ED771F00FC4A97 /* TutorTradeTabBarController.swift in Sources */,
 				4ABAC5D3270A0D2E00CBB85B /* UrgencyView.swift in Sources */,
-				4AC9501126ED771F00FC4A97 /* AppDelegate.swift in Sources */,
+				5E7EA9B32718E49A0066B189 /* Properties.swift in Sources */,
 				4A29D5982702601D00D25088 /* MatchingController.swift in Sources */,
+				5EF5C4522726F72300C74ADF /* SchoolSelectionViewController.swift in Sources */,
+				5EF5C4542727517000C74ADF /* SchoolSelectionViewFactory.swift in Sources */,
 				4A4CB600270BA47C00D7D215 /* PointsView.swift in Sources */,
+				5E7EA9E02718E6800066B189 /* ProfilePageFactory.swift in Sources */,
 				4A29D59C2702603200D25088 /* RequestController.swift in Sources */,
 				4AA06BFA2704E4FF00B58926 /* RequestScrollView.swift in Sources */,
+				5E7EA9AF2718E3C30066B189 /* TutorProfile.swift in Sources */,
+				5E7EA9DE2718E6800066B189 /* BorderedDisplayBox.swift in Sources */,
+				5E7EA9EB271A52B40066B189 /* SubjectsResponse.swift in Sources */,
+				5E7EA9DD2718E6800066B189 /* NameAndRatingLabel.swift in Sources */,
 				4A22D9FD270E17F700E8DA7E /* SubjectView.swift in Sources */,
+				5E7EA9E7271900AE0066B189 /* DisplaySettingsManager.swift in Sources */,
+				5E7EA9DF2718E6800066B189 /* CircularBorderedImageView.swift in Sources */,
+				5E7EA9DC2718E6800066B189 /* TutoringSubjectsScrollView.swift in Sources */,
 				4A29D59A2702602700D25088 /* ChatController.swift in Sources */,
-				4A29D5962702600500D25088 /* ProfileController.swift in Sources */,
+				5E7EA9B12718E45B0066B189 /* TutorTradeApplication.swift in Sources */,
 				4A22D9FF270E231B00E8DA7E /* RequestModel.swift in Sources */,
 				4A2DFD3C27078BA600332EE2 /* PreferredMediumView.swift in Sources */,
+				5E7EA9A52718E3250066B189 /* TutorProfileManager.swift in Sources */,
+				5E7EA9E32718E6910066B189 /* CoreGraphics.swift in Sources */,
 				4A22D9F9270E138200E8DA7E /* DescriptionView.swift in Sources */,
+				5E7EA9AE2718E3C30066B189 /* AppDisplaySettings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -633,14 +725,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = S5YGMA5VUJ;
+				DEVELOPMENT_TEAM = HZ373Y45DX;
 				INFOPLIST_FILE = TutorTrade/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = PoosdGroup27.TutorTrade;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brockdavis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -653,14 +745,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = S5YGMA5VUJ;
+				DEVELOPMENT_TEAM = HZ373Y45DX;
 				INFOPLIST_FILE = TutorTrade/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = PoosdGroup27.TutorTrade;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brockdavis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -791,6 +883,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5EF5C44A2720FB2100C74ADF /* XCRemoteSwiftPackageReference "Auth0.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/auth0/Auth0.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5EF5C44B2720FB2100C74ADF /* Auth0 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5EF5C44A2720FB2100C74ADF /* XCRemoteSwiftPackageReference "Auth0.swift" */;
+			productName = Auth0;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4AC9500526ED771F00FC4A97 /* Project object */;
 }
