@@ -23,17 +23,16 @@
 		4AC9501D26ED771F00FC4A97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AC9501B26ED771F00FC4A97 /* LaunchScreen.storyboard */; };
 		4AC9502826ED771F00FC4A97 /* TutorTradeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC9502726ED771F00FC4A97 /* TutorTradeTests.swift */; };
 		4AC9503326ED771F00FC4A97 /* TutorTradeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC9503226ED771F00FC4A97 /* TutorTradeUITests.swift */; };
-		5E7EA99D2718E08A0066B189 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E7EA99C2718E08A0066B189 /* Lato-Black.ttf */; };
-		5E7EA99F2718E0900066B189 /* Lato-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E7EA99E2718E0900066B189 /* Lato-BlackItalic.ttf */; };
+		5E1BAE5B2728E72800A70757 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1BAE5A2728E72800A70757 /* ProfileController.swift */; };
+		5E1BAE702728ED5C00A70757 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1BAE6F2728ED5C00A70757 /* UIView.swift */; };
+		5E1BAE722728EDF700A70757 /* ProfilePageConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1BAE712728EDF700A70757 /* ProfilePageConfigurations.swift */; };
 		5E7EA9A12718E09B0066B189 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E7EA9A02718E09B0066B189 /* Lato-Bold.ttf */; };
-		5E7EA9A32718E0A40066B189 /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E7EA9A22718E0A40066B189 /* Lato-BoldItalic.ttf */; };
 		5E7EA9A52718E3250066B189 /* TutorProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9A42718E3250066B189 /* TutorProfileManager.swift */; };
 		5E7EA9AE2718E3C30066B189 /* AppDisplaySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9AB2718E3C30066B189 /* AppDisplaySettings.swift */; };
 		5E7EA9AF2718E3C30066B189 /* TutorProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9AD2718E3C30066B189 /* TutorProfile.swift */; };
 		5E7EA9B12718E45B0066B189 /* TutorTradeApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9B02718E45A0066B189 /* TutorTradeApplication.swift */; };
 		5E7EA9B32718E49A0066B189 /* Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9B22718E49A0066B189 /* Properties.swift */; };
 		5E7EA9B52718E4EA0066B189 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E7EA9B42718E4EA0066B189 /* Assets.xcassets */; };
-		5E7EA9BD2718E5EC0066B189 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9BC2718E5EC0066B189 /* ProfileController.swift */; };
 		5E7EA9DC2718E6800066B189 /* TutoringSubjectsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9CD2718E6800066B189 /* TutoringSubjectsScrollView.swift */; };
 		5E7EA9DD2718E6800066B189 /* NameAndRatingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9CE2718E6800066B189 /* NameAndRatingLabel.swift */; };
 		5E7EA9DE2718E6800066B189 /* BorderedDisplayBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9CF2718E6800066B189 /* BorderedDisplayBox.swift */; };
@@ -43,13 +42,7 @@
 		5E7EA9E52718E7480066B189 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E7EA9E42718E7020066B189 /* Roboto-Bold.ttf */; };
 		5E7EA9E7271900AE0066B189 /* DisplaySettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9E6271900AE0066B189 /* DisplaySettingsManager.swift */; };
 		5E7EA9EB271A52B40066B189 /* SubjectsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9EA271A52B40066B189 /* SubjectsResponse.swift */; };
-		5ECB1D8827025277005BDD89 /* Dosis-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ECB1D8127025276005BDD89 /* Dosis-SemiBold.ttf */; };
-		5ECB1D8927025277005BDD89 /* Dosis-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ECB1D8227025276005BDD89 /* Dosis-ExtraBold.ttf */; };
-		5ECB1D8A27025277005BDD89 /* Dosis-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ECB1D8327025276005BDD89 /* Dosis-Light.ttf */; };
-		5ECB1D8B27025277005BDD89 /* Dosis-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ECB1D8427025276005BDD89 /* Dosis-Medium.ttf */; };
 		5ECB1D8C27025277005BDD89 /* Dosis-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */; };
-		5ECB1D8D27025277005BDD89 /* Dosis-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ECB1D8627025277005BDD89 /* Dosis-ExtraLight.ttf */; };
-		5ECB1D8E27025277005BDD89 /* Dosis-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ECB1D8727025277005BDD89 /* Dosis-Regular.ttf */; };
 		5EF5C44C2720FB2100C74ADF /* Auth0 in Frameworks */ = {isa = PBXBuildFile; productRef = 5EF5C44B2720FB2100C74ADF /* Auth0 */; };
 		5EF5C44E2720FE5C00C74ADF /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5EF5C44D2720FE5C00C74ADF /* Auth0.plist */; };
 		5EF5C4522726F72300C74ADF /* SchoolSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF5C4512726F72300C74ADF /* SchoolSelectionViewController.swift */; };
@@ -75,7 +68,7 @@
 
 /* Begin PBXFileReference section */
 		4A22D9F8270E138200E8DA7E /* DescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionView.swift; sourceTree = "<group>"; };
-		4A22D9FA270E15E700E8DA7E /* SubmitButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SubmitButtonView.swift; path = TutorTrade/Controllers/Request/SubmitButtonView.swift; sourceTree = "<group>"; };
+		4A22D9FA270E15E700E8DA7E /* SubmitButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitButtonView.swift; sourceTree = "<group>"; };
 		4A22D9FC270E17F700E8DA7E /* SubjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectView.swift; sourceTree = "<group>"; };
 		4A22D9FE270E231B00E8DA7E /* RequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestModel.swift; sourceTree = "<group>"; };
 		4A29D5972702601D00D25088 /* MatchingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingController.swift; sourceTree = "<group>"; };
@@ -96,17 +89,16 @@
 		4AC9502E26ED771F00FC4A97 /* TutorTradeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TutorTradeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AC9503226ED771F00FC4A97 /* TutorTradeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorTradeUITests.swift; sourceTree = "<group>"; };
 		4AC9503426ED771F00FC4A97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5E7EA99C2718E08A0066B189 /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Black.ttf"; sourceTree = "<group>"; };
-		5E7EA99E2718E0900066B189 /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
+		5E1BAE5A2728E72800A70757 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
+		5E1BAE6F2728ED5C00A70757 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		5E1BAE712728EDF700A70757 /* ProfilePageConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePageConfigurations.swift; sourceTree = "<group>"; };
 		5E7EA9A02718E09B0066B189 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Bold.ttf"; sourceTree = "<group>"; };
-		5E7EA9A22718E0A40066B189 /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
 		5E7EA9A42718E3250066B189 /* TutorProfileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorProfileManager.swift; sourceTree = "<group>"; };
 		5E7EA9AB2718E3C30066B189 /* AppDisplaySettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDisplaySettings.swift; sourceTree = "<group>"; };
 		5E7EA9AD2718E3C30066B189 /* TutorProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorProfile.swift; sourceTree = "<group>"; };
 		5E7EA9B02718E45A0066B189 /* TutorTradeApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorTradeApplication.swift; sourceTree = "<group>"; };
 		5E7EA9B22718E49A0066B189 /* Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Properties.swift; sourceTree = "<group>"; };
 		5E7EA9B42718E4EA0066B189 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		5E7EA9BC2718E5EC0066B189 /* ProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileController.swift; path = "/Users/brockdavis/Desktop/CS/cop4331/poosd-project/frontend/TutorTrade/TutorTrade/Controllers/Profile/ProfileController.swift"; sourceTree = "<absolute>"; };
 		5E7EA9CD2718E6800066B189 /* TutoringSubjectsScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutoringSubjectsScrollView.swift; sourceTree = "<group>"; };
 		5E7EA9CE2718E6800066B189 /* NameAndRatingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameAndRatingLabel.swift; sourceTree = "<group>"; };
 		5E7EA9CF2718E6800066B189 /* BorderedDisplayBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedDisplayBox.swift; sourceTree = "<group>"; };
@@ -116,13 +108,7 @@
 		5E7EA9E42718E7020066B189 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		5E7EA9E6271900AE0066B189 /* DisplaySettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplaySettingsManager.swift; sourceTree = "<group>"; };
 		5E7EA9EA271A52B40066B189 /* SubjectsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectsResponse.swift; sourceTree = "<group>"; };
-		5ECB1D8127025276005BDD89 /* Dosis-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-SemiBold.ttf"; sourceTree = "<group>"; };
-		5ECB1D8227025276005BDD89 /* Dosis-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-ExtraBold.ttf"; sourceTree = "<group>"; };
-		5ECB1D8327025276005BDD89 /* Dosis-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-Light.ttf"; sourceTree = "<group>"; };
-		5ECB1D8427025276005BDD89 /* Dosis-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-Medium.ttf"; sourceTree = "<group>"; };
 		5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-Bold.ttf"; sourceTree = "<group>"; };
-		5ECB1D8627025277005BDD89 /* Dosis-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-ExtraLight.ttf"; sourceTree = "<group>"; };
-		5ECB1D8727025277005BDD89 /* Dosis-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-Regular.ttf"; sourceTree = "<group>"; };
 		5EF5C44D2720FE5C00C74ADF /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
 		5EF5C4512726F72300C74ADF /* SchoolSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSelectionViewController.swift; sourceTree = "<group>"; };
 		5EF5C4532727517000C74ADF /* SchoolSelectionViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSelectionViewFactory.swift; sourceTree = "<group>"; };
@@ -158,22 +144,16 @@
 			isa = PBXGroup;
 			children = (
 				4A29D59B2702603200D25088 /* RequestController.swift */,
-				4AA06BF92704E4FF00B58926 /* RequestScrollView.swift */,
-				4A22D9F8270E138200E8DA7E /* DescriptionView.swift */,
-				4A22D9FC270E17F700E8DA7E /* SubjectView.swift */,
-				4A2DFD3B27078BA600332EE2 /* PreferredMediumView.swift */,
-				4ABAC5D2270A0D2E00CBB85B /* UrgencyView.swift */,
-				4A4CB5FF270BA47C00D7D215 /* PointsView.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
 		};
-		4A29D59027025F6E00D25088 /* Chat */ = {
+		4A29D59027025F6E00D25088 /* Matches */ = {
 			isa = PBXGroup;
 			children = (
 				4A29D5992702602700D25088 /* ChatController.swift */,
 			);
-			path = Chat;
+			path = Matches;
 			sourceTree = "<group>";
 		};
 		4A29D59327025FA600D25088 /* Matching */ = {
@@ -187,8 +167,8 @@
 		4A29D59427025FDE00D25088 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				5E7EA9BC2718E5EC0066B189 /* ProfileController.swift */,
 				5EF5C4512726F72300C74ADF /* SchoolSelectionViewController.swift */,
+				5E1BAE5A2728E72800A70757 /* ProfileController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -196,9 +176,12 @@
 		4A386F39270F3E1F002BEC06 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				5E7EA9A42718E3250066B189 /* TutorProfileManager.swift */,
-				4A386F3A270F3E2F002BEC06 /* RequestManager.swift */,
-				5E7EA9E6271900AE0066B189 /* DisplaySettingsManager.swift */,
+				5E1BAE6B2728ECF300A70757 /* AuthFlow */,
+				5E1BAE6A2728EB6C00A70757 /* Matching */,
+				5E1BAE692728EB6600A70757 /* Matches */,
+				5E1BAE682728EB5F00A70757 /* Profile */,
+				5E1BAE672728EB5900A70757 /* Application */,
+				5E1BAE662728EB5500A70757 /* Request */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -206,7 +189,6 @@
 		4AC9500426ED771F00FC4A97 = {
 			isa = PBXGroup;
 			children = (
-				4A22D9FA270E15E700E8DA7E /* SubmitButtonView.swift */,
 				5ECB1D8027025203005BDD89 /* Fonts */,
 				4AC9500F26ED771F00FC4A97 /* TutorTrade */,
 				4AC9502626ED771F00FC4A97 /* TutorTradeTests */,
@@ -228,13 +210,12 @@
 		4AC9500F26ED771F00FC4A97 /* TutorTrade */ = {
 			isa = PBXGroup;
 			children = (
-				5E7EA9E12718E6910066B189 /* Extensions */,
+				5E1BAE5D2728EA6E00A70757 /* Main */,
+				5E7EA9E12718E6910066B189 /* UIKitExtensions */,
 				5E7EA9C02718E6800066B189 /* Views */,
-				5E7EA9B02718E45A0066B189 /* TutorTradeApplication.swift */,
 				5E7EA9AA2718E3C30066B189 /* Model */,
 				4A386F39270F3E1F002BEC06 /* Managers */,
 				4AC9504526ED778200FC4A97 /* Storyboards */,
-				4AC9504426ED776D00FC4A97 /* Models */,
 				4AC9504226ED774000FC4A97 /* Resources */,
 				4AC9504026ED772F00FC4A97 /* Controllers */,
 				4AC9501E26ED771F00FC4A97 /* Info.plist */,
@@ -264,11 +245,12 @@
 		4AC9504026ED772F00FC4A97 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				5E1BAE6D2728ED0800A70757 /* Application */,
+				5E1BAE6C2728ECFD00A70757 /* AuthFlow */,
 				4A29D59427025FDE00D25088 /* Profile */,
 				4A29D59327025FA600D25088 /* Matching */,
-				4A29D59027025F6E00D25088 /* Chat */,
+				4A29D59027025F6E00D25088 /* Matches */,
 				4A29D58F27025F6800D25088 /* Request */,
-				4AC9501426ED771F00FC4A97 /* TutorTradeTabBarController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -282,14 +264,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		4AC9504426ED776D00FC4A97 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				4A22D9FE270E231B00E8DA7E /* RequestModel.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		4AC9504526ED778200FC4A97 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
@@ -298,12 +272,156 @@
 			path = Storyboards;
 			sourceTree = "<group>";
 		};
+		5E1BAE5C2728E9F100A70757 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				4A4CB5FF270BA47C00D7D215 /* PointsView.swift */,
+				4ABAC5D2270A0D2E00CBB85B /* UrgencyView.swift */,
+				4A2DFD3B27078BA600332EE2 /* PreferredMediumView.swift */,
+				4A22D9FC270E17F700E8DA7E /* SubjectView.swift */,
+				4A22D9F8270E138200E8DA7E /* DescriptionView.swift */,
+				4AA06BF92704E4FF00B58926 /* RequestScrollView.swift */,
+				4A22D9FA270E15E700E8DA7E /* SubmitButtonView.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		5E1BAE5D2728EA6E00A70757 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				5E7EA9B02718E45A0066B189 /* TutorTradeApplication.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		5E1BAE5E2728EAC000A70757 /* Matches */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Matches;
+			sourceTree = "<group>";
+		};
+		5E1BAE5F2728EAC700A70757 /* Matching */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Matching;
+			sourceTree = "<group>";
+		};
+		5E1BAE602728EACE00A70757 /* AuthFlow */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AuthFlow;
+			sourceTree = "<group>";
+		};
+		5E1BAE612728EAE500A70757 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				5E7EA9EA271A52B40066B189 /* SubjectsResponse.swift */,
+				5E7EA9AB2718E3C30066B189 /* AppDisplaySettings.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		5E1BAE622728EAF300A70757 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				4A22D9FE270E231B00E8DA7E /* RequestModel.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		5E1BAE632728EB3900A70757 /* Matching */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Matching;
+			sourceTree = "<group>";
+		};
+		5E1BAE642728EB4000A70757 /* Matches */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Matches;
+			sourceTree = "<group>";
+		};
+		5E1BAE652728EB4700A70757 /* AuthFlow */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AuthFlow;
+			sourceTree = "<group>";
+		};
+		5E1BAE662728EB5500A70757 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				4A386F3A270F3E2F002BEC06 /* RequestManager.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		5E1BAE672728EB5900A70757 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				5E7EA9E6271900AE0066B189 /* DisplaySettingsManager.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		5E1BAE682728EB5F00A70757 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				5E7EA9A42718E3250066B189 /* TutorProfileManager.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		5E1BAE692728EB6600A70757 /* Matches */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Matches;
+			sourceTree = "<group>";
+		};
+		5E1BAE6A2728EB6C00A70757 /* Matching */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Matching;
+			sourceTree = "<group>";
+		};
+		5E1BAE6B2728ECF300A70757 /* AuthFlow */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AuthFlow;
+			sourceTree = "<group>";
+		};
+		5E1BAE6C2728ECFD00A70757 /* AuthFlow */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AuthFlow;
+			sourceTree = "<group>";
+		};
+		5E1BAE6D2728ED0800A70757 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				4AC9501426ED771F00FC4A97 /* TutorTradeTabBarController.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
 		5E7EA9AA2718E3C30066B189 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5E7EA9AB2718E3C30066B189 /* AppDisplaySettings.swift */,
+				5E1BAE652728EB4700A70757 /* AuthFlow */,
+				5E1BAE642728EB4000A70757 /* Matches */,
+				5E1BAE632728EB3900A70757 /* Matching */,
+				5E1BAE622728EAF300A70757 /* Request */,
+				5E1BAE612728EAE500A70757 /* Application */,
 				5E7EA9AC2718E3C30066B189 /* Profile */,
-				5E7EA9EA271A52B40066B189 /* SubjectsResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -319,18 +437,14 @@
 		5E7EA9C02718E6800066B189 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5E7EA9C12718E6800066B189 /* Builders */,
+				5E1BAE602728EACE00A70757 /* AuthFlow */,
+				5E1BAE5F2728EAC700A70757 /* Matching */,
+				5E1BAE5E2728EAC000A70757 /* Matches */,
+				5E1BAE5C2728E9F100A70757 /* Request */,
 				5E7EA9CC2718E6800066B189 /* Profile */,
 				5E7EA9D12718E6800066B189 /* Factories */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		5E7EA9C12718E6800066B189 /* Builders */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Builders;
 			sourceTree = "<group>";
 		};
 		5E7EA9CC2718E6800066B189 /* Profile */ = {
@@ -340,6 +454,7 @@
 				5E7EA9CE2718E6800066B189 /* NameAndRatingLabel.swift */,
 				5E7EA9CF2718E6800066B189 /* BorderedDisplayBox.swift */,
 				5E7EA9D02718E6800066B189 /* CircularBorderedImageView.swift */,
+				5E1BAE712728EDF700A70757 /* ProfilePageConfigurations.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -353,29 +468,21 @@
 			path = Factories;
 			sourceTree = "<group>";
 		};
-		5E7EA9E12718E6910066B189 /* Extensions */ = {
+		5E7EA9E12718E6910066B189 /* UIKitExtensions */ = {
 			isa = PBXGroup;
 			children = (
 				5E7EA9E22718E6910066B189 /* CoreGraphics.swift */,
+				5E1BAE6F2728ED5C00A70757 /* UIView.swift */,
 			);
-			path = Extensions;
+			path = UIKitExtensions;
 			sourceTree = "<group>";
 		};
 		5ECB1D8027025203005BDD89 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
 				5E7EA9E42718E7020066B189 /* Roboto-Bold.ttf */,
-				5E7EA9A22718E0A40066B189 /* Lato-BoldItalic.ttf */,
 				5E7EA9A02718E09B0066B189 /* Lato-Bold.ttf */,
-				5E7EA99E2718E0900066B189 /* Lato-BlackItalic.ttf */,
-				5E7EA99C2718E08A0066B189 /* Lato-Black.ttf */,
 				5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */,
-				5ECB1D8227025276005BDD89 /* Dosis-ExtraBold.ttf */,
-				5ECB1D8627025277005BDD89 /* Dosis-ExtraLight.ttf */,
-				5ECB1D8327025276005BDD89 /* Dosis-Light.ttf */,
-				5ECB1D8427025276005BDD89 /* Dosis-Medium.ttf */,
-				5ECB1D8727025277005BDD89 /* Dosis-Regular.ttf */,
-				5ECB1D8127025276005BDD89 /* Dosis-SemiBold.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -490,20 +597,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E7EA9E52718E7480066B189 /* Roboto-Bold.ttf in Resources */,
-				5ECB1D8B27025277005BDD89 /* Dosis-Medium.ttf in Resources */,
-				5ECB1D8827025277005BDD89 /* Dosis-SemiBold.ttf in Resources */,
-				5ECB1D8D27025277005BDD89 /* Dosis-ExtraLight.ttf in Resources */,
 				5ECB1D8C27025277005BDD89 /* Dosis-Bold.ttf in Resources */,
 				5E7EA9B52718E4EA0066B189 /* Assets.xcassets in Resources */,
-				5E7EA99F2718E0900066B189 /* Lato-BlackItalic.ttf in Resources */,
 				4AC9501D26ED771F00FC4A97 /* LaunchScreen.storyboard in Resources */,
 				5E7EA9A12718E09B0066B189 /* Lato-Bold.ttf in Resources */,
-				5ECB1D8E27025277005BDD89 /* Dosis-Regular.ttf in Resources */,
 				5EF5C44E2720FE5C00C74ADF /* Auth0.plist in Resources */,
-				5ECB1D8927025277005BDD89 /* Dosis-ExtraBold.ttf in Resources */,
-				5E7EA99D2718E08A0066B189 /* Lato-Black.ttf in Resources */,
-				5ECB1D8A27025277005BDD89 /* Dosis-Light.ttf in Resources */,
-				5E7EA9A32718E0A40066B189 /* Lato-BoldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,7 +628,6 @@
 			files = (
 				4A386F3B270F3E2F002BEC06 /* RequestManager.swift in Sources */,
 				4A22D9FB270E15E700E8DA7E /* SubmitButtonView.swift in Sources */,
-				5E7EA9BD2718E5EC0066B189 /* ProfileController.swift in Sources */,
 				4AC9501526ED771F00FC4A97 /* TutorTradeTabBarController.swift in Sources */,
 				4ABAC5D3270A0D2E00CBB85B /* UrgencyView.swift in Sources */,
 				5E7EA9B32718E49A0066B189 /* Properties.swift in Sources */,
@@ -539,6 +636,7 @@
 				5EF5C4542727517000C74ADF /* SchoolSelectionViewFactory.swift in Sources */,
 				4A4CB600270BA47C00D7D215 /* PointsView.swift in Sources */,
 				5E7EA9E02718E6800066B189 /* ProfilePageFactory.swift in Sources */,
+				5E1BAE702728ED5C00A70757 /* UIView.swift in Sources */,
 				4A29D59C2702603200D25088 /* RequestController.swift in Sources */,
 				4AA06BFA2704E4FF00B58926 /* RequestScrollView.swift in Sources */,
 				5E7EA9AF2718E3C30066B189 /* TutorProfile.swift in Sources */,
@@ -549,10 +647,12 @@
 				5E7EA9E7271900AE0066B189 /* DisplaySettingsManager.swift in Sources */,
 				5E7EA9DF2718E6800066B189 /* CircularBorderedImageView.swift in Sources */,
 				5E7EA9DC2718E6800066B189 /* TutoringSubjectsScrollView.swift in Sources */,
+				5E1BAE5B2728E72800A70757 /* ProfileController.swift in Sources */,
 				4A29D59A2702602700D25088 /* ChatController.swift in Sources */,
 				5E7EA9B12718E45B0066B189 /* TutorTradeApplication.swift in Sources */,
 				4A22D9FF270E231B00E8DA7E /* RequestModel.swift in Sources */,
 				4A2DFD3C27078BA600332EE2 /* PreferredMediumView.swift in Sources */,
+				5E1BAE722728EDF700A70757 /* ProfilePageConfigurations.swift in Sources */,
 				5E7EA9A52718E3250066B189 /* TutorProfileManager.swift in Sources */,
 				5E7EA9E32718E6910066B189 /* CoreGraphics.swift in Sources */,
 				4A22D9F9270E138200E8DA7E /* DescriptionView.swift in Sources */,
