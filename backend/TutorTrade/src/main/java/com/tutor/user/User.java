@@ -4,7 +4,9 @@ import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.request.Request;
+import com.tutor.subject.Subject;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -15,7 +17,7 @@ import java.util.UUID;
  * object before being written to DynamoDB. User data coming from DynamoDB is read into User object.
  * Regarding table name: set equal to userTable-{stage_name} if deploying to none prod stage
  */
-@DynamoDBTable(tableName = "userTable-prod")
+@DynamoDBTable(tableName = "userTable-adam-dev")
 public class User {
   private String name;
 
@@ -27,6 +29,9 @@ public class User {
   private UUID userId;
   private static final int STARTING_POINTS = 100;
   private String phoneNumber;
+  private ArrayList<Subject> subjects;
+  private int cumulativeSessionsCompleted;
+  private double rating;
 
   /**
    * Constructor is a wrapper for builder and should not be called directly, unless creating user
@@ -42,6 +47,9 @@ public class User {
     this.dateCreated = LocalDateTime.now();
     this.isActive = true;
     this.phoneNumber = builder.phoneNumber;
+    this.subjects = builder.subjects;
+    this.cumulativeSessionsCompleted = builder.cumulativeSessionsCompleted;
+    this.rating = builder.rating;
 
     // users shouldn't have session IDs at creation time
     this.sessionIds = new ArrayList<>();
@@ -136,6 +144,54 @@ public class User {
     this.phoneNumber = phoneNumber;
   }
 
+  @DynamoDBTypeConvertedEnum
+  @DynamoDBAttribute(attributeName = "subjects")
+  public ArrayList<Subject> getSubjects() {
+    return subjects;
+  }
+
+  public void setSubjects(ArrayList<Subject> subjects) {
+    this.subjects = subjects;
+  }
+
+  @DynamoDBAttribute(attributeName = "cumulativeSessionsCompleted")
+  public int getCumulativeSessionsCompleted() {
+    return cumulativeSessionsCompleted;
+  }
+
+  public void setCumulativeSessionsCompleted(int cumulativeSessionsCompleted) {
+    this.cumulativeSessionsCompleted = cumulativeSessionsCompleted;
+  }
+
+  @DynamoDBAttribute(attributeName = "rating")
+  public double getRating() {
+    return rating;
+  }
+
+  public void setRating(double rating) {
+    this.rating = rating;
+  }
+
+  /**
+   * Adds a new rating to the overall rating for the user. In other words, calculates new average
+   * for rating and stores inside rating field.
+   *
+   * @param rating
+   */
+  public void addNewRating(int rating) {
+    if (cumulativeSessionsCompleted == 0) {
+      this.rating = rating;
+    }
+
+    DecimalFormat df = new DecimalFormat("#.#");
+
+    double totalNumPoints = cumulativeSessionsCompleted * rating;
+    cumulativeSessionsCompleted++;
+
+    this.rating =
+        Double.parseDouble(df.format((totalNumPoints + rating) / cumulativeSessionsCompleted));
+  }
+
   @Override
   public String toString() {
     ObjectMapper mapper = new ObjectMapper();
@@ -154,7 +210,17 @@ public class User {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     User user = (User) o;
-    return isActive == user.isActive && points == user.points && Objects.equals(name, user.name) && Objects.equals(school, user.school) && Objects.equals(dateCreated, user.dateCreated) && Objects.equals(sessionIds, user.sessionIds) && Objects.equals(userId, user.userId) && Objects.equals(phoneNumber, user.phoneNumber);
+    return isActive == user.isActive
+        && points == user.points
+        && Objects.equals(name, user.name)
+        && Objects.equals(school, user.school)
+        && Objects.equals(dateCreated, user.dateCreated)
+        && Objects.equals(sessionIds, user.sessionIds)
+        && Objects.equals(userId, user.userId)
+        && Objects.equals(phoneNumber, user.phoneNumber)
+        && Objects.equals(subjects, user.subjects)
+        && Objects.equals(cumulativeSessionsCompleted, user.cumulativeSessionsCompleted)
+        && Objects.equals(rating, user.rating);
   }
 
   /**
