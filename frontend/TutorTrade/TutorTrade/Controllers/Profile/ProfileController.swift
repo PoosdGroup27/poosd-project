@@ -12,19 +12,19 @@ import UIKit
 
 class ProfileController: UIViewController {
     
-    private let factory : ProfilePageFactory
-    private let modelManager : TutorProfileManager
-    private let displaySettings : AppDisplaySettings
+    private let factory: ProfilePageFactory
+    private let modelManager: TutorProfileManager
+    private let displaySettings: AppDisplaySettings
     
-    private lazy var verticalScrollView : UIScrollView = .profilePageVerticalScrollView
-    private lazy var titleContainerView : UIView = .profilePageTitleContainerView
-    private lazy var pageTitleLabel : UILabel =  .profilePageTitle
-    private lazy var pointsButton : UIButton = .pointButton(withBalance: modelManager.profile.pointBalance)
-    private lazy var profilePhotoView : CircularBorderedImageView = .profilePhotoView(withImage: modelManager.profile.profilePhoto)
-    private lazy var nameAndRatingLabel : NameAndRatingLabel = .tutorNameAndRatingLabel(withFirstName: modelManager.profile.firstName, withLastName: modelManager.profile.lastName, withRating: modelManager.profile.rating)
-    private lazy var schoolDisplayBoxTitle : UILabel = .fieldTitle(withText: "School")
-    private lazy var schoolDisplayBoxView : BorderedDisplayBoxView  = .defaultDisplayBoxView(withIcon: UIImage(named: "SchoolIcon")!)
-    private lazy var schoolDisplayBoxLabel : UILabel = .displayBoxLabel(withText: modelManager.profile.school)
+    private lazy var verticalScrollView: UIScrollView = .profilePageVerticalScrollView
+    private lazy var titleContainerView: UIView = .profilePageTitleContainerView
+    private lazy var pageTitleLabel: UILabel =  .profilePageTitle
+    private lazy var pointsButton: UIButton = .pointButton(withBalance: modelManager.profile.pointBalance)
+    private lazy var profilePhotoView: CircularBorderedImageView = .profilePhotoView(withImage: modelManager.profile.profilePhoto)
+    private lazy var nameAndRatingLabel: NameAndRatingLabel = .tutorNameAndRatingLabel(withFirstName: modelManager.profile.firstName, withLastName: modelManager.profile.lastName, withRating: modelManager.profile.rating)
+    private lazy var schoolDisplayBoxTitle: UILabel = .fieldTitle(withText: "School")
+    private lazy var schoolDisplayBoxView: BorderedDisplayBoxView  = .defaultDisplayBoxView(withIcon: UIImage(named: "SchoolIcon")!)
+    private lazy var schoolDisplayBoxLabel: UILabel = .displayBoxLabel(withText: modelManager.profile.school)
     private lazy var schoolEditButton : UIButton = .fieldEditButton
     private lazy var majorDisplayBoxTitle : UILabel = .fieldTitle(withText: "Major")
     private lazy var majorDisplayBoxView : BorderedDisplayBoxView = .defaultDisplayBoxView(withIcon: UIImage(named: "MajorIcon")!)
