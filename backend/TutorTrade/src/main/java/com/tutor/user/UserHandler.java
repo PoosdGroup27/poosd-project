@@ -7,11 +7,15 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.tutor.subject.Subject;
 import com.tutor.utils.ApiResponse;
 import com.tutor.utils.UserUtils;
+
 import java.net.HttpURLConnection;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -66,13 +70,21 @@ public class UserHandler implements RequestHandler<Map<Object, Object>, ApiRespo
         .build();
   }
 
-  private ApiResponse<User> createUser(HashMap<?, ?> body) {
+  private ApiResponse<?> createUser(HashMap<?, ?> body) {
     String name = (String) body.get("name");
     String school = (String) body.get("school");
     String phoneNumber = (String) body.get("phoneNumber");
+    ArrayList<String> subjects = (ArrayList<String>) body.get("subjects");
+
+    ArrayList<Subject> userSubjects = UserUtils.convertListOfStringsToListOfSubjects(subjects);
 
     User user =
-        new UserBuilder().withName(name).withSchool(school).withPhoneNumber(phoneNumber).build();
+        new UserBuilder()
+            .withName(name)
+            .withSchool(school)
+            .withPhoneNumber(phoneNumber)
+            .withSubjects(userSubjects)
+            .build();
 
     MAPPER.save(user);
 
@@ -127,6 +139,26 @@ public class UserHandler implements RequestHandler<Map<Object, Object>, ApiRespo
     String phoneNumber = (String) body.get("phoneNumber");
     if (phoneNumber != null) {
       userToUpdate.setPhoneNumber(phoneNumber);
+    }
+
+    ArrayList<String> subjects = (ArrayList<String>) body.get("subjects");
+    if (subjects != null) {
+      userToUpdate.setSubjects(UserUtils.convertListOfStringsToListOfSubjects(subjects));
+    }
+
+    Integer cumulativeSessionsCompleted = (Integer) body.get("cumulativeSessionsCompleted");
+    if (cumulativeSessionsCompleted != null) {
+      userToUpdate.setCumulativeSessionsCompleted(cumulativeSessionsCompleted);
+    }
+
+    Integer rating = (Integer) body.get("rating");
+    if (rating != null) {
+      userToUpdate.setRating(rating);
+    }
+
+    Integer newRating = (Integer) body.get("newRating");
+    if (newRating != null) {
+      userToUpdate.addNewRating(newRating);
     }
 
     MAPPER.save(
