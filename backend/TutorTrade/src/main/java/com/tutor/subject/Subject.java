@@ -58,6 +58,8 @@ public enum Subject {
     this.subjectName = subjectName;
   }
 
+  Subject() {subjectName = "";}
+
   public String getSubjectName() {
     return this.subjectName;
   }

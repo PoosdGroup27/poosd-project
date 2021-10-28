@@ -5,12 +5,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.request.Request;
 import com.tutor.subject.Subject;
+import com.tutor.utils.UserUtils;
 
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * User object corresponds to schema of User table. All data must be first marshalling to User
@@ -144,7 +147,7 @@ public class User {
     this.phoneNumber = phoneNumber;
   }
 
-  @DynamoDBTypeConvertedEnum
+  @DynamoDBTypeConverted(converter = SubjectListConverter.class)
   @DynamoDBAttribute(attributeName = "subjects")
   public ArrayList<Subject> getSubjects() {
     return subjects;
@@ -185,7 +188,7 @@ public class User {
 
     DecimalFormat df = new DecimalFormat("#.#");
 
-    double totalNumPoints = cumulativeSessionsCompleted * rating;
+    double totalNumPoints = cumulativeSessionsCompleted * this.rating;
     cumulativeSessionsCompleted++;
 
     this.rating =
@@ -238,6 +241,37 @@ public class User {
     @Override
     public LocalDateTime unconvert(final String stringValue) {
       return LocalDateTime.parse(stringValue);
+    }
+  }
+
+  public static class SubjectListConverter
+      implements DynamoDBTypeConverter<ArrayList<String>, ArrayList<Subject>> {
+
+    @Override
+    public ArrayList<String> convert(final ArrayList<Subject> subjects) {
+      System.out.println("Ssajfnsflknnfklsanfknsafnsalfa");
+      System.out.println(subjects);
+
+      return subjects.stream()
+          .map(Subject::toString)
+          .collect(Collectors.toCollection(ArrayList<String>::new));
+    }
+
+    @Override
+    public ArrayList<Subject> unconvert(final ArrayList<String> stringValue) {
+      System.out.println("===========================================");
+      System.out.println("YOOOOOOOOOOOOOO");
+      System.out.println(stringValue);
+      System.out.println(stringValue.getClass());
+      System.out.println(stringValue.getClass().getName());
+
+      ArrayList<Subject> res = null;
+
+      if (stringValue != null) {
+        res = UserUtils.convertListOfStringsToListOfSubjects(stringValue);
+      }
+
+      return res;
     }
   }
 }
