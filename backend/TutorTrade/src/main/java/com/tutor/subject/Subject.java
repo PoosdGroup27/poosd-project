@@ -58,8 +58,6 @@ public enum Subject {
     this.subjectName = subjectName;
   }
 
-  Subject() {subjectName = "";}
-
   public String getSubjectName() {
     return this.subjectName;
   }
@@ -70,6 +68,8 @@ public enum Subject {
    * @return List of subjects
    */
   public static List<String> getListOfSubjects() {
-    return Arrays.stream(Subject.values()).map(Subject::getSubjectName).collect(Collectors.toList());
+    return Arrays.stream(Subject.values())
+        .map(Subject::getSubjectName)
+        .collect(Collectors.toList());
   }
 }
