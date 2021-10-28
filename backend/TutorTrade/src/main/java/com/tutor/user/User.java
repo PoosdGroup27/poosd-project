@@ -244,14 +244,12 @@ public class User {
     }
   }
 
+  /** This is necessary in order for DynamoDB mapper to save ArrayList of Subject enums */
   public static class SubjectListConverter
       implements DynamoDBTypeConverter<ArrayList<String>, ArrayList<Subject>> {
 
     @Override
     public ArrayList<String> convert(final ArrayList<Subject> subjects) {
-      System.out.println("Ssajfnsflknnfklsanfknsafnsalfa");
-      System.out.println(subjects);
-
       return subjects.stream()
           .map(Subject::toString)
           .collect(Collectors.toCollection(ArrayList<String>::new));
@@ -259,19 +257,9 @@ public class User {
 
     @Override
     public ArrayList<Subject> unconvert(final ArrayList<String> stringValue) {
-      System.out.println("===========================================");
-      System.out.println("YOOOOOOOOOOOOOO");
-      System.out.println(stringValue);
-      System.out.println(stringValue.getClass());
-      System.out.println(stringValue.getClass().getName());
-
-      ArrayList<Subject> res = null;
-
-      if (stringValue != null) {
-        res = UserUtils.convertListOfStringsToListOfSubjects(stringValue);
-      }
-
-      return res;
+      return (stringValue != null)
+          ? UserUtils.convertListOfStringsToListOfSubjects(stringValue)
+          : null;
     }
   }
 }
