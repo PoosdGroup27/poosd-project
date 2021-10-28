@@ -50,9 +50,9 @@ public class User {
     this.dateCreated = LocalDateTime.now();
     this.isActive = true;
     this.phoneNumber = builder.phoneNumber;
-    this.subjects = builder.subjects;
     this.cumulativeSessionsCompleted = builder.cumulativeSessionsCompleted;
     this.rating = builder.rating;
+    this.subjects = (builder.subjects == null) ? new ArrayList<>() : builder.subjects;
 
     // users shouldn't have session IDs at creation time
     this.sessionIds = new ArrayList<>();

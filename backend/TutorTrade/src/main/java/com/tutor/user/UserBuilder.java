@@ -34,11 +34,6 @@ public class UserBuilder {
     if (user.getPhoneNumber() == null) {
       nullValues.add("phoneNumber");
     }
-    if (user.getSubjects() == null) {
-      // non-mandatory field, but we want to set this list to an empty one
-      // for later, so the user can add fields if need be in the future
-      user.setSubjects(new ArrayList<>());
-    }
 
     if (!nullValues.isEmpty()) {
       throw new UserBuilderException("No values provided for these fields: " + nullValues);
