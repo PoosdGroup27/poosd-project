@@ -207,6 +207,7 @@ class ProfileController: UIViewController {
                 $0.heightAnchor.constraint(equalToConstant: 55),
                 $0.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.75)
             ])
+            $0.addTarget(self, action: #selector(logOutButtonTapped), for: .touchUpInside)
         }
         
         // Set the contentSize constraints for the vertical scroll view
@@ -223,5 +224,10 @@ class ProfileController: UIViewController {
     
     @objc func schoolEditButtonTapped(sender: UIButton) {
         self.present(schoolSelectionVC, animated: true, completion: nil)
+    }
+    
+    @objc func logOutButtonTapped() {
+        let appDelegate = UIApplication.shared.delegate as! TutorTradeApplication
+        appDelegate.logOut()
     }
 }

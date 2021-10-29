@@ -26,6 +26,11 @@
 		5E1BAE5B2728E72800A70757 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1BAE5A2728E72800A70757 /* ProfileController.swift */; };
 		5E1BAE702728ED5C00A70757 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1BAE6F2728ED5C00A70757 /* UIView.swift */; };
 		5E1BAE722728EDF700A70757 /* ProfilePageConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1BAE712728EDF700A70757 /* ProfilePageConfigurations.swift */; };
+		5E5DB4172729F7B9008B9A0D /* WelcomePageConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5DB4162729F7B9008B9A0D /* WelcomePageConfigurations.swift */; };
+		5E5DB41E272B0FAD008B9A0D /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E5DB41D272B0FAD008B9A0D /* Roboto-Regular.ttf */; };
+		5E5DB420272B0FCC008B9A0D /* WelcomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5DB41F272B0FCC008B9A0D /* WelcomePageViewController.swift */; };
+		5E5DB422272B12A1008B9A0D /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5DB421272B12A1008B9A0D /* AuthManager.swift */; };
+		5E5DB424272B135C008B9A0D /* AuthFlowNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5DB423272B135C008B9A0D /* AuthFlowNavigationController.swift */; };
 		5E7EA9A12718E09B0066B189 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E7EA9A02718E09B0066B189 /* Lato-Bold.ttf */; };
 		5E7EA9A52718E3250066B189 /* TutorProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9A42718E3250066B189 /* TutorProfileManager.swift */; };
 		5E7EA9AE2718E3C30066B189 /* AppDisplaySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9AB2718E3C30066B189 /* AppDisplaySettings.swift */; };
@@ -92,6 +97,11 @@
 		5E1BAE5A2728E72800A70757 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		5E1BAE6F2728ED5C00A70757 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		5E1BAE712728EDF700A70757 /* ProfilePageConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePageConfigurations.swift; sourceTree = "<group>"; };
+		5E5DB4162729F7B9008B9A0D /* WelcomePageConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomePageConfigurations.swift; sourceTree = "<group>"; };
+		5E5DB41D272B0FAD008B9A0D /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		5E5DB41F272B0FCC008B9A0D /* WelcomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomePageViewController.swift; sourceTree = "<group>"; };
+		5E5DB421272B12A1008B9A0D /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		5E5DB423272B135C008B9A0D /* AuthFlowNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowNavigationController.swift; sourceTree = "<group>"; };
 		5E7EA9A02718E09B0066B189 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Bold.ttf"; sourceTree = "<group>"; };
 		5E7EA9A42718E3250066B189 /* TutorProfileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorProfileManager.swift; sourceTree = "<group>"; };
 		5E7EA9AB2718E3C30066B189 /* AppDisplaySettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDisplaySettings.swift; sourceTree = "<group>"; };
@@ -311,6 +321,7 @@
 		5E1BAE602728EACE00A70757 /* AuthFlow */ = {
 			isa = PBXGroup;
 			children = (
+				5E5DB4162729F7B9008B9A0D /* WelcomePageConfigurations.swift */,
 			);
 			path = AuthFlow;
 			sourceTree = "<group>";
@@ -394,6 +405,7 @@
 		5E1BAE6B2728ECF300A70757 /* AuthFlow */ = {
 			isa = PBXGroup;
 			children = (
+				5E5DB421272B12A1008B9A0D /* AuthManager.swift */,
 			);
 			path = AuthFlow;
 			sourceTree = "<group>";
@@ -401,6 +413,8 @@
 		5E1BAE6C2728ECFD00A70757 /* AuthFlow */ = {
 			isa = PBXGroup;
 			children = (
+				5E5DB41F272B0FCC008B9A0D /* WelcomePageViewController.swift */,
+				5E5DB423272B135C008B9A0D /* AuthFlowNavigationController.swift */,
 			);
 			path = AuthFlow;
 			sourceTree = "<group>";
@@ -480,6 +494,7 @@
 		5ECB1D8027025203005BDD89 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				5E5DB41D272B0FAD008B9A0D /* Roboto-Regular.ttf */,
 				5E7EA9E42718E7020066B189 /* Roboto-Bold.ttf */,
 				5E7EA9A02718E09B0066B189 /* Lato-Bold.ttf */,
 				5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */,
@@ -597,6 +612,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E7EA9E52718E7480066B189 /* Roboto-Bold.ttf in Resources */,
+				5E5DB41E272B0FAD008B9A0D /* Roboto-Regular.ttf in Resources */,
 				5ECB1D8C27025277005BDD89 /* Dosis-Bold.ttf in Resources */,
 				5E7EA9B52718E4EA0066B189 /* Assets.xcassets in Resources */,
 				4AC9501D26ED771F00FC4A97 /* LaunchScreen.storyboard in Resources */,
@@ -632,6 +648,8 @@
 				4ABAC5D3270A0D2E00CBB85B /* UrgencyView.swift in Sources */,
 				5E7EA9B32718E49A0066B189 /* Properties.swift in Sources */,
 				4A29D5982702601D00D25088 /* MatchingController.swift in Sources */,
+				5E5DB420272B0FCC008B9A0D /* WelcomePageViewController.swift in Sources */,
+				5E5DB422272B12A1008B9A0D /* AuthManager.swift in Sources */,
 				5EF5C4522726F72300C74ADF /* SchoolSelectionViewController.swift in Sources */,
 				5EF5C4542727517000C74ADF /* SchoolSelectionViewFactory.swift in Sources */,
 				4A4CB600270BA47C00D7D215 /* PointsView.swift in Sources */,
@@ -640,9 +658,11 @@
 				4A29D59C2702603200D25088 /* RequestController.swift in Sources */,
 				4AA06BFA2704E4FF00B58926 /* RequestScrollView.swift in Sources */,
 				5E7EA9AF2718E3C30066B189 /* TutorProfile.swift in Sources */,
+				5E5DB4172729F7B9008B9A0D /* WelcomePageConfigurations.swift in Sources */,
 				5E7EA9DE2718E6800066B189 /* BorderedDisplayBox.swift in Sources */,
 				5E7EA9EB271A52B40066B189 /* SubjectsResponse.swift in Sources */,
 				5E7EA9DD2718E6800066B189 /* NameAndRatingLabel.swift in Sources */,
+				5E5DB424272B135C008B9A0D /* AuthFlowNavigationController.swift in Sources */,
 				4A22D9FD270E17F700E8DA7E /* SubjectView.swift in Sources */,
 				5E7EA9E7271900AE0066B189 /* DisplaySettingsManager.swift in Sources */,
 				5E7EA9DF2718E6800066B189 /* CircularBorderedImageView.swift in Sources */,
