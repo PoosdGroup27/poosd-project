@@ -17,6 +17,7 @@ class WelcomePageViewController: UIViewController {
     private lazy var signInButton: UIButton = .signInButton
     private lazy var termsOfServiceButton: UIButton = .termsOfServiceButton
     private lazy var privacyPolicyButton: UIButton = .privacyPolicyButton
+    private lazy var createProfileViewController = CreateProfileController()
     
 
     
@@ -63,6 +64,7 @@ class WelcomePageViewController: UIViewController {
         }
         
         self.actionContainerView.addSubview(getStartedButton) {
+            $0.addTarget(self, action: #selector(self.getStartedButtonTapped), for: .touchUpInside)
             NSLayoutConstraint.activate([
                 $0.topAnchor.constraint(equalTo: self.actionContainerView.topAnchor, constant: UIScreen.main.bounds.height / 20),
                 $0.leadingAnchor.constraint(equalTo: self.actionContainerView.leadingAnchor, constant: 28),
@@ -101,6 +103,10 @@ class WelcomePageViewController: UIViewController {
             ])
             
         }
+    }
+    
+    @objc func getStartedButtonTapped() {
+        self.navigationController?.pushViewController(createProfileViewController, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -12,6 +12,8 @@ class BorderedDisplayBoxView: UIView {
     
     var iconImage : UIImage?
     
+    var iconHeightRatio: CGFloat
+    
     var borderColor : UIColor
     
     var borderWidth : CGFloat
@@ -22,8 +24,9 @@ class BorderedDisplayBoxView: UIView {
     
     private let titleLayer : CATextLayer
     
-    internal init(iconImage: UIImage? = nil, borderColor: UIColor, borderWidth: CGFloat, boxSize: CGSize, cornerRadius: CGFloat = 20.0, boxBackgroundColor: UIColor = .white) {
+    internal init(iconImage: UIImage? = nil, iconHeightRatio: CGFloat = 0.5, borderColor: UIColor, borderWidth: CGFloat, boxSize: CGSize, cornerRadius: CGFloat = 20.0, boxBackgroundColor: UIColor = .white) {
         self.iconImage = iconImage
+        self.iconHeightRatio = iconHeightRatio
         self.borderColor = borderColor
         self.borderWidth = borderWidth
         self.titleLayer = CATextLayer()
@@ -47,7 +50,7 @@ class BorderedDisplayBoxView: UIView {
         context.drawPath(using: .fillStroke)
         
         if let iconImage = iconImage {
-            let imageRect = CGRect(x: borderRect.origin.x + 15, y: borderRect.origin.y + (borderRect.height / 4), width: borderRect.height / 2, height: borderRect.height / 2)
+            let imageRect = CGRect(x: borderRect.origin.x + 15, y: borderRect.midY - (borderRect.height * (iconHeightRatio / 2)), width: borderRect.height * iconHeightRatio, height: borderRect.height * iconHeightRatio)
             iconImage.draw(in: imageRect)
         }
     }

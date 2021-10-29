@@ -68,9 +68,9 @@ extension UILabel {
 
 extension BorderedDisplayBoxView {
     
-    static func defaultDisplayBoxView(withIcon icon: UIImage) -> BorderedDisplayBoxView {
+    static func defaultDisplayBoxView(withIcon icon: UIImage, iconHeightRatio: CGFloat = 0.5) -> BorderedDisplayBoxView {
         let boxSize = CGSize(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.08)
-        let displayBox = BorderedDisplayBoxView(iconImage: icon, borderColor: .black, borderWidth: 1.5, boxSize: boxSize, cornerRadius: 10)
+        let displayBox = BorderedDisplayBoxView(iconImage: icon, iconHeightRatio: iconHeightRatio, borderColor: .black, borderWidth: 1.5, boxSize: boxSize, cornerRadius: 10)
         displayBox.translatesAutoresizingMaskIntoConstraints = false
         displayBox.backgroundColor = .clear
         return displayBox

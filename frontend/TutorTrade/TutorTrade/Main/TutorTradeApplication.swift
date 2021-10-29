@@ -44,7 +44,7 @@ class TutorTradeApplication: UIResponder, UIApplicationDelegate {
             window!.rootViewController = tabBarController
             
         } else {
-            self.authFlowController = self.authFlowController ?? AuthFlowNavigationController()
+            self.authFlowController = self.authFlowController ?? UINavigationController(rootViewController: WelcomePageViewController())
             
             window!.rootViewController = authFlowController
             

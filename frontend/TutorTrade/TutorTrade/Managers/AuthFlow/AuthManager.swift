@@ -14,7 +14,8 @@ internal class AuthManager {
     var isLoggedIn: Bool
     
     private init() {
-        isLoggedIn = true
+        isLoggedIn = false
+        
     }
     
 }
