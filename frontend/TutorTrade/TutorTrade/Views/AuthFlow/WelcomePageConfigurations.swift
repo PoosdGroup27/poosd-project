@@ -79,7 +79,7 @@ extension UIButton {
     static var termsOfServiceButton: UIButton {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        let titleAttributes = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single]
+        let titleAttributes = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]
         let attributedTitle = NSAttributedString(string: "Terms of Service",
                                                  attributes:titleAttributes)
         button.setAttributedTitle(attributedTitle, for: .normal)
@@ -92,8 +92,9 @@ extension UIButton {
         get {
             let button = UIButton()
             button.translatesAutoresizingMaskIntoConstraints = false
-            let titleAttributes = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single]
-            let attributedTitle = NSAttributedString(string: "Privacy Policy", attributes: titleAttributes)
+            let titleAttributes = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]
+            let attributedTitle = NSMutableAttributedString(string: "Privacy Policy")
+            attributedTitle.addAttributes(titleAttributes, range: NSRange(0..<attributedTitle.length))
             button.setAttributedTitle(attributedTitle, for: .normal)
             button.backgroundColor = .clear
             button.titleLabel!.font = UIFont(name: "Roboto-Regular", size: 12)!
