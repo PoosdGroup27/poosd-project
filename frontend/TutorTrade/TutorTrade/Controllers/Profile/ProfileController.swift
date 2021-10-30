@@ -13,35 +13,37 @@ import UIKit
 class ProfileController: UIViewController {
     
     private let factory: ProfilePageFactory
-    private let modelManager: TutorProfileManager
+    private let profileManager: TutorProfileManager
     private let displaySettings: AppDisplaySettings
     
     private lazy var verticalScrollView: UIScrollView = .profilePageVerticalScrollView
     private lazy var titleContainerView: UIView = .profilePageTitleContainerView
     private lazy var pageTitleLabel: UILabel =  .profilePageTitle
-    private lazy var pointsButton: UIButton = .pointButton(withBalance: modelManager.profile.pointBalance)
-    private lazy var profilePhotoView: CircularBorderedImageView = .profilePhotoView(withImage: modelManager.profile.profilePhoto)
-    private lazy var nameAndRatingLabel: NameAndRatingLabel = .tutorNameAndRatingLabel(withFirstName: modelManager.profile.firstName, withLastName: modelManager.profile.lastName, withRating: modelManager.profile.rating)
+    private lazy var pointsButton: UIButton = .pointButton(withBalance: profileManager.profile.pointBalance)
+    private lazy var profilePhotoView: CircularBorderedImageView = .profilePhotoView(withImage: profileManager.profile.profilePhoto)
+    private lazy var nameAndRatingLabel: NameAndRatingLabel = .tutorNameAndRatingLabel(withFirstName: profileManager.profile.firstName, withLastName: profileManager.profile.lastName, withRating: profileManager.profile.rating)
     private lazy var schoolDisplayBoxTitle: UILabel = .fieldTitle(withText: "School")
     private lazy var schoolDisplayBoxView: BorderedDisplayBoxView  = .defaultDisplayBoxView(withIcon: UIImage(named: "SchoolIcon")!)
-    private lazy var schoolDisplayBoxLabel: UILabel = .displayBoxLabel(withText: modelManager.profile.school)
+    private lazy var schoolDisplayBoxLabel: UILabel = .displayBoxLabel(withText: profileManager.profile.school)
     private lazy var schoolEditButton : UIButton = .fieldEditButton
     private lazy var majorDisplayBoxTitle : UILabel = .fieldTitle(withText: "Major")
     private lazy var majorDisplayBoxView : BorderedDisplayBoxView = .defaultDisplayBoxView(withIcon: UIImage(named: "MajorIcon")!)
-    private lazy var majorDisplayBoxLabel : UILabel = .displayBoxLabel(withText: modelManager.profile.major)
+    private lazy var majorDisplayBoxLabel : UILabel = .displayBoxLabel(withText: profileManager.profile.major)
     private lazy var majorEditButton : UIButton = .fieldEditButton
     private lazy var tutoringSubjectsTitle : UILabel = .fieldTitle(withText: "Tutoring Subjects")
-    private lazy var tutoringSubjectsScrollView : TutoringSubjectsScrollView = .init(tutoringSubjects: displaySettings.tutoringSubjects, selectedTutoringSubjects: modelManager.profile.tutoringSubjects, selectionObserver: self.tutoringSubjectsDidChange(tutoringSubject:status:))
+    private lazy var tutoringSubjectsScrollView : TutoringSubjectsScrollView = .init(tutoringSubjects: displaySettings.tutoringSubjects, selectedTutoringSubjects: profileManager.profile.tutoringSubjects, selectionObserver: self.tutoringSubjectsDidChange(tutoringSubject:status:))
     private lazy var logOutButton : UIButton = .logOutButton
-    
-    private let schoolSelectionVC : UIViewController
+    private lazy var schoolEditingFieldValues = PopoverEditingViewController.EditFieldValues(fieldLabel: "Edit School", fieldIcon: UIImage(named: "SchoolIcon")!, fieldKeyPath: \.school, fieldPlaceHolder: "Enter School")
+    private lazy var majorEditingFieldValues = PopoverEditingViewController.EditFieldValues(fieldLabel: "Edit Major", fieldIcon: UIImage(named: "MajorIcon")!, fieldKeyPath: \.major, fieldPlaceHolder: "Enter Major")
+    private lazy var popoverBackgroundView: UIView = .popoverBackgroundView
+    private var editingPopoverVC : PopoverEditingViewController!
     
     init(factory: ProfilePageFactory, modelManager : TutorProfileManager, displaySettings: AppDisplaySettings) {
         self.factory = factory
-        self.modelManager = modelManager
+        self.profileManager = modelManager
         self.displaySettings = displaySettings
-        self.schoolSelectionVC = SchoolSelectionViewController()
         super.init(nibName: nil, bundle: nil)
+        self.editingPopoverVC = PopoverEditingViewController(fieldValues: schoolEditingFieldValues, profileManager: self.profileManager, onFinish: self.finishSchoolEditing)
         tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), tag: 3)
     }
     
@@ -138,7 +140,7 @@ class ProfileController: UIViewController {
         
         // Add the school edit button
         self.schoolDisplayBoxView.addSubview(schoolEditButton) {
-            $0.addTarget(self, action: #selector(schoolEditButtonTapped(sender:)), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(schoolEditButtonTapped), for: .touchUpInside)
             NSLayoutConstraint.activate([
                 $0.trailingAnchor.constraint(equalTo: schoolDisplayBoxView.trailingAnchor, constant: -15),
                 $0.centerYAnchor.constraint(equalTo: schoolDisplayBoxLabel.centerYAnchor),
@@ -174,6 +176,7 @@ class ProfileController: UIViewController {
         
         // Add the major edit button
         self.majorDisplayBoxView.addSubview(majorEditButton) {
+            $0.addTarget(self, action: #selector(self.majorEditButtonTapped), for: .touchUpInside)
             NSLayoutConstraint.activate([
                 $0.trailingAnchor.constraint(equalTo: majorDisplayBoxView.trailingAnchor, constant: -15),
                 $0.centerYAnchor.constraint(equalTo: majorDisplayBoxView.centerYAnchor),
@@ -210,6 +213,16 @@ class ProfileController: UIViewController {
             $0.addTarget(self, action: #selector(logOutButtonTapped), for: .touchUpInside)
         }
         
+        self.view.addSubview(popoverBackgroundView) {
+            NSLayoutConstraint.activate([
+                $0.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+                $0.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+                $0.topAnchor.constraint(equalTo: self.view.topAnchor),
+                $0.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            ])
+            $0.isHidden = true
+        }
+        
         // Set the contentSize constraints for the vertical scroll view
         NSLayoutConstraint.activate([
             verticalScrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: logOutButton.bottomAnchor, constant: 50),
@@ -221,9 +234,22 @@ class ProfileController: UIViewController {
         print("Button was tapped")
     }
 
+    func finishSchoolEditing() {
+        self.majorDisplayBoxLabel.text = profileManager.profile.major
+        self.schoolDisplayBoxLabel.text = profileManager.profile.school
+        self.popoverBackgroundView.isHidden = true
+    }
     
-    @objc func schoolEditButtonTapped(sender: UIButton) {
-        self.present(schoolSelectionVC, animated: true, completion: nil)
+    @objc func schoolEditButtonTapped() {
+        self.popoverBackgroundView.isHidden = false
+        self.editingPopoverVC.fieldValues = schoolEditingFieldValues
+        self.present(editingPopoverVC, animated: true, completion: nil)
+    }
+    
+    @objc func majorEditButtonTapped() {
+        self.popoverBackgroundView.isHidden = false
+        self.editingPopoverVC.fieldValues = majorEditingFieldValues
+        self.present(editingPopoverVC, animated: true, completion: nil)
     }
     
     @objc func logOutButtonTapped() {

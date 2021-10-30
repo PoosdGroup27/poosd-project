@@ -30,6 +30,15 @@ extension UIView {
             return titleContainer
         }
     }
+    
+    static var popoverBackgroundView: UIView {
+        get {
+            let view = UIView()
+            view.backgroundColor = UIColor(named: "popoverBackgroundOverlay")!
+            view.translatesAutoresizingMaskIntoConstraints = false
+            return view
+        }
+    }
 }
 
 extension UILabel {

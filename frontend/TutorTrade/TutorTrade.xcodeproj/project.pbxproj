@@ -51,10 +51,10 @@
 		5E7EA9EB271A52B40066B189 /* SubjectsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9EA271A52B40066B189 /* SubjectsResponse.swift */; };
 		5ECB1D8C27025277005BDD89 /* Dosis-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */; };
 		5ED5C725272C5C75007628C5 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C724272C5C75007628C5 /* UIImage.swift */; };
-		5ED5C727272C9746007628C5 /* SchoolSelectionConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C726272C9746007628C5 /* SchoolSelectionConfigurations.swift */; };
+		5ED5C727272C9746007628C5 /* EditingPopoverConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C726272C9746007628C5 /* EditingPopoverConfigurations.swift */; };
 		5EF5C44C2720FB2100C74ADF /* Auth0 in Frameworks */ = {isa = PBXBuildFile; productRef = 5EF5C44B2720FB2100C74ADF /* Auth0 */; };
 		5EF5C44E2720FE5C00C74ADF /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5EF5C44D2720FE5C00C74ADF /* Auth0.plist */; };
-		5EF5C4522726F72300C74ADF /* SchoolSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF5C4512726F72300C74ADF /* SchoolSelectionViewController.swift */; };
+		5EF5C4522726F72300C74ADF /* PopoverEditingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF5C4512726F72300C74ADF /* PopoverEditingViewController.swift */; };
 		5EF5C4542727517000C74ADF /* SchoolSelectionViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF5C4532727517000C74ADF /* SchoolSelectionViewFactory.swift */; };
 /* End PBXBuildFile section */
 
@@ -126,9 +126,9 @@
 		5E7EA9EA271A52B40066B189 /* SubjectsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectsResponse.swift; sourceTree = "<group>"; };
 		5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-Bold.ttf"; sourceTree = "<group>"; };
 		5ED5C724272C5C75007628C5 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
-		5ED5C726272C9746007628C5 /* SchoolSelectionConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSelectionConfigurations.swift; sourceTree = "<group>"; };
+		5ED5C726272C9746007628C5 /* EditingPopoverConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingPopoverConfigurations.swift; sourceTree = "<group>"; };
 		5EF5C44D2720FE5C00C74ADF /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
-		5EF5C4512726F72300C74ADF /* SchoolSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSelectionViewController.swift; sourceTree = "<group>"; };
+		5EF5C4512726F72300C74ADF /* PopoverEditingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverEditingViewController.swift; sourceTree = "<group>"; };
 		5EF5C4532727517000C74ADF /* SchoolSelectionViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSelectionViewFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -185,7 +185,7 @@
 		4A29D59427025FDE00D25088 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				5EF5C4512726F72300C74ADF /* SchoolSelectionViewController.swift */,
+				5EF5C4512726F72300C74ADF /* PopoverEditingViewController.swift */,
 				5E1BAE5A2728E72800A70757 /* ProfileController.swift */,
 			);
 			path = Profile;
@@ -478,7 +478,7 @@
 				5E7EA9CF2718E6800066B189 /* BorderedDisplayBox.swift */,
 				5E7EA9D02718E6800066B189 /* CircularBorderedImageView.swift */,
 				5E1BAE712728EDF700A70757 /* ProfilePageConfigurations.swift */,
-				5ED5C726272C9746007628C5 /* SchoolSelectionConfigurations.swift */,
+				5ED5C726272C9746007628C5 /* EditingPopoverConfigurations.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -663,7 +663,7 @@
 				4A29D5982702601D00D25088 /* MatchingController.swift in Sources */,
 				5E5DB420272B0FCC008B9A0D /* WelcomePageViewController.swift in Sources */,
 				5E5DB422272B12A1008B9A0D /* AuthManager.swift in Sources */,
-				5EF5C4522726F72300C74ADF /* SchoolSelectionViewController.swift in Sources */,
+				5EF5C4522726F72300C74ADF /* PopoverEditingViewController.swift in Sources */,
 				5EF5C4542727517000C74ADF /* SchoolSelectionViewFactory.swift in Sources */,
 				5E5DB42A272C4862008B9A0D /* CreateProfileController.swift in Sources */,
 				4A4CB600270BA47C00D7D215 /* PointsView.swift in Sources */,
@@ -676,7 +676,7 @@
 				5E7EA9DE2718E6800066B189 /* BorderedDisplayBox.swift in Sources */,
 				5E7EA9EB271A52B40066B189 /* SubjectsResponse.swift in Sources */,
 				5E7EA9DD2718E6800066B189 /* NameAndRatingLabel.swift in Sources */,
-				5ED5C727272C9746007628C5 /* SchoolSelectionConfigurations.swift in Sources */,
+				5ED5C727272C9746007628C5 /* EditingPopoverConfigurations.swift in Sources */,
 				5E5DB426272C40E4008B9A0D /* CreateProfilePageConfigurations.swift in Sources */,
 				4A22D9FD270E17F700E8DA7E /* SubjectView.swift in Sources */,
 				5E7EA9E7271900AE0066B189 /* DisplaySettingsManager.swift in Sources */,
