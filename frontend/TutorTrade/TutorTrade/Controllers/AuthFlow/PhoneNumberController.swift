@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Auth0
 
 class PhoneNumberController: UIViewController, UITextFieldDelegate {
     
@@ -32,10 +33,9 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
         
         self.view.addSubview(phoneNumberTitleContainerView) {
             NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+                $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 70),
                 $0.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
                 $0.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-                $0.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 3)
             ])
         }
         
@@ -55,7 +55,7 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
         
         self.view.addSubview(phoneNumberBox) {
             NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 220),
+                $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 275),
                 $0.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: UIScreen.main.bounds.width / 14.42),
                 $0.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: UIScreen.main.bounds.width / -14.42),
                 $0.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 15)
@@ -75,7 +75,7 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
         self.view.addSubview(phoneNumberButton) {
             $0.addTarget(self, action: #selector(self.phoneNumberButtonTapped), for: .touchUpInside)
             NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: UIScreen.main.bounds.height / 2.7),
+                $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: UIScreen.main.bounds.height / 2.3),
                 $0.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: UIScreen.main.bounds.width / -14.42),
                 $0.widthAnchor.constraint(equalToConstant: 50),
                 $0.heightAnchor.constraint(equalToConstant: 50)
@@ -84,9 +84,22 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func phoneNumberButtonTapped() {
-        print("Hit phone number button")
+        let number = "+1" + phoneNumberTextField.text!
+        AuthManager.shared.setPhoneNumber(phoneNumber: number)
+
+        Auth0
+           .authentication()
+           .startPasswordless(phoneNumber: AuthManager.shared.userPhoneNumber)
+           .start { result in
+               switch result {
+               case .success:
+                   print("Sent OTP to support@auth0.com!")
+               case .failure(let error):
+                   print(error)
+               }
+           }
+
         self.navigationController?.pushViewController(verificationController, animated: true)
-        print("Pushed verification")
     }
 
     @objc func dismissKeyboard() {
