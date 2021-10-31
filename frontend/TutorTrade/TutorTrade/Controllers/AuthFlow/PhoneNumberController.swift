@@ -84,7 +84,9 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func phoneNumberButtonTapped() {
-        self.navigationController?.pushViewController(verificationController, animated: false)
+        print("Hit phone number button")
+        self.navigationController?.pushViewController(verificationController, animated: true)
+        print("Pushed verification")
     }
 
     @objc func dismissKeyboard() {

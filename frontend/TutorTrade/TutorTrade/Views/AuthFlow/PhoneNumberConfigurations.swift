@@ -77,7 +77,6 @@ extension UITextField {
 }
 
 // Forward Button
-
 extension UIButton {
     static func createButton(backgroundColor: UIColor, image: UIImage) -> UIButton {
         let button = UIButton()
