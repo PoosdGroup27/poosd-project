@@ -9,15 +9,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.tutor.request.Request;
+import com.tutor.subject.Subject;
 import com.tutor.user.User;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /** Utility class for operations on user objects. */
 public class UserUtils {
@@ -88,7 +87,7 @@ public class UserUtils {
             + "}";
 
     String finalStage = isTest ? "TEST" : stage;
-    
+
     String response =
         ApiUtils.post(ApiUtils.ApiStages.valueOf(finalStage).toString(), "/user/create", json);
 
@@ -111,5 +110,31 @@ public class UserUtils {
 
     userTree.put("dateCreated", String.valueOf(date));
     return mapper.treeToValue(userTree, User.class);
+  }
+
+  /** Converts a list of strings to a list of subjects */
+  public static ArrayList<Subject> convertListOfStringsToListOfSubjects(
+      ArrayList<String> subjectsListOfStrings) {
+    if (subjectsListOfStrings == null) {
+      return null;
+    }
+
+    return subjectsListOfStrings.stream()
+        .filter(
+            s -> {
+              try {
+                Subject.valueOf(s);
+                return true;
+              } catch (IllegalArgumentException ex) {
+                // we want to catch any string that is not found in the
+                // enum. We don't do anything here exactly, but return
+                // false below to indicate that this failed to match any
+                // enum value
+                ;
+              }
+              return false;
+            })
+        .map(Subject::valueOf)
+        .collect(Collectors.toCollection(ArrayList<Subject>::new));
   }
 }

@@ -9,6 +9,8 @@ import Foundation
 
 class DisplaySettingsManager {
     
+    static let shared = DisplaySettingsManager()
+    
     private var cachedAppDisplaySettings : AppDisplaySettings?
     
     var appDisplaySettings : AppDisplaySettings? {

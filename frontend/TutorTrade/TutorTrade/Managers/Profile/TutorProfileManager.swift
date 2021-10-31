@@ -9,7 +9,7 @@ import Foundation
 
 protocol TutorProfileManager {
     
-    var profile : TutorProfile { get }
+    var profile : TutorProfile { get set}
     
 }
 
