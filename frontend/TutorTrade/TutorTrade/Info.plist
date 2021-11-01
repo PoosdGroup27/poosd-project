@@ -22,6 +22,8 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Lato-Black.ttf</string>
+		<string>Roboto-Regular.ttf</string>
 		<string>Dosis-Bold.ttf</string>
 		<string>Lato-Bold.ttf</string>
 		<string>Roboto-Bold.ttf</string>
