@@ -17,10 +17,9 @@ class WelcomePageViewController: UIViewController {
     private lazy var signInButton: UIButton = .signInButton
     private lazy var termsOfServiceButton: UIButton = .termsOfServiceButton
     private lazy var privacyPolicyButton: UIButton = .privacyPolicyButton
+    private lazy var phoneNumberController = PhoneNumberController()
     private lazy var createProfileViewController = CreateProfileController()
-    
 
-    
     override func loadView() {
          super.loadView()
         
@@ -106,7 +105,7 @@ class WelcomePageViewController: UIViewController {
     }
     
     @objc func getStartedButtonTapped() {
-        self.navigationController?.pushViewController(createProfileViewController, animated: true)
+        self.navigationController?.pushViewController(phoneNumberController, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
