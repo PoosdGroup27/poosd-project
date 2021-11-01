@@ -37,6 +37,11 @@ class VerificationController: UIViewController, UITextFieldDelegate {
         self.view.backgroundColor = UIColor(named: "AuthFlowColor")!
     }
     
+    override func viewDidLoad() {
+        let dismissKeyboardRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+        self.view.addGestureRecognizer(dismissKeyboardRecognizer)
+    }
+
     override func loadView() {
         super.loadView()
         self.view.addSubview(verificationTitleLabel) {
@@ -100,7 +105,6 @@ class VerificationController: UIViewController, UITextFieldDelegate {
             ])
         }
 
-        
         self.view.addSubview(verificationBoxThree) {
             NSLayoutConstraint.activate([
                 $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 275),
@@ -175,13 +179,10 @@ class VerificationController: UIViewController, UITextFieldDelegate {
                 $0.centerXAnchor.constraint(equalTo: verificationBoxSix.centerXAnchor)
             ])
         }
-
-
     }
     
     @objc func verificationButtonTapped() {
         let code = textFieldArray.compactMap{$0.text}.joined()
-        var success = 0
 
         Auth0
            .authentication()
@@ -193,16 +194,23 @@ class VerificationController: UIViewController, UITextFieldDelegate {
            .start { result in
                switch result {
                case .success(let credentials):
-                   success = 1
-                   print("Access Token: \(credentials.accessToken)")
-                   print(success)
+                   print("Access Token: \(String(describing: credentials.accessToken))")
+                   AuthManager.shared.verificationCode = true
                case .failure(let error):
-                   print("FAILLLL")
                    print(error)
                }
            }
         
-        self.navigationController?.pushViewController(self.createProfileViewController, animated: true)
+        pushCreateProfileController()
+    }
+    
+    // can't occur in main thread, so press button twice
+    func pushCreateProfileController() {
+        if (AuthManager.shared.verificationCode) {
+            self.navigationController?.pushViewController(self.createProfileViewController, animated: true)
+        } else {
+            print("user not logged in")
+        }
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
@@ -224,5 +232,11 @@ class VerificationController: UIViewController, UITextFieldDelegate {
                     break
                 }
             }
+    }
+    
+    @objc func dismissKeyboard() {
+        for textField in textFieldArray {
+            textField.endEditing(true)
+        }
     }
 }

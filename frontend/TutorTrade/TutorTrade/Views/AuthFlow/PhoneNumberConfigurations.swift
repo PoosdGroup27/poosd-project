@@ -7,15 +7,10 @@
 
 import UIKit
 
-// Back Button
-
-// UI Label
-
 extension UIView {
     static var phoneNumberTitleContainerView: UIView {
         get {
             let container = UIView()
-//            container.backgroundColor = UIColor(named: "AuthFlowColor")!
             container.translatesAutoresizingMaskIntoConstraints = false
             return container
         }
@@ -63,7 +58,6 @@ extension ShadowDisplayBox {
     }
 }
 
-// UITextfield
 extension UITextField {
     static func createTextField(withPlaceholder placeholder: String) -> UITextField {
         let textField = UITextField()
@@ -76,7 +70,6 @@ extension UITextField {
     }
 }
 
-// Forward Button
 extension UIButton {
     static func createButton(backgroundColor: UIColor, image: UIImage) -> UIButton {
         let button = UIButton()

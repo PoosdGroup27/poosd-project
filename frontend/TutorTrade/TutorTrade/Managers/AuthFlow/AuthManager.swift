@@ -12,10 +12,16 @@ internal class AuthManager {
     static var shared = AuthManager()
     
     var isLoggedIn: Bool
+    var userPhoneNumber: String
+    var verificationCode: Bool
     
     private init() {
         isLoggedIn = false
-        
+        userPhoneNumber = ""
+        verificationCode = false
     }
-    
+
+    func setPhoneNumber(phoneNumber: String) {
+        self.userPhoneNumber = phoneNumber
+    }
 }

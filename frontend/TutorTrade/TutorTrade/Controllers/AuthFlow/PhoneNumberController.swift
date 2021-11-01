@@ -17,6 +17,15 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
     private lazy var phoneNumberTextField: UITextField = .createTextField(withPlaceholder: "PhoneNumber")
     private lazy var phoneNumberButton: UIButton = .createButton(backgroundColor: .black, image: UIImage(named: "ForwardIcon")!)
     private lazy var verificationController = VerificationController()
+    private lazy var validateController: UIAlertController = {
+        let controller = UIAlertController.init(title: "Re-enter phone number",
+                                                message: "Invalid phone number, please enter a valid phone number.",
+                                                preferredStyle: .alert)
+
+        controller.addAction(UIAlertAction(title: "OK", style: .cancel))
+        return controller
+    }()
+
     
     convenience init() {
         self.init(nibName: nil, bundle: nil)
@@ -83,23 +92,42 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    func isValidPhoneNumber(phoneNumber: String) -> Bool {
+        if (phoneNumber.isEmpty) {
+            return false
+        }
+        
+        return true
+    }
+
     @objc func phoneNumberButtonTapped() {
-        let number = "+1" + phoneNumberTextField.text!
-        AuthManager.shared.setPhoneNumber(phoneNumber: number)
 
-        Auth0
-           .authentication()
-           .startPasswordless(phoneNumber: AuthManager.shared.userPhoneNumber)
-           .start { result in
-               switch result {
-               case .success:
-                   print("Sent OTP to support@auth0.com!")
-               case .failure(let error):
-                   print(error)
+        // Check valid phone numbers for auth0
+        let validPhoneNumber = isValidPhoneNumber(phoneNumber: phoneNumberTextField.text!)
+
+        
+        if (validPhoneNumber) {
+            let number = "+1" + phoneNumberTextField.text!
+
+            AuthManager.shared.setPhoneNumber(phoneNumber: number)
+
+            Auth0
+               .authentication()
+               .startPasswordless(phoneNumber: AuthManager.shared.userPhoneNumber)
+               .start { result in
+                   switch result {
+                   case .success:
+                       print("Sent OTP to support@auth0.com!")
+                   case .failure(let error):
+                       print(error)
+                   }
                }
-           }
 
-        self.navigationController?.pushViewController(verificationController, animated: true)
+            self.navigationController?.pushViewController(verificationController, animated: true)
+            return
+        }
+        
+        self.present(self.validateController, animated: true)
     }
 
     @objc func dismissKeyboard() {
