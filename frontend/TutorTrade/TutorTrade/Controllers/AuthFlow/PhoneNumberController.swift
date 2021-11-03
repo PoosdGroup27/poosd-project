@@ -9,6 +9,7 @@ import UIKit
 import Auth0
 
 class PhoneNumberController: UIViewController, UITextFieldDelegate {
+
     
     private lazy var phoneNumberTitleContainerView: UIView = .phoneNumberTitleContainerView
     private lazy var phoneNumberTitleLabel: UILabel = .phoneNumberTitleLabel
@@ -30,7 +31,7 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
         let dismissKeyboardRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         self.view.addGestureRecognizer(dismissKeyboardRecognizer)
     }
-    
+
     override func loadView() {
         super.loadView()
         self.view.backgroundColor = UIColor(named: "AuthFlowColor")!
@@ -39,6 +40,7 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
                 $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 70),
                 $0.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
                 $0.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+
             ])
         }
         
@@ -127,5 +129,6 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.phoneNumberTextField.endEditing(true)
+
     }
 }
