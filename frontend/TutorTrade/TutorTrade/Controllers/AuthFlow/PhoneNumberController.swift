@@ -25,12 +25,6 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
         controller.addAction(UIAlertAction(title: "OK", style: .cancel))
         return controller
     }()
-
-    
-    convenience init() {
-        self.init(nibName: nil, bundle: nil)
-        self.view.backgroundColor = UIColor(named: "AuthFlowColor")!
-    }
     
     override func viewDidLoad() {
         let dismissKeyboardRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
@@ -39,7 +33,7 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
     
     override func loadView() {
         super.loadView()
-        
+        self.view.backgroundColor = UIColor(named: "AuthFlowColor")!
         self.view.addSubview(phoneNumberTitleContainerView) {
             NSLayoutConstraint.activate([
                 $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 70),
@@ -101,19 +95,16 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
     }
 
     @objc func phoneNumberButtonTapped() {
-
-        // Check valid phone numbers for auth0
         let validPhoneNumber = isValidPhoneNumber(phoneNumber: phoneNumberTextField.text!)
 
-        
         if (validPhoneNumber) {
             let number = "+1" + phoneNumberTextField.text!
 
-            AuthManager.shared.setPhoneNumber(phoneNumber: number)
+            AuthManager.shared.setTypedPhoneNumber(phoneNumber: number)
 
             Auth0
                .authentication()
-               .startPasswordless(phoneNumber: AuthManager.shared.userPhoneNumber)
+               .startPasswordless(phoneNumber: AuthManager.shared.typedPhoneNumber, connection: "sms")
                .start { result in
                    switch result {
                    case .success:

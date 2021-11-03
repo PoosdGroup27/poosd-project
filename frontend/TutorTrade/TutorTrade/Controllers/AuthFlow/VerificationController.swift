@@ -7,6 +7,7 @@
 
 import UIKit
 import Auth0
+import JWTDecode
 
 class VerificationController: UIViewController, UITextFieldDelegate {
     
@@ -31,12 +32,15 @@ class VerificationController: UIViewController, UITextFieldDelegate {
                    verificationTextFieldFour, verificationTextFieldFive, verificationTextFieldSix]
 
    }
+    private lazy var validateController: UIAlertController = {
+        let controller = UIAlertController.init(title: "Incorrect verification code",
+                                                message: "Invalid code, please try again or enter new phone number",
+                                                preferredStyle: .alert)
 
-    convenience init() {
-        self.init(nibName: nil, bundle: nil)
-        self.view.backgroundColor = UIColor(named: "AuthFlowColor")!
-    }
-    
+        controller.addAction(UIAlertAction(title: "OK", style: .cancel))
+        return controller
+    }()
+
     override func viewDidLoad() {
         let dismissKeyboardRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         self.view.addGestureRecognizer(dismissKeyboardRecognizer)
@@ -44,6 +48,8 @@ class VerificationController: UIViewController, UITextFieldDelegate {
 
     override func loadView() {
         super.loadView()
+        self.view.backgroundColor = UIColor(named: "AuthFlowColor")!
+
         self.view.addSubview(verificationTitleLabel) {
             NSLayoutConstraint.activate([
                 $0.topAnchor.constraint(equalTo: self.view.topAnchor, constant: UIScreen.main.bounds.height / 4),
@@ -187,30 +193,52 @@ class VerificationController: UIViewController, UITextFieldDelegate {
         Auth0
            .authentication()
            .login(
-            phoneNumber: AuthManager.shared.userPhoneNumber,
+            phoneNumber: AuthManager.shared.typedPhoneNumber,
                code: code,
-            audience: Properties.backendBaseEndpoint,
-               scope: "openid email")
+            audience: AuthManager.shared.getAuthAudience(),
+            scope: AuthManager.shared.getAuthScopes())
            .start { result in
                switch result {
                case .success(let credentials):
                    print("Access Token: \(String(describing: credentials.accessToken))")
-                   AuthManager.shared.verificationCode = true
+                   
+                   let token = try? decode(jwt: credentials.idToken!)
+                   AuthManager.shared.setJWTToken(token: credentials.idToken!)
+                   AuthManager.shared.setUserPhoneNumber(userPhoneNumber: token!.claim(name: "phone_number").string!)
+
+                   let id = self.getUniqueID(id: token!.claim(name: "sub").string!)
+                   AuthManager.shared.setUserId(userId: id)
+                   
+                   let accessToken = "Bearer " + credentials.accessToken!
+                   AuthManager.shared.setAuthHeader(header: "Authorization", accessToken: accessToken)
+                   
+                   print(AuthManager.shared.getAuthHeader())
+                   
+                   DispatchQueue.main.async {
+                       self.pushCreateProfileController()
+                       return
+                   }
                case .failure(let error):
                    print(error)
+                   DispatchQueue.main.async {
+                       self.present(self.validateController, animated: true)
+                       return
+                   }
                }
            }
-        
-        pushCreateProfileController()
     }
     
-    // can't occur in main thread, so press button twice
+    func getUniqueID(id: String) -> String {
+       let start = id.index(id.startIndex, offsetBy: 4)
+       let end = id.index(id.startIndex, offsetBy: id.count-1)
+       let range = start...end
+       let newId = String(id[range])
+        
+        return newId
+    }
+
     func pushCreateProfileController() {
-        if (AuthManager.shared.verificationCode) {
             self.navigationController?.pushViewController(self.createProfileViewController, animated: true)
-        } else {
-            print("user not logged in")
-        }
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {

@@ -26,7 +26,7 @@ extension UILabel {
             let description = UILabel()
             description.translatesAutoresizingMaskIntoConstraints = false
             description.numberOfLines = 0
-            description.text = "Enter the verification code sent by \ntext to (123) 456-7890."
+            description.text = "Enter the verification code sent by \ntext to " + AuthManager.shared.typedPhoneNumber
             description.font = UIFont(name: "OpenSans-Regular", size: UIScreen.main.bounds.width / 25)
             description.lineBreakMode = NSLineBreakMode.byCharWrapping
             description.sizeToFit()
