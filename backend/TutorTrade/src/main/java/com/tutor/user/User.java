@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * object before being written to DynamoDB. User data coming from DynamoDB is read into User object.
  * Regarding table name: set equal to userTable-{stage_name} if deploying to none prod stage
  */
-@DynamoDBTable(tableName = "userTable-prod")
+@DynamoDBTable(tableName = "userTable-adam-dev")
 public class User {
   private String name;
 
@@ -32,9 +32,11 @@ public class User {
   private UUID userId;
   private static final int STARTING_POINTS = 100;
   private String phoneNumber;
-  private ArrayList<Subject> subjects;
+  private ArrayList<Subject> subjectsTeach;
+  private ArrayList<Subject> subjectsLearn;
   private int cumulativeSessionsCompleted;
   private double rating;
+  private String major;
 
   /**
    * Constructor is a wrapper for builder and should not be called directly, unless creating user
@@ -52,7 +54,11 @@ public class User {
     this.phoneNumber = builder.phoneNumber;
     this.cumulativeSessionsCompleted = builder.cumulativeSessionsCompleted;
     this.rating = builder.rating;
-    this.subjects = (builder.subjects == null) ? new ArrayList<>() : builder.subjects;
+    this.subjectsTeach =
+        (builder.subjectsTeach == null) ? new ArrayList<>() : builder.subjectsTeach;
+    this.subjectsLearn =
+        (builder.subjectsLearn == null) ? new ArrayList<>() : builder.subjectsLearn;
+    this.major = builder.major;
 
     // users shouldn't have session IDs at creation time
     this.sessionIds = new ArrayList<>();
@@ -148,13 +154,23 @@ public class User {
   }
 
   @DynamoDBTypeConverted(converter = SubjectListConverter.class)
-  @DynamoDBAttribute(attributeName = "subjects")
-  public ArrayList<Subject> getSubjects() {
-    return subjects;
+  @DynamoDBAttribute(attributeName = "subjectsLearn")
+  public ArrayList<Subject> getSubjectsLearn() {
+    return subjectsLearn;
   }
 
-  public void setSubjects(ArrayList<Subject> subjects) {
-    this.subjects = subjects;
+  public void setSubjectsLearn(ArrayList<Subject> subjectsLearn) {
+    this.subjectsLearn = subjectsLearn;
+  }
+
+  @DynamoDBTypeConverted(converter = SubjectListConverter.class)
+  @DynamoDBAttribute(attributeName = "subjectsTeach")
+  public ArrayList<Subject> getSubjectsTeach() {
+    return subjectsTeach;
+  }
+
+  public void setSubjectsTeach(ArrayList<Subject> subjectsTeach) {
+    this.subjectsTeach = subjectsTeach;
   }
 
   @DynamoDBAttribute(attributeName = "cumulativeSessionsCompleted")
@@ -173,6 +189,15 @@ public class User {
 
   public void setRating(double rating) {
     this.rating = rating;
+  }
+
+  @DynamoDBAttribute(attributeName = "major")
+  public String getMajor() {
+    return major;
+  }
+
+  public void setMajor(String major) {
+    this.major = major;
   }
 
   /**
@@ -221,7 +246,9 @@ public class User {
         && Objects.equals(sessionIds, user.sessionIds)
         && Objects.equals(userId, user.userId)
         && Objects.equals(phoneNumber, user.phoneNumber)
-        && Objects.equals(subjects, user.subjects)
+        && Objects.equals(subjectsLearn, user.subjectsLearn)
+        && Objects.equals(subjectsTeach, user.subjectsTeach)
+        && Objects.equals(major, user.major)
         && Objects.equals(cumulativeSessionsCompleted, user.cumulativeSessionsCompleted)
         && Objects.equals(rating, user.rating);
   }
