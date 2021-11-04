@@ -6,8 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.request.Request;
 import com.tutor.subject.Subject;
 import com.tutor.utils.UserUtils;
-
-import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,7 +27,7 @@ public class User {
   private boolean isActive;
   private int points;
   private ArrayList<UUID> sessionIds;
-  private UUID userId;
+  private String userId;
   private static final int STARTING_POINTS = 100;
   private String phoneNumber;
   private ArrayList<Subject> subjects;
@@ -45,15 +43,15 @@ public class User {
   public User(UserBuilder builder) {
     this.name = builder.name;
     this.school = builder.school;
-    this.points = STARTING_POINTS;
-    this.userId = UUID.randomUUID();
-    this.dateCreated = LocalDateTime.now();
-    this.isActive = true;
+    this.userId = builder.userId;
     this.phoneNumber = builder.phoneNumber;
-    this.cumulativeSessionsCompleted = builder.cumulativeSessionsCompleted;
-    this.rating = builder.rating;
     this.subjects = (builder.subjects == null) ? new ArrayList<>() : builder.subjects;
 
+    this.points = STARTING_POINTS;
+    this.dateCreated = LocalDateTime.now();
+    this.isActive = true;
+    this.cumulativeSessionsCompleted = 0;
+    this.rating = 5;
     // users shouldn't have session IDs at creation time
     this.sessionIds = new ArrayList<>();
   }
@@ -63,7 +61,7 @@ public class User {
    *
    * @param userId UUID uniquely identifying user
    */
-  public User(UUID userId) {
+  public User(String userId) {
     this.userId = userId;
   }
 
@@ -130,11 +128,11 @@ public class User {
   }
 
   @DynamoDBHashKey(attributeName = "userID")
-  public UUID getUserId() {
+  public String getUserId() {
     return userId;
   }
 
-  public void setUserId(UUID userId) {
+  public void setUserId(String userId) {
     this.userId = userId;
   }
 
@@ -179,7 +177,7 @@ public class User {
    * Adds a new rating to the overall rating for the user. In other words, calculates new average
    * for rating and stores inside rating field.
    *
-   * @param rating
+   * @param rating rating to be added
    */
   public void addNewRating(int rating) {
     if (cumulativeSessionsCompleted == 0) {

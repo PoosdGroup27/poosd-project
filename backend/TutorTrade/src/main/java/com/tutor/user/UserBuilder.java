@@ -3,8 +3,6 @@ package com.tutor.user;
 import com.tutor.subject.Subject;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.UUID;
 
 /**
  * Builder method for User class. Allows for chained set methods and validation during construction
@@ -12,15 +10,10 @@ import java.util.UUID;
  */
 public class UserBuilder {
   public String name;
+  public String userId;
   public String school;
-  public Date dateCreated;
-  public boolean isActive;
-  public int points;
-  public ArrayList<UUID> sessionIds;
   public String phoneNumber;
   public ArrayList<Subject> subjects;
-  public int cumulativeSessionsCompleted;
-  public double rating;
 
   private static void validateUser(User user) throws UserBuilderException {
     ArrayList<String> nullValues = new ArrayList<>();
@@ -34,10 +27,18 @@ public class UserBuilder {
     if (user.getPhoneNumber() == null) {
       nullValues.add("phoneNumber");
     }
+    if (user.getUserId() == null) {
+      nullValues.add("userId");
+    }
 
     if (!nullValues.isEmpty()) {
       throw new UserBuilderException("No values provided for these fields: " + nullValues);
     }
+  }
+
+  public UserBuilder withId(String id) {
+    this.userId = id;
+    return this;
   }
 
   public UserBuilder withName(String name) {
@@ -61,7 +62,7 @@ public class UserBuilder {
   }
 
   /**
-   * Validates that User contains non-empty name and school.
+   * Validates that User contains all required fields.
    *
    * @return Valid User object
    * @throws UserBuilderException Occurs when validation fails

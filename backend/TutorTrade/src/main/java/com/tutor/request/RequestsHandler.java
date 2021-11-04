@@ -30,42 +30,38 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, ApiR
   public ApiResponse<?> handleRequest(Map<Object, Object> event, Context context) {
     HashMap<?, ?> contextMap = (HashMap<?, ?>) event.get("context");
     String httpMethod = (String) contextMap.get("http-method");
-    String path = (String) contextMap.get("resource-path");
-
-    // grab the last element in API path
-    String[] splitPath = path.split("/");
-    String method = splitPath[splitPath.length - 1];
 
     HashMap<?, ?> bodyJson;
     HashMap<?, ?> params;
     HashMap<?, ?> pathParameters;
 
-    if (httpMethod.equals("GET")) {
-      params = (HashMap<?, ?>) event.get("params");
-      pathParameters = (HashMap<?, ?>) params.get("path");
-      Request request =
-          RequestUtils.getRequestObjectById(((String) pathParameters.get("requestId")));
-      return ApiResponse.<Request>builder()
-          .statusCode(HttpURLConnection.HTTP_OK)
-          .body(request)
-          .build();
-    } else if (httpMethod.equals("POST") && method.equals("create")) {
-      bodyJson = (HashMap<?, ?>) event.get("body-json");
-      try {
-        return createRequest(bodyJson);
-      } catch (RequestBuilderException e) {
-        e.printStackTrace();
-        return ApiUtils.returnErrorResponse(e);
-      }
-    } else if (httpMethod.equals("PATCH")) {
-      bodyJson = (HashMap<?, ?>) event.get("body-json");
-      params = (HashMap<?, ?>) event.get("params");
-      pathParameters = (HashMap<?, ?>) params.get("path");
-      return updateRequest(bodyJson, (String) pathParameters.get("requestId"));
-    } else if (httpMethod.equals("DELETE")) {
-      params = (HashMap<?, ?>) event.get("params");
-      pathParameters = (HashMap<?, ?>) params.get("path");
-      return deleteRequest((String) pathParameters.get("requestId"));
+    switch (httpMethod) {
+      case "GET":
+        params = (HashMap<?, ?>) event.get("params");
+        pathParameters = (HashMap<?, ?>) params.get("path");
+        Request request =
+                RequestUtils.getRequestObjectById(((String) pathParameters.get("requestId")));
+        return ApiResponse.<Request>builder()
+                .statusCode(HttpURLConnection.HTTP_OK)
+                .body(request)
+                .build();
+      case "POST":
+        bodyJson = (HashMap<?, ?>) event.get("body-json");
+        try {
+          return createRequest(bodyJson);
+        } catch (RequestBuilderException e) {
+          e.printStackTrace();
+          return ApiUtils.returnErrorResponse(e);
+        }
+      case "PATCH":
+        bodyJson = (HashMap<?, ?>) event.get("body-json");
+        params = (HashMap<?, ?>) event.get("params");
+        pathParameters = (HashMap<?, ?>) params.get("path");
+        return updateRequest(bodyJson, (String) pathParameters.get("requestId"));
+      case "DELETE":
+        params = (HashMap<?, ?>) event.get("params");
+        pathParameters = (HashMap<?, ?>) params.get("path");
+        return deleteRequest((String) pathParameters.get("requestId"));
     }
 
     return ApiResponse.<String>builder()
@@ -97,9 +93,9 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, ApiR
     DYNAMO_DB_MAPPER.save(request);
 
     return ApiResponse.<Request>builder()
-            .statusCode(HttpURLConnection.HTTP_OK)
-            .body(request)
-            .build();
+        .statusCode(HttpURLConnection.HTTP_OK)
+        .body(request)
+        .build();
   }
 
   private ApiResponse<?> updateRequest(HashMap<?, ?> body, String requestId) {

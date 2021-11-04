@@ -33,7 +33,7 @@ public class UserUtils {
    * @return User corresponding to userId, if user is found, null otherwise.
    */
   public static User getUserObjectById(String userId) {
-    User key = new User(UUID.fromString(userId));
+    User key = new User(userId);
     DynamoDBQueryExpression<User> queryExpression =
         new DynamoDBQueryExpression<User>().withHashKeyValues(key);
 
