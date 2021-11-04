@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import JWTDecode
 
 class CreateProfileController: UIViewController, UITextFieldDelegate {
 
@@ -197,10 +198,25 @@ class CreateProfileController: UIViewController, UITextFieldDelegate {
         self.present(self.explainController, animated: true)
     }
     
+    // I think createAccount should be handling user defaults
     @objc func createAccountButtonTapped() {
-        AuthManager.shared.isLoggedIn = true
+        AuthManager.shared.setIsLoggedIn(isLoggedIn: true)
+        setUserDefaults(token: AuthManager.shared.getIdToken(), userPhoneNumber: AuthManager.shared.getUserPhoneNumber(),
+                        userId: AuthManager.shared.getUserId()!,
+                        header: AuthManager.shared.getAuthHeader().0!, accessToken: AuthManager.shared.getAuthHeader().1!, isLoggedIn: AuthManager.shared.isLoggedIn)
+
         self.navigationController?.popToRootViewController(animated: false)
         (UIApplication.shared.delegate as! TutorTradeApplication).loadStartupController()
+    }
+    
+    func setUserDefaults(token: String?, userPhoneNumber: String?, userId: String, header: String, accessToken: String, isLoggedIn: Bool) {
+        UserDefaults.standard.setUserPhoneNumber(userPhoneNumber: userPhoneNumber!)
+        UserDefaults.standard.setUserId(userId: userId)
+        UserDefaults.standard.setIdToken(idToken: token!)
+        UserDefaults.standard.setAccessToken(accessToken: accessToken)
+        UserDefaults.standard.setAuthHeaderZero(authorization: "Authorization")
+        UserDefaults.standard.setAuthHeaderOne(bearerToken: "Bearer " + accessToken)
+        UserDefaults.standard.setIsLoggedIn(isLoggedIn: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {

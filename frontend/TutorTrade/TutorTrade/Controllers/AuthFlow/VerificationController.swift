@@ -193,7 +193,7 @@ class VerificationController: UIViewController, UITextFieldDelegate {
         Auth0
            .authentication()
            .login(
-            phoneNumber: AuthManager.shared.typedPhoneNumber,
+            phoneNumber: AuthManager.shared.getUserPhoneNumber()!,
                code: code,
             audience: AuthManager.shared.getAuthAudience(),
             scope: AuthManager.shared.getAuthScopes())
@@ -203,14 +203,12 @@ class VerificationController: UIViewController, UITextFieldDelegate {
                    print("Access Token: \(String(describing: credentials.accessToken))")
                    
                    let token = try? decode(jwt: credentials.idToken!)
-                   AuthManager.shared.setJWTToken(token: credentials.idToken!)
-                   AuthManager.shared.setUserPhoneNumber(userPhoneNumber: token!.claim(name: "phone_number").string!)
-
+                   let userPhoneNumber = token!.claim(name: "phone_number").string!
                    let id = self.getUniqueID(id: token!.claim(name: "sub").string!)
-                   AuthManager.shared.setUserId(userId: id)
+                   let accessToken = credentials.accessToken!
                    
-                   let accessToken = "Bearer " + credentials.accessToken!
-                   AuthManager.shared.setAuthHeader(header: "Authorization", accessToken: accessToken)
+                   self.setAuthManager(idToken: credentials.idToken!, userPhoneNumber: userPhoneNumber,
+                                       userId: id, header: "Authorization", accessToken: accessToken)
                    
                    print(AuthManager.shared.getAuthHeader())
                    
@@ -235,6 +233,14 @@ class VerificationController: UIViewController, UITextFieldDelegate {
        let newId = String(id[range])
         
         return newId
+    }
+    
+    func setAuthManager(idToken: String, userPhoneNumber: String?, userId: String, header: String, accessToken: String) {
+        AuthManager.shared.setUserPhoneNumber(userPhoneNumber: userPhoneNumber!)
+        AuthManager.shared.setUserId(userId: userId)
+        AuthManager.shared.setIdToken(idToken: idToken)
+        AuthManager.shared.setAccessToken(accessToken: accessToken)
+        AuthManager.shared.setAuthHeader(header: "Authorization", accessToken: accessToken)
     }
 
     func pushCreateProfileController() {

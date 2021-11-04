@@ -102,11 +102,11 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
         if (validPhoneNumber) {
             let number = "+1" + phoneNumberTextField.text!
 
-            AuthManager.shared.setTypedPhoneNumber(phoneNumber: number)
+            AuthManager.shared.setUserPhoneNumber(userPhoneNumber: number)
 
             Auth0
                .authentication()
-               .startPasswordless(phoneNumber: AuthManager.shared.typedPhoneNumber, connection: "sms")
+               .startPasswordless(phoneNumber: AuthManager.shared.getUserPhoneNumber()!, connection: "sms")
                .start { result in
                    switch result {
                    case .success:

@@ -80,14 +80,3 @@ extension UIButton {
         return button
     }
 }
-
-        let description = UILabel()
-        description.translatesAutoresizingMaskIntoConstraints = false
-        description.numberOfLines = 0
-        description.text = "On TutorTrade you never have to remember\na username or password."
-        description.font = UIFont(name: "OpenSans-Regular", size: UIScreen.main.bounds.width / 25)
-        description.lineBreakMode = NSLineBreakMode.byCharWrapping
-        description.sizeToFit()
-        return description
-    }
-}
