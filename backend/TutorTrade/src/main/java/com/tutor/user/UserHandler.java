@@ -10,14 +10,15 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.tutor.subject.Subject;
 import com.tutor.utils.ApiResponse;
 import com.tutor.utils.UserUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.net.HttpURLConnection;
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Handle all incoming requests to UserService through user API. API request is routed to User
@@ -35,42 +36,40 @@ public class UserHandler implements RequestHandler<Map<Object, Object>, ApiRespo
   public ApiResponse<?> handleRequest(Map<Object, Object> event, Context context) {
     HashMap<?, ?> contextMap = (HashMap<?, ?>) event.get("context");
     String httpMethod = (String) contextMap.get("http-method");
-    String path = (String) contextMap.get("resource-path");
-
-    // grab the last element in API path
-    String[] splitPath = path.split("/");
-    String method = splitPath[splitPath.length - 1];
 
     HashMap<?, ?> bodyJson;
     HashMap<?, ?> params;
     HashMap<?, ?> pathParameters;
 
-    if (httpMethod.equals("POST") && method.equals("create")) {
-      bodyJson = (HashMap<?, ?>) event.get("body-json");
-      return createUser(bodyJson);
-    } else if (httpMethod.equals("GET")) {
-      params = (HashMap<?, ?>) event.get("params");
-      pathParameters = (HashMap<?, ?>) params.get("path");
-      User user = UserUtils.getUserObjectById(((String) pathParameters.get("id")));
-      return ApiResponse.<User>builder().statusCode(HttpURLConnection.HTTP_OK).body(user).build();
-    } else if (httpMethod.equals("PATCH")) {
-      bodyJson = (HashMap<?, ?>) event.get("body-json");
-      params = (HashMap<?, ?>) event.get("params");
-      pathParameters = (HashMap<?, ?>) params.get("path");
-      return updateUser(bodyJson, (String) pathParameters.get("id"));
-    } else if (httpMethod.equals("DELETE")) {
-      params = (HashMap<?, ?>) event.get("params");
-      pathParameters = (HashMap<?, ?>) params.get("path");
-      return deleteUser((String) pathParameters.get("id"));
+    switch (httpMethod) {
+      case "PUT":
+        bodyJson = (HashMap<?, ?>) event.get("body-json");
+        params = (HashMap<?, ?>) event.get("params");
+        pathParameters = (HashMap<?, ?>) params.get("path");
+        return createUser(bodyJson, (String) pathParameters.get("id"));
+      case "GET":
+        params = (HashMap<?, ?>) event.get("params");
+        pathParameters = (HashMap<?, ?>) params.get("path");
+        User user = UserUtils.getUserObjectById(((String) pathParameters.get("id")));
+        return ApiResponse.<User>builder().statusCode(HttpURLConnection.HTTP_OK).body(user).build();
+      case "PATCH":
+        bodyJson = (HashMap<?, ?>) event.get("body-json");
+        params = (HashMap<?, ?>) event.get("params");
+        pathParameters = (HashMap<?, ?>) params.get("path");
+        return updateUser(bodyJson, (String) pathParameters.get("id"));
+      case "DELETE":
+        params = (HashMap<?, ?>) event.get("params");
+        pathParameters = (HashMap<?, ?>) params.get("path");
+        return deleteUser((String) pathParameters.get("id"));
     }
 
     return ApiResponse.<String>builder()
         .statusCode(HttpURLConnection.HTTP_BAD_METHOD)
-        .body(String.format("Requested method was not found. Full request path was: %s", path))
+        .body(String.format("Requested method was not found. HTTP method requested was: %s", httpMethod))
         .build();
   }
 
-  private ApiResponse<?> createUser(HashMap<?, ?> body) {
+  private ApiResponse<?> createUser(HashMap<?, ?> body, String userId) {
     String name = (String) body.get("name");
     String school = (String) body.get("school");
     String phoneNumber = (String) body.get("phoneNumber");
@@ -85,6 +84,7 @@ public class UserHandler implements RequestHandler<Map<Object, Object>, ApiRespo
 
     User user =
         new UserBuilder()
+            .withId(userId)
             .withName(name)
             .withSchool(school)
             .withPhoneNumber(phoneNumber)
