@@ -73,9 +73,14 @@ public class UserHandler implements RequestHandler<Map<Object, Object>, ApiRespo
     String name = (String) body.get("name");
     String school = (String) body.get("school");
     String phoneNumber = (String) body.get("phoneNumber");
-    ArrayList<String> subjects = (ArrayList<String>) body.get("subjects");
+    ArrayList<String> subjectsLearnStringList = (ArrayList<String>) body.get("subjectsLearn");
+    ArrayList<String> subjectsTeachStringList = (ArrayList<String>) body.get("subjectsTeach");
+    String major = (String) body.get("major");
 
-    ArrayList<Subject> userSubjects = UserUtils.convertListOfStringsToListOfSubjects(subjects);
+    ArrayList<Subject> subjectsLearnSubjectList =
+        UserUtils.convertListOfStringsToListOfSubjects(subjectsLearnStringList);
+    ArrayList<Subject> subjectsTeachSubjectList =
+        UserUtils.convertListOfStringsToListOfSubjects(subjectsTeachStringList);
 
     User user =
         new UserBuilder()
@@ -83,7 +88,9 @@ public class UserHandler implements RequestHandler<Map<Object, Object>, ApiRespo
             .withName(name)
             .withSchool(school)
             .withPhoneNumber(phoneNumber)
-            .withSubjects(userSubjects)
+            .withSubjectsLearn(subjectsLearnSubjectList)
+            .withSubjectsTeach(subjectsTeachSubjectList)
+            .withMajor(major)
             .build();
 
     MAPPER.save(user);
@@ -141,9 +148,19 @@ public class UserHandler implements RequestHandler<Map<Object, Object>, ApiRespo
       userToUpdate.setPhoneNumber(phoneNumber);
     }
 
-    ArrayList<String> subjects = (ArrayList<String>) body.get("subjects");
-    if (subjects != null) {
-      userToUpdate.setSubjects(UserUtils.convertListOfStringsToListOfSubjects(subjects));
+    ArrayList<String> subjectsLearn = (ArrayList<String>) body.get("subjectsLearn");
+    if (subjectsLearn != null) {
+      userToUpdate.setSubjectsLearn(UserUtils.convertListOfStringsToListOfSubjects(subjectsLearn));
+    }
+
+    ArrayList<String> subjectsTeach = (ArrayList<String>) body.get("subjectsTeach");
+    if (subjectsTeach != null) {
+      userToUpdate.setSubjectsTeach(UserUtils.convertListOfStringsToListOfSubjects(subjectsTeach));
+    }
+
+    String major = (String) body.get("major");
+    if (major != null) {
+      userToUpdate.setMajor(major);
     }
 
     Integer cumulativeSessionsCompleted = (Integer) body.get("cumulativeSessionsCompleted");

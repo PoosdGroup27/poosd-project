@@ -13,7 +13,11 @@ public class UserBuilder {
   public String userId;
   public String school;
   public String phoneNumber;
-  public ArrayList<Subject> subjects;
+  public ArrayList<Subject> subjectsLearn;
+  public ArrayList<Subject> subjectsTeach;
+  public String major;
+  public int cumulativeSessionsCompleted;
+  public double rating;
 
   private static void validateUser(User user) throws UserBuilderException {
     ArrayList<String> nullValues = new ArrayList<>();
@@ -56,8 +60,18 @@ public class UserBuilder {
     return this;
   }
 
-  public UserBuilder withSubjects(ArrayList<Subject> subjects) {
-    this.subjects = subjects;
+  public UserBuilder withSubjectsLearn(ArrayList<Subject> subjectsLearn) {
+    this.subjectsLearn = subjectsLearn;
+    return this;
+  }
+
+  public UserBuilder withSubjectsTeach(ArrayList<Subject> subjectsTeach) {
+    this.subjectsTeach = subjectsTeach;
+    return this;
+  }
+
+  public UserBuilder withMajor(String major) {
+    this.major = major;
     return this;
   }
 
