@@ -34,6 +34,40 @@ public class ApiUtils {
   }
 
   /**
+   * Helper method for making patch requests to tutor API.
+   *
+   * @param apiUri API Uri defined in ApiStages enum -- differs according to the desired stage to
+   *     which you'd like to post. The Uri needs to be manually updated in the ApiStages enum if any
+   *     stack is redeployed or a new stack is added
+   * @param pathToResource Path to desired resource, which is appended to uri. e.g. "/user/create"
+   * @param body Body of resource. Must be well-formed json and correct for the fields of the API
+   *     you'd like to make a request to. See API documentation: TODO: add link to API documentation
+   *     once created in GitHub wiki.
+   * @return Stringified response from API or "Encountered error. See stack trace." upon error.
+   *     TODO: improve error response mechanism.
+   * @throws UnsupportedEncodingException if the body string cannot be properly encoded. This should
+   *     not occur if the string is well-formed ascii json.
+   */
+  public static String put(String apiUri, String pathToResource, String body)
+          throws UnsupportedEncodingException {
+    CloseableHttpClient client = HttpClients.createDefault();
+    String fullPath = apiUri + pathToResource;
+    HttpPut httpPut = new HttpPut(fullPath);
+    httpPut.setEntity(new StringEntity(body));
+    httpPut.setHeader("Accept", "application/json");
+    httpPut.setHeader("Content-type", "application/json");
+    HttpEntity entity;
+
+    try (CloseableHttpResponse response = client.execute(httpPut)) {
+      entity = response.getEntity();
+      return EntityUtils.toString(entity);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  /**
    * Helper method for making GET requests to tutor API.
    *
    * @param apiUri API Uri defined in ApiStages enum -- differs according to the desired stage to
