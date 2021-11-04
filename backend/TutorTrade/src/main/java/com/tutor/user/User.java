@@ -49,8 +49,6 @@ public class User {
     this.school = builder.school;
     this.userId = builder.userId;
     this.phoneNumber = builder.phoneNumber;
-    this.subjects = (builder.subjects == null) ? new ArrayList<>() : builder.subjects;
-
     this.points = STARTING_POINTS;
     this.dateCreated = LocalDateTime.now();
     this.isActive = true;

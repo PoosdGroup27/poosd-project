@@ -16,8 +16,6 @@ public class UserBuilder {
   public ArrayList<Subject> subjectsLearn;
   public ArrayList<Subject> subjectsTeach;
   public String major;
-  public int cumulativeSessionsCompleted;
-  public double rating;
 
   private static void validateUser(User user) throws UserBuilderException {
     ArrayList<String> nullValues = new ArrayList<>();
