@@ -26,7 +26,7 @@ class TutorTradeTabBarController: UITabBarController {
         let matchingController = MatchingController()
         let requestController = RequestController()
         let chatController = ChatController()
-        let profileController = ProfileController(factory: DefaultProfilePageFactory(imageDrawer: DefaultImageDrawer()), modelManager: DefaultTutorProfileManager(), displaySettings: displaySettings)
+        let profileController = ProfileController(displaySettings: displaySettings)
         
         // Encapsulate view controllers within Navigation Controllers (Temporary)
         let matchingNavController = UINavigationController(rootViewController: matchingController)
