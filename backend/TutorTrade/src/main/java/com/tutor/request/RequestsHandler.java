@@ -121,7 +121,7 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, ApiR
     String subjectString = (String) body.get("subject");
     if (subjectString != null) {
       try {
-        requestToUpdate.setSubject(Subject.valueOf(subjectString));
+        requestToUpdate.setSubject(Subject.fromSubjectName(subjectString));
       } catch (Exception ex) {
         return ApiUtils.returnErrorResponse(ex);
       }
