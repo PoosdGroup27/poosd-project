@@ -43,7 +43,7 @@ public class RequestUtils {
    */
   public static String postRandomRequest(Boolean isTest) throws IOException {
     String requesterId = UUID.randomUUID().toString();
-    String subject = SUBJECTS.get(RANDOM.nextInt(SUBJECTS.size() - 1)).toString();
+    String subject = SUBJECTS.get(RANDOM.nextInt(SUBJECTS.size() - 1)).getSubjectName();
     int costInPoints = RANDOM.nextInt(1000);
     String urgency = URGENCIES.get(RANDOM.nextInt(URGENCIES.size())).toString();
     String platform = PLATFORMS.get(RANDOM.nextInt(PLATFORMS.size())).toString();
@@ -95,7 +95,7 @@ public class RequestUtils {
    */
   public static String postCustomRequest(Request request, Boolean isTest) throws IOException {
     String requesterId = request.getRequesterId().toString();
-    String subject = request.getSubject().toString();
+    String subject = request.getSubject().getSubjectName();
     int costInPoints = request.getCostInPoints();
     String urgency = request.getUrgency().toString();
     String platform = request.getPlatform().toString();
