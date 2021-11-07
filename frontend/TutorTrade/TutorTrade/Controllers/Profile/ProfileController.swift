@@ -252,6 +252,17 @@ class ProfileController: UIViewController {
     
     @objc func logOutButtonTapped() {
         let appDelegate = UIApplication.shared.delegate as! TutorTradeApplication
+        resetUserDefaults()
         appDelegate.logOut()
+    }
+    
+    func resetUserDefaults() {
+        UserDefaults.standard.setUserPhoneNumber(userPhoneNumber: nil)
+        UserDefaults.standard.setUserId(userId: nil)
+        UserDefaults.standard.setIdToken(idToken: nil)
+        UserDefaults.standard.setAccessToken(accessToken: nil)
+        UserDefaults.standard.setAuthHeaderZero(authorization: nil)
+        UserDefaults.standard.setAuthHeaderOne(bearerToken: nil)
+        UserDefaults.standard.setIsLoggedIn(isLoggedIn: false)
     }
 }

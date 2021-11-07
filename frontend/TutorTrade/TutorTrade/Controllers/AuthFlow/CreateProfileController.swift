@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import JWTDecode
 
 class CreateProfileController: UIViewController, UITextFieldDelegate {
 
@@ -197,6 +198,7 @@ class CreateProfileController: UIViewController, UITextFieldDelegate {
         self.present(self.explainController, animated: true)
     }
     
+    // I think createAccount should be handling user defaults
     @objc func createAccountButtonTapped() {
         self.createAccountButton.isUserInteractionEnabled = false
         let createProfileRequest = ProfileCreationRequest(userId: AuthManager.shared.userId, phoneNumber: AuthManager.shared.phoneNumber, name: nameTextField.text ?? "", school: schoolTextField.text ?? "", major: majorTextField.text ?? "", subjectsTeach: tutoringSubjectsScrollView.selectedTutoringSubjects)
@@ -214,6 +216,16 @@ class CreateProfileController: UIViewController, UITextFieldDelegate {
                 }
             }
         }
+    }
+    
+    func setUserDefaults(token: String?, userPhoneNumber: String?, userId: String, header: String, accessToken: String, isLoggedIn: Bool) {
+        UserDefaults.standard.setUserPhoneNumber(userPhoneNumber: userPhoneNumber!)
+        UserDefaults.standard.setUserId(userId: userId)
+        UserDefaults.standard.setIdToken(idToken: token!)
+        UserDefaults.standard.setAccessToken(accessToken: accessToken)
+        UserDefaults.standard.setAuthHeaderZero(authorization: "Authorization")
+        UserDefaults.standard.setAuthHeaderOne(bearerToken: "Bearer " + accessToken)
+        UserDefaults.standard.setIsLoggedIn(isLoggedIn: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
