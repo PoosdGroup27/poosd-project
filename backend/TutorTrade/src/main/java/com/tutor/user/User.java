@@ -277,7 +277,7 @@ public class User {
     @Override
     public ArrayList<String> convert(final ArrayList<Subject> subjects) {
       return subjects.stream()
-          .map(Subject::toString)
+          .map(Subject::getSubjectName)
           .collect(Collectors.toCollection(ArrayList<String>::new));
     }
 

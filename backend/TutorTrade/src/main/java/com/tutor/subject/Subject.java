@@ -1,5 +1,7 @@
 package com.tutor.subject;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -57,6 +59,7 @@ public enum Subject {
     this.subjectName = subjectName;
   }
 
+  @JsonValue
   public String getSubjectName() {
     return this.subjectName;
   }
