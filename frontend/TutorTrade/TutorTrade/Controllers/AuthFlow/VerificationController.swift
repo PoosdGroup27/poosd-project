@@ -28,6 +28,7 @@ class VerificationController: UIViewController, UITextFieldDelegate {
     private lazy var verificationTextFieldSix: UITextField = .createTextField(withPlaceholder: "X")
     private lazy var createProfileViewController = CreateProfileController()
     var userPhoneNumber: String!
+    private var verificationDescriptionText = "Enter the verification code sent by \ntext to "
     private var textFieldArray: [UITextField] {
            return [verificationTextFieldOne, verificationTextFieldTwo, verificationTextFieldThree,
                    verificationTextFieldFour, verificationTextFieldFive, verificationTextFieldSix]
@@ -49,6 +50,14 @@ class VerificationController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         self.verificationDescriptionLabel.text! += userPhoneNumber
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if self.isMovingFromParent {
+            resetFields()
+        }
     }
 
     override func loadView() {
@@ -231,12 +240,6 @@ class VerificationController: UIViewController, UITextFieldDelegate {
                }
            }
     }
-    
-//    func getUniqueID(id: String) -> String {
-//        let start = id.index(id.startIndex, offsetBy: 4)
-//        let end = id.index(id.startIndex, offsetBy: id.count-1)
-//        return String(id[start...end])
-//    }
 
     func pushCreateProfileController() {
             self.navigationController?.pushViewController(self.createProfileViewController, animated: true)
@@ -273,7 +276,8 @@ class VerificationController: UIViewController, UITextFieldDelegate {
         for textField in textFieldArray {
             textField.text = ""
         }
-        self.verificationDescriptionLabel.text! = String(self.verificationDescriptionLabel.text![...self.verificationDescriptionLabel.text!.index(self.verificationDescriptionLabel.text!.endIndex, offsetBy: -13)])
+        userPhoneNumber = ""
+        self.verificationDescriptionLabel.text! = verificationDescriptionText + userPhoneNumber
     }
 }
 
