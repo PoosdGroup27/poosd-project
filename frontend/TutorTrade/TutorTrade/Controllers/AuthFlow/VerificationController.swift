@@ -27,7 +27,8 @@ class VerificationController: UIViewController, UITextFieldDelegate {
     private lazy var verificationTextFieldFive: UITextField = .createTextField(withPlaceholder: "X")
     private lazy var verificationTextFieldSix: UITextField = .createTextField(withPlaceholder: "X")
     private lazy var createProfileViewController = CreateProfileController()
-    var textFieldArray: [UITextField] {
+    private var userPhoneNumber: String!
+    private var textFieldArray: [UITextField] {
            return [verificationTextFieldOne, verificationTextFieldTwo, verificationTextFieldThree,
                    verificationTextFieldFour, verificationTextFieldFive, verificationTextFieldSix]
 
@@ -193,24 +194,17 @@ class VerificationController: UIViewController, UITextFieldDelegate {
         Auth0
            .authentication()
            .login(
-            phoneNumber: AuthManager.shared.getUserPhoneNumber()!,
+            phoneNumber: "+17873611344",
                code: code,
-            audience: AuthManager.shared.getAuthAudience(),
-            scope: AuthManager.shared.getAuthScopes())
+            audience: DefaultAuthManager.shared?.audience?.first,
+            scope: DefaultAuthManager.shared?.scopes)
            .start { result in
                switch result {
                case .success(let credentials):
                    print("Access Token: \(String(describing: credentials.accessToken))")
-                   
-                   let token = try? decode(jwt: credentials.idToken!)
-                   let userPhoneNumber = token!.claim(name: "phone_number").string!
-                   let id = self.getUniqueID(id: token!.claim(name: "sub").string!)
-                   let accessToken = credentials.accessToken!
-                   
-                   self.setAuthManager(idToken: credentials.idToken!, userPhoneNumber: userPhoneNumber,
-                                       userId: id, header: "Authorization", accessToken: accessToken)
-                   
-                   print(AuthManager.shared.getAuthHeader())
+
+                   let authCredentials = AuthCredentials(idToken: credentials.idToken, accessToken: credentials.accessToken)
+                   DefaultAuthManager.shared?.credentials = authCredentials
                    
                    DispatchQueue.main.async {
                        self.pushCreateProfileController()
@@ -226,22 +220,11 @@ class VerificationController: UIViewController, UITextFieldDelegate {
            }
     }
     
-    func getUniqueID(id: String) -> String {
-       let start = id.index(id.startIndex, offsetBy: 4)
-       let end = id.index(id.startIndex, offsetBy: id.count-1)
-       let range = start...end
-       let newId = String(id[range])
-        
-        return newId
-    }
-    
-    func setAuthManager(idToken: String, userPhoneNumber: String?, userId: String, header: String, accessToken: String) {
-        AuthManager.shared.setUserPhoneNumber(userPhoneNumber: userPhoneNumber!)
-        AuthManager.shared.setUserId(userId: userId)
-        AuthManager.shared.setIdToken(idToken: idToken)
-        AuthManager.shared.setAccessToken(accessToken: accessToken)
-        AuthManager.shared.setAuthHeader(header: "Authorization", accessToken: accessToken)
-    }
+//    func getUniqueID(id: String) -> String {
+//        let start = id.index(id.startIndex, offsetBy: 4)
+//        let end = id.index(id.startIndex, offsetBy: id.count-1)
+//        return String(id[start...end])
+//    }
 
     func pushCreateProfileController() {
             self.navigationController?.pushViewController(self.createProfileViewController, animated: true)
@@ -250,7 +233,7 @@ class VerificationController: UIViewController, UITextFieldDelegate {
     @objc func textFieldDidChange(_ textField: UITextField) {
         let text = textField.text
 
-            if text?.utf16.count==1{
+            if text?.utf16.count == 1 {
                 switch textField{
                 case verificationTextFieldOne:
                     verificationTextFieldTwo.becomeFirstResponder()
@@ -262,6 +245,8 @@ class VerificationController: UIViewController, UITextFieldDelegate {
                     verificationTextFieldFive.becomeFirstResponder()
                 case verificationTextFieldFive:
                     verificationTextFieldSix.becomeFirstResponder()
+                case verificationTextFieldSix:
+                    verificationBoxSix.endEditing(true)
                 default:
                     break
                 }
@@ -269,8 +254,12 @@ class VerificationController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func dismissKeyboard() {
-        for textField in textFieldArray {
-            textField.endEditing(true)
-        }
+        self.view.endEditing(true)
+    }
+}
+
+extension VerificationController: PhoneNumberDelegate {
+    func setPhoneNumber(phoneNumber: String) {
+        self.userPhoneNumber = phoneNumber
     }
 }

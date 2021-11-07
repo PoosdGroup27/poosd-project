@@ -8,95 +8,77 @@
 import UIKit
 import JWTDecode
 
-internal class AuthManager {
-    
-    static var shared = AuthManager()
-    
-    var isLoggedIn: Bool
-    var verificationCode: Bool
-    private var userPhoneNumber: String?
-    private var userId: String?
-    private var idToken: String?
-    private var accessToken: String?
-    private var authHeader: (String?, String?)
-    private let audience = "https://1k0cm1e1n9.execute-api.us-east-1.amazonaws.com/prod/"
-    private let scopes = "openid sms offline_access read:profile read:requests write:request"
-    
-    private init() {
-        
-        if (UserDefaults.standard.getIsLoggedIn()) {
-            isLoggedIn = UserDefaults.standard.getIsLoggedIn()
-            userPhoneNumber = UserDefaults.standard.getUserPhoneNumber()
-            userId = UserDefaults.standard.getUserId()
-            idToken = UserDefaults.standard.getIdToken()
-            accessToken = UserDefaults.standard.getAccessToken()
-            authHeader.0 = UserDefaults.standard.getAuthHeaderZero()
-            authHeader.1 = UserDefaults.standard.getAuthHeaderOne()
-            verificationCode = false
-            return
+protocol AuthManager {
+    var credentials: AuthCredentials { get set }
+}
+
+class DefaultAuthManager: AuthManager, Codable {
+
+    private(set) static var shared: DefaultAuthManager?
+    private static let authManagerKey = "DefaultAuthManager.shared"
+
+    var isLoggedIn: Bool {
+        get {
+            let accessToken = _credentials.accessToken
+            let jwt = try! decode(jwt: accessToken!)
+            
+            return jwt.expired
         }
-
-        isLoggedIn = false
-        verificationCode = false
-        userPhoneNumber = nil
-        userId = nil
-        idToken = nil
-        authHeader = (nil, nil)
     }
     
-    func setIdToken(idToken: String) {
-        self.idToken = idToken
-    }
-    
-    func getIdToken() -> String? {
-        return self.idToken
-    }
-    
-    func setAccessToken(accessToken: String) {
-        self.accessToken = accessToken
-    }
-    
-    func getAccessToken() -> String? {
-        return self.accessToken
-    }
-    
-    func setUserPhoneNumber(userPhoneNumber: String) {
-        self.userPhoneNumber = userPhoneNumber
-    }
-    
-    func getUserPhoneNumber() -> String? {
-        return self.userPhoneNumber
+    var userPhoneNumber: String {
+        get {
+            let idToken = _credentials.idToken
+            let jwt = try! decode(jwt: idToken!)
+            
+            return jwt.claim(name: "phone_number").string!
+        }
     }
 
-    func setUserId(userId: String) {
-        self.userId = userId
+    var authHeader: (String, String) {
+        get {
+            let header = "Authorization"
+            let bearerToken = "Bearer" + _credentials.accessToken!
+            return (header, bearerToken)
+        }
     }
     
-    func getUserId() -> String? {
-        return self.userId
+    var audience: [String]? {
+        get {
+            let jwt = try! decode(jwt: _credentials.accessToken!)
+            return jwt.audience
+        }
     }
     
-    func setAuthHeader(header: String?, accessToken: String?) {
-        self.authHeader = (header, "Bearer " + accessToken!)
+    var scopes: String {
+        get {
+//            let jwt = try! decode(jwt: _credentials.accessToken)
+            return "openid sms offline_access user"
+        }
     }
     
-    func getAuthHeader() -> (String?, String?) {
-        return self.authHeader
+    init(credentials: AuthCredentials) {
+        self._credentials = credentials
     }
     
-    func getAuthScopes() -> String? {
-        return self.scopes
+    private var _credentials: AuthCredentials
+    
+    var credentials: AuthCredentials {
+        get {
+            _credentials
+        } set {
+            _credentials = newValue
+            persistAuthCredentialsToDisk()
+        }
     }
     
-    func getAuthAudience() -> String? {
-        return self.audience
-    }
-    
-    func setIsLoggedIn(isLoggedIn: Bool) {
-        self.isLoggedIn = isLoggedIn
-    }
-
-    func getIsLoggedIn() -> Bool {
-        return self.isLoggedIn
+    fileprivate func persistAuthCredentialsToDisk() {
+        print("Persisting credentials to disk")
+        DispatchQueue.global(qos: .background).async {
+            let data = try? JSONEncoder().encode(self._credentials)
+            UserDefaults.standard.set(data, forKey: Self.authManagerKey)
+        }
+        
+        print(UserDefaults.standard.object(forKey: Self.authManagerKey))
     }
 }

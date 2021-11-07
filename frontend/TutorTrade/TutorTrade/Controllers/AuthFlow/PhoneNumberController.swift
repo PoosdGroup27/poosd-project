@@ -8,6 +8,10 @@
 import UIKit
 import Auth0
 
+protocol PhoneNumberDelegate {
+    func setPhoneNumber(phoneNumber: String)
+}
+
 class PhoneNumberController: UIViewController, UITextFieldDelegate {
 
     
@@ -15,17 +19,19 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
     private lazy var phoneNumberTitleLabel: UILabel = .phoneNumberTitleLabel
     private lazy var phoneNumberDescriptionLabel: UILabel = .phoneNumberDescriptionLabel
     private lazy var phoneNumberBox: ShadowDisplayBox = .defaultDisplayBoxView(withIcon: UIImage(named: "PhoneIcon")!, iconHeightRatio: 0.32)
-    private lazy var phoneNumberTextField: UITextField = .createTextField(withPlaceholder: "PhoneNumber")
+    private lazy var phoneNumberTextField: UITextField = .createTextField(withPlaceholder: "Phone Number")
     private lazy var phoneNumberButton: UIButton = .createButton(backgroundColor: .black, image: UIImage(named: "ForwardIcon")!)
     private lazy var verificationController = VerificationController()
-    private lazy var validateController: UIAlertController = {
-        let controller = UIAlertController.init(title: "Re-enter phone number",
-                                                message: "Invalid phone number, please enter a valid phone number.",
+    private lazy var validatePhoneController: UIAlertController = {
+        let controller = UIAlertController.init(title: "Error",
+                                                message: "Please enter a valid U.S. +1 phone number.",
                                                 preferredStyle: .alert)
 
         controller.addAction(UIAlertAction(title: "OK", style: .cancel))
         return controller
     }()
+    
+    var phoneNumberDelegate: PhoneNumberDelegate!
     
     override func viewDidLoad() {
         let dismissKeyboardRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
@@ -37,32 +43,33 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
         self.view.backgroundColor = UIColor(named: "AuthFlowColor")!
         self.view.addSubview(phoneNumberTitleContainerView) {
             NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 70),
-                $0.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-                $0.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-
+                $0.topAnchor.constraint(equalToSystemSpacingBelow: self.view.safeAreaLayoutGuide.topAnchor, multiplier: 8),
+                $0.leadingAnchor.constraint(equalToSystemSpacingAfter: self.view.safeAreaLayoutGuide.leadingAnchor, multiplier: 4),
+                $0.trailingAnchor.constraint(equalToSystemSpacingAfter: self.view.safeAreaLayoutGuide.trailingAnchor, multiplier: -4)
             ])
         }
         
         self.phoneNumberTitleContainerView.addSubview(phoneNumberTitleLabel) {
             NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: phoneNumberTitleContainerView.topAnchor, constant: UIScreen.main.bounds.height / 50),
-                $0.leadingAnchor.constraint(equalTo: phoneNumberTitleContainerView.leadingAnchor, constant: UIScreen.main.bounds.width / 14)
+                $0.topAnchor.constraint(equalTo: phoneNumberTitleLabel.topAnchor),
+                $0.leadingAnchor.constraint(equalTo: phoneNumberTitleContainerView.leadingAnchor),
+                $0.trailingAnchor.constraint(equalTo: phoneNumberTitleContainerView.trailingAnchor)
             ])
         }
         
         self.phoneNumberTitleContainerView.addSubview(phoneNumberDescriptionLabel) {
             NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: phoneNumberTitleContainerView.topAnchor, constant: UIScreen.main.bounds.height / 6),
-                $0.leadingAnchor.constraint(equalTo: phoneNumberTitleContainerView.leadingAnchor, constant: UIScreen.main.bounds.width / 14)
+                $0.topAnchor.constraint(equalToSystemSpacingBelow: phoneNumberTitleContainerView.topAnchor, multiplier: 17),
+                $0.leadingAnchor.constraint(equalTo: phoneNumberTitleContainerView.leadingAnchor),
+                $0.trailingAnchor.constraint(equalTo: phoneNumberTitleContainerView.trailingAnchor)
             ])
         }
-        
+
         self.view.addSubview(phoneNumberBox) {
             NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 275),
-                $0.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: UIScreen.main.bounds.width / 14.42),
-                $0.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: UIScreen.main.bounds.width / -14.42),
+                $0.topAnchor.constraint(equalToSystemSpacingBelow: phoneNumberTitleContainerView.topAnchor, multiplier: 26),
+                $0.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: UIScreen.main.bounds.width / 14),
+                $0.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: UIScreen.main.bounds.width / -14),
                 $0.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 15)
             ])
         }
@@ -78,10 +85,10 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
         }
 
         self.view.addSubview(phoneNumberButton) {
-            $0.addTarget(self, action: #selector(self.phoneNumberButtonTapped), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(self.sendOTPButton), for: .touchUpInside)
             NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: UIScreen.main.bounds.height / 2.3),
-                $0.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: UIScreen.main.bounds.width / -14.42),
+                $0.topAnchor.constraint(equalToSystemSpacingBelow: phoneNumberBox.topAnchor, multiplier: 12),
+                $0.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: UIScreen.main.bounds.width / -14),
                 $0.widthAnchor.constraint(equalToConstant: 50),
                 $0.heightAnchor.constraint(equalToConstant: 50)
             ])
@@ -90,37 +97,39 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
     
     func isValidPhoneNumber(phoneNumber: String) -> Bool {
         if (phoneNumber.isEmpty) {
+            self.present(validatePhoneController, animated: true)
             return false
         }
         
         return true
     }
 
-    @objc func phoneNumberButtonTapped() {
-        let validPhoneNumber = isValidPhoneNumber(phoneNumber: phoneNumberTextField.text!)
+    @objc func sendOTPButton() {
 
-        if (validPhoneNumber) {
-            let number = "+1" + phoneNumberTextField.text!
-
-            AuthManager.shared.setUserPhoneNumber(userPhoneNumber: number)
-
+        if  isValidPhoneNumber(phoneNumber: phoneNumberTextField.text!) {
             Auth0
                .authentication()
-               .startPasswordless(phoneNumber: AuthManager.shared.getUserPhoneNumber()!, connection: "sms")
+               .startPasswordless(phoneNumber: "+1" + phoneNumberTextField.text!, connection: "sms")
                .start { result in
                    switch result {
                    case .success:
                        print("Sent OTP to support@auth0.com!")
+//                       self.phoneNumberDelegate.setPhoneNumber(phoneNumber: self.phoneNumberTextField.text!)
+                       DispatchQueue.main.async {
+                           self.navigationController?.pushViewController(self.verificationController, animated: true)
+                           return
+                       }
                    case .failure(let error):
                        print(error)
+                       DispatchQueue.main.async {
+                           self.present(self.validatePhoneController, animated: true)
+                           return
+                       }
                    }
                }
 
-            self.navigationController?.pushViewController(verificationController, animated: true)
             return
         }
-        
-        self.present(self.validateController, animated: true)
     }
 
     @objc func dismissKeyboard() {
