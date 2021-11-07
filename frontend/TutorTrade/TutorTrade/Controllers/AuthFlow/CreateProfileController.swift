@@ -200,13 +200,22 @@ class CreateProfileController: UIViewController, UITextFieldDelegate {
     
     // I think createAccount should be handling user defaults
     @objc func createAccountButtonTapped() {
-        AuthManager.shared.setIsLoggedIn(isLoggedIn: true)
-        setUserDefaults(token: AuthManager.shared.getIdToken(), userPhoneNumber: AuthManager.shared.getUserPhoneNumber(),
-                        userId: AuthManager.shared.getUserId()!,
-                        header: AuthManager.shared.getAuthHeader().0!, accessToken: AuthManager.shared.getAuthHeader().1!, isLoggedIn: AuthManager.shared.isLoggedIn)
-
-        self.navigationController?.popToRootViewController(animated: false)
-        (UIApplication.shared.delegate as! TutorTradeApplication).loadStartupController()
+        self.createAccountButton.isUserInteractionEnabled = false
+        let createProfileRequest = ProfileCreationRequest(userId: AuthManager.shared.userId, phoneNumber: AuthManager.shared.phoneNumber, name: nameTextField.text ?? "", school: schoolTextField.text ?? "", major: majorTextField.text ?? "", subjectsTeach: tutoringSubjectsScrollView.selectedTutoringSubjects)
+        DefaultTutorProfileManager.createProfile(request: createProfileRequest) { success in
+            DispatchQueue.main.async {
+                if success {
+                    self.createAccountButton.isUserInteractionEnabled = true
+                    self.navigationController?.popToRootViewController(animated: false)
+                    (UIApplication.shared.delegate as! TutorTradeApplication).loadStartupController()
+                } else {
+                    self.createAccountButton.isUserInteractionEnabled = true
+                    let alert = UIAlertController(title: "Error while creating account", message: "Please try again later", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+                    self.present(alert, animated: true)
+                }
+            }
+        }
     }
     
     func setUserDefaults(token: String?, userPhoneNumber: String?, userId: String, header: String, accessToken: String, isLoggedIn: Bool) {

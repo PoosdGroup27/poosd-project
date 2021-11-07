@@ -52,6 +52,8 @@
 		5ECB1D8C27025277005BDD89 /* Dosis-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */; };
 		5ED5C725272C5C75007628C5 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C724272C5C75007628C5 /* UIImage.swift */; };
 		5ED5C727272C9746007628C5 /* EditingPopoverConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C726272C9746007628C5 /* EditingPopoverConfigurations.swift */; };
+		5ED5C72B2731A1A0007628C5 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C72A2731A1A0007628C5 /* Notification.swift */; };
+		5ED5C72D2734A87A007628C5 /* ProfileCreationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C72C2734A87A007628C5 /* ProfileCreationRequest.swift */; };
 		5EF5C44C2720FB2100C74ADF /* Auth0 in Frameworks */ = {isa = PBXBuildFile; productRef = 5EF5C44B2720FB2100C74ADF /* Auth0 */; };
 		5EF5C44E2720FE5C00C74ADF /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5EF5C44D2720FE5C00C74ADF /* Auth0.plist */; };
 		5EF5C4522726F72300C74ADF /* PopoverEditingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF5C4512726F72300C74ADF /* PopoverEditingViewController.swift */; };
@@ -127,6 +129,8 @@
 		5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-Bold.ttf"; sourceTree = "<group>"; };
 		5ED5C724272C5C75007628C5 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		5ED5C726272C9746007628C5 /* EditingPopoverConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingPopoverConfigurations.swift; sourceTree = "<group>"; };
+		5ED5C72A2731A1A0007628C5 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		5ED5C72C2734A87A007628C5 /* ProfileCreationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreationRequest.swift; sourceTree = "<group>"; };
 		5EF5C44D2720FE5C00C74ADF /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
 		5EF5C4512726F72300C74ADF /* PopoverEditingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverEditingViewController.swift; sourceTree = "<group>"; };
 		5EF5C4532727517000C74ADF /* SchoolSelectionViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSelectionViewFactory.swift; sourceTree = "<group>"; };
@@ -453,6 +457,7 @@
 			isa = PBXGroup;
 			children = (
 				5E7EA9AD2718E3C30066B189 /* TutorProfile.swift */,
+				5ED5C72C2734A87A007628C5 /* ProfileCreationRequest.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -498,6 +503,7 @@
 				5E7EA9E22718E6910066B189 /* CoreGraphics.swift */,
 				5E1BAE6F2728ED5C00A70757 /* UIView.swift */,
 				5ED5C724272C5C75007628C5 /* UIImage.swift */,
+				5ED5C72A2731A1A0007628C5 /* Notification.swift */,
 			);
 			path = UIKitExtensions;
 			sourceTree = "<group>";
@@ -675,6 +681,7 @@
 				5E5DB4172729F7B9008B9A0D /* WelcomePageConfigurations.swift in Sources */,
 				5E7EA9DE2718E6800066B189 /* BorderedDisplayBox.swift in Sources */,
 				5E7EA9EB271A52B40066B189 /* SubjectsResponse.swift in Sources */,
+				5ED5C72B2731A1A0007628C5 /* Notification.swift in Sources */,
 				5E7EA9DD2718E6800066B189 /* NameAndRatingLabel.swift in Sources */,
 				5ED5C727272C9746007628C5 /* EditingPopoverConfigurations.swift in Sources */,
 				5E5DB426272C40E4008B9A0D /* CreateProfilePageConfigurations.swift in Sources */,
@@ -684,6 +691,7 @@
 				5E7EA9DC2718E6800066B189 /* TutoringSubjectsScrollView.swift in Sources */,
 				5E1BAE5B2728E72800A70757 /* ProfileController.swift in Sources */,
 				4A29D59A2702602700D25088 /* ChatController.swift in Sources */,
+				5ED5C72D2734A87A007628C5 /* ProfileCreationRequest.swift in Sources */,
 				5E7EA9B12718E45B0066B189 /* TutorTradeApplication.swift in Sources */,
 				4A22D9FF270E231B00E8DA7E /* RequestModel.swift in Sources */,
 				4A2DFD3C27078BA600332EE2 /* PreferredMediumView.swift in Sources */,

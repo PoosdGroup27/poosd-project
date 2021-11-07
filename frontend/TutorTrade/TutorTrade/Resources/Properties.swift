@@ -12,4 +12,6 @@ struct Properties {
     static let backendBaseEndpoint = "https://1k0cm1e1n9.execute-api.us-east-1.amazonaws.com/prod/"
     
     static let subjectsPath = "subject"
+    
+    static let userPath = "/user"
 }
