@@ -120,21 +120,8 @@ public class UserUtils {
     }
 
     return subjectsListOfStrings.stream()
-        .filter(
-            s -> {
-              try {
-                Subject.valueOf(s);
-                return true;
-              } catch (IllegalArgumentException ex) {
-                // we want to catch any string that is not found in the
-                // enum. We don't do anything here exactly, but return
-                // false below to indicate that this failed to match any
-                // enum value
-                ;
-              }
-              return false;
-            })
-        .map(Subject::valueOf)
+            .filter(Subject.subjectNameMap.keySet()::contains)
+            .map(Subject::fromSubjectName)
         .collect(Collectors.toCollection(ArrayList<Subject>::new));
   }
 }

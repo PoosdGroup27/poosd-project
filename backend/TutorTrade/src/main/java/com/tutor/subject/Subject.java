@@ -1,7 +1,6 @@
 package com.tutor.subject;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -63,13 +62,34 @@ public enum Subject {
   }
 
   /**
+   * Unmodifiable inverse lookup map to find a Subject instance from a subject name
+   */
+  public static final Map<String, Subject> subjectNameMap;
+
+  // Initializes the subject name map at class loading time
+  static {
+    final Map<String, Subject> tempSubjectNameMap = new HashMap<>();
+    Arrays.stream(values())
+            .forEach( value -> tempSubjectNameMap.put(value.subjectName, value));
+    subjectNameMap = Collections.unmodifiableMap(tempSubjectNameMap);
+  }
+
+  /**
    * Returns a list with all the subject names and emojis
    *
    * @return List of subjects
    */
   public static List<String> getListOfSubjects() {
-    return Arrays.stream(Subject.values())
-        .map(Subject::getSubjectName)
-        .collect(Collectors.toList());
+    return new ArrayList<>(subjectNameMap.keySet());
+  }
+
+  /**
+   * Convert a subject name to a Subject instance
+   * @param subjectName The associated subject name of the Subject instance
+   * @return The corresponding Subject instance, or null if the subject name does
+   * not map to any Subject instance
+   */
+  public static Subject fromSubjectName(String subjectName) {
+    return subjectNameMap.get(subjectName);
   }
 }
