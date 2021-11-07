@@ -120,7 +120,7 @@ public class UserUtils {
     }
 
     return subjectsListOfStrings.stream()
-            .filter(Subject.subjectNameSet::contains)
+            .filter(Subject.subjectNameMap.keySet()::contains)
             .map(Subject::fromSubjectName)
         .collect(Collectors.toCollection(ArrayList<Subject>::new));
   }

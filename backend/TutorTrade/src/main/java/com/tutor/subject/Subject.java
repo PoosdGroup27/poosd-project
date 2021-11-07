@@ -66,18 +66,12 @@ public enum Subject {
    */
   public static final Map<String, Subject> subjectNameMap;
 
-  /**
-   * An unmodifiable set view of the subject names
-   */
-  public static final Set<String> subjectNameSet;
-
-  // Initializes the subject name map and set at class loading time
+  // Initializes the subject name map at class loading time
   static {
     final Map<String, Subject> tempSubjectNameMap = new HashMap<>();
     Arrays.stream(values())
             .forEach( value -> tempSubjectNameMap.put(value.subjectName, value));
     subjectNameMap = Collections.unmodifiableMap(tempSubjectNameMap);
-    subjectNameSet = Collections.unmodifiableSet(tempSubjectNameMap.keySet());
   }
 
   /**
@@ -86,7 +80,7 @@ public enum Subject {
    * @return List of subjects
    */
   public static List<String> getListOfSubjects() {
-    return new ArrayList<>(subjectNameSet);
+    return new ArrayList<>(subjectNameMap.keySet());
   }
 
   /**
