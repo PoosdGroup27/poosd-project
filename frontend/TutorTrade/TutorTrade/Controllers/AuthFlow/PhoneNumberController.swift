@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import Auth0
 
 protocol PhoneNumberDelegate {
@@ -51,14 +52,17 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
         
         self.phoneNumberTitleContainerView.addSubview(phoneNumberTitleLabel) {
             NSLayoutConstraint.activate([
+
                 $0.topAnchor.constraint(equalTo: phoneNumberTitleLabel.topAnchor),
                 $0.leadingAnchor.constraint(equalTo: phoneNumberTitleContainerView.leadingAnchor),
                 $0.trailingAnchor.constraint(equalTo: phoneNumberTitleContainerView.trailingAnchor)
+
             ])
         }
         
         self.phoneNumberTitleContainerView.addSubview(phoneNumberDescriptionLabel) {
             NSLayoutConstraint.activate([
+
                 $0.topAnchor.constraint(equalToSystemSpacingBelow: phoneNumberTitleContainerView.topAnchor, multiplier: 17),
                 $0.leadingAnchor.constraint(equalTo: phoneNumberTitleContainerView.leadingAnchor),
                 $0.trailingAnchor.constraint(equalTo: phoneNumberTitleContainerView.trailingAnchor)

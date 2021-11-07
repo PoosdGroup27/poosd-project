@@ -12,6 +12,7 @@ import UIKit
 
 class ProfileController: UIViewController {
     
+
     private let profileManager: TutorProfileManager
     private let displaySettings: AppDisplaySettings
     
@@ -37,6 +38,7 @@ class ProfileController: UIViewController {
     private lazy var popoverBackgroundView: UIView = .popoverBackgroundView
     private var editingPopoverVC : PopoverEditingViewController!
     
+
     init(displaySettings: AppDisplaySettings) {
         self.profileManager = DefaultTutorProfileManager.shared!
         self.displaySettings = displaySettings

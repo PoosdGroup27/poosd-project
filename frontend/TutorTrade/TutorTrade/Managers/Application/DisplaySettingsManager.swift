@@ -11,6 +11,7 @@ class DisplaySettingsManager {
     
     static let shared = DisplaySettingsManager()
     
+
     private static let userDefaultsKey = "AppDisplaySettings.shared"
     private var cachedAppDisplaySettings : AppDisplaySettings?
     

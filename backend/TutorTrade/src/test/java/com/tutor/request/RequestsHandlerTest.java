@@ -56,7 +56,7 @@ class RequestsHandlerTest {
 
     // WHEN: post request to request API
     String requestPostResponseString =
-        ApiUtils.post(ApiUtils.ApiStages.TEST.toString(), "/request/create", requestBody);
+        ApiUtils.post(ApiUtils.ApiStages.TEST.toString(), "/request", requestBody);
 
     // THEN: request response is not null
     assertNotNull(requestPostResponseString);

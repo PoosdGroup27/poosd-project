@@ -6,8 +6,6 @@
 //
 
 import UIKit
-
-extension UIView {
     static var phoneNumberTitleContainerView: UIView {
         get {
             let container = UIView()

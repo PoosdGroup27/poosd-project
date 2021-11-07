@@ -17,9 +17,10 @@ class WelcomePageViewController: UIViewController {
     private lazy var signInButton: UIButton = .signInButton
     private lazy var termsOfServiceButton: UIButton = .termsOfServiceButton
     private lazy var privacyPolicyButton: UIButton = .privacyPolicyButton
+
     private lazy var phoneNumberController = PhoneNumberController()
     private lazy var createProfileViewController = CreateProfileController()
-
+  
     override func loadView() {
          super.loadView()
         
@@ -63,6 +64,7 @@ class WelcomePageViewController: UIViewController {
         }
         
         self.actionContainerView.addSubview(getStartedButton) {
+
             $0.addTarget(self, action: #selector(self.proceedToAuthFlow), for: .touchUpInside)
             NSLayoutConstraint.activate([
                 $0.topAnchor.constraint(equalTo: self.actionContainerView.topAnchor, constant: UIScreen.main.bounds.height / 20),
@@ -75,6 +77,7 @@ class WelcomePageViewController: UIViewController {
         
         self.actionContainerView.addSubview(signInButton) {
             $0.addTarget(self, action: #selector(self.proceedToAuthFlow), for: .touchUpInside)
+
             NSLayoutConstraint.activate([
                 $0.topAnchor.constraint(equalTo: self.getStartedButton.bottomAnchor, constant: UIScreen.main.bounds.height / 27),
                 $0.leadingAnchor.constraint(equalTo: self.actionContainerView.leadingAnchor, constant: UIScreen.main.bounds.width / 2.38),
@@ -105,6 +108,7 @@ class WelcomePageViewController: UIViewController {
         }
     }
     
+
     @objc func proceedToAuthFlow() {
         self.navigationController?.pushViewController(phoneNumberController, animated: true)
     }

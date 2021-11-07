@@ -58,6 +58,7 @@
 		5ECB1D8C27025277005BDD89 /* Dosis-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */; };
 		5ED5C725272C5C75007628C5 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C724272C5C75007628C5 /* UIImage.swift */; };
 		5ED5C727272C9746007628C5 /* EditingPopoverConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C726272C9746007628C5 /* EditingPopoverConfigurations.swift */; };
+
 		5ED5C72B2731A1A0007628C5 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C72A2731A1A0007628C5 /* Notification.swift */; };
 		5ED5C72D2734A87A007628C5 /* ProfileCreationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C72C2734A87A007628C5 /* ProfileCreationRequest.swift */; };
 		5EF5C44C2720FB2100C74ADF /* Auth0 in Frameworks */ = {isa = PBXBuildFile; productRef = 5EF5C44B2720FB2100C74ADF /* Auth0 */; };
@@ -141,6 +142,7 @@
 		5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-Bold.ttf"; sourceTree = "<group>"; };
 		5ED5C724272C5C75007628C5 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		5ED5C726272C9746007628C5 /* EditingPopoverConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingPopoverConfigurations.swift; sourceTree = "<group>"; };
+
 		5ED5C72A2731A1A0007628C5 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		5ED5C72C2734A87A007628C5 /* ProfileCreationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreationRequest.swift; sourceTree = "<group>"; };
 		5EF5C44D2720FE5C00C74ADF /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };

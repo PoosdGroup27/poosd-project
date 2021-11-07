@@ -13,6 +13,7 @@ class TutorTradeApplication: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     private let displaySettingsManager =  DisplaySettingsManager()
+
     private var authFlowController: UINavigationController? = nil
 
     /**
@@ -35,6 +36,7 @@ class TutorTradeApplication: UIResponder, UIApplicationDelegate {
     }
     
     func loadStartupController() {
+
         if DefaultAuthManager.shared.isLoggedIn {
             
             var semaphore: DispatchSemaphore?

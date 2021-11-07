@@ -28,35 +28,8 @@ functions:
       STAGE: ${self:provider.stage}
     events:
       - http:
-          path: /user/create
-          method: post
-          integration: lambda
-          request:
-            template:
-              application/json: ${file(./mapping_template.yml):mapping_template}\
-      - http:
           path: /user/{id}
-          method: get
-          integration: lambda
-          request:
-            parameters:
-              paths:
-                id: true
-            template:
-              application/json: ${file(./mapping_template.yml):mapping_template}\
-      - http:
-          path: /user/{id}
-          method: patch
-          integration: lambda
-          request:
-            parameters:
-              paths:
-                id: true
-            template:
-              application/json: ${file(./mapping_template.yml):mapping_template}\
-      - http:
-          path: /user/{id}
-          method: delete
+          method: any
           integration: lambda
           request:
             parameters:
@@ -70,42 +43,23 @@ functions:
       STAGE: ${self:provider.stage}
     events:
       - http:
-          path: /request/create
+          path: /request/{requestId}
+          method: any
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                requestId: true
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
+      - http:
+          path: /request
           method: post
           integration: lambda
           request:
             template:
               application/json: ${file(./mapping_template.yml):mapping_template}\
-      - http:
-          path: /request/{requestId}
-          method: get
-          integration: lambda
-          request:
-            parameters:
-              paths:
-                requestId: true
-            template:
-              application/json: ${file(./mapping_template.yml):mapping_template}\
-      - http:
-          path: /request/{requestId}
-          method: patch
-          integration: lambda
-          request:
-            parameters:
-              paths:
-                requestId: true
-            template:
-              application/json: ${file(./mapping_template.yml):mapping_template}\
-      - http:
-          path: /request/{requestId}
-          method: delete
-          integration: lambda
-          request:
-            parameters:
-              paths:
-                requestId: true
-            template:
-              application/json: ${file(./mapping_template.yml):mapping_template}\
+
   matching:
     handler: com.tutor.matching.MatchingHandler
     # make sure we don't invoke tons of concurrent stream responses here

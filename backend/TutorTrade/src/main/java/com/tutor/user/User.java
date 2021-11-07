@@ -29,12 +29,14 @@ public class User {
   private boolean isActive;
   private int points;
   private ArrayList<UUID> sessionIds;
-  private UUID userId;
+  private String userId;
   private static final int STARTING_POINTS = 100;
   private String phoneNumber;
-  private ArrayList<Subject> subjects;
+  private ArrayList<Subject> subjectsTeach;
+  private ArrayList<Subject> subjectsLearn;
   private int cumulativeSessionsCompleted;
   private double rating;
+  private String major;
 
   /**
    * Constructor is a wrapper for builder and should not be called directly, unless creating user
@@ -45,15 +47,18 @@ public class User {
   public User(UserBuilder builder) {
     this.name = builder.name;
     this.school = builder.school;
+    this.userId = builder.userId;
+    this.phoneNumber = builder.phoneNumber;
     this.points = STARTING_POINTS;
-    this.userId = UUID.randomUUID();
     this.dateCreated = LocalDateTime.now();
     this.isActive = true;
-    this.phoneNumber = builder.phoneNumber;
-    this.cumulativeSessionsCompleted = builder.cumulativeSessionsCompleted;
-    this.rating = builder.rating;
-    this.subjects = (builder.subjects == null) ? new ArrayList<>() : builder.subjects;
-
+    this.cumulativeSessionsCompleted = 0;
+    this.rating = 5;
+    this.subjectsTeach =
+            (builder.subjectsTeach == null) ? new ArrayList<>() : builder.subjectsTeach;
+    this.subjectsLearn =
+            (builder.subjectsLearn == null) ? new ArrayList<>() : builder.subjectsLearn;
+    this.major = builder.major;
     // users shouldn't have session IDs at creation time
     this.sessionIds = new ArrayList<>();
   }
@@ -63,7 +68,7 @@ public class User {
    *
    * @param userId UUID uniquely identifying user
    */
-  public User(UUID userId) {
+  public User(String userId) {
     this.userId = userId;
   }
 
@@ -130,11 +135,11 @@ public class User {
   }
 
   @DynamoDBHashKey(attributeName = "userID")
-  public UUID getUserId() {
+  public String getUserId() {
     return userId;
   }
 
-  public void setUserId(UUID userId) {
+  public void setUserId(String userId) {
     this.userId = userId;
   }
 
@@ -148,13 +153,23 @@ public class User {
   }
 
   @DynamoDBTypeConverted(converter = SubjectListConverter.class)
-  @DynamoDBAttribute(attributeName = "subjects")
-  public ArrayList<Subject> getSubjects() {
-    return subjects;
+  @DynamoDBAttribute(attributeName = "subjectsLearn")
+  public ArrayList<Subject> getSubjectsLearn() {
+    return subjectsLearn;
   }
 
-  public void setSubjects(ArrayList<Subject> subjects) {
-    this.subjects = subjects;
+  public void setSubjectsLearn(ArrayList<Subject> subjectsLearn) {
+    this.subjectsLearn = subjectsLearn;
+  }
+
+  @DynamoDBTypeConverted(converter = SubjectListConverter.class)
+  @DynamoDBAttribute(attributeName = "subjectsTeach")
+  public ArrayList<Subject> getSubjectsTeach() {
+    return subjectsTeach;
+  }
+
+  public void setSubjectsTeach(ArrayList<Subject> subjectsTeach) {
+    this.subjectsTeach = subjectsTeach;
   }
 
   @DynamoDBAttribute(attributeName = "cumulativeSessionsCompleted")
@@ -175,11 +190,20 @@ public class User {
     this.rating = rating;
   }
 
+  @DynamoDBAttribute(attributeName = "major")
+  public String getMajor() {
+    return major;
+  }
+
+  public void setMajor(String major) {
+    this.major = major;
+  }
+
   /**
    * Adds a new rating to the overall rating for the user. In other words, calculates new average
    * for rating and stores inside rating field.
    *
-   * @param rating
+   * @param rating rating to be added
    */
   public void addNewRating(int rating) {
     if (cumulativeSessionsCompleted == 0) {
@@ -221,7 +245,9 @@ public class User {
         && Objects.equals(sessionIds, user.sessionIds)
         && Objects.equals(userId, user.userId)
         && Objects.equals(phoneNumber, user.phoneNumber)
-        && Objects.equals(subjects, user.subjects)
+        && Objects.equals(subjectsLearn, user.subjectsLearn)
+        && Objects.equals(subjectsTeach, user.subjectsTeach)
+        && Objects.equals(major, user.major)
         && Objects.equals(cumulativeSessionsCompleted, user.cumulativeSessionsCompleted)
         && Objects.equals(rating, user.rating);
   }
