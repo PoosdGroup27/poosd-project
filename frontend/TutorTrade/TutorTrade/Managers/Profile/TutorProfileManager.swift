@@ -39,12 +39,14 @@ class DefaultTutorProfileManager : TutorProfileManager, Codable {
             var request = URLRequest(url: userURL)
             request.httpMethod = "PATCH"
             request.httpBody = try! JSONEncoder().encode(newValue)
+            print("Request: \(String(data: request.httpBody!, encoding: .utf8))")
             request.allowsCellularAccess = true
             URLSession.shared.dataTask(with: request) { data, response, error in
                 if error != nil {
                     NotificationCenter.default.post(name: .tutorProfileUpdatedFailed, object: self)
                 } else {
                     NotificationCenter.default.post(name: .tutorProfileUpdated, object: self)
+                    print("response: \(String(data: data!, encoding: .utf8))")
                     self.persistProfileToDisk()
                 }
             }.resume()
@@ -63,6 +65,7 @@ class DefaultTutorProfileManager : TutorProfileManager, Codable {
         if let data = UserDefaults.standard.data(forKey: userDefaultsKey) {
             let storedProfile = try? JSONDecoder().decode(TutorProfile.self, from: data)
             if storedProfile?.userId == id {
+                print("Loaded profile from user defaults")
                 Self.shared = DefaultTutorProfileManager(profile: storedProfile!)
                 callback(true)
                 return
@@ -74,18 +77,22 @@ class DefaultTutorProfileManager : TutorProfileManager, Codable {
                 callback(false)
                 return
             }
-            
-            let profile = try! JSONDecoder().decode(TutorProfile.self, from: data!)
-            Self.shared = DefaultTutorProfileManager(profile: profile)
-            Self.shared!.persistProfileToDisk()
-            callback(true)
-            NotificationCenter.default.post(name: .tutorProfileLoaded, object: self)
+            if let response = try? JSONDecoder().decode(APIResponse<TutorProfile>.self, from: data!) {
+                Self.shared = DefaultTutorProfileManager(profile: response.body)
+                Self.shared!.persistProfileToDisk()
+                callback(true)
+                NotificationCenter.default.post(name: .tutorProfileLoaded, object: self)
+                return
+            }
+            callback(false)
+            return
             
         }.resume()
     }
     
     static func createProfile(request createProfileRequest: ProfileCreationRequest, completionHander: @escaping (Bool) -> Void) {
         let url = URL(string: baseUserEndpoint.absoluteString + "/" + createProfileRequest.userId)!
+        print("Request: \(createProfileRequest)")
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
         request.allowsCellularAccess = true
@@ -95,8 +102,8 @@ class DefaultTutorProfileManager : TutorProfileManager, Codable {
                 completionHander(false)
                 return
             }
-            let profile = try! JSONDecoder().decode(TutorProfile.self, from: data!)
-            Self.shared = DefaultTutorProfileManager(profile: profile)
+            let response = try! JSONDecoder().decode(APIResponse<TutorProfile>.self, from: data!)
+            Self.shared = DefaultTutorProfileManager(profile: response.body)
             Self.shared!.persistProfileToDisk()
             completionHander(true)
             NotificationCenter.default.post(name: .tutorProfileLoaded, object: self)

@@ -48,7 +48,13 @@
 		5E7EA9E32718E6910066B189 /* CoreGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9E22718E6910066B189 /* CoreGraphics.swift */; };
 		5E7EA9E52718E7480066B189 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E7EA9E42718E7020066B189 /* Roboto-Bold.ttf */; };
 		5E7EA9E7271900AE0066B189 /* DisplaySettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9E6271900AE0066B189 /* DisplaySettingsManager.swift */; };
-		5E7EA9EB271A52B40066B189 /* SubjectsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9EA271A52B40066B189 /* SubjectsResponse.swift */; };
+		5E7EA9EB271A52B40066B189 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7EA9EA271A52B40066B189 /* APIResponse.swift */; };
+		5E9853F2273765E200E75E2A /* AuthCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9853F1273765E200E75E2A /* AuthCredentials.swift */; };
+		5E9853F5273768FA00E75E2A /* PhoneNumberController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9853F3273768FA00E75E2A /* PhoneNumberController.swift */; };
+		5E9853F6273768FA00E75E2A /* VerificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9853F4273768FA00E75E2A /* VerificationController.swift */; };
+		5E9853FA2737691E00E75E2A /* ShadowDisplayBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9853F72737691E00E75E2A /* ShadowDisplayBox.swift */; };
+		5E9853FB2737691E00E75E2A /* PhoneNumberConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9853F82737691E00E75E2A /* PhoneNumberConfigurations.swift */; };
+		5E9853FC2737691E00E75E2A /* VerificationConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9853F92737691E00E75E2A /* VerificationConfigurations.swift */; };
 		5ECB1D8C27025277005BDD89 /* Dosis-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */; };
 		5ED5C725272C5C75007628C5 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C724272C5C75007628C5 /* UIImage.swift */; };
 		5ED5C727272C9746007628C5 /* EditingPopoverConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C726272C9746007628C5 /* EditingPopoverConfigurations.swift */; };
@@ -125,7 +131,13 @@
 		5E7EA9E22718E6910066B189 /* CoreGraphics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreGraphics.swift; sourceTree = "<group>"; };
 		5E7EA9E42718E7020066B189 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		5E7EA9E6271900AE0066B189 /* DisplaySettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplaySettingsManager.swift; sourceTree = "<group>"; };
-		5E7EA9EA271A52B40066B189 /* SubjectsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectsResponse.swift; sourceTree = "<group>"; };
+		5E7EA9EA271A52B40066B189 /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
+		5E9853F1273765E200E75E2A /* AuthCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthCredentials.swift; sourceTree = "<group>"; };
+		5E9853F3273768FA00E75E2A /* PhoneNumberController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberController.swift; sourceTree = "<group>"; };
+		5E9853F4273768FA00E75E2A /* VerificationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationController.swift; sourceTree = "<group>"; };
+		5E9853F72737691E00E75E2A /* ShadowDisplayBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShadowDisplayBox.swift; path = TutorTrade/Views/AuthFlow/ShadowDisplayBox.swift; sourceTree = SOURCE_ROOT; };
+		5E9853F82737691E00E75E2A /* PhoneNumberConfigurations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhoneNumberConfigurations.swift; path = TutorTrade/Views/AuthFlow/PhoneNumberConfigurations.swift; sourceTree = SOURCE_ROOT; };
+		5E9853F92737691E00E75E2A /* VerificationConfigurations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VerificationConfigurations.swift; path = TutorTrade/Views/AuthFlow/VerificationConfigurations.swift; sourceTree = SOURCE_ROOT; };
 		5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-Bold.ttf"; sourceTree = "<group>"; };
 		5ED5C724272C5C75007628C5 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		5ED5C726272C9746007628C5 /* EditingPopoverConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingPopoverConfigurations.swift; sourceTree = "<group>"; };
@@ -342,7 +354,7 @@
 		5E1BAE612728EAE500A70757 /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				5E7EA9EA271A52B40066B189 /* SubjectsResponse.swift */,
+				5E7EA9EA271A52B40066B189 /* APIResponse.swift */,
 				5E7EA9AB2718E3C30066B189 /* AppDisplaySettings.swift */,
 			);
 			path = Application;
@@ -373,6 +385,7 @@
 		5E1BAE652728EB4700A70757 /* AuthFlow */ = {
 			isa = PBXGroup;
 			children = (
+				5E9853F1273765E200E75E2A /* AuthCredentials.swift */,
 			);
 			path = AuthFlow;
 			sourceTree = "<group>";
@@ -426,6 +439,8 @@
 		5E1BAE6C2728ECFD00A70757 /* AuthFlow */ = {
 			isa = PBXGroup;
 			children = (
+				5E9853F3273768FA00E75E2A /* PhoneNumberController.swift */,
+				5E9853F4273768FA00E75E2A /* VerificationController.swift */,
 				5E5DB429272C4862008B9A0D /* CreateProfileController.swift */,
 				5E5DB41F272B0FCC008B9A0D /* WelcomePageViewController.swift */,
 			);
@@ -478,6 +493,9 @@
 		5E7EA9CC2718E6800066B189 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				5E9853F82737691E00E75E2A /* PhoneNumberConfigurations.swift */,
+				5E9853F72737691E00E75E2A /* ShadowDisplayBox.swift */,
+				5E9853F92737691E00E75E2A /* VerificationConfigurations.swift */,
 				5E7EA9CD2718E6800066B189 /* TutoringSubjectsScrollView.swift */,
 				5E7EA9CE2718E6800066B189 /* NameAndRatingLabel.swift */,
 				5E7EA9CF2718E6800066B189 /* BorderedDisplayBox.swift */,
@@ -664,10 +682,13 @@
 				4A386F3B270F3E2F002BEC06 /* RequestManager.swift in Sources */,
 				4A22D9FB270E15E700E8DA7E /* SubmitButtonView.swift in Sources */,
 				4AC9501526ED771F00FC4A97 /* TutorTradeTabBarController.swift in Sources */,
+				5E9853FB2737691E00E75E2A /* PhoneNumberConfigurations.swift in Sources */,
+				5E9853F5273768FA00E75E2A /* PhoneNumberController.swift in Sources */,
 				4ABAC5D3270A0D2E00CBB85B /* UrgencyView.swift in Sources */,
 				5E7EA9B32718E49A0066B189 /* Properties.swift in Sources */,
 				4A29D5982702601D00D25088 /* MatchingController.swift in Sources */,
 				5E5DB420272B0FCC008B9A0D /* WelcomePageViewController.swift in Sources */,
+				5E9853F2273765E200E75E2A /* AuthCredentials.swift in Sources */,
 				5E5DB422272B12A1008B9A0D /* AuthManager.swift in Sources */,
 				5EF5C4522726F72300C74ADF /* PopoverEditingViewController.swift in Sources */,
 				5EF5C4542727517000C74ADF /* SchoolSelectionViewFactory.swift in Sources */,
@@ -676,11 +697,13 @@
 				5E7EA9E02718E6800066B189 /* ProfilePageFactory.swift in Sources */,
 				5E1BAE702728ED5C00A70757 /* UIView.swift in Sources */,
 				4A29D59C2702603200D25088 /* RequestController.swift in Sources */,
+				5E9853F6273768FA00E75E2A /* VerificationController.swift in Sources */,
+				5E9853FA2737691E00E75E2A /* ShadowDisplayBox.swift in Sources */,
 				4AA06BFA2704E4FF00B58926 /* RequestScrollView.swift in Sources */,
 				5E7EA9AF2718E3C30066B189 /* TutorProfile.swift in Sources */,
 				5E5DB4172729F7B9008B9A0D /* WelcomePageConfigurations.swift in Sources */,
 				5E7EA9DE2718E6800066B189 /* BorderedDisplayBox.swift in Sources */,
-				5E7EA9EB271A52B40066B189 /* SubjectsResponse.swift in Sources */,
+				5E7EA9EB271A52B40066B189 /* APIResponse.swift in Sources */,
 				5ED5C72B2731A1A0007628C5 /* Notification.swift in Sources */,
 				5E7EA9DD2718E6800066B189 /* NameAndRatingLabel.swift in Sources */,
 				5ED5C727272C9746007628C5 /* EditingPopoverConfigurations.swift in Sources */,
@@ -698,6 +721,7 @@
 				5E1BAE722728EDF700A70757 /* ProfilePageConfigurations.swift in Sources */,
 				5E7EA9A52718E3250066B189 /* TutorProfileManager.swift in Sources */,
 				5E7EA9E32718E6910066B189 /* CoreGraphics.swift in Sources */,
+				5E9853FC2737691E00E75E2A /* VerificationConfigurations.swift in Sources */,
 				5ED5C725272C5C75007628C5 /* UIImage.swift in Sources */,
 				4A22D9F9270E138200E8DA7E /* DescriptionView.swift in Sources */,
 				5E7EA9AE2718E3C30066B189 /* AppDisplaySettings.swift in Sources */,

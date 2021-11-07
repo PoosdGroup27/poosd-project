@@ -107,16 +107,18 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
     @objc func sendOTPButton() {
 
         if  isValidPhoneNumber(phoneNumber: phoneNumberTextField.text!) {
+            let phoneNumber = "+1" + phoneNumberTextField.text!
             Auth0
                .authentication()
-               .startPasswordless(phoneNumber: "+1" + phoneNumberTextField.text!, connection: "sms")
+               .startPasswordless(phoneNumber: phoneNumber, connection: "sms")
                .start { result in
                    switch result {
                    case .success:
-                       print("Sent OTP to support@auth0.com!")
 //                       self.phoneNumberDelegate.setPhoneNumber(phoneNumber: self.phoneNumberTextField.text!)
                        DispatchQueue.main.async {
+                           self.verificationController.userPhoneNumber = phoneNumber
                            self.navigationController?.pushViewController(self.verificationController, animated: true)
+                           self.resetFields()
                            return
                        }
                    case .failure(let error):
@@ -139,5 +141,9 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.phoneNumberTextField.endEditing(true)
 
+    }
+    
+    private func resetFields() {
+        self.phoneNumberTextField.text = ""
     }
 }

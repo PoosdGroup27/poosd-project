@@ -37,6 +37,13 @@ struct TutorProfile : Codable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(userId, forKey: .userId)
+        try container.encode(school, forKey: .school)
+        try container.encode(major, forKey: .major)
+        try container.encode(pointBalance, forKey: .points)
+        try container.encode(name, forKey: .name)
+        try container.encode(rating, forKey: .rating)
+        try container.encode(tutoringSubjects, forKey: .tutoringSubects)
+        try container.encode(phoneNumber, forKey: .phoneNumber)
     }
     
     

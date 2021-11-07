@@ -35,15 +35,15 @@ class DisplaySettingsManager {
             
             let request = URLRequest(url: URL(string: Properties.backendBaseEndpoint + Properties.subjectsPath)!)
             
-            var subjectsResponse: SubjectsResponse?
+            var subjectsResponse: APIResponse<[String]>?
             let semaphore = DispatchSemaphore(value: 0)
             let requestTask = URLSession.shared.dataTask(with: request) { data, response, error in
                 defer { semaphore.signal()}
                 if error != nil {
-                    subjectsResponse = SubjectsResponse(statusCode: 200, body: [])
+                    subjectsResponse = APIResponse(statusCode: 200, body: [])
                     return
                 }
-                subjectsResponse = try! JSONDecoder().decode(SubjectsResponse.self, from: data!)
+                subjectsResponse = try! JSONDecoder().decode(APIResponse<[String]>.self, from: data!)
             }
             requestTask.resume()
             semaphore.wait()

@@ -27,7 +27,7 @@ class VerificationController: UIViewController, UITextFieldDelegate {
     private lazy var verificationTextFieldFive: UITextField = .createTextField(withPlaceholder: "X")
     private lazy var verificationTextFieldSix: UITextField = .createTextField(withPlaceholder: "X")
     private lazy var createProfileViewController = CreateProfileController()
-    private var userPhoneNumber: String!
+    var userPhoneNumber: String!
     private var textFieldArray: [UITextField] {
            return [verificationTextFieldOne, verificationTextFieldTwo, verificationTextFieldThree,
                    verificationTextFieldFour, verificationTextFieldFive, verificationTextFieldSix]
@@ -45,6 +45,10 @@ class VerificationController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         let dismissKeyboardRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         self.view.addGestureRecognizer(dismissKeyboardRecognizer)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.verificationDescriptionLabel.text! += userPhoneNumber
     }
 
     override func loadView() {
@@ -189,26 +193,34 @@ class VerificationController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func verificationButtonTapped() {
+        self.verificationButton.isUserInteractionEnabled = false
         let code = textFieldArray.compactMap{$0.text}.joined()
 
         Auth0
            .authentication()
            .login(
-            phoneNumber: "+17873611344",
+            phoneNumber: userPhoneNumber,
                code: code,
-            audience: DefaultAuthManager.shared?.audience?.first,
-            scope: DefaultAuthManager.shared?.scopes)
+            audience: DefaultAuthManager.shared.audience,
+            scope: DefaultAuthManager.shared.scopes)
            .start { result in
                switch result {
                case .success(let credentials):
                    print("Access Token: \(String(describing: credentials.accessToken))")
 
                    let authCredentials = AuthCredentials(idToken: credentials.idToken, accessToken: credentials.accessToken)
-                   DefaultAuthManager.shared?.credentials = authCredentials
+                   DefaultAuthManager.shared.credentials = authCredentials
                    
-                   DispatchQueue.main.async {
-                       self.pushCreateProfileController()
-                       return
+                   DefaultTutorProfileManager.loadProfile(withId: DefaultAuthManager.shared.userId!) { success in
+                       DispatchQueue.main.async {
+                           if success {
+                               (UIApplication.shared.delegate as! TutorTradeApplication).loadStartupController()
+                           } else {
+                               self.pushCreateProfileController()
+                           }
+                           self.verificationButton.isUserInteractionEnabled = true
+                           self.resetFields()
+                       }
                    }
                case .failure(let error):
                    print(error)
@@ -255,6 +267,13 @@ class VerificationController: UIViewController, UITextFieldDelegate {
     
     @objc func dismissKeyboard() {
         self.view.endEditing(true)
+    }
+    
+    private func resetFields() {
+        for textField in textFieldArray {
+            textField.text = ""
+        }
+        self.verificationDescriptionLabel.text! = String(self.verificationDescriptionLabel.text![...self.verificationDescriptionLabel.text!.index(self.verificationDescriptionLabel.text!.endIndex, offsetBy: -13)])
     }
 }
 

@@ -63,7 +63,7 @@ class WelcomePageViewController: UIViewController {
         }
         
         self.actionContainerView.addSubview(getStartedButton) {
-            $0.addTarget(self, action: #selector(self.getStartedButtonTapped), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(self.proceedToAuthFlow), for: .touchUpInside)
             NSLayoutConstraint.activate([
                 $0.topAnchor.constraint(equalTo: self.actionContainerView.topAnchor, constant: UIScreen.main.bounds.height / 20),
                 $0.leadingAnchor.constraint(equalTo: self.actionContainerView.leadingAnchor, constant: 28),
@@ -74,6 +74,7 @@ class WelcomePageViewController: UIViewController {
         }
         
         self.actionContainerView.addSubview(signInButton) {
+            $0.addTarget(self, action: #selector(self.proceedToAuthFlow), for: .touchUpInside)
             NSLayoutConstraint.activate([
                 $0.topAnchor.constraint(equalTo: self.getStartedButton.bottomAnchor, constant: UIScreen.main.bounds.height / 27),
                 $0.leadingAnchor.constraint(equalTo: self.actionContainerView.leadingAnchor, constant: UIScreen.main.bounds.width / 2.38),
@@ -104,7 +105,7 @@ class WelcomePageViewController: UIViewController {
         }
     }
     
-    @objc func getStartedButtonTapped() {
+    @objc func proceedToAuthFlow() {
         self.navigationController?.pushViewController(phoneNumberController, animated: true)
     }
     
