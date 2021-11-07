@@ -148,6 +148,7 @@ class TutoringSubjectsScrollView: UIScrollView {
     
     @objc func subjectButtonTapped(sender: UIButton) {
         sender.isSelected.toggle()
+        selectedTutoringSubjects.update(with: sender.title(for: .normal)!)
         selectionObserver?(sender.currentTitle!, (sender.isSelected) ? .selected : .unselected)
     }
     

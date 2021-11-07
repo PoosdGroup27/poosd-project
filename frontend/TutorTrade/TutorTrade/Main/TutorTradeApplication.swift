@@ -13,7 +13,7 @@ class TutorTradeApplication: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     private let displaySettingsManager =  DisplaySettingsManager()
-    private var tabBarController: UITabBarController? = nil
+
     private var authFlowController: UINavigationController? = nil
 
     /**
@@ -36,24 +36,32 @@ class TutorTradeApplication: UIResponder, UIApplicationDelegate {
     }
     
     func loadStartupController() {
-        if AuthManager.shared.isLoggedIn {
+
+        if DefaultAuthManager.shared.isLoggedIn {
             
-            self.tabBarController = self.tabBarController ?? TutorTradeTabBarController(displaySettings: displaySettingsManager.appDisplaySettings!)
-            
+            var semaphore: DispatchSemaphore?
+            if DefaultTutorProfileManager.shared == nil {
+                semaphore = DispatchSemaphore(value: 0)
+                DefaultTutorProfileManager.loadProfile(withId: DefaultAuthManager.shared.userId!) { success in
+                        semaphore!.signal()
+                }
+            }
+            semaphore?.wait()
+
+                
             // Creates the tab bar controller and set it as the root controller of the app
-            window!.rootViewController = tabBarController
+            window!.rootViewController = TutorTradeTabBarController(displaySettings: displaySettingsManager.appDisplaySettings!)
             
         } else {
             self.authFlowController = self.authFlowController ?? UINavigationController(rootViewController: WelcomePageViewController())
+            self.authFlowController?.popToRootViewController(animated: false)
             
             window!.rootViewController = authFlowController
-            
-            AuthManager.shared.isLoggedIn = true
         }
     }
     
     func logOut() {
-        AuthManager.shared.isLoggedIn = false
+        DefaultAuthManager.shared.logOut()
         loadStartupController()
     }
 }

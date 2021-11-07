@@ -12,7 +12,7 @@ import UIKit
 
 class ProfileController: UIViewController {
     
-    private let factory: ProfilePageFactory
+
     private let profileManager: TutorProfileManager
     private let displaySettings: AppDisplaySettings
     
@@ -38,9 +38,9 @@ class ProfileController: UIViewController {
     private lazy var popoverBackgroundView: UIView = .popoverBackgroundView
     private var editingPopoverVC : PopoverEditingViewController!
     
-    init(factory: ProfilePageFactory, modelManager : TutorProfileManager, displaySettings: AppDisplaySettings) {
-        self.factory = factory
-        self.profileManager = modelManager
+
+    init(displaySettings: AppDisplaySettings) {
+        self.profileManager = DefaultTutorProfileManager.shared!
         self.displaySettings = displaySettings
         super.init(nibName: nil, bundle: nil)
         self.editingPopoverVC = PopoverEditingViewController(fieldValues: schoolEditingFieldValues, profileManager: self.profileManager, onFinish: self.finishSchoolEditing)

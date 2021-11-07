@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct AppDisplaySettings {
+struct AppDisplaySettings : Codable {
     
     let tutoringSubjects : [String]
     

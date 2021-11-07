@@ -11,7 +11,15 @@ class DisplaySettingsManager {
     
     static let shared = DisplaySettingsManager()
     
+
+    private static let userDefaultsKey = "AppDisplaySettings.shared"
     private var cachedAppDisplaySettings : AppDisplaySettings?
+    
+    private func persistDisplaySettingsToDisk() {
+        DispatchQueue.global(qos: .background).async {
+            UserDefaults.standard.set(try? JSONEncoder().encode(self.cachedAppDisplaySettings), forKey: Self.userDefaultsKey)
+        }
+    }
     
     var appDisplaySettings : AppDisplaySettings? {
         get {
@@ -19,18 +27,29 @@ class DisplaySettingsManager {
                 return cachedAppDisplaySettings
             }
             
-            let url = URL(string: Properties.backendBaseEndpoint + Properties.subjectsPath)!
-            let request = URLRequest(url: url)
+            if let data = UserDefaults.standard.data(forKey: Self.userDefaultsKey) {
+                if let storedDisplaySettings = try? JSONDecoder().decode(AppDisplaySettings.self, from: data) {
+                    cachedAppDisplaySettings = storedDisplaySettings
+                    return cachedAppDisplaySettings
+                }
+            }
             
-            var subjectsResponse: SubjectsResponse?
+            let request = URLRequest(url: URL(string: Properties.backendBaseEndpoint + Properties.subjectsPath)!)
+            
+            var subjectsResponse: APIResponse<[String]>?
             let semaphore = DispatchSemaphore(value: 0)
             let requestTask = URLSession.shared.dataTask(with: request) { data, response, error in
                 defer { semaphore.signal()}
-                subjectsResponse = try! JSONDecoder().decode(SubjectsResponse.self, from: data!)
+                if error != nil {
+                    subjectsResponse = APIResponse(statusCode: 200, body: [])
+                    return
+                }
+                subjectsResponse = try! JSONDecoder().decode(APIResponse<[String]>.self, from: data!)
             }
             requestTask.resume()
             semaphore.wait()
             cachedAppDisplaySettings = AppDisplaySettings(tutoringSubjects: subjectsResponse!.body)
+            persistDisplaySettingsToDisk()
             return cachedAppDisplaySettings
         }
     }

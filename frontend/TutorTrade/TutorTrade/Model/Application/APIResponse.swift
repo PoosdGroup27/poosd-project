@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct SubjectsResponse : Codable {
+struct APIResponse<T: Codable> : Codable {
     
     let statusCode: Int
     
-    let body: [String]
+    let body: T
 }
