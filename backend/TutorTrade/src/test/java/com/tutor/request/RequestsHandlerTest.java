@@ -67,7 +67,7 @@ class RequestsHandlerTest {
 
     // THEN: fields of request object match those from validPostRequest.json
     assertEquals(request.getRequesterId().toString(), requestBodyFields.get("requesterId"));
-    assertEquals(request.getSubject().toString(), requestBodyFields.get("subject"));
+    assertEquals(request.getSubject().getSubjectName(), requestBodyFields.get("subject"));
     assertEquals(request.getCostInPoints().toString(), requestBodyFields.get("costInPoints"));
     assertEquals(request.getUrgency().toString(), requestBodyFields.get("urgency"));
     assertEquals(request.getPlatform().toString(), requestBodyFields.get("platform"));
@@ -84,7 +84,7 @@ class RequestsHandlerTest {
 
     // THEN: all fields correct
     assertEquals(requestInDB.getRequesterId().toString(), requestBodyFields.get("requesterId"));
-    assertEquals(requestInDB.getSubject().toString(), requestBodyFields.get("subject"));
+    assertEquals(requestInDB.getSubject().getSubjectName(), requestBodyFields.get("subject"));
     assertEquals(requestInDB.getCostInPoints().toString(), requestBodyFields.get("costInPoints"));
     assertEquals(requestInDB.getUrgency().toString(), requestBodyFields.get("urgency"));
     assertEquals(requestInDB.getPlatform().toString(), requestBodyFields.get("platform"));
@@ -124,14 +124,14 @@ class RequestsHandlerTest {
 
     // THEN: all fields correct
     assertEquals(requestInDB.getRequesterId().toString(), requestBodyFields.get("requesterId"));
-    assertEquals(requestInDB.getSubject().toString(), requestBodyFields.get("subject"));
+    assertEquals(requestInDB.getSubject().getSubjectName(), requestBodyFields.get("subject"));
     assertEquals(requestInDB.getCostInPoints().toString(), requestBodyFields.get("costInPoints"));
     assertEquals(requestInDB.getUrgency().toString(), requestBodyFields.get("urgency"));
     assertEquals(requestInDB.getPlatform().toString(), requestBodyFields.get("platform"));
 
     // WHEN: patch request
     Map<String, String> changes = new HashMap<>();
-    changes.put("subject", "BIOLOGY");
+    changes.put("subject", "🧬 Biology");
     changes.put("costInPoints", "5000");
     String body = OBJECT_MAPPER.writeValueAsString(changes);
     String response =
@@ -154,7 +154,7 @@ class RequestsHandlerTest {
     Request requestInDB2 = requestById2.get(0);
 
     assertEquals(requestInDB2.getRequesterId().toString(), requestBodyFields.get("requesterId"));
-    assertEquals(requestInDB2.getSubject().toString(), changes.get("subject"));
+    assertEquals(requestInDB2.getSubject().getSubjectName(), changes.get("subject"));
     assertEquals(requestInDB2.getCostInPoints().toString(), changes.get("costInPoints"));
     assertEquals(requestInDB2.getUrgency().toString(), requestBodyFields.get("urgency"));
     assertEquals(requestInDB2.getPlatform().toString(), requestBodyFields.get("platform"));

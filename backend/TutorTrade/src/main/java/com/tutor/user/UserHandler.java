@@ -7,12 +7,19 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.subject.Subject;
 import com.tutor.utils.ApiResponse;
 import com.tutor.utils.UserUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,15 +32,22 @@ import java.util.UUID;
  * Lambda. Requests are then further routed to correct method based on information found in context
  * input.
  */
-public class UserHandler implements RequestHandler<Map<Object, Object>, ApiResponse<?>> {
+public class UserHandler implements RequestStreamHandler {
 
   private static final Logger LOG = LogManager.getLogger(UserHandler.class);
   private static final AmazonDynamoDB DYNAMO_DB =
       AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
   private static final DynamoDBMapper MAPPER = new DynamoDBMapper(DYNAMO_DB);
+  private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+  static {
+    // Serialization will exclude null fields
+    OBJECT_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+  }
 
   @Override
-  public ApiResponse<?> handleRequest(Map<Object, Object> event, Context context) {
+  public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
+    Map<Object, Object> event = OBJECT_MAPPER.readValue(inputStream, new TypeReference<Map<Object, Object>>() {});
+
     HashMap<?, ?> contextMap = (HashMap<?, ?>) event.get("context");
     String httpMethod = (String) contextMap.get("http-method");
 
@@ -46,27 +60,34 @@ public class UserHandler implements RequestHandler<Map<Object, Object>, ApiRespo
         bodyJson = (HashMap<?, ?>) event.get("body-json");
         params = (HashMap<?, ?>) event.get("params");
         pathParameters = (HashMap<?, ?>) params.get("path");
-        return createUser(bodyJson, (String) pathParameters.get("id"));
+        OBJECT_MAPPER.writeValue(outputStream, createUser(bodyJson, (String) pathParameters.get("id")));
+        return;
       case "GET":
         params = (HashMap<?, ?>) event.get("params");
         pathParameters = (HashMap<?, ?>) params.get("path");
         User user = UserUtils.getUserObjectById(((String) pathParameters.get("id")));
-        return ApiResponse.<User>builder().statusCode(HttpURLConnection.HTTP_OK).body(user).build();
+        ApiResponse<User> response = ApiResponse.<User>builder().statusCode(HttpURLConnection.HTTP_OK).body(user).build();
+        OBJECT_MAPPER.writeValue(outputStream, response);
+        return;
       case "PATCH":
         bodyJson = (HashMap<?, ?>) event.get("body-json");
         params = (HashMap<?, ?>) event.get("params");
         pathParameters = (HashMap<?, ?>) params.get("path");
-        return updateUser(bodyJson, (String) pathParameters.get("id"));
+        OBJECT_MAPPER.writeValue(outputStream, updateUser(bodyJson, (String) pathParameters.get("id")));
+        return;
       case "DELETE":
         params = (HashMap<?, ?>) event.get("params");
         pathParameters = (HashMap<?, ?>) params.get("path");
-        return deleteUser((String) pathParameters.get("id"));
+        OBJECT_MAPPER.writeValue(outputStream, deleteUser((String) pathParameters.get("id")));
+        return;
     }
 
-    return ApiResponse.<String>builder()
-        .statusCode(HttpURLConnection.HTTP_BAD_METHOD)
-        .body(String.format("Requested method was not found. HTTP method requested was: %s", httpMethod))
-        .build();
+    ApiResponse<String> response = ApiResponse.<String>builder()
+            .statusCode(HttpURLConnection.HTTP_BAD_METHOD)
+            .body(String.format("Requested method was not found. HTTP method requested was: %s", httpMethod))
+            .build();
+
+    OBJECT_MAPPER.writeValue(outputStream, response);
   }
 
   private ApiResponse<?> createUser(HashMap<?, ?> body, String userId) {

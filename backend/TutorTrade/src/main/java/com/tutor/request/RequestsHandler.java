@@ -6,7 +6,10 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.subject.Subject;
 import com.tutor.utils.ApiResponse;
 import com.tutor.utils.ApiUtils;
@@ -14,20 +17,30 @@ import com.tutor.utils.RequestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 /** Handles any HTTP requests to the API's /request/ path. */
-public class RequestsHandler implements RequestHandler<Map<Object, Object>, ApiResponse<?>> {
+public class RequestsHandler implements RequestStreamHandler {
   private static final Logger LOG = LogManager.getLogger(RequestsHandler.class);
   private static final AmazonDynamoDB DYNAMO_DB =
       AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
   private static final DynamoDBMapper DYNAMO_DB_MAPPER = new DynamoDBMapper(DYNAMO_DB);
+  private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+  static {
+    // Serialization will exclude null fields
+    OBJECT_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+  }
 
   @Override
-  public ApiResponse<?> handleRequest(Map<Object, Object> event, Context context) {
+  public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
+    Map<Object, Object> event = OBJECT_MAPPER.readValue(inputStream, new TypeReference<Map<Object, Object>>() {});
+
     HashMap<?, ?> contextMap = (HashMap<?, ?>) event.get("context");
     String httpMethod = (String) contextMap.get("http-method");
 
@@ -41,33 +54,33 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, ApiR
         pathParameters = (HashMap<?, ?>) params.get("path");
         Request request =
                 RequestUtils.getRequestObjectById(((String) pathParameters.get("requestId")));
-        return ApiResponse.<Request>builder()
+        ApiResponse<Request> response = ApiResponse.<Request>builder()
                 .statusCode(HttpURLConnection.HTTP_OK)
                 .body(request)
                 .build();
+        OBJECT_MAPPER.writeValue(outputStream, response);
+        return;
       case "POST":
         bodyJson = (HashMap<?, ?>) event.get("body-json");
         try {
-          return createRequest(bodyJson);
+           OBJECT_MAPPER.writeValue(outputStream, createRequest(bodyJson));
+           return;
         } catch (RequestBuilderException e) {
           e.printStackTrace();
-          return ApiUtils.returnErrorResponse(e);
+          OBJECT_MAPPER.writeValue(outputStream, ApiUtils.returnErrorResponse(e));
+          return;
         }
       case "PATCH":
         bodyJson = (HashMap<?, ?>) event.get("body-json");
         params = (HashMap<?, ?>) event.get("params");
         pathParameters = (HashMap<?, ?>) params.get("path");
-        return updateRequest(bodyJson, (String) pathParameters.get("requestId"));
+        OBJECT_MAPPER.writeValue(outputStream, updateRequest(bodyJson, (String) pathParameters.get("requestId")));
+        return;
       case "DELETE":
         params = (HashMap<?, ?>) event.get("params");
         pathParameters = (HashMap<?, ?>) params.get("path");
-        return deleteRequest((String) pathParameters.get("requestId"));
+        OBJECT_MAPPER.writeValue(outputStream, deleteRequest((String) pathParameters.get("requestId")));
     }
-
-    return ApiResponse.<String>builder()
-        .statusCode(HttpURLConnection.HTTP_NOT_FOUND)
-        .body("Request not found.")
-        .build();
   }
 
   private ApiResponse<Request> createRequest(HashMap<?, ?> body) throws RequestBuilderException {
@@ -121,7 +134,7 @@ public class RequestsHandler implements RequestHandler<Map<Object, Object>, ApiR
     String subjectString = (String) body.get("subject");
     if (subjectString != null) {
       try {
-        requestToUpdate.setSubject(Subject.valueOf(subjectString));
+        requestToUpdate.setSubject(Subject.fromSubjectName(subjectString));
       } catch (Exception ex) {
         return ApiUtils.returnErrorResponse(ex);
       }

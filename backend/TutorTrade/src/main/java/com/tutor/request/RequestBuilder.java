@@ -66,7 +66,7 @@ public class RequestBuilder {
 
   public RequestBuilder withSubject(String subject) throws RequestBuilderException {
     try {
-      this.subject = Subject.valueOf(subject);
+      this.subject = Subject.fromSubjectName(subject);
     } catch (IllegalArgumentException e) {
       throw new RequestBuilderException(String.format("Subject %s is unsupported.", subject));
     }

@@ -3,6 +3,8 @@ package com.tutor.utils;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.nio.charset.StandardCharsets;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
@@ -53,14 +55,14 @@ public class ApiUtils {
     CloseableHttpClient client = HttpClients.createDefault();
     String fullPath = apiUri + pathToResource;
     HttpPut httpPut = new HttpPut(fullPath);
-    httpPut.setEntity(new StringEntity(body));
+    httpPut.setEntity(new StringEntity(body, StandardCharsets.UTF_8));
     httpPut.setHeader("Accept", "application/json");
     httpPut.setHeader("Content-type", "application/json");
     HttpEntity entity;
 
     try (CloseableHttpResponse response = client.execute(httpPut)) {
       entity = response.getEntity();
-      return EntityUtils.toString(entity);
+      return EntityUtils.toString(entity, StandardCharsets.UTF_8);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -85,7 +87,7 @@ public class ApiUtils {
 
     try (CloseableHttpResponse response = client.execute(httpGet)) {
       entity = response.getEntity();
-      return EntityUtils.toString(entity);
+      return EntityUtils.toString(entity, StandardCharsets.UTF_8);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -112,14 +114,14 @@ public class ApiUtils {
     CloseableHttpClient client = HttpClients.createDefault();
     String fullPath = apiUri + pathToResource;
     HttpPost httpPost = new HttpPost(fullPath);
-    httpPost.setEntity(new StringEntity(body));
+    httpPost.setEntity(new StringEntity(body, StandardCharsets.UTF_8));
     httpPost.setHeader("Accept", "application/json");
     httpPost.setHeader("Content-type", "application/json");
     HttpEntity entity;
 
     try (CloseableHttpResponse response = client.execute(httpPost)) {
       entity = response.getEntity();
-      return EntityUtils.toString(entity);
+      return EntityUtils.toString(entity, StandardCharsets.UTF_8);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -146,14 +148,14 @@ public class ApiUtils {
     CloseableHttpClient client = HttpClients.createDefault();
     String fullPath = apiUri + pathToResource;
     HttpPatch httpPatch = new HttpPatch(fullPath);
-    httpPatch.setEntity(new StringEntity(body));
+    httpPatch.setEntity(new StringEntity(body, StandardCharsets.UTF_8));
     httpPatch.setHeader("Accept", "application/json");
     httpPatch.setHeader("Content-type", "application/json");
     HttpEntity entity;
 
     try (CloseableHttpResponse response = client.execute(httpPatch)) {
       entity = response.getEntity();
-      return EntityUtils.toString(entity);
+      return EntityUtils.toString(entity, StandardCharsets.UTF_8);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -177,7 +179,7 @@ public class ApiUtils {
 
     try (CloseableHttpResponse response = client.execute(httpDelete)) {
       entity = response.getEntity();
-      return EntityUtils.toString(entity);
+      return EntityUtils.toString(entity, StandardCharsets.UTF_8);
     } catch (IOException e) {
       e.printStackTrace();
     }
