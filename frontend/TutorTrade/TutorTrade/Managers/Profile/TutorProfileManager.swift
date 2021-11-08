@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol TutorProfileManager {
+protocol TutorProfileManager: AnyObject {
     
     var profile : TutorProfile { get set}
     

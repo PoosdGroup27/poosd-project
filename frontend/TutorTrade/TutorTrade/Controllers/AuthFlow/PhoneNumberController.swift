@@ -29,7 +29,9 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
         return controller
     }()
     private let phoneNumberFilterPattern = try! NSRegularExpression(pattern: "[^0-9]")
-
+    private var notificationToken: NSObjectProtocol!
+    private var phoneNumberButtonBottomLayoutConstraint: NSLayoutConstraint!
+    
     override func loadView() {
         super.loadView()
         self.view.backgroundColor = UIColor(named: "AuthFlowColor")!
@@ -86,6 +88,8 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
         self.phoneNumberBox.addSubview(phoneNumberTextField) {
             $0.delegate = self
             $0.keyboardType = .numberPad
+            $0.autocorrectionType = .no
+            $0.textContentType = .sublocality
             NSLayoutConstraint.activate([
                 $0.centerYAnchor.constraint(equalTo: phoneNumberBox.centerYAnchor),
                 $0.heightAnchor.constraint(equalTo: phoneNumberBox.heightAnchor, multiplier: 0.7),
@@ -96,8 +100,9 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
 
         self.view.addSubview(phoneNumberButton) {
             $0.addTarget(self, action: #selector(self.sendOTPButton), for: .touchUpInside)
+            self.phoneNumberButtonBottomLayoutConstraint = $0.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -UIScreen.main.bounds.height / 2.7138)
             NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: phoneNumberBox.bottomAnchor, constant: UIScreen.main.bounds.height / 11),
+                self.phoneNumberButtonBottomLayoutConstraint,
                 $0.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: UIScreen.main.bounds.width / -14),
                 $0.widthAnchor.constraint(equalToConstant: 50),
                 $0.heightAnchor.constraint(equalToConstant: 50)
@@ -113,6 +118,7 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
 
     @objc func sendOTPButton() {
         if  isValidPhoneNumber(phoneNumber: phoneNumberTextField.text!) {
+            self.phoneNumberButton.isUserInteractionEnabled = false
             let phoneNumber = "+1" + phoneNumberTextField.text!
             Auth0
                .authentication()
@@ -123,6 +129,7 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
                        DispatchQueue.main.async {
                            self.verificationController.userPhoneNumber = phoneNumber
                            self.navigationController?.pushViewController(self.verificationController, animated: true)
+                           self.phoneNumberButton.isUserInteractionEnabled = true
                            self.resetFields()
                            return
                        }
@@ -130,6 +137,7 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
                        print(error)
                        DispatchQueue.main.async {
                            self.present(self.validatePhoneController, animated: true)
+                           self.phoneNumberButton.isUserInteractionEnabled = true
                            return
                        }
                    }
@@ -152,10 +160,15 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         self.phoneNumberTextField.becomeFirstResponder()
+        self.notificationToken = NotificationCenter.default.addObserver(forName: UIResponder.keyboardDidChangeFrameNotification, object: nil, queue: .main) { notification in
+            let keyboardRect = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+            self.phoneNumberButtonBottomLayoutConstraint.constant = -keyboardRect.height - 20
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         self.phoneNumberTextField.resignFirstResponder()
+        NotificationCenter.default.removeObserver(self.notificationToken!)
     }
 }
