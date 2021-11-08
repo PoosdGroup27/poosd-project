@@ -93,7 +93,7 @@ public class Request {
     this.requestId = requestId;
   }
 
-  @DynamoDBTypeConvertedEnum
+  @DynamoDBTypeConverted(converter = SubjectConverter.class)
   @DynamoDBAttribute(attributeName = "subject")
   public Subject getSubject() {
     return subject;
@@ -237,6 +237,20 @@ public class Request {
     @Override
     public LocalDateTime unconvert(final String stringValue) {
       return LocalDateTime.parse(stringValue);
+    }
+  }
+
+  public static class SubjectConverter implements DynamoDBTypeConverter<String, Subject> {
+
+
+    @Override
+    public String convert(Subject subject) {
+      return subject.getSubjectName();
+    }
+
+    @Override
+    public Subject unconvert(String stringValue) {
+      return Subject.fromSubjectName(stringValue);
     }
   }
 }

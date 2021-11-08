@@ -131,7 +131,7 @@ class RequestsHandlerTest {
 
     // WHEN: patch request
     Map<String, String> changes = new HashMap<>();
-    changes.put("subject", "BIOLOGY");
+    changes.put("subject", "🧬 Biology");
     changes.put("costInPoints", "5000");
     String body = OBJECT_MAPPER.writeValueAsString(changes);
     String response =
