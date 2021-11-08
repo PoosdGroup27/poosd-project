@@ -39,14 +39,14 @@ class DefaultTutorProfileManager : TutorProfileManager, Codable {
             var request = URLRequest(url: userURL)
             request.httpMethod = "PATCH"
             request.httpBody = try! JSONEncoder().encode(newValue)
-            print("Request: \(String(data: request.httpBody!, encoding: .utf8))")
+            print("Request: \(String(data: request.httpBody!, encoding: .utf8) ?? "Error")")
             request.allowsCellularAccess = true
             URLSession.shared.dataTask(with: request) { data, response, error in
                 if error != nil {
                     NotificationCenter.default.post(name: .tutorProfileUpdatedFailed, object: self)
                 } else {
                     NotificationCenter.default.post(name: .tutorProfileUpdated, object: self)
-                    print("response: \(String(data: data!, encoding: .utf8))")
+                    print("response: \(String(data: data!, encoding: .utf8) ?? "Error")")
                     self.persistProfileToDisk()
                 }
             }.resume()
