@@ -231,7 +231,7 @@ class ProfileController: UIViewController {
     }
     
     func tutoringSubjectsDidChange(tutoringSubject: String, status: TutoringSubjectsScrollView.SubjectState) {
-        print("Button was tapped")
+        self.profileManager.profile.tutoringSubjects = self.tutoringSubjectsScrollView.selectedTutoringSubjects
     }
 
     func finishSchoolEditing() {
