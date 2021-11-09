@@ -32,8 +32,8 @@ class VerificationController: UIViewController, UITextFieldDelegate {
     private var textFieldArray: [UITextField] {
            return [verificationTextFieldOne, verificationTextFieldTwo, verificationTextFieldThree,
                    verificationTextFieldFour, verificationTextFieldFive, verificationTextFieldSix]
-
    }
+    private var notificationToken: NSObjectProtocol!
     private lazy var validateController: UIAlertController = {
         let controller = UIAlertController.init(title: "Incorrect verification code",
                                                 message: "Invalid code, please try again or enter new phone number",
@@ -42,15 +42,7 @@ class VerificationController: UIViewController, UITextFieldDelegate {
         controller.addAction(UIAlertAction(title: "OK", style: .cancel))
         return controller
     }()
-
-    override func viewDidLoad() {
-        let dismissKeyboardRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
-        self.view.addGestureRecognizer(dismissKeyboardRecognizer)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.verificationDescriptionLabel.text! += userPhoneNumber
-    }
+    private var verificationButtonBottomConstraint: NSLayoutConstraint!
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -80,8 +72,9 @@ class VerificationController: UIViewController, UITextFieldDelegate {
         
         self.view.addSubview(verificationButton) {
             $0.addTarget(self, action: #selector(self.verificationButtonTapped), for: .touchUpInside)
+            self.verificationButtonBottomConstraint = $0.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: UIScreen.main.bounds.width / -14)
             NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: UIScreen.main.bounds.height / 2.3),
+                self.verificationButtonBottomConstraint,
                 $0.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: UIScreen.main.bounds.width / -14.42),
                 $0.widthAnchor.constraint(equalToConstant: 50),
                 $0.heightAnchor.constraint(equalToConstant: 50)
@@ -278,5 +271,19 @@ class VerificationController: UIViewController, UITextFieldDelegate {
         }
         userPhoneNumber = ""
         self.verificationDescriptionLabel.text! = verificationDescriptionText + userPhoneNumber
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.verificationDescriptionLabel.text! += userPhoneNumber
+        let val = self.verificationTextFieldOne.becomeFirstResponder()
+        print(val)
+        self.notificationToken = NotificationCenter.default.addObserver(forName: UIResponder.keyboardDidChangeFrameNotification, object: nil, queue: .main) { notification in
+            let keyboardRect = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+            self.verificationButtonBottomConstraint.constant = -keyboardRect.height - 20
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self.notificationToken!)
     }
 }
