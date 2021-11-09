@@ -14,25 +14,21 @@ class VerificationController: UIViewController, UITextFieldDelegate {
     private lazy var verificationTitleLabel: UILabel = .verificationTitleLabel
     private lazy var verificationDescriptionLabel: UILabel = .verificationDescriptionLabel
     private lazy var verificationButton: UIButton = .createButton(backgroundColor: .black, image: UIImage(named: "ForwardIcon")!)
-    private lazy var verificationBoxOne: ShadowDisplayBox = .defaultDisplayBoxView()
-    private lazy var verificationBoxTwo: ShadowDisplayBox = .defaultDisplayBoxView()
-    private lazy var verificationBoxThree: ShadowDisplayBox = .defaultDisplayBoxView()
-    private lazy var verificationBoxFour: ShadowDisplayBox = .defaultDisplayBoxView()
-    private lazy var verificationBoxFive: ShadowDisplayBox = .defaultDisplayBoxView()
-    private lazy var verificationBoxSix: ShadowDisplayBox = .defaultDisplayBoxView()
-    private lazy var verificationTextFieldOne: UITextField = .createTextField(withPlaceholder: "X")
-    private lazy var verificationTextFieldTwo: UITextField = .createTextField(withPlaceholder: "X")
-    private lazy var verificationTextFieldThree: UITextField = .createTextField(withPlaceholder: "X")
-    private lazy var verificationTextFieldFour: UITextField = .createTextField(withPlaceholder: "X")
-    private lazy var verificationTextFieldFive: UITextField = .createTextField(withPlaceholder: "X")
-    private lazy var verificationTextFieldSix: UITextField = .createTextField(withPlaceholder: "X")
+    private lazy var resendOTPButton: UIButton = .resendOTPButton
+    private lazy var verificationBoxes: [ShadowDisplayBox] = {
+        stride(from: 0, to: 6, by: 1).map { _ in
+            ShadowDisplayBox.defaultDisplayBoxView()
+        }
+    }()
+    private lazy var verificationBoxesStackView: UIStackView = .verificationBoxesStackView
+    private lazy var verificationTextFields: [UITextField] = {
+        stride(from: 0, to: 6, by: 1).map { _ in
+            UITextField.verificationTextField
+        }
+    }()
     private lazy var createProfileViewController = CreateProfileController()
     var userPhoneNumber: String!
-    private var verificationDescriptionText = "Enter the verification code sent by \ntext to "
-    private var textFieldArray: [UITextField] {
-           return [verificationTextFieldOne, verificationTextFieldTwo, verificationTextFieldThree,
-                   verificationTextFieldFour, verificationTextFieldFive, verificationTextFieldSix]
-   }
+    private var verificationDescriptionText = "Enter the verification code sent by text to "
     private var notificationToken: NSObjectProtocol!
     private lazy var validateController: UIAlertController = {
         let controller = UIAlertController.init(title: "Incorrect verification code",
@@ -43,14 +39,6 @@ class VerificationController: UIViewController, UITextFieldDelegate {
         return controller
     }()
     private var verificationButtonBottomConstraint: NSLayoutConstraint!
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        if self.isMovingFromParent {
-            resetFields()
-        }
-    }
 
     override func loadView() {
         super.loadView()
@@ -58,20 +46,46 @@ class VerificationController: UIViewController, UITextFieldDelegate {
 
         self.view.addSubview(verificationTitleLabel) {
             NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: self.view.topAnchor, constant: UIScreen.main.bounds.height / 4),
-                $0.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: UIScreen.main.bounds.width / 14)
+                $0.topAnchor.constraint(equalTo: self.view.topAnchor, constant: UIScreen.main.bounds.height / 7),
+                $0.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: UIScreen.main.bounds.width / 11.52),
+                $0.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -UIScreen.main.bounds.width / 11.52)
             ])
         }
         
         self.view.addSubview(verificationDescriptionLabel) {
             NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: self.view.topAnchor, constant: UIScreen.main.bounds.height / 3),
-                $0.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: UIScreen.main.bounds.width / 14)
+                $0.topAnchor.constraint(equalTo: self.verificationTitleLabel.bottomAnchor, constant: UIScreen.main.bounds.height / 20),
+                $0.leadingAnchor.constraint(equalTo: self.verificationTitleLabel.leadingAnchor),
+                $0.trailingAnchor.constraint(equalTo: self.verificationTitleLabel.trailingAnchor)
             ])
         }
         
+        
+        self.view.addSubview(verificationBoxesStackView) {
+            NSLayoutConstraint.activate([
+                $0.topAnchor.constraint(equalTo: verificationDescriptionLabel.bottomAnchor, constant: UIScreen.main.bounds.height / 20),
+                $0.leadingAnchor.constraint(equalTo: verificationDescriptionLabel.leadingAnchor),
+                $0.trailingAnchor.constraint(equalTo: verificationDescriptionLabel.trailingAnchor),
+                $0.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 15)
+            ])
+        }
+        
+        for i in 0...5 {
+            // Stack view applies constraints on verification boxes such that they are equally sized and spaced
+            self.verificationBoxesStackView.addArrangedSubview(verificationBoxes[i])
+            self.verificationBoxes[i].addSubview(verificationTextFields[i]) {
+                $0.delegate = self
+                $0.keyboardType = .numberPad
+                $0.addTarget(self, action: #selector(moveToNextTextField), for: .editingChanged)
+                // Center text fields within verification boxes with respect to both dimensions
+                NSLayoutConstraint.activate([
+                    $0.centerXAnchor.constraint(equalTo: self.verificationBoxes[i].centerXAnchor),
+                    $0.centerYAnchor.constraint(equalTo: self.verificationBoxes[i].centerYAnchor)
+                ])
+            }
+        }
         self.view.addSubview(verificationButton) {
-            $0.addTarget(self, action: #selector(self.verificationButtonTapped), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(self.attemptVerification), for: .touchUpInside)
             self.verificationButtonBottomConstraint = $0.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: UIScreen.main.bounds.width / -14)
             NSLayoutConstraint.activate([
                 self.verificationButtonBottomConstraint,
@@ -81,122 +95,21 @@ class VerificationController: UIViewController, UITextFieldDelegate {
             ])
         }
         
-        self.view.addSubview(verificationBoxOne) {
+        self.view.addSubview(resendOTPButton) {
+            $0.addTarget(self, action: #selector(changePhoneNumber), for: .touchUpInside)
+            // Hidden until timer elapses
+            $0.isHidden = true
             NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 275),
-                $0.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-                $0.widthAnchor.constraint(equalToConstant: 43),
-                $0.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 15)
+                $0.centerYAnchor.constraint(equalTo: self.verificationButton.centerYAnchor),
+                $0.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 23)
             ])
         }
         
-        self.verificationBoxOne.addSubview(verificationTextFieldOne) {
-            $0.delegate = self
-            $0.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
-            NSLayoutConstraint.activate([
-                $0.centerYAnchor.constraint(equalTo: verificationBoxOne.centerYAnchor),
-                $0.centerXAnchor.constraint(equalTo: verificationBoxOne.centerXAnchor)
-            ])
-        }
-
-        
-        self.view.addSubview(verificationBoxTwo) {
-            NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 275),
-                $0.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 76),
-                $0.widthAnchor.constraint(equalToConstant: 43),
-                $0.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 15)
-            ])
-        }
-        
-        self.verificationBoxTwo.addSubview(verificationTextFieldTwo) {
-            $0.delegate = self
-            $0.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
-            NSLayoutConstraint.activate([
-                $0.centerYAnchor.constraint(equalTo: verificationBoxTwo.centerYAnchor),
-                $0.centerXAnchor.constraint(equalTo: verificationBoxTwo.centerXAnchor)
-            ])
-        }
-
-        self.view.addSubview(verificationBoxThree) {
-            NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 275),
-                $0.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 132),
-                $0.widthAnchor.constraint(equalToConstant: 43),
-                $0.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 15)
-            ])
-        }
-        
-        self.verificationBoxThree.addSubview(verificationTextFieldThree) {
-            $0.delegate = self
-            $0.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
-            NSLayoutConstraint.activate([
-                $0.centerYAnchor.constraint(equalTo: verificationBoxThree.centerYAnchor),
-                $0.centerXAnchor.constraint(equalTo: verificationBoxThree.centerXAnchor)
-            ])
-        }
-
-        
-        self.view.addSubview(verificationBoxFour) {
-            NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 275),
-                $0.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 188),
-                $0.widthAnchor.constraint(equalToConstant: 43),
-                $0.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 15)
-            ])
-        }
-        
-        self.verificationBoxFour.addSubview(verificationTextFieldFour) {
-            $0.delegate = self
-            $0.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
-            NSLayoutConstraint.activate([
-                $0.centerYAnchor.constraint(equalTo: verificationBoxFour.centerYAnchor),
-                $0.centerXAnchor.constraint(equalTo: verificationBoxFour.centerXAnchor)
-            ])
-        }
-
-        
-        self.view.addSubview(verificationBoxFive) {
-            NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 275),
-                $0.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 244),
-                $0.widthAnchor.constraint(equalToConstant: 43),
-                $0.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 15)
-            ])
-        }
-        
-        self.verificationBoxFive.addSubview(verificationTextFieldFive) {
-            $0.delegate = self
-            $0.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
-            NSLayoutConstraint.activate([
-                $0.centerYAnchor.constraint(equalTo: verificationBoxFive.centerYAnchor),
-                $0.centerXAnchor.constraint(equalTo: verificationBoxFive.centerXAnchor)
-            ])
-        }
-
-        
-        self.view.addSubview(verificationBoxSix) {
-            NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 275),
-                $0.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 300),
-                $0.widthAnchor.constraint(equalToConstant: 43),
-                $0.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 15)
-            ])
-        }
-        
-        self.verificationBoxSix.addSubview(verificationTextFieldSix) {
-            $0.delegate = self
-            $0.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
-            NSLayoutConstraint.activate([
-                $0.centerYAnchor.constraint(equalTo: verificationBoxSix.centerYAnchor),
-                $0.centerXAnchor.constraint(equalTo: verificationBoxSix.centerXAnchor)
-            ])
-        }
     }
     
-    @objc func verificationButtonTapped() {
+    @objc func attemptVerification() {
         self.verificationButton.isUserInteractionEnabled = false
-        let code = textFieldArray.compactMap{$0.text}.joined()
+        let code = verificationTextFields.compactMap{$0.text}.joined()
 
         Auth0
            .authentication()
@@ -208,65 +121,111 @@ class VerificationController: UIViewController, UITextFieldDelegate {
            .start { result in
                switch result {
                case .success(let credentials):
-                   print("Access Token: \(String(describing: credentials.accessToken))")
-
-                   let authCredentials = AuthCredentials(idToken: credentials.idToken, accessToken: credentials.accessToken)
-                   DefaultAuthManager.shared.credentials = authCredentials
+                   DefaultAuthManager.shared.credentials = AuthCredentials(idToken: credentials.idToken, accessToken: credentials.accessToken)
                    
                    DefaultTutorProfileManager.loadProfile(withId: DefaultAuthManager.shared.userId!) { success in
                        DispatchQueue.main.async {
                            if success {
                                (UIApplication.shared.delegate as! TutorTradeApplication).loadStartupController()
                            } else {
-                               self.pushCreateProfileController()
+                               self.navigationController?.pushViewController(self.createProfileViewController, animated: true)
                            }
                            self.verificationButton.isUserInteractionEnabled = true
-                           self.resetFields()
                        }
                    }
                case .failure(let error):
                    print(error)
                    DispatchQueue.main.async {
                        self.present(self.validateController, animated: true)
+                       self.verificationButton.isUserInteractionEnabled = true
                        return
                    }
                }
            }
     }
-
-    func pushCreateProfileController() {
-            self.navigationController?.pushViewController(self.createProfileViewController, animated: true)
+    
+    /**
+     UITextFieldDelegate method that is called to determine if a user entry should be added to the text field
+     */
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        // Prevent adding more than 1 character to text field
+        // Empty string represents the delete character per docs
+        guard textField.text!.isEmpty || string == "" else {
+            moveToNextTextField(textField)
+            return false
+        }
+        
+        // User pressed delete
+        if string == "" {
+            textField.text = ""
+            moveToPreviousTextField(textField)
+            return false
+        }
+        
+        // Attempt to verify if user entered last digit of OTP
+        if textField.text!.isEmpty && textField === verificationTextFields.last! {
+            textField.text = string
+            self.attemptVerification()
+            return false
+        }
+        
+        // Allow single digit entry to text field
+        return string.count == 1 && string.first!.isNumber
     }
     
-    @objc func textFieldDidChange(_ textField: UITextField) {
-        let text = textField.text
-
-            if text?.utf16.count == 1 {
-                switch textField{
-                case verificationTextFieldOne:
-                    verificationTextFieldTwo.becomeFirstResponder()
-                case verificationTextFieldTwo:
-                    verificationTextFieldThree.becomeFirstResponder()
-                case verificationTextFieldThree:
-                    verificationTextFieldFour.becomeFirstResponder()
-                case verificationTextFieldFour:
-                    verificationTextFieldFive.becomeFirstResponder()
-                case verificationTextFieldFive:
-                    verificationTextFieldSix.becomeFirstResponder()
-                case verificationTextFieldSix:
-                    verificationBoxSix.endEditing(true)
-                default:
-                    break
-                }
-            }
+    /**
+     Directs keyboard and cursor to the next text field in sequence
+     */
+    @objc func moveToNextTextField(_ textField: UITextField) {
+        
+        // Don't proceed until the text field has a digit entry
+        guard !textField.text!.isEmpty else {
+            return
+        }
+        
+        let index = verificationTextFields.firstIndex(of: textField)!
+        
+        switch index {
+        // Last text field should remain first responder
+        case verificationTextFields.count - 1:
+            return
+        default:
+            // Pass first responder status to next text field in sequence
+            textField.resignFirstResponder()
+            verificationTextFields[index + 1].becomeFirstResponder()
+        }
     }
     
-    @objc func dismissKeyboard() {
-        self.view.endEditing(true)
+    /**
+     Directs keyboard and cursor to the previous text field in sequence
+     */
+    func moveToPreviousTextField(_ textField: UITextField) {
+        let index = verificationTextFields.firstIndex(of: textField)!
+        
+        switch index {
+        case 0:
+            // First text field should remain first responder
+            return
+        default:
+            // Pass first responder status to previous text field in sequence
+            textField.resignFirstResponder()
+            verificationTextFields[index - 1].becomeFirstResponder()
+        }
     }
     
+    /**
+     Called to let the user enter a different phone # for sending OTP
+     */
+    @objc func changePhoneNumber() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    /**
+     Reset fields so each view reappearance results in a fresh page for user
+     */
     private func resetFields() {
-        for textField in textFieldArray {
+        for textField in verificationTextFields {
             textField.text = ""
         }
         userPhoneNumber = ""
@@ -275,15 +234,33 @@ class VerificationController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         self.verificationDescriptionLabel.text! += userPhoneNumber
-        let val = self.verificationTextFieldOne.becomeFirstResponder()
-        print(val)
+        // When page loads, keyboard should be up and directed to first text field
+        self.verificationTextFields.first?.becomeFirstResponder()
+        
+        // Change the position of the buttons above keyboard when the keyboard frame changes
         self.notificationToken = NotificationCenter.default.addObserver(forName: UIResponder.keyboardDidChangeFrameNotification, object: nil, queue: .main) { notification in
             let keyboardRect = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
             self.verificationButtonBottomConstraint.constant = -keyboardRect.height - 20
+            self.view.setNeedsLayout()
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        // User can only re-request or change number for OTP after 3 seconds have elapsed
+        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
+            DispatchQueue.main.async {
+                print("Animation")
+                UIView.transition(with: self.resendOTPButton, duration: 1, options: [.curveEaseIn]) {
+                    self.resendOTPButton.isHidden = false
+                }
+            }
         }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
+        resetFields()
+        self.resendOTPButton.isHidden = true
         NotificationCenter.default.removeObserver(self.notificationToken!)
     }
 }
