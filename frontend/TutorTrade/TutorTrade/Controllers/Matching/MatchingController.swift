@@ -16,6 +16,8 @@ class MatchingController: UIViewController {
     private lazy var titleContainerView: UIView = .matchingPageTitleContainerView
     private lazy var matchingTitleLogo: UIImageView = .matchingTitleImage
     private lazy var filterImageButton: UIButton = .filterButton
+    private lazy var cardScrollView: UIScrollView = .cardScrollView
+    private lazy var userImage: UIView = .configureUserProfileImage(withImage: UIImage(named: "UserImage")!)
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -24,6 +26,7 @@ class MatchingController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         tabBarItem = UITabBarItem(title: "Matching", image: UIImage(systemName: "house"), tag: 0)
+        self.view.backgroundColor = UIColor(named: "MatchingPageColor")
     }
     
     override func loadView() {
@@ -55,5 +58,24 @@ class MatchingController: UIViewController {
             ])
         }
         
+        // Load the matching card vertical scroll view
+        self.view.addSubview(cardScrollView) {
+            NSLayoutConstraint.activate([
+                $0.topAnchor.constraint(equalTo: self.titleContainerView.bottomAnchor),
+                $0.leadingAnchor.constraint(equalToSystemSpacingAfter: self.view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2),
+                $0.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+                $0.heightAnchor.constraint(equalToConstant: 525),
+                cardScrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 500)
+            ])
+        }
+        
+        self.cardScrollView.addSubview(userImage) {
+            NSLayoutConstraint.activate([
+                $0.topAnchor.constraint(equalTo: self.cardScrollView.topAnchor),
+                $0.leadingAnchor.constraint(equalTo: self.cardScrollView.leadingAnchor),
+                $0.widthAnchor.constraint(equalTo: self.cardScrollView.widthAnchor),
+                $0.heightAnchor.constraint(equalTo: self.cardScrollView.heightAnchor, constant: -150)
+            ])
+        }
     }
 }
