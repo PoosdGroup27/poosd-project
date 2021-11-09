@@ -28,13 +28,10 @@ class TutorTradeTabBarController: UITabBarController {
         let chatController = ChatController()
         let profileController = ProfileController(displaySettings: displaySettings)
         
-        // Encapsulate view controllers within Navigation Controllers (Temporary)
-        let matchingNavController = UINavigationController(rootViewController: matchingController)
         let requestNavController = UINavigationController(rootViewController: requestController)
         let chatNavController = UINavigationController(rootViewController: chatController)
         
         // Aesthetic preferences
-        matchingNavController.navigationBar.prefersLargeTitles = true
         requestNavController.navigationBar.prefersLargeTitles = true
         chatNavController.navigationBar.prefersLargeTitles = true
         
@@ -42,10 +39,10 @@ class TutorTradeTabBarController: UITabBarController {
         view.backgroundColor = .white
         
         // Add child view controllers to tab bar
-        viewControllers = [matchingNavController, requestNavController, chatNavController, profileController]
+        viewControllers = [matchingController, requestNavController, chatNavController, profileController]
 
         // Set the initially selected view controller upon app launch
-        selectedViewController = matchingNavController
+        selectedViewController = matchingController
     }
 
     override func viewDidLoad() {

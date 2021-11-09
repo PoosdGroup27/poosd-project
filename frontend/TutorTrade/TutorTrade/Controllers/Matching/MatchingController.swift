@@ -13,17 +13,47 @@ import UIKit
 
 class MatchingController: UIViewController {
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
+    private lazy var titleContainerView: UIView = .matchingPageTitleContainerView
+    private lazy var matchingTitleLogo: UIImageView = .matchingTitleImage
+    private lazy var filterImageButton: UIButton = .filterButton
     
-    init() {
-        super.init(nibName: nil, bundle: nil)
-        title = "Matching"
-        tabBarItem = UITabBarItem(title: "Matching", image: UIImage(systemName: "house"), tag: 0)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        tabBarItem = UITabBarItem(title: "Matching", image: UIImage(systemName: "house"), tag: 0)
+    }
+    
+    override func loadView() {
+        super.loadView()
+        
+        // Add title container for matching page
+        self.view.addSubview(titleContainerView) {
+            NSLayoutConstraint.activate([
+                $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+                $0.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+                $0.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+                $0.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 5)
+            ])
+        }
+        
+        // Add logo for matching page
+        self.titleContainerView.addSubview(matchingTitleLogo) {
+            NSLayoutConstraint.activate([
+                $0.centerYAnchor.constraint(equalTo: titleContainerView.centerYAnchor),
+                $0.leadingAnchor.constraint(equalTo: titleContainerView.leadingAnchor, constant: UIScreen.main.bounds.width / 14)
+            ])
+        }
+        
+        // Add a current no op  filter button
+        self.titleContainerView.addSubview(filterImageButton) {
+            NSLayoutConstraint.activate([
+                $0.centerYAnchor.constraint(equalTo: titleContainerView.centerYAnchor),
+                $0.trailingAnchor.constraint(equalTo: titleContainerView.trailingAnchor, constant: (UIScreen.main.bounds.width / 14)  * -1)
+            ])
+        }
+        
     }
 }
