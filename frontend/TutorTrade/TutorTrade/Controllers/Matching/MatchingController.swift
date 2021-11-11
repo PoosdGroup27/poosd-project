@@ -16,17 +16,16 @@ class MatchingController: UIViewController {
     private lazy var titleContainerView: UIView = .matchingPageTitleContainerView
     private lazy var matchingTitleLogo: UIImageView = .matchingTitleImage
     private lazy var filterImageButton: UIButton = .filterButton
-    private lazy var cardScrollView: UIScrollView = .cardScrollView
-    private lazy var userImage: UIView = .configureTuteeProfileImage(withImage: UIImage(named: "UserImage")!)
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private lazy var cardScrollView = TutteeRequestCard(withFirstName: "Hannah", withProfilePicture: UIImage(named: "UserImage")!)
 
     init() {
         super.init(nibName: nil, bundle: nil)
         tabBarItem = UITabBarItem(title: "Matching", image: UIImage(systemName: "house"), tag: 0)
         self.view.backgroundColor = UIColor(named: "MatchingPageColor")
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func loadView() {
@@ -50,7 +49,7 @@ class MatchingController: UIViewController {
             ])
         }
         
-        // Add a current no op  filter button
+        // Add a current no-op  filter button
         self.titleContainerView.addSubview(filterImageButton) {
             NSLayoutConstraint.activate([
                 $0.centerYAnchor.constraint(equalTo: titleContainerView.centerYAnchor),
@@ -66,15 +65,6 @@ class MatchingController: UIViewController {
                 $0.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
                 $0.heightAnchor.constraint(equalToConstant: 525),
                 cardScrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 500)
-            ])
-        }
-        
-        self.cardScrollView.addSubview(userImage) {
-            NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: self.cardScrollView.topAnchor),
-                $0.leadingAnchor.constraint(equalTo: self.cardScrollView.leadingAnchor),
-                $0.widthAnchor.constraint(equalTo: self.cardScrollView.widthAnchor),
-                $0.heightAnchor.constraint(equalTo: self.cardScrollView.heightAnchor, constant: -150)
             ])
         }
     }

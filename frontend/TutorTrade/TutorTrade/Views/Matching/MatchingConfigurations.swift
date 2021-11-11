@@ -9,13 +9,6 @@ extension UIView {
             return titleContainer
         }
     }
-    
-    static func configureTuteeProfileImage(withImage image: UIImage?) -> UIImageView {
-        let image = image ?? UIImage(named: "UserImage")!
-        let photoView = UIImageView(image: image)
-        photoView.translatesAutoresizingMaskIntoConstraints = false
-        return photoView
-    }
 }
 
 extension UIButton {
@@ -36,19 +29,6 @@ extension UIImageView {
             let imageView = UIImageView(image: UIImage(named: "MatchingLogoImage")!)
             imageView.translatesAutoresizingMaskIntoConstraints = false
             return imageView
-        }
-    }
-}
-
-extension UIScrollView {
-    static var cardScrollView: UIScrollView {
-        get {
-            let scrollView = UIScrollView()
-            scrollView.translatesAutoresizingMaskIntoConstraints = false
-            scrollView.backgroundColor = .white
-            scrollView.layer.cornerRadius = 5
-            scrollView.showsVerticalScrollIndicator = false
-            return scrollView
         }
     }
 }
