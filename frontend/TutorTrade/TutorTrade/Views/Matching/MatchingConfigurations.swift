@@ -10,7 +10,7 @@ extension UIView {
         }
     }
     
-    static func configureUserProfileImage(withImage image: UIImage?) -> UIImageView {
+    static func configureTuteeProfileImage(withImage image: UIImage?) -> UIImageView {
         let image = image ?? UIImage(named: "UserImage")!
         let photoView = UIImageView(image: image)
         photoView.translatesAutoresizingMaskIntoConstraints = false
