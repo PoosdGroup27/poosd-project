@@ -56,6 +56,7 @@
 		5E9853FA2737691E00E75E2A /* ShadowDisplayBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9853F72737691E00E75E2A /* ShadowDisplayBox.swift */; };
 		5E9853FB2737691E00E75E2A /* PhoneNumberConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9853F82737691E00E75E2A /* PhoneNumberConfigurations.swift */; };
 		5E9853FC2737691E00E75E2A /* VerificationConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E9853F92737691E00E75E2A /* VerificationConfigurations.swift */; };
+		5E9854032739D30D00E75E2A /* Dosis-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E9854022739D30D00E75E2A /* Dosis-ExtraBold.ttf */; };
 		5ECB1D8C27025277005BDD89 /* Dosis-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */; };
 		5ED5C725272C5C75007628C5 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C724272C5C75007628C5 /* UIImage.swift */; };
 		5ED5C727272C9746007628C5 /* EditingPopoverConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C726272C9746007628C5 /* EditingPopoverConfigurations.swift */; };
@@ -140,6 +141,7 @@
 		5E9853F72737691E00E75E2A /* ShadowDisplayBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShadowDisplayBox.swift; path = TutorTrade/Views/AuthFlow/ShadowDisplayBox.swift; sourceTree = SOURCE_ROOT; };
 		5E9853F82737691E00E75E2A /* PhoneNumberConfigurations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhoneNumberConfigurations.swift; path = TutorTrade/Views/AuthFlow/PhoneNumberConfigurations.swift; sourceTree = SOURCE_ROOT; };
 		5E9853F92737691E00E75E2A /* VerificationConfigurations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VerificationConfigurations.swift; path = TutorTrade/Views/AuthFlow/VerificationConfigurations.swift; sourceTree = SOURCE_ROOT; };
+		5E9854022739D30D00E75E2A /* Dosis-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-ExtraBold.ttf"; sourceTree = "<group>"; };
 		5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-Bold.ttf"; sourceTree = "<group>"; };
 		5ED5C724272C5C75007628C5 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		5ED5C726272C9746007628C5 /* EditingPopoverConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingPopoverConfigurations.swift; sourceTree = "<group>"; };
@@ -348,6 +350,8 @@
 		5E1BAE602728EACE00A70757 /* AuthFlow */ = {
 			isa = PBXGroup;
 			children = (
+				5E9853F92737691E00E75E2A /* VerificationConfigurations.swift */,
+				5E9853F82737691E00E75E2A /* PhoneNumberConfigurations.swift */,
 				5E5DB4162729F7B9008B9A0D /* WelcomePageConfigurations.swift */,
 				5E5DB425272C40E4008B9A0D /* CreateProfilePageConfigurations.swift */,
 			);
@@ -496,9 +500,7 @@
 		5E7EA9CC2718E6800066B189 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				5E9853F82737691E00E75E2A /* PhoneNumberConfigurations.swift */,
 				5E9853F72737691E00E75E2A /* ShadowDisplayBox.swift */,
-				5E9853F92737691E00E75E2A /* VerificationConfigurations.swift */,
 				5E7EA9CD2718E6800066B189 /* TutoringSubjectsScrollView.swift */,
 				5E7EA9CE2718E6800066B189 /* NameAndRatingLabel.swift */,
 				5E7EA9CF2718E6800066B189 /* BorderedDisplayBox.swift */,
@@ -532,6 +534,7 @@
 		5ECB1D8027025203005BDD89 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				5E9854022739D30D00E75E2A /* Dosis-ExtraBold.ttf */,
 				5E5DB427272C41DE008B9A0D /* Lato-Black.ttf */,
 				5E5DB41D272B0FAD008B9A0D /* Roboto-Regular.ttf */,
 				5E7EA9E42718E7020066B189 /* Roboto-Bold.ttf */,
@@ -651,6 +654,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E7EA9E52718E7480066B189 /* Roboto-Bold.ttf in Resources */,
+				5E9854032739D30D00E75E2A /* Dosis-ExtraBold.ttf in Resources */,
 				5E5DB41E272B0FAD008B9A0D /* Roboto-Regular.ttf in Resources */,
 				5ECB1D8C27025277005BDD89 /* Dosis-Bold.ttf in Resources */,
 				5E7EA9B52718E4EA0066B189 /* Assets.xcassets in Resources */,

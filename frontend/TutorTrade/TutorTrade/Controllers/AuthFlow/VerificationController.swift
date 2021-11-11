@@ -280,9 +280,3 @@ class VerificationController: UIViewController, UITextFieldDelegate {
         self.verificationDescriptionLabel.text! = verificationDescriptionText + userPhoneNumber
     }
 }
-
-extension VerificationController: PhoneNumberDelegate {
-    func setPhoneNumber(phoneNumber: String) {
-        self.userPhoneNumber = phoneNumber
-    }
-}
