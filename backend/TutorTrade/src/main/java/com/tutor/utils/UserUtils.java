@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -13,6 +14,7 @@ import com.tutor.subject.Subject;
 import com.tutor.user.User;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -94,6 +96,29 @@ public class UserUtils {
     return response;
   }
 
+  /**
+   * Modifies a user's session via a patch, either removes or adds the given session depending on
+   * the flag
+   */
+  public static void modifyUsersSessions(
+      ApiUtils.ApiStages stage, String userId, UUID sessionId, boolean add)
+          throws JsonProcessingException, UnsupportedEncodingException {
+    User user = UserUtils.getUserObjectById(userId);
+
+    if (user == null) {
+      return;
+    }
+
+    if (add) {
+      user.addSessionId(sessionId);
+    } else {
+      user.deleteSessionId(sessionId);
+    }
+
+    ObjectMapper mapper = new ObjectMapper();
+    ApiUtils.patch(stage.toString(), "/user/" + user.getUserId(), mapper.writeValueAsString(user));
+  }
+
   public static User getUserFromAPIResponse(String APIResponseJson) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     ObjectNode userTree = (ObjectNode) mapper.readTree(APIResponseJson).get("body");
@@ -120,8 +145,8 @@ public class UserUtils {
     }
 
     return subjectsListOfStrings.stream()
-            .filter(Subject.subjectNameMap.keySet()::contains)
-            .map(Subject::fromSubjectName)
+        .filter(Subject.subjectNameMap.keySet()::contains)
+        .map(Subject::fromSubjectName)
         .collect(Collectors.toCollection(ArrayList<Subject>::new));
   }
 }

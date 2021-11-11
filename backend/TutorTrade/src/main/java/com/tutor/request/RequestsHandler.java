@@ -1,5 +1,8 @@
 package com.tutor.request;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.tutor.user.UserHandler;
+
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
@@ -11,9 +14,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.subject.Subject;
+import com.tutor.user.UserHandler;
 import com.tutor.utils.ApiResponse;
 import com.tutor.utils.ApiUtils;
 import com.tutor.utils.RequestUtils;
+import com.tutor.utils.UserUtils;
 import org.apache.commons.math3.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,6 +26,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.util.*;
 
@@ -97,7 +103,8 @@ public class RequestsHandler implements RequestStreamHandler {
     }
   }
 
-  private ApiResponse<Request> createRequest(HashMap<?, ?> body) throws RequestBuilderException {
+  private ApiResponse<Request> createRequest(HashMap<?, ?> body)
+      throws RequestBuilderException, UnsupportedEncodingException, JsonProcessingException {
     String requesterId = (String) body.get("requesterId");
     String subject = (String) body.get("subject");
     String costInPoints = (String) body.get("costInPoints");
@@ -116,6 +123,10 @@ public class RequestsHandler implements RequestStreamHandler {
             .withStatus(status)
             .withDescription(description)
             .build();
+
+    // CURRENTLY NOT WORKING
+    UserUtils.modifyUsersSessions(
+        ApiUtils.ApiStages.ADAM_DEV, requesterId, request.getRequestId(), true);
 
     DYNAMO_DB_MAPPER.save(request);
 
@@ -230,6 +241,8 @@ public class RequestsHandler implements RequestStreamHandler {
           .build();
     }
 
+    // TODO: delete UUID from user's list of sessions
+
     DYNAMO_DB_MAPPER.delete(requestToBeDeleted);
     return ApiResponse.<Request>builder()
         .statusCode(HttpURLConnection.HTTP_OK)
@@ -242,6 +255,9 @@ public class RequestsHandler implements RequestStreamHandler {
     List<Pair<String, String>> sessionSubjectsList = new ArrayList<>();
     sessionSubjectsList.add(new Pair<>("hello", "test"));
 
-    return ApiResponse.<List<Pair<String, String>>>builder().statusCode(HttpURLConnection.HTTP_OK).body(sessionSubjectsList).build();
+    return ApiResponse.<List<Pair<String, String>>>builder()
+        .statusCode(HttpURLConnection.HTTP_OK)
+        .body(sessionSubjectsList)
+        .build();
   }
 }

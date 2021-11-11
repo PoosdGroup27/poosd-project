@@ -55,9 +55,9 @@ public class User {
     this.cumulativeSessionsCompleted = 0;
     this.rating = 5;
     this.subjectsTeach =
-            (builder.subjectsTeach == null) ? new ArrayList<>() : builder.subjectsTeach;
+        (builder.subjectsTeach == null) ? new ArrayList<>() : builder.subjectsTeach;
     this.subjectsLearn =
-            (builder.subjectsLearn == null) ? new ArrayList<>() : builder.subjectsLearn;
+        (builder.subjectsLearn == null) ? new ArrayList<>() : builder.subjectsLearn;
     this.major = builder.major;
     // users shouldn't have session IDs at creation time
     this.sessionIds = new ArrayList<>();
@@ -132,6 +132,18 @@ public class User {
 
   public void setSessionIds(ArrayList<UUID> sessionIds) {
     this.sessionIds = sessionIds;
+  }
+
+  /** Adds a sessionId from the user's list */
+  public void addSessionId(UUID sessionId) {
+    sessionIds.add(sessionId);
+  }
+
+  /** Deletes a sessionId from the user's list */
+  public void deleteSessionId(UUID sessionId) {
+    if (sessionId != null) {
+      sessionIds.remove(sessionId);
+    }
   }
 
   @DynamoDBHashKey(attributeName = "userID")
