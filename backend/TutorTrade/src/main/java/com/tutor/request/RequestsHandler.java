@@ -230,7 +230,8 @@ public class RequestsHandler implements RequestStreamHandler {
         .build();
   }
 
-  private ApiResponse<?> deleteRequest(String requestId) {
+  private ApiResponse<?> deleteRequest(String requestId)
+      throws UnsupportedEncodingException, JsonProcessingException {
     Request requestToBeDeleted = RequestUtils.getRequestObjectById(requestId);
 
     if (requestToBeDeleted == null) {
@@ -240,7 +241,11 @@ public class RequestsHandler implements RequestStreamHandler {
           .build();
     }
 
-    // TODO: delete UUID from user's list of sessions
+    UserUtils.modifyUsersSessions(
+        ApiUtils.ApiStages.ADAM_DEV,
+        requestToBeDeleted.getRequesterId().toString(),
+        requestToBeDeleted.getRequestId(),
+        false);
 
     DYNAMO_DB_MAPPER.delete(requestToBeDeleted);
     return ApiResponse.<Request>builder()
