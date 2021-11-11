@@ -14,6 +14,7 @@ import com.tutor.subject.Subject;
 import com.tutor.utils.ApiResponse;
 import com.tutor.utils.ApiUtils;
 import com.tutor.utils.RequestUtils;
+import org.apache.commons.math3.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,9 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /** Handles any HTTP requests to the API's /request/ path. */
 public class RequestsHandler implements RequestStreamHandler {
@@ -32,14 +31,17 @@ public class RequestsHandler implements RequestStreamHandler {
       AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
   private static final DynamoDBMapper DYNAMO_DB_MAPPER = new DynamoDBMapper(DYNAMO_DB);
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
   static {
     // Serialization will exclude null fields
     OBJECT_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
   }
 
   @Override
-  public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
-    Map<Object, Object> event = OBJECT_MAPPER.readValue(inputStream, new TypeReference<Map<Object, Object>>() {});
+  public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context)
+      throws IOException {
+    Map<Object, Object> event =
+        OBJECT_MAPPER.readValue(inputStream, new TypeReference<Map<Object, Object>>() {});
 
     HashMap<?, ?> contextMap = (HashMap<?, ?>) event.get("context");
     String httpMethod = (String) contextMap.get("http-method");
@@ -52,9 +54,19 @@ public class RequestsHandler implements RequestStreamHandler {
       case "GET":
         params = (HashMap<?, ?>) event.get("params");
         pathParameters = (HashMap<?, ?>) params.get("path");
+
+        // getRequestsByUserId endpoint
+        String userId = (String) pathParameters.get("userId");
+        if (userId != null) {
+          OBJECT_MAPPER.writeValue(outputStream, getRequestsByUserId(userId));
+          return;
+        }
+
+        // plain old GET for a Request
         Request request =
-                RequestUtils.getRequestObjectById(((String) pathParameters.get("requestId")));
-        ApiResponse<Request> response = ApiResponse.<Request>builder()
+            RequestUtils.getRequestObjectById(((String) pathParameters.get("requestId")));
+        ApiResponse<Request> response =
+            ApiResponse.<Request>builder()
                 .statusCode(HttpURLConnection.HTTP_OK)
                 .body(request)
                 .build();
@@ -63,8 +75,8 @@ public class RequestsHandler implements RequestStreamHandler {
       case "POST":
         bodyJson = (HashMap<?, ?>) event.get("body-json");
         try {
-           OBJECT_MAPPER.writeValue(outputStream, createRequest(bodyJson));
-           return;
+          OBJECT_MAPPER.writeValue(outputStream, createRequest(bodyJson));
+          return;
         } catch (RequestBuilderException e) {
           e.printStackTrace();
           OBJECT_MAPPER.writeValue(outputStream, ApiUtils.returnErrorResponse(e));
@@ -74,12 +86,14 @@ public class RequestsHandler implements RequestStreamHandler {
         bodyJson = (HashMap<?, ?>) event.get("body-json");
         params = (HashMap<?, ?>) event.get("params");
         pathParameters = (HashMap<?, ?>) params.get("path");
-        OBJECT_MAPPER.writeValue(outputStream, updateRequest(bodyJson, (String) pathParameters.get("requestId")));
+        OBJECT_MAPPER.writeValue(
+            outputStream, updateRequest(bodyJson, (String) pathParameters.get("requestId")));
         return;
       case "DELETE":
         params = (HashMap<?, ?>) event.get("params");
         pathParameters = (HashMap<?, ?>) params.get("path");
-        OBJECT_MAPPER.writeValue(outputStream, deleteRequest((String) pathParameters.get("requestId")));
+        OBJECT_MAPPER.writeValue(
+            outputStream, deleteRequest((String) pathParameters.get("requestId")));
     }
   }
 
@@ -221,5 +235,13 @@ public class RequestsHandler implements RequestStreamHandler {
         .statusCode(HttpURLConnection.HTTP_OK)
         .body(requestToBeDeleted)
         .build();
+  }
+
+  /** Returns a list of tuples of a user's session IDs along with their associated subjects */
+  private ApiResponse<?> getRequestsByUserId(String userId) {
+    List<Pair<String, String>> sessionSubjectsList = new ArrayList<>();
+    sessionSubjectsList.add(new Pair<>("hello", "test"));
+
+    return ApiResponse.<List<Pair<String, String>>>builder().statusCode(HttpURLConnection.HTTP_OK).body(sessionSubjectsList).build();
   }
 }

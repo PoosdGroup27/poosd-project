@@ -15,7 +15,7 @@ provider:
       Resource: "*"
 
   # change stage when deploying dev stack
-  stage: prod
+  stage: adam-dev
   region: us-east-1
 
 package:
@@ -57,6 +57,16 @@ functions:
           method: post
           integration: lambda
           request:
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
+      - http:
+          path: /request/getRequestsByUserId/{userId}
+          method: get
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                userId: true
             template:
               application/json: ${file(./mapping_template.yml):mapping_template}\
 
