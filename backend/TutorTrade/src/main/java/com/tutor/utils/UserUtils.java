@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -102,7 +103,7 @@ public class UserUtils {
    */
   public static void modifyUsersSessions(
       ApiUtils.ApiStages stage, String userId, UUID sessionId, boolean add)
-          throws JsonProcessingException, UnsupportedEncodingException {
+      throws JsonProcessingException, UnsupportedEncodingException {
     User user = UserUtils.getUserObjectById(userId);
 
     if (user == null) {
@@ -116,7 +117,12 @@ public class UserUtils {
     }
 
     ObjectMapper mapper = new ObjectMapper();
-    ApiUtils.patch(stage.toString(), "/user/" + user.getUserId(), mapper.writeValueAsString(user));
+    String json = mapper.writeValueAsString(user);
+    System.out.println("----------JSON----------");
+    System.out.println(json);
+    System.out.println(
+        ApiUtils.patch(
+            stage.toString(), "/user/" + user.getUserId(), json));
   }
 
   public static User getUserFromAPIResponse(String APIResponseJson) throws IOException {

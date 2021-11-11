@@ -124,7 +124,6 @@ public class RequestsHandler implements RequestStreamHandler {
             .withDescription(description)
             .build();
 
-    // CURRENTLY NOT WORKING
     UserUtils.modifyUsersSessions(
         ApiUtils.ApiStages.ADAM_DEV, requesterId, request.getRequestId(), true);
 
