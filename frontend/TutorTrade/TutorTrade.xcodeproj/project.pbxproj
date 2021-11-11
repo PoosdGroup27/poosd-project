@@ -17,6 +17,7 @@
 		4A2DFD3C27078BA600332EE2 /* PreferredMediumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2DFD3B27078BA600332EE2 /* PreferredMediumView.swift */; };
 		4A386F3B270F3E2F002BEC06 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A386F3A270F3E2F002BEC06 /* RequestManager.swift */; };
 		4A4CB600270BA47C00D7D215 /* PointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4CB5FF270BA47C00D7D215 /* PointsView.swift */; };
+		4A996418273CAA24004F2EE4 /* MatchingConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A996417273CAA24004F2EE4 /* MatchingConfigurations.swift */; };
 		4AA06BFA2704E4FF00B58926 /* RequestScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA06BF92704E4FF00B58926 /* RequestScrollView.swift */; };
 		4ABAC5D3270A0D2E00CBB85B /* UrgencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABAC5D2270A0D2E00CBB85B /* UrgencyView.swift */; };
 		4AC9501526ED771F00FC4A97 /* TutorTradeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC9501426ED771F00FC4A97 /* TutorTradeTabBarController.swift */; };
@@ -58,7 +59,6 @@
 		5ECB1D8C27025277005BDD89 /* Dosis-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */; };
 		5ED5C725272C5C75007628C5 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C724272C5C75007628C5 /* UIImage.swift */; };
 		5ED5C727272C9746007628C5 /* EditingPopoverConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C726272C9746007628C5 /* EditingPopoverConfigurations.swift */; };
-
 		5ED5C72B2731A1A0007628C5 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C72A2731A1A0007628C5 /* Notification.swift */; };
 		5ED5C72D2734A87A007628C5 /* ProfileCreationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C72C2734A87A007628C5 /* ProfileCreationRequest.swift */; };
 		5EF5C44C2720FB2100C74ADF /* Auth0 in Frameworks */ = {isa = PBXBuildFile; productRef = 5EF5C44B2720FB2100C74ADF /* Auth0 */; };
@@ -95,6 +95,7 @@
 		4A2DFD3B27078BA600332EE2 /* PreferredMediumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferredMediumView.swift; sourceTree = "<group>"; };
 		4A386F3A270F3E2F002BEC06 /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
 		4A4CB5FF270BA47C00D7D215 /* PointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsView.swift; sourceTree = "<group>"; };
+		4A996417273CAA24004F2EE4 /* MatchingConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingConfigurations.swift; sourceTree = "<group>"; };
 		4AA06BF92704E4FF00B58926 /* RequestScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestScrollView.swift; sourceTree = "<group>"; };
 		4ABAC5D2270A0D2E00CBB85B /* UrgencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgencyView.swift; sourceTree = "<group>"; };
 		4AC9500D26ED771F00FC4A97 /* TutorTrade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TutorTrade.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,7 +143,6 @@
 		5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Dosis-Bold.ttf"; sourceTree = "<group>"; };
 		5ED5C724272C5C75007628C5 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		5ED5C726272C9746007628C5 /* EditingPopoverConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingPopoverConfigurations.swift; sourceTree = "<group>"; };
-
 		5ED5C72A2731A1A0007628C5 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		5ED5C72C2734A87A007628C5 /* ProfileCreationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreationRequest.swift; sourceTree = "<group>"; };
 		5EF5C44D2720FE5C00C74ADF /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
@@ -340,6 +340,7 @@
 		5E1BAE5F2728EAC700A70757 /* Matching */ = {
 			isa = PBXGroup;
 			children = (
+				4A996417273CAA24004F2EE4 /* MatchingConfigurations.swift */,
 			);
 			path = Matching;
 			sourceTree = "<group>";
@@ -681,6 +682,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A996418273CAA24004F2EE4 /* MatchingConfigurations.swift in Sources */,
 				4A386F3B270F3E2F002BEC06 /* RequestManager.swift in Sources */,
 				4A22D9FB270E15E700E8DA7E /* SubmitButtonView.swift in Sources */,
 				4AC9501526ED771F00FC4A97 /* TutorTradeTabBarController.swift in Sources */,
@@ -895,14 +897,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = HZ373Y45DX;
+				DEVELOPMENT_TEAM = S5YGMA5VUJ;
 				INFOPLIST_FILE = TutorTrade/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.brockdavis;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sebastianhernandez;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -915,14 +917,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = HZ373Y45DX;
+				DEVELOPMENT_TEAM = S5YGMA5VUJ;
 				INFOPLIST_FILE = TutorTrade/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.brockdavis;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sebastianhernandez;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

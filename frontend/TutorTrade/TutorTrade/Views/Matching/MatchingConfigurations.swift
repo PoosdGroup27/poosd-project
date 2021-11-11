@@ -1,10 +1,3 @@
-//
-//  MatchingConfigurations.swift
-//  TutorTrade
-//
-//  Created by Sebastian Hernandez on 11/8/21.
-//
-
 import UIKit
 
 extension UIView {
