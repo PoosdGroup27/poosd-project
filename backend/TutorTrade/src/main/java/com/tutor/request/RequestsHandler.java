@@ -1,6 +1,7 @@
 package com.tutor.request;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.tutor.user.User;
 import com.tutor.user.UserHandler;
 
 import com.amazonaws.regions.Regions;
@@ -257,7 +258,16 @@ public class RequestsHandler implements RequestStreamHandler {
   /** Returns a list of tuples of a user's session IDs along with their associated subjects */
   private ApiResponse<?> getRequestsByUserId(String userId) {
     List<Pair<String, String>> sessionSubjectsList = new ArrayList<>();
-    sessionSubjectsList.add(new Pair<>("hello", "test"));
+
+    User user = UserUtils.getUserObjectById(userId);
+
+    for (UUID sessionId : user.getSessionIds()) {
+      Request request = RequestUtils.getRequestObjectById(sessionId.toString());
+
+      if (request != null) {
+        sessionSubjectsList.add(new Pair<>(sessionId.toString(), request.getSubject().toString()));
+      }
+    }
 
     return ApiResponse.<List<Pair<String, String>>>builder()
         .statusCode(HttpURLConnection.HTTP_OK)
