@@ -127,7 +127,7 @@ public class RequestsHandler implements RequestStreamHandler {
         ApiUtils.getApiStageUriFromStageEnvVariable(STAGE),
         requesterId,
         request.getRequestId(),
-        true);
+        UserUtils.ModifyUserSessions.ADD);
 
     DYNAMO_DB_MAPPER.save(request);
 
@@ -247,7 +247,7 @@ public class RequestsHandler implements RequestStreamHandler {
         ApiUtils.getApiStageUriFromStageEnvVariable(STAGE),
         requestToBeDeleted.getRequesterId().toString(),
         requestToBeDeleted.getRequestId(),
-        false);
+        UserUtils.ModifyUserSessions.DELETE);
 
     DYNAMO_DB_MAPPER.delete(requestToBeDeleted);
     return ApiResponse.<Request>builder()

@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
+import com.amazonaws.services.kms.model.NotFoundException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +26,11 @@ public class UserUtils {
   private static final DynamoDBMapper MAPPER = new DynamoDBMapper(DYNAMO_DB);
   private static final String stage = "TEST";
   // System.getenv("STAGE").replace('-', '_').toUpperCase(Locale.ENGLISH);
+
+  public enum ModifyUserSessions {
+    ADD,
+    DELETE
+  }
 
   /**
    * Method finds user in DB and returns the corresponding user as a Java object.
@@ -99,18 +105,20 @@ public class UserUtils {
    * the flag
    */
   public static void modifyUsersSessions(
-      String stageUri, String userId, UUID sessionId, boolean add)
+      String stageUri, String userId, UUID sessionId, ModifyUserSessions modifyFlag)
       throws JsonProcessingException, UnsupportedEncodingException {
     User user = UserUtils.getUserObjectById(userId);
 
     if (user == null) {
-      return;
+      throw new NotFoundException("Requesting User does not exist");
     }
 
-    if (add) {
+    if (modifyFlag == ModifyUserSessions.ADD) {
       user.addSessionId(sessionId);
-    } else {
+    } else if (modifyFlag == ModifyUserSessions.DELETE) {
       user.deleteSessionId(sessionId);
+    } else {
+      throw new UnsupportedOperationException("Invalid ModifyUserSessions enum value");
     }
 
     ObjectMapper mapper = new ObjectMapper();
