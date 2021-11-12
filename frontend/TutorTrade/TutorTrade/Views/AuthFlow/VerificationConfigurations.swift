@@ -14,8 +14,8 @@ extension UILabel {
             phoneNumberLabel.translatesAutoresizingMaskIntoConstraints = false
             phoneNumberLabel.numberOfLines = 0
             phoneNumberLabel.text = "Verify your number"
-            phoneNumberLabel.font = UIFont(name: "Dosis-Bold", size: UIScreen.main.bounds.width / 10)
-            phoneNumberLabel.lineBreakMode = NSLineBreakMode.byCharWrapping
+            phoneNumberLabel.font = UIFont(name: "Dosis-ExtraBold", size: UIScreen.main.bounds.width / 11)
+            phoneNumberLabel.lineBreakMode = .byWordWrapping
             phoneNumberLabel.sizeToFit()
             return phoneNumberLabel
         }
@@ -26,11 +26,27 @@ extension UILabel {
             let description = UILabel()
             description.translatesAutoresizingMaskIntoConstraints = false
             description.numberOfLines = 0
-            description.text = "Enter the verification code sent by \ntext to "
-            description.font = UIFont(name: "OpenSans-Regular", size: UIScreen.main.bounds.width / 25)
-            description.lineBreakMode = NSLineBreakMode.byCharWrapping
+            description.text = "Enter the verification code sent by text to "
+            description.font = UIFont(name: "Roboto-Regular", size: UIScreen.main.bounds.width / 24)
+            description.lineBreakMode = .byWordWrapping
             description.sizeToFit()
             return description
+        }
+    }
+}
+
+extension UIStackView {
+    
+    static var verificationBoxesStackView: UIStackView {
+        get {
+            let stackView = UIStackView()
+            stackView.translatesAutoresizingMaskIntoConstraints = false
+            stackView.backgroundColor = .clear
+            stackView.axis = .horizontal
+            stackView.alignment = .fill
+            stackView.distribution = .fillEqually
+            stackView.spacing = UIScreen.main.bounds.width / 31.25
+            return stackView
         }
     }
 }
@@ -45,5 +61,31 @@ extension ShadowDisplayBox {
         displayBox.translatesAutoresizingMaskIntoConstraints = false
         displayBox.backgroundColor = .clear
         return displayBox
+    }
+}
+
+extension UIButton {
+    
+    static var resendOTPButton: UIButton {
+        get {
+            let button = UIButton()
+            button.translatesAutoresizingMaskIntoConstraints = false
+            let attributedString = NSAttributedString(string: "Didn’t get a text?", attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
+            button.setAttributedTitle(attributedString, for: .normal)
+            button.titleLabel!.font = UIFont(name: "Roboto-Regular", size: 14)!
+            button.backgroundColor = .clear
+            return button
+        }
+    }
+}
+
+extension UITextField {
+    static var verificationTextField: UITextField {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.backgroundColor = .clear
+        textField.placeholder = "X"
+        textField.font = UIFont(name: "Roboto-Regular", size: 18)!
+        return textField
     }
 }

@@ -158,7 +158,6 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
         self.phoneNumberTextField.becomeFirstResponder()
         self.notificationToken = NotificationCenter.default.addObserver(forName: UIResponder.keyboardDidChangeFrameNotification, object: nil, queue: .main) { notification in
             let keyboardRect = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
@@ -167,7 +166,6 @@ class PhoneNumberController: UIViewController, UITextFieldDelegate {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
         self.phoneNumberTextField.resignFirstResponder()
         NotificationCenter.default.removeObserver(self.notificationToken!)
     }

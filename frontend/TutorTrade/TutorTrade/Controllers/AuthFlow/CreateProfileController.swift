@@ -218,14 +218,6 @@ class CreateProfileController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-    }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.scrollView.endEditing(true)
         return true

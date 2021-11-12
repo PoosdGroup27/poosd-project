@@ -114,8 +114,6 @@ class DefaultAuthManager: AuthManager, Codable {
             let data = try? JSONEncoder().encode(self._credentials!)
             UserDefaults.standard.set(data, forKey: Self.authManagerKey)
         }
-        
-        print(UserDefaults.standard.object(forKey: Self.authManagerKey))
     }
     
     func logOut() {
