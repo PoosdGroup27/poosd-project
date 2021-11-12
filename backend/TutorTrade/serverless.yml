@@ -5,6 +5,7 @@ frameworkVersion: "2"
 provider:
   name: aws
   runtime: java11
+  timeout: 15
   lambdaHashingVersion: 20201221
 
   iamRoleStatements:
@@ -57,6 +58,16 @@ functions:
           method: post
           integration: lambda
           request:
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
+      - http:
+          path: /request/getRequestsByUserId/{userId}
+          method: get
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                userId: true
             template:
               application/json: ${file(./mapping_template.yml):mapping_template}\
 
