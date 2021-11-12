@@ -16,11 +16,14 @@ import org.apache.http.util.EntityUtils;
 
 /** Utility classes for making GET and POST requests to tutor API. */
 public class ApiUtils {
-  /** Mapping of stage names to API URIs for easy access. */
+  /**
+   * Mapping of stage names to API URIs for easy access. Check the URIs every so often to ensure
+   * they match with what URIs are known to exist for each stage.
+   */
   public enum ApiStages {
     JESSE_DEV("https://bpbzrj9x3b.execute-api.us-east-1.amazonaws.com/jesse-dev"),
     ADAM_DEV("https://qd8wpigd90.execute-api.us-east-1.amazonaws.com/adam-dev"),
-    PROD("https://75j9h7est2.execute-api.us-east-1.amazonaws.com/prod"),
+    PROD("https://1k0cm1e1n9.execute-api.us-east-1.amazonaws.com/prod"),
     TEST("https://od85mau9h3.execute-api.us-east-1.amazonaws.com/test"),
     UNSUPPORTED("UNSUPPORTED");
 
@@ -36,9 +39,7 @@ public class ApiUtils {
     }
   }
 
-  /**
-   * Given lambda's STAGE variable, returns the associated URI
-   */
+  /** Given lambda's STAGE variable, returns the associated URI */
   public static String getApiStageUriFromStageEnvVariable(String stage) {
     String s = stage.replace('-', '_').toUpperCase(Locale.ENGLISH);
     return ApiStages.valueOf(s).url;
@@ -60,7 +61,7 @@ public class ApiUtils {
    *     not occur if the string is well-formed ascii json.
    */
   public static String put(String apiUri, String pathToResource, String body)
-          throws UnsupportedEncodingException {
+      throws UnsupportedEncodingException {
     CloseableHttpClient client = HttpClients.createDefault();
     String fullPath = apiUri + pathToResource;
     HttpPut httpPut = new HttpPut(fullPath);
