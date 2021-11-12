@@ -5,18 +5,15 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.tutor.request.Request;
 import com.tutor.subject.Subject;
 import com.tutor.user.User;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -102,7 +99,7 @@ public class UserUtils {
    * the flag
    */
   public static void modifyUsersSessions(
-      ApiUtils.ApiStages stage, String userId, UUID sessionId, boolean add)
+      String stageUri, String userId, UUID sessionId, boolean add)
       throws JsonProcessingException, UnsupportedEncodingException {
     User user = UserUtils.getUserObjectById(userId);
 
@@ -117,12 +114,8 @@ public class UserUtils {
     }
 
     ObjectMapper mapper = new ObjectMapper();
-    String json = mapper.writeValueAsString(user);
-    System.out.println("----------JSON----------");
-    System.out.println(json);
-    System.out.println(
-        ApiUtils.patch(
-            stage.toString(), "/user/" + user.getUserId(), json));
+
+    ApiUtils.patch(stageUri, "/user/" + user.getUserId(), mapper.writeValueAsString(user));
   }
 
   public static User getUserFromAPIResponse(String APIResponseJson) throws IOException {

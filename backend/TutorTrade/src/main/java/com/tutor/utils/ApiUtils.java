@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.*;
@@ -33,6 +34,14 @@ public class ApiUtils {
     public String toString() {
       return this.url;
     }
+  }
+
+  /**
+   * Given lambda's STAGE variable, returns the associated URI
+   */
+  public static String getApiStageUriFromStageEnvVariable(String stage) {
+    String s = stage.replace('-', '_').toUpperCase(Locale.ENGLISH);
+    return ApiStages.valueOf(s).url;
   }
 
   /**

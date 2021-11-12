@@ -2,7 +2,6 @@ package com.tutor.request;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tutor.user.User;
-import com.tutor.user.UserHandler;
 
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
@@ -15,12 +14,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.subject.Subject;
-import com.tutor.user.UserHandler;
 import com.tutor.utils.ApiResponse;
 import com.tutor.utils.ApiUtils;
 import com.tutor.utils.RequestUtils;
 import com.tutor.utils.UserUtils;
-import org.apache.commons.math3.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -127,7 +124,10 @@ public class RequestsHandler implements RequestStreamHandler {
             .build();
 
     UserUtils.modifyUsersSessions(
-        ApiUtils.ApiStages.ADAM_DEV, requesterId, request.getRequestId(), true);
+        ApiUtils.getApiStageUriFromStageEnvVariable(STAGE),
+        requesterId,
+        request.getRequestId(),
+        true);
 
     DYNAMO_DB_MAPPER.save(request);
 
@@ -244,7 +244,7 @@ public class RequestsHandler implements RequestStreamHandler {
     }
 
     UserUtils.modifyUsersSessions(
-        ApiUtils.ApiStages.ADAM_DEV,
+        ApiUtils.getApiStageUriFromStageEnvVariable(STAGE),
         requestToBeDeleted.getRequesterId().toString(),
         requestToBeDeleted.getRequestId(),
         false);
@@ -262,8 +262,9 @@ public class RequestsHandler implements RequestStreamHandler {
 
     User user = UserUtils.getUserObjectById(userId);
 
-    System.out.println("----STAGE----");
-    System.out.println(STAGE);
+    if (user == null) {
+      return ApiUtils.returnErrorResponse(new Exception("User does not exist"));
+    }
 
     for (UUID sessionId : user.getSessionIds()) {
       Request request = RequestUtils.getRequestObjectById(sessionId.toString());
