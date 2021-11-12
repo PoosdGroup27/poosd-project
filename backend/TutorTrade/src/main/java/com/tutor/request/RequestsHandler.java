@@ -38,6 +38,7 @@ public class RequestsHandler implements RequestStreamHandler {
       AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
   private static final DynamoDBMapper DYNAMO_DB_MAPPER = new DynamoDBMapper(DYNAMO_DB);
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+  private static final String STAGE = System.getenv("STAGE");
 
   static {
     // Serialization will exclude null fields
@@ -257,19 +258,23 @@ public class RequestsHandler implements RequestStreamHandler {
 
   /** Returns a list of tuples of a user's session IDs along with their associated subjects */
   private ApiResponse<?> getRequestsByUserId(String userId) {
-    List<Pair<String, String>> sessionSubjectsList = new ArrayList<>();
+    List<List<String>> sessionSubjectsList = new ArrayList<>();
 
     User user = UserUtils.getUserObjectById(userId);
+
+    System.out.println("----STAGE----");
+    System.out.println(STAGE);
 
     for (UUID sessionId : user.getSessionIds()) {
       Request request = RequestUtils.getRequestObjectById(sessionId.toString());
 
       if (request != null) {
-        sessionSubjectsList.add(new Pair<>(sessionId.toString(), request.getSubject().toString()));
+        sessionSubjectsList.add(
+            Arrays.asList(sessionId.toString(), request.getSubject().getSubjectName()));
       }
     }
 
-    return ApiResponse.<List<Pair<String, String>>>builder()
+    return ApiResponse.<List<List<String>>>builder()
         .statusCode(HttpURLConnection.HTTP_OK)
         .body(sessionSubjectsList)
         .build();
