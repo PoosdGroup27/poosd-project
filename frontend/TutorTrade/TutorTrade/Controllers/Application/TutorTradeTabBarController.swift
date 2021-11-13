@@ -38,6 +38,9 @@ class TutorTradeTabBarController: UITabBarController {
         // Set tab bar color
         view.backgroundColor = .white
         
+        // Set the tab bar to always be white
+        tabBar.isTranslucent = false
+        
         // Add child view controllers to tab bar
         viewControllers = [matchingController, requestNavController, chatNavController, profileController]
 
