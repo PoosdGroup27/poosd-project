@@ -19,7 +19,7 @@ class MatchingController: UIViewController {
     private lazy var cardScrollView = TutteeRequestCard(withFirstName: "Hannah", withProfilePicture: UIImage(named: "UserImage")!,
                                                         withSchool: "University of Central Florida", withRating: 5.0,
                                                         withSubject: "Mathematics", withTime: "Now",
-                                                        withDescription: "I am looking for someone to tutor me in Calc 1. We’re currently covering the product rule in class and I need help working through the process.")
+                                                        withDescription: "I am looking for someone to tutor me in Calc 1. We’re currently covering the product rule in class and I need help working through the process.", withPointBalance: 50, withPreferredMedium: "InPerson")
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -67,7 +67,7 @@ class MatchingController: UIViewController {
                 $0.leadingAnchor.constraint(equalToSystemSpacingAfter: self.view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2),
                 $0.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
                 $0.heightAnchor.constraint(equalToConstant: 525),
-                cardScrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 500)
+                cardScrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 225)
             ])
         }
     }

@@ -9,6 +9,7 @@
  Todo:
  1. Refactor the labels and views especially the configurations
  */
+
 import UIKit
 
 class TutteeRequestCard: UIScrollView {
@@ -20,6 +21,8 @@ class TutteeRequestCard: UIScrollView {
     private var subject: String
     private var time: String
     private var helpDescription: String
+    private var pointsBalance: Int
+    private var preferredMedium: String?
     private lazy var profilePictureView: UIImageView = .configureTuteeProfileImage(withImage: UIImage(named: "UserImage")!)
     private lazy var firstNameLabel: UILabel = .configureTutteeName(withFirstName: "Hannah", font: UIFont(name: "Roboto-Bold", size: 28)!)
     private lazy var schoolDisplayBoxView: BorderedDisplayBoxView  = .requestCardBoxView(withIcon: UIImage(named: "SchoolIcon")!)
@@ -30,13 +33,22 @@ class TutteeRequestCard: UIScrollView {
     private lazy var subjectDisplayBoxLabel: UILabel = .configureSchoolLabel(withSchoolName: subject, font: UIFont(name: "Roboto-Bold", size: 12)!)
     private lazy var urgencyDisplayBoxView: BorderedDisplayBoxView = .requestCardBoxView(withIcon: UIImage(named: "TimeIcon")!)
     private lazy var urgencyDisplayBoxLabel: UILabel = .configureSchoolLabel(withSchoolName: time, font: UIFont(name: "Roboto-Bold", size: 12)!)
-    private lazy var descriptionLabel: UILabel = .descriptionLabel
+    private lazy var descriptionLabel: UILabel = .getTitleLabel(title: "Description", size: 15)
+    private lazy var budgetTitleLabel: UILabel = .getTitleLabel(title: "Budget", size: 12)
+    private lazy var mediumTitleLabel: UILabel = .getTitleLabel(title: "Preferred Medium", size: 12)
     private lazy var descriptionDisplayBoxView: BorderedDisplayBoxView = .descriptionCardBoxView()
     private lazy var descriptionDisplayBoxLabel: UILabel = .configureDescriptionLabel(withHelpDescription: helpDescription, font: UIFont(name: "Roboto-Bold", size: 12)!)
+    private lazy var budgetDisplayBoxView: BorderedDisplayBoxView = .budgetCardBoxView()
+    private lazy var pointsBalanceDisplayBoxLabel: UILabel = .pointsBalanceLabel(pointsBalance: pointsBalance)
+    private lazy var mediumDisplayBoxView: BorderedDisplayBoxView = .mediumCardBoxView()
+    private lazy var innerBudgetDisplayBoxView: BorderedDisplayBoxView = .innerBudgetCardBoxView()
+    private lazy var innerMediumDisplayBoxView: BorderedDisplayBoxView = .innerMediumCardBoxView()
+    private lazy var preferredMediumImage: UIImageView = .preferredMediumImage(preferredMedium: preferredMedium!)
     
     internal init(withFirstName firstName: String, withProfilePicture profilePicture: UIImage?,
                   withSchool school: String, withRating rating: Double, withSubject subject: String,
-                  withTime time: String, withDescription helpDescription: String) {
+                  withTime time: String, withDescription helpDescription: String, withPointBalance pointsBalance: Int,
+                  withPreferredMedium preferredMedium: String) {
         
         self.profilePicture = profilePicture
         self.firstName = firstName
@@ -45,6 +57,8 @@ class TutteeRequestCard: UIScrollView {
         self.subject = subject
         self.time = time
         self.helpDescription = helpDescription
+        self.pointsBalance = pointsBalance
+        self.preferredMedium = preferredMedium
 
         super.init(frame: .zero)
         
@@ -157,6 +171,70 @@ class TutteeRequestCard: UIScrollView {
                 $0.leadingAnchor.constraint(equalTo: descriptionDisplayBoxView.leadingAnchor, constant: 10),
                 $0.widthAnchor.constraint(equalTo: descriptionDisplayBoxView.widthAnchor, constant: -10),
                 $0.centerYAnchor.constraint(equalTo: descriptionDisplayBoxView.centerYAnchor)
+            ])
+        }
+        
+        addSubview(budgetDisplayBoxView) {
+            NSLayoutConstraint.activate([
+                $0.topAnchor.constraint(equalTo: descriptionDisplayBoxView.bottomAnchor, constant: 30),
+                $0.leadingAnchor.constraint(equalTo: descriptionDisplayBoxView.leadingAnchor, constant: 10),
+                $0.widthAnchor.constraint(equalToConstant: 120),
+                $0.heightAnchor.constraint(equalToConstant: 100)
+            ])
+        }
+        
+        budgetDisplayBoxView.addSubview(budgetTitleLabel) {
+            NSLayoutConstraint.activate([
+                $0.centerXAnchor.constraint(equalTo: budgetDisplayBoxView.centerXAnchor),
+                $0.centerYAnchor.constraint(equalTo: budgetDisplayBoxView.centerYAnchor, constant: -25)
+            ])
+        }
+        
+        budgetDisplayBoxView.addSubview(innerBudgetDisplayBoxView) {
+            NSLayoutConstraint.activate([
+                $0.centerXAnchor.constraint(equalTo: budgetDisplayBoxView.centerXAnchor),
+                $0.centerYAnchor.constraint(equalTo: budgetDisplayBoxView.centerYAnchor, constant: 15),
+                $0.widthAnchor.constraint(equalToConstant: 80),
+                $0.heightAnchor.constraint(equalToConstant: 40)
+            ])
+        }
+        
+        innerBudgetDisplayBoxView.addSubview(pointsBalanceDisplayBoxLabel) {
+            NSLayoutConstraint.activate([
+                $0.leadingAnchor.constraint(equalTo: innerBudgetDisplayBoxView.leadingAnchor, constant: 45),
+                $0.centerYAnchor.constraint(equalTo: innerBudgetDisplayBoxView.centerYAnchor)
+            ])
+        }
+        
+        addSubview(mediumDisplayBoxView) {
+            NSLayoutConstraint.activate([
+                $0.topAnchor.constraint(equalTo: descriptionDisplayBoxView.bottomAnchor, constant: 30),
+                $0.trailingAnchor.constraint(equalTo: descriptionDisplayBoxView.trailingAnchor, constant: -10),
+                $0.widthAnchor.constraint(equalToConstant: 120),
+                $0.heightAnchor.constraint(equalToConstant: 100)
+            ])
+        }
+        
+        mediumDisplayBoxView.addSubview(mediumTitleLabel) {
+            NSLayoutConstraint.activate([
+                $0.centerXAnchor.constraint(equalTo: mediumDisplayBoxView.centerXAnchor),
+                $0.centerYAnchor.constraint(equalTo: mediumDisplayBoxView.centerYAnchor, constant: -25)
+            ])
+        }
+        
+        mediumDisplayBoxView.addSubview(innerMediumDisplayBoxView) {
+            NSLayoutConstraint.activate([
+                $0.centerXAnchor.constraint(equalTo: mediumDisplayBoxView.centerXAnchor),
+                $0.centerYAnchor.constraint(equalTo: mediumDisplayBoxView.centerYAnchor, constant: 15),
+                $0.widthAnchor.constraint(equalToConstant: 80),
+                $0.heightAnchor.constraint(equalToConstant: 40)
+            ])
+        }
+        
+        innerMediumDisplayBoxView.addSubview(preferredMediumImage) {
+            NSLayoutConstraint.activate([
+                $0.centerXAnchor.constraint(equalTo: innerMediumDisplayBoxView.centerXAnchor),
+                $0.centerYAnchor.constraint(equalTo: innerMediumDisplayBoxView.centerYAnchor)
             ])
         }
     }

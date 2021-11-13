@@ -42,14 +42,20 @@ extension UILabel {
         return label
     }
     
-    static var descriptionLabel: UILabel {
-        get {
+    static func getTitleLabel(title: String, size: CGFloat) -> UILabel {
+        let label = UILabel()
+        label.text = title
+        label.font = UIFont(name: "Roboto-Bold", size: size)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }
+    
+    static func pointsBalanceLabel(pointsBalance: Int) -> UILabel {
             let label = UILabel()
-            label.text = "Description"
-            label.font = UIFont(name: "Roboto-Bold", size: 15)
+            label.text = String(pointsBalance)
+            label.font = UIFont(name: "Roboto-Bold", size: 12)
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
-        }
     }
 }
 
@@ -60,6 +66,16 @@ extension UIImageView {
         photoView.translatesAutoresizingMaskIntoConstraints = false
         return photoView
     }
+    
+    static func preferredMediumImage(preferredMedium: String) -> UIImageView {
+        let image = UIImage(named: preferredMedium + "Icon")!
+        let photoView = UIImageView(image: image)
+        photoView.translatesAutoresizingMaskIntoConstraints = false
+        return photoView
+    }
+}
+
+extension UIImage {
 }
 
 extension UIStackView {
@@ -96,6 +112,34 @@ extension BorderedDisplayBoxView {
     }
     
     static func descriptionCardBoxView() -> BorderedDisplayBoxView {
+        let boxSize = CGSize(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.08)
+        let displayBox = BorderedDisplayBoxView(iconImage: nil, iconHeightRatio: 0.5, borderColor: nil, borderWidth: 0, boxSize: boxSize, cornerRadius: 10, boxBackgroundColor: UIColor(named: "DescriptionBoxColor")!, withShadow: false)
+        displayBox.translatesAutoresizingMaskIntoConstraints = false
+        return displayBox
+    }
+    
+    static func budgetCardBoxView() -> BorderedDisplayBoxView {
+        let boxSize = CGSize(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.08)
+        let displayBox = BorderedDisplayBoxView(iconImage: nil, iconHeightRatio: 0.5, borderColor: nil, borderWidth: 0, boxSize: boxSize, cornerRadius: 10, boxBackgroundColor: UIColor(named: "SubjectBoxColor")!, withShadow: true)
+        displayBox.translatesAutoresizingMaskIntoConstraints = false
+        return displayBox
+    }
+    
+    static func mediumCardBoxView() -> BorderedDisplayBoxView {
+        let boxSize = CGSize(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.08)
+        let displayBox = BorderedDisplayBoxView(iconImage: nil, iconHeightRatio: 0.5, borderColor: nil, borderWidth: 0, boxSize: boxSize, cornerRadius: 10, boxBackgroundColor: UIColor(named: "MediumBoxColor")!, withShadow: true)
+        displayBox.translatesAutoresizingMaskIntoConstraints = false
+        return displayBox
+    }
+    
+    static func innerBudgetCardBoxView() -> BorderedDisplayBoxView {
+        let boxSize = CGSize(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.08)
+        let displayBox = BorderedDisplayBoxView(iconImage: UIImage(named: "PointIcon"), iconHeightRatio: 0.5, borderColor: nil, borderWidth: 0, boxSize: boxSize, cornerRadius: 10, boxBackgroundColor: UIColor(named: "DescriptionBoxColor")!, withShadow: false)
+        displayBox.translatesAutoresizingMaskIntoConstraints = false
+        return displayBox
+    }
+    
+    static func innerMediumCardBoxView() -> BorderedDisplayBoxView {
         let boxSize = CGSize(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.08)
         let displayBox = BorderedDisplayBoxView(iconImage: nil, iconHeightRatio: 0.5, borderColor: nil, borderWidth: 0, boxSize: boxSize, cornerRadius: 10, boxBackgroundColor: UIColor(named: "DescriptionBoxColor")!, withShadow: false)
         displayBox.translatesAutoresizingMaskIntoConstraints = false
