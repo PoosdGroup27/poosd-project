@@ -16,7 +16,10 @@ class MatchingController: UIViewController {
     private lazy var titleContainerView: UIView = .matchingPageTitleContainerView
     private lazy var matchingTitleLogo: UIImageView = .matchingTitleImage
     private lazy var filterImageButton: UIButton = .filterButton
-    private lazy var cardScrollView = TutteeRequestCard(withFirstName: "Hannah", withProfilePicture: UIImage(named: "UserImage")!)
+    private lazy var cardScrollView = TutteeRequestCard(withFirstName: "Hannah", withProfilePicture: UIImage(named: "UserImage")!,
+                                                        withSchool: "University of Central Florida", withRating: 5.0,
+                                                        withSubject: "Mathematics", withTime: "Now",
+                                                        withDescription: "I am looking for someone to tutor me in Calc 1. We’re currently covering the product rule in class and I need help working through the process.")
 
     init() {
         super.init(nibName: nil, bundle: nil)
