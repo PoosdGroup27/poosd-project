@@ -8,41 +8,17 @@
 import UIKit
 
 extension UILabel {
-    static func configureTutteeName(withFirstName firstName: String, font: UIFont) -> UILabel {
+    static func configureDescriptionLabel(title: String, size: CGFloat) -> UILabel {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = firstName
-        label.font = font
-        return label
-    }
-    
-    static func configureSchoolLabel(withSchoolName schoolName: String, font: UIFont) -> UILabel {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = schoolName
-        label.font = font
-        return label
-    }
-    
-    static func configureRatingLabel(withRating rating: Double, font: UIFont) -> UILabel {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = String(rating)
-        label.font = font
-        return label
-    }
-    
-    static func configureDescriptionLabel(withHelpDescription helpDescription: String, font: UIFont) -> UILabel {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = helpDescription
-        label.font = font
+        label.text = title
+        label.font = UIFont(name: "Roboto-Bold", size: size)
         label.numberOfLines = 0
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
         return label
     }
     
-    static func getTitleLabel(title: String, size: CGFloat) -> UILabel {
+    static func configureRequestCardLabel(title: String, size: CGFloat) -> UILabel {
         let label = UILabel()
         label.text = title
         label.font = UIFont(name: "Roboto-Bold", size: size)
@@ -94,55 +70,12 @@ extension UIStackView {
 
 extension BorderedDisplayBoxView {
     
-    static func requestCardBoxView(withIcon icon: UIImage, iconHeightRatio: CGFloat = 0.5) -> BorderedDisplayBoxView {
+    static func requestCardBoxView(withIcon icon: UIImage?, iconHeightRatio: CGFloat = 0.5, boxColor: UIColor?, withShadow: Bool, borderWidth: CGFloat, cornerRadius: CGFloat) -> BorderedDisplayBoxView {
         let boxSize = CGSize(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.08)
-        let displayBox = BorderedDisplayBoxView(iconImage: icon, iconHeightRatio: iconHeightRatio, borderColor: .black, borderWidth: 1.5, boxSize: boxSize, cornerRadius: 35)
+        let displayBox = BorderedDisplayBoxView(iconImage: icon, iconHeightRatio: iconHeightRatio, borderColor: .black, borderWidth: borderWidth, boxSize: boxSize, cornerRadius: cornerRadius, withShadow: withShadow)
         displayBox.translatesAutoresizingMaskIntoConstraints = false
         displayBox.backgroundColor = .clear
-        return displayBox
-    }
-    
-    static func subjectCardBoxView(withIcon icon: UIImage, iconHeightRatio: CGFloat = 0.5) -> BorderedDisplayBoxView {
-        let boxSize = CGSize(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.08)
-        let displayBox = BorderedDisplayBoxView(iconImage: icon, iconHeightRatio: iconHeightRatio, borderColor: .black, borderWidth: 1.5, boxSize: boxSize, cornerRadius: 35)
-        displayBox.translatesAutoresizingMaskIntoConstraints = false
-        displayBox.boxBackgroundColor = UIColor(named: "SubjectBoxColor")!
-        displayBox.borderWidth = 0
-        return displayBox
-    }
-    
-    static func descriptionCardBoxView() -> BorderedDisplayBoxView {
-        let boxSize = CGSize(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.08)
-        let displayBox = BorderedDisplayBoxView(iconImage: nil, iconHeightRatio: 0.5, borderColor: nil, borderWidth: 0, boxSize: boxSize, cornerRadius: 10, boxBackgroundColor: UIColor(named: "DescriptionBoxColor")!, withShadow: false)
-        displayBox.translatesAutoresizingMaskIntoConstraints = false
-        return displayBox
-    }
-    
-    static func budgetCardBoxView() -> BorderedDisplayBoxView {
-        let boxSize = CGSize(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.08)
-        let displayBox = BorderedDisplayBoxView(iconImage: nil, iconHeightRatio: 0.5, borderColor: nil, borderWidth: 0, boxSize: boxSize, cornerRadius: 10, boxBackgroundColor: UIColor(named: "SubjectBoxColor")!, withShadow: true)
-        displayBox.translatesAutoresizingMaskIntoConstraints = false
-        return displayBox
-    }
-    
-    static func mediumCardBoxView() -> BorderedDisplayBoxView {
-        let boxSize = CGSize(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.08)
-        let displayBox = BorderedDisplayBoxView(iconImage: nil, iconHeightRatio: 0.5, borderColor: nil, borderWidth: 0, boxSize: boxSize, cornerRadius: 10, boxBackgroundColor: UIColor(named: "MediumBoxColor")!, withShadow: true)
-        displayBox.translatesAutoresizingMaskIntoConstraints = false
-        return displayBox
-    }
-    
-    static func innerBudgetCardBoxView() -> BorderedDisplayBoxView {
-        let boxSize = CGSize(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.08)
-        let displayBox = BorderedDisplayBoxView(iconImage: UIImage(named: "PointIcon"), iconHeightRatio: 0.5, borderColor: nil, borderWidth: 0, boxSize: boxSize, cornerRadius: 10, boxBackgroundColor: UIColor(named: "DescriptionBoxColor")!, withShadow: false)
-        displayBox.translatesAutoresizingMaskIntoConstraints = false
-        return displayBox
-    }
-    
-    static func innerMediumCardBoxView() -> BorderedDisplayBoxView {
-        let boxSize = CGSize(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.08)
-        let displayBox = BorderedDisplayBoxView(iconImage: nil, iconHeightRatio: 0.5, borderColor: nil, borderWidth: 0, boxSize: boxSize, cornerRadius: 10, boxBackgroundColor: UIColor(named: "DescriptionBoxColor")!, withShadow: false)
-        displayBox.translatesAutoresizingMaskIntoConstraints = false
+        displayBox.boxBackgroundColor = boxColor!
         return displayBox
     }
 }
