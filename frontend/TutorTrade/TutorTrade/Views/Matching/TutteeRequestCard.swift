@@ -23,27 +23,27 @@ class TutteeRequestCard: UIScrollView {
     private var helpDescription: String
     private var pointsBalance: Int
     private var preferredMedium: String?
-    private lazy var profilePictureView: UIImageView = .configureTuteeProfileImage(withImage: UIImage(named: "UserImage")!)
-    private lazy var firstNameLabel: UILabel = .configureTutteeName(withFirstName: "Hannah", font: UIFont(name: "Roboto-Bold", size: 28)!)
-    private lazy var schoolDisplayBoxView: BorderedDisplayBoxView  = .requestCardBoxView(withIcon: UIImage(named: "SchoolIcon")!)
-    private lazy var schoolDisplayBoxLabel: UILabel = .configureSchoolLabel(withSchoolName: school, font: UIFont(name: "Roboto-Bold", size: 12)!)
-    private lazy var ratingDisplayBoxView: BorderedDisplayBoxView  = .requestCardBoxView(withIcon: UIImage(named: "RatingIcon")!)
-    private lazy var ratingDisplayBoxLabel: UILabel = .configureSchoolLabel(withSchoolName: String(rating), font: UIFont(name: "Roboto-Bold", size: 12)!)
-    private lazy var subjectDisplayBoxView: BorderedDisplayBoxView  = .subjectCardBoxView(withIcon: UIImage(named: "HandRaisedIcon")!)
-    private lazy var subjectDisplayBoxLabel: UILabel = .configureSchoolLabel(withSchoolName: subject, font: UIFont(name: "Roboto-Bold", size: 12)!)
-    private lazy var urgencyDisplayBoxView: BorderedDisplayBoxView = .requestCardBoxView(withIcon: UIImage(named: "TimeIcon")!)
-    private lazy var urgencyDisplayBoxLabel: UILabel = .configureSchoolLabel(withSchoolName: time, font: UIFont(name: "Roboto-Bold", size: 12)!)
-    private lazy var descriptionLabel: UILabel = .getTitleLabel(title: "Description", size: 15)
-    private lazy var budgetTitleLabel: UILabel = .getTitleLabel(title: "Budget", size: 12)
-    private lazy var mediumTitleLabel: UILabel = .getTitleLabel(title: "Preferred Medium", size: 12)
-    private lazy var descriptionDisplayBoxView: BorderedDisplayBoxView = .descriptionCardBoxView()
-    private lazy var descriptionDisplayBoxLabel: UILabel = .configureDescriptionLabel(withHelpDescription: helpDescription, font: UIFont(name: "Roboto-Bold", size: 12)!)
-    private lazy var budgetDisplayBoxView: BorderedDisplayBoxView = .budgetCardBoxView()
-    private lazy var pointsBalanceDisplayBoxLabel: UILabel = .pointsBalanceLabel(pointsBalance: pointsBalance)
-    private lazy var mediumDisplayBoxView: BorderedDisplayBoxView = .mediumCardBoxView()
-    private lazy var innerBudgetDisplayBoxView: BorderedDisplayBoxView = .innerBudgetCardBoxView()
-    private lazy var innerMediumDisplayBoxView: BorderedDisplayBoxView = .innerMediumCardBoxView()
-    private lazy var preferredMediumImage: UIImageView = .preferredMediumImage(preferredMedium: preferredMedium!)
+    private var profilePictureView: UIImageView = .configureTuteeProfileImage(withImage: UIImage(named: "UserImage")!)
+    private var firstNameLabel: UILabel = .configureTutteeName(withFirstName: "Hannah", font: UIFont(name: "Roboto-Bold", size: 28)!)
+    private var schoolDisplayBoxView: BorderedDisplayBoxView  = .requestCardBoxView(withIcon: UIImage(named: "SchoolIcon")!)
+    private var schoolDisplayBoxLabel: UILabel
+    private var ratingDisplayBoxView: BorderedDisplayBoxView  = .requestCardBoxView(withIcon: UIImage(named: "RatingIcon")!)
+    private var ratingDisplayBoxLabel: UILabel
+    private var subjectDisplayBoxView: BorderedDisplayBoxView  = .subjectCardBoxView(withIcon: UIImage(named: "HandRaisedIcon")!)
+    private var subjectDisplayBoxLabel: UILabel
+    private var urgencyDisplayBoxView: BorderedDisplayBoxView = .requestCardBoxView(withIcon: UIImage(named: "TimeIcon")!)
+    private var urgencyDisplayBoxLabel: UILabel
+    private var descriptionLabel: UILabel = .getTitleLabel(title: "Description", size: 15)
+    private var budgetTitleLabel: UILabel = .getTitleLabel(title: "Budget", size: 12)
+    private var mediumTitleLabel: UILabel = .getTitleLabel(title: "Preferred Medium", size: 12)
+    private var descriptionDisplayBoxView: BorderedDisplayBoxView = .descriptionCardBoxView()
+    private var descriptionDisplayBoxLabel: UILabel
+    private var budgetDisplayBoxView: BorderedDisplayBoxView = .budgetCardBoxView()
+    private var pointsBalanceDisplayBoxLabel: UILabel
+    private var mediumDisplayBoxView: BorderedDisplayBoxView = .mediumCardBoxView()
+    private var innerBudgetDisplayBoxView: BorderedDisplayBoxView = .innerBudgetCardBoxView()
+    private var innerMediumDisplayBoxView: BorderedDisplayBoxView = .innerMediumCardBoxView()
+    private var preferredMediumImage: UIImageView
     
     internal init(withFirstName firstName: String, withProfilePicture profilePicture: UIImage?,
                   withSchool school: String, withRating rating: Double, withSubject subject: String,
@@ -59,6 +59,13 @@ class TutteeRequestCard: UIScrollView {
         self.helpDescription = helpDescription
         self.pointsBalance = pointsBalance
         self.preferredMedium = preferredMedium
+        self.schoolDisplayBoxLabel = .configureSchoolLabel(withSchoolName: school, font: UIFont(name: "Roboto-Bold", size: 12)!)
+        self.ratingDisplayBoxLabel = .configureSchoolLabel(withSchoolName: String(rating), font: UIFont(name: "Roboto-Bold", size: 12)!)
+        self.subjectDisplayBoxLabel = .configureSchoolLabel(withSchoolName: subject, font: UIFont(name: "Roboto-Bold", size: 12)!)
+        self.urgencyDisplayBoxLabel = .configureSchoolLabel(withSchoolName: time, font: UIFont(name: "Roboto-Bold", size: 12)!)
+        self.descriptionDisplayBoxLabel = .configureDescriptionLabel(withHelpDescription: helpDescription, font: UIFont(name: "Roboto-Bold", size: 12)!)
+        self.pointsBalanceDisplayBoxLabel = .pointsBalanceLabel(pointsBalance: pointsBalance)
+        self.preferredMediumImage = .preferredMediumImage(preferredMedium: preferredMedium)
 
         super.init(frame: .zero)
         
