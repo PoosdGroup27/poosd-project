@@ -62,6 +62,9 @@
 		5ED5C727272C9746007628C5 /* EditingPopoverConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C726272C9746007628C5 /* EditingPopoverConfigurations.swift */; };
 		5ED5C72B2731A1A0007628C5 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C72A2731A1A0007628C5 /* Notification.swift */; };
 		5ED5C72D2734A87A007628C5 /* ProfileCreationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C72C2734A87A007628C5 /* ProfileCreationRequest.swift */; };
+		5EF198552740AA6B001A354C /* TutteeRequestCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF198532740AA6B001A354C /* TutteeRequestCard.swift */; };
+		5EF198562740AA6B001A354C /* TutteeRequestCardConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF198542740AA6B001A354C /* TutteeRequestCardConfigurations.swift */; };
+		5EF198592740AAE7001A354C /* Shuffle in Frameworks */ = {isa = PBXBuildFile; productRef = 5EF198582740AAE7001A354C /* Shuffle */; };
 		5EF5C44C2720FB2100C74ADF /* Auth0 in Frameworks */ = {isa = PBXBuildFile; productRef = 5EF5C44B2720FB2100C74ADF /* Auth0 */; };
 		5EF5C44E2720FE5C00C74ADF /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5EF5C44D2720FE5C00C74ADF /* Auth0.plist */; };
 		5EF5C4522726F72300C74ADF /* PopoverEditingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF5C4512726F72300C74ADF /* PopoverEditingViewController.swift */; };
@@ -147,6 +150,8 @@
 		5ED5C726272C9746007628C5 /* EditingPopoverConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingPopoverConfigurations.swift; sourceTree = "<group>"; };
 		5ED5C72A2731A1A0007628C5 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		5ED5C72C2734A87A007628C5 /* ProfileCreationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreationRequest.swift; sourceTree = "<group>"; };
+		5EF198532740AA6B001A354C /* TutteeRequestCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutteeRequestCard.swift; sourceTree = "<group>"; };
+		5EF198542740AA6B001A354C /* TutteeRequestCardConfigurations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutteeRequestCardConfigurations.swift; sourceTree = "<group>"; };
 		5EF5C44D2720FE5C00C74ADF /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
 		5EF5C4512726F72300C74ADF /* PopoverEditingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverEditingViewController.swift; sourceTree = "<group>"; };
 		5EF5C4532727517000C74ADF /* SchoolSelectionViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSelectionViewFactory.swift; sourceTree = "<group>"; };
@@ -157,6 +162,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EF198592740AAE7001A354C /* Shuffle in Frameworks */,
 				5EF5C44C2720FB2100C74ADF /* Auth0 in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -342,6 +348,8 @@
 		5E1BAE5F2728EAC700A70757 /* Matching */ = {
 			isa = PBXGroup;
 			children = (
+				5EF198532740AA6B001A354C /* TutteeRequestCard.swift */,
+				5EF198542740AA6B001A354C /* TutteeRequestCardConfigurations.swift */,
 				4A996417273CAA24004F2EE4 /* MatchingConfigurations.swift */,
 			);
 			path = Matching;
@@ -562,6 +570,7 @@
 			name = TutorTrade;
 			packageProductDependencies = (
 				5EF5C44B2720FB2100C74ADF /* Auth0 */,
+				5EF198582740AAE7001A354C /* Shuffle */,
 			);
 			productName = TutorTrade;
 			productReference = 4AC9500D26ED771F00FC4A97 /* TutorTrade.app */;
@@ -636,6 +645,7 @@
 			mainGroup = 4AC9500426ED771F00FC4A97;
 			packageReferences = (
 				5EF5C44A2720FB2100C74ADF /* XCRemoteSwiftPackageReference "Auth0.swift" */,
+				5EF198572740AAE7001A354C /* XCRemoteSwiftPackageReference "Shuffle" */,
 			);
 			productRefGroup = 4AC9500E26ED771F00FC4A97 /* Products */;
 			projectDirPath = "";
@@ -708,6 +718,7 @@
 				5E9853F6273768FA00E75E2A /* VerificationController.swift in Sources */,
 				5E9853FA2737691E00E75E2A /* ShadowDisplayBox.swift in Sources */,
 				4AA06BFA2704E4FF00B58926 /* RequestScrollView.swift in Sources */,
+				5EF198562740AA6B001A354C /* TutteeRequestCardConfigurations.swift in Sources */,
 				5E7EA9AF2718E3C30066B189 /* TutorProfile.swift in Sources */,
 				5E5DB4172729F7B9008B9A0D /* WelcomePageConfigurations.swift in Sources */,
 				5E7EA9DE2718E6800066B189 /* BorderedDisplayBox.swift in Sources */,
@@ -718,6 +729,7 @@
 				5E5DB426272C40E4008B9A0D /* CreateProfilePageConfigurations.swift in Sources */,
 				4A22D9FD270E17F700E8DA7E /* SubjectView.swift in Sources */,
 				5E7EA9E7271900AE0066B189 /* DisplaySettingsManager.swift in Sources */,
+				5EF198552740AA6B001A354C /* TutteeRequestCard.swift in Sources */,
 				5E7EA9DF2718E6800066B189 /* CircularBorderedImageView.swift in Sources */,
 				5E7EA9DC2718E6800066B189 /* TutoringSubjectsScrollView.swift in Sources */,
 				5E1BAE5B2728E72800A70757 /* ProfileController.swift in Sources */,
@@ -901,14 +913,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = S5YGMA5VUJ;
+				DEVELOPMENT_TEAM = HZ373Y45DX;
 				INFOPLIST_FILE = TutorTrade/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sebastianhernandez;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brockndavis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -921,14 +933,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = S5YGMA5VUJ;
+				DEVELOPMENT_TEAM = HZ373Y45DX;
 				INFOPLIST_FILE = TutorTrade/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sebastianhernandez;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brockndavis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1061,6 +1073,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		5EF198572740AAE7001A354C /* XCRemoteSwiftPackageReference "Shuffle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mac-gallagher/Shuffle.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.0;
+			};
+		};
 		5EF5C44A2720FB2100C74ADF /* XCRemoteSwiftPackageReference "Auth0.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/auth0/Auth0.swift.git";
@@ -1072,6 +1092,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		5EF198582740AAE7001A354C /* Shuffle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5EF198572740AAE7001A354C /* XCRemoteSwiftPackageReference "Shuffle" */;
+			productName = Shuffle;
+		};
 		5EF5C44B2720FB2100C74ADF /* Auth0 */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 5EF5C44A2720FB2100C74ADF /* XCRemoteSwiftPackageReference "Auth0.swift" */;

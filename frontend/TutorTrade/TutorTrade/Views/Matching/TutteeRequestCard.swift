@@ -23,8 +23,8 @@ class TutteeRequestCard: UIScrollView {
     private var helpDescription: String
     private var pointsBalance: Int
     private var preferredMedium: String?
-    private var profilePictureView: UIImageView = .configureTuteeProfileImage(withImage: UIImage(named: "UserImage")!)
-    private var firstNameLabel: UILabel = .configureTutteeName(withFirstName: "Hannah", font: UIFont(name: "Roboto-Bold", size: 28)!)
+    private var profilePictureView: UIImageView
+    private var firstNameLabel: UILabel
     private var schoolDisplayBoxView: BorderedDisplayBoxView  = .requestCardBoxView(withIcon: UIImage(named: "SchoolIcon")!)
     private var schoolDisplayBoxLabel: UILabel
     private var ratingDisplayBoxView: BorderedDisplayBoxView  = .requestCardBoxView(withIcon: UIImage(named: "RatingIcon")!)
@@ -64,8 +64,11 @@ class TutteeRequestCard: UIScrollView {
         self.subjectDisplayBoxLabel = .configureSchoolLabel(withSchoolName: subject, font: UIFont(name: "Roboto-Bold", size: 12)!)
         self.urgencyDisplayBoxLabel = .configureSchoolLabel(withSchoolName: time, font: UIFont(name: "Roboto-Bold", size: 12)!)
         self.descriptionDisplayBoxLabel = .configureDescriptionLabel(withHelpDescription: helpDescription, font: UIFont(name: "Roboto-Bold", size: 12)!)
+        self.firstNameLabel = .configureTutteeName(withFirstName: firstName, font: UIFont(name: "Roboto-Bold", size: 28)!)
         self.pointsBalanceDisplayBoxLabel = .pointsBalanceLabel(pointsBalance: pointsBalance)
         self.preferredMediumImage = .preferredMediumImage(preferredMedium: preferredMedium)
+
+        self.profilePictureView = .configureTuteeProfileImage(withImage: profilePicture)
 
         super.init(frame: .zero)
         
@@ -78,8 +81,8 @@ class TutteeRequestCard: UIScrollView {
             NSLayoutConstraint.activate([
                 $0.topAnchor.constraint(equalTo: self.topAnchor),
                 $0.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-                $0.widthAnchor.constraint(equalTo: self.widthAnchor),
-                $0.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -210),
+                $0.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+                $0.heightAnchor.constraint(equalToConstant: 340)
             ])
         }
 
@@ -244,6 +247,10 @@ class TutteeRequestCard: UIScrollView {
                 $0.centerYAnchor.constraint(equalTo: innerMediumDisplayBoxView.centerYAnchor)
             ])
         }
+        
+        NSLayoutConstraint.activate([
+            self.contentLayoutGuide.bottomAnchor.constraint(equalTo: mediumDisplayBoxView.bottomAnchor, constant: 50)
+        ])
     }
     
     required init?(coder: NSCoder) {

@@ -10,16 +10,20 @@
 //
 
 import UIKit
+import Shuffle
 
-class MatchingController: UIViewController {
+class MatchingController: UIViewController, SwipeCardStackDataSource{
     
-    private lazy var titleContainerView: UIView = .matchingPageTitleContainerView
+    private lazy var cardStack = SwipeCardStack()
     private lazy var matchingTitleLogo: UIImageView = .matchingTitleImage
     private lazy var filterImageButton: UIButton = .filterButton
-    private lazy var cardScrollView = TutteeRequestCard(withFirstName: "Hannah", withProfilePicture: UIImage(named: "UserImage")!,
-                                                        withSchool: "University of Central Florida", withRating: 5.0,
-                                                        withSubject: "Mathematics", withTime: "Now",
-                                                        withDescription: "I am looking for someone to tutor me in Calc 1. We’re currently covering the product rule in class and I need help working through the process.", withPointBalance: 50, withPreferredMedium: "InPerson")
+    let cards: [TutteeRequestCard] = [
+        .init(withFirstName: "Hannah", withProfilePicture: UIImage(named: "UserImage5")!, withSchool: "University of Central Florida", withRating: 4.7, withSubject: "Mathematics", withTime: "Today", withDescription: "Please help me", withPointBalance: 150, withPreferredMedium: "Online"),
+        .init(withFirstName: "Jesse James", withProfilePicture: UIImage(named: "UserImage5")!, withSchool: "Universiy of Florida", withRating: 4.9, withSubject: "Archeology", withTime: "Now", withDescription: "I need help bad", withPointBalance: 180, withPreferredMedium: "InPerson"),
+        .init(withFirstName: "Katie Burton", withProfilePicture: UIImage(named: "UserImage5")!, withSchool: "Stanford", withRating: 4.1, withSubject: "Computer Science", withTime: "This Week", withDescription: "Treaps are hell", withPointBalance: 240, withPreferredMedium: "InPerson"),
+        .init(withFirstName: "Adam Apple", withProfilePicture: UIImage(named: "UserImage5")!, withSchool: "NYU", withRating: 3.1, withSubject: "IT", withTime: "Now", withDescription: "I might have to switch to business", withPointBalance: 130, withPreferredMedium: "InPerson"),
+        .init(withFirstName: "James Jones", withProfilePicture: UIImage(named: "UserImage5")!, withSchool: "Grand Canyon University", withRating: 4.9, withSubject: "Music", withTime: "Now", withDescription: "Help me play the saxaphone", withPointBalance: 380, withPreferredMedium: "InPerson")
+    ]
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -31,43 +35,50 @@ class MatchingController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func numberOfCards(in cardStack: SwipeCardStack) -> Int {
+        5
+    }
+    
+    func cardStack(_ cardStack: SwipeCardStack, cardForIndexAt index: Int) -> SwipeCard {
+        if index != 0 {
+           print(cards[index - 1].contentSize)
+        }
+        let card = SwipeCard()
+        card.content = cards[index]
+        NSLayoutConstraint.activate([
+            cards[index].contentLayoutGuide.widthAnchor.constraint(equalTo: card.widthAnchor)
+        ])
+        card.swipeDirections = [.left, .right]
+        return card
+    }
+
     override func loadView() {
         super.loadView()
         
-        // Add title container for matching page
-        self.view.addSubview(titleContainerView) {
-            NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-                $0.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-                $0.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-                $0.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 5)
-            ])
-        }
-        
         // Add logo for matching page
-        self.titleContainerView.addSubview(matchingTitleLogo) {
+        self.view.addSubview(matchingTitleLogo) {
             NSLayoutConstraint.activate([
-                $0.centerYAnchor.constraint(equalTo: titleContainerView.centerYAnchor),
-                $0.leadingAnchor.constraint(equalTo: titleContainerView.leadingAnchor, constant: UIScreen.main.bounds.width / 14)
+                $0.topAnchor.constraint(equalTo: self.view.topAnchor, constant: UIScreen.main.bounds.height / 10),
+                $0.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: UIScreen.main.bounds.width / 18.75)
             ])
         }
         
         // Add a current no-op  filter button
-        self.titleContainerView.addSubview(filterImageButton) {
+        self.view.addSubview(filterImageButton) {
             NSLayoutConstraint.activate([
-                $0.centerYAnchor.constraint(equalTo: titleContainerView.centerYAnchor),
-                $0.trailingAnchor.constraint(equalTo: titleContainerView.trailingAnchor, constant: (UIScreen.main.bounds.width / 14)  * -1)
+                $0.topAnchor.constraint(equalTo: self.matchingTitleLogo.topAnchor),
+                $0.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -UIScreen.main.bounds.width / 18.75)
             ])
         }
         
-        // Load the matching card vertical scroll view
-        self.view.addSubview(cardScrollView) {
+        self.view.addSubview(cardStack) {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.dataSource = self
             NSLayoutConstraint.activate([
-                $0.topAnchor.constraint(equalTo: self.titleContainerView.bottomAnchor),
-                $0.leadingAnchor.constraint(equalToSystemSpacingAfter: self.view.safeAreaLayoutGuide.leadingAnchor, multiplier: 2),
-                $0.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-                $0.heightAnchor.constraint(equalToConstant: 525),
-                cardScrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 225)
+                $0.topAnchor.constraint(equalTo: self.matchingTitleLogo.bottomAnchor, constant: UIScreen.main.bounds.height / 35),
+                $0.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),
+                $0.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
+                $0.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -UIScreen.main.bounds.height / 35)
             ])
         }
     }
