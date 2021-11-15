@@ -8,18 +8,17 @@
 import UIKit
 
 extension UILabel {
-    static func configureTutteeName(withFirstName firstName: String, font: UIFont) -> UILabel {
+    static func configureTutteeNameLabel(withFont font: UIFont) -> UILabel {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = firstName
         label.font = font
         return label
     }
     
-    static func configureSchoolLabel(withSchoolName schoolName: String, font: UIFont) -> UILabel {
+    static func configureLabel(withText text: String? = nil, withFont font: UIFont) -> UILabel {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = schoolName
+        label.text = text
         label.font = font
         return label
     }
@@ -32,10 +31,9 @@ extension UILabel {
         return label
     }
     
-    static func configureDescriptionLabel(withHelpDescription helpDescription: String, font: UIFont) -> UILabel {
+    static func configureDescriptionLabel(font: UIFont) -> UILabel {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = helpDescription
         label.font = font
         label.numberOfLines = 0
         label.lineBreakMode = NSLineBreakMode.byWordWrapping
@@ -50,12 +48,43 @@ extension UILabel {
         return label
     }
     
-    static func pointsBalanceLabel(pointsBalance: Int) -> UILabel {
+    static var pointsBalanceLabel: UILabel {
             let label = UILabel()
-            label.text = String(pointsBalance)
             label.font = UIFont(name: "Roboto-Bold", size: 12)
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
+    }
+    
+    static var yesOverlayLabel: UILabel {
+        get {
+            let label = UILabel()
+            label.text = "👍"
+            label.transform = CGAffineTransform(rotationAngle: .pi/180 * 10)
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.font = UIFont(name: "Roboto-Bold", size: 30)!
+            label.textColor = .white
+            label.textAlignment = .center
+            label.layer.cornerRadius = 5
+            label.layer.masksToBounds = true
+            label.backgroundColor = UIColor(named: "YesOverlayColor")
+            return label
+        }
+    }
+    
+    static var noOverlayLabel: UILabel {
+        get {
+            let label = UILabel()
+            label.text = "👎"
+            label.transform = CGAffineTransform(rotationAngle: .pi/180 * -10)
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.font = UIFont(name: "Roboto-Bold", size: 30)!
+            label.textColor = .white
+            label.textAlignment = .center
+            label.layer.cornerRadius = 5
+            label.layer.masksToBounds = true
+            label.backgroundColor = UIColor(named: "NoOverlayColor")
+            return label
+        }
     }
 }
 
@@ -67,8 +96,14 @@ extension UIImageView {
         return photoView
     }
     
-    static func preferredMediumImage(preferredMedium: String) -> UIImageView {
-        let image = UIImage(named: preferredMedium + "Icon")!
+    static func preferredMediumImage(preferredMedium: TutoringMedium) -> UIImageView {
+        let image: UIImage
+        switch preferredMedium {
+        case .inPerson:
+            image = UIImage(named: "InPersonIcon")!
+        case .online:
+            image = UIImage(named: "OnlineIcon")!
+        }
         let photoView = UIImageView(image: image)
         photoView.translatesAutoresizingMaskIntoConstraints = false
         return photoView
@@ -134,14 +169,14 @@ extension BorderedDisplayBoxView {
     
     static func innerBudgetCardBoxView() -> BorderedDisplayBoxView {
         let boxSize = CGSize(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.08)
-        let displayBox = BorderedDisplayBoxView(iconImage: UIImage(named: "PointIcon"), iconHeightRatio: 0.5, borderColor: nil, borderWidth: 0, boxSize: boxSize, cornerRadius: 10, boxBackgroundColor: UIColor(named: "DescriptionBoxColor")!, withShadow: false)
+        let displayBox = BorderedDisplayBoxView(iconImage: UIImage(named: "PointIcon"), iconHeightRatio: 0.5, borderColor: nil, borderWidth: 0, boxSize: boxSize, cornerRadius: 10, boxBackgroundColor: UIColor(named: "InnerBudgetBoxColor")!, withShadow: false)
         displayBox.translatesAutoresizingMaskIntoConstraints = false
         return displayBox
     }
     
     static func innerMediumCardBoxView() -> BorderedDisplayBoxView {
         let boxSize = CGSize(width: UIScreen.main.bounds.width * 0.75, height: UIScreen.main.bounds.height * 0.08)
-        let displayBox = BorderedDisplayBoxView(iconImage: nil, iconHeightRatio: 0.5, borderColor: nil, borderWidth: 0, boxSize: boxSize, cornerRadius: 10, boxBackgroundColor: UIColor(named: "DescriptionBoxColor")!, withShadow: false)
+        let displayBox = BorderedDisplayBoxView(iconImage: nil, iconHeightRatio: 0.5, borderColor: nil, borderWidth: 0, boxSize: boxSize, cornerRadius: 10, boxBackgroundColor: UIColor(named: "InnerMediumBoxColor")!, withShadow: false)
         displayBox.translatesAutoresizingMaskIntoConstraints = false
         return displayBox
     }
