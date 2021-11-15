@@ -27,7 +27,7 @@ class MatchingController: UIViewController, SwipeCardStackDataSource{
 
     init() {
         super.init(nibName: nil, bundle: nil)
-        tabBarItem = UITabBarItem(title: "Matching", image: UIImage(systemName: "house"), tag: 0)
+        tabBarItem = UITabBarItem(title: "Matching", image: UIImage(named: "MatchingTabBarIcon"), tag: 0)
         self.view.backgroundColor = UIColor(named: "MatchingPageColor")
     }
     
