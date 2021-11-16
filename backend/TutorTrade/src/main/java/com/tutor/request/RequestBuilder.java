@@ -12,8 +12,8 @@ import java.util.UUID;
  * construction.
  */
 public class RequestBuilder {
-  public UUID requesterId;
-  public UUID helperId;
+  public String requesterId;
+  public String helperId;
   public Subject subject;
   public LocalDateTime sessionTime;
   public Platform platform;
@@ -55,12 +55,12 @@ public class RequestBuilder {
   }
 
   public RequestBuilder withRequesterId(String requesterId) {
-    this.requesterId = UUID.fromString(requesterId);
+    this.requesterId = requesterId;
     return this;
   }
 
   public RequestBuilder withHelperId(String helperId) {
-    this.helperId = UUID.fromString(helperId);
+    this.helperId = helperId;
     return this;
   }
 

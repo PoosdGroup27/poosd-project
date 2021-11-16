@@ -151,7 +151,7 @@ public class RequestsHandler implements RequestStreamHandler {
     String helperIdString = (String) body.get("helperId");
     if (helperIdString != null) {
       try {
-        requestToUpdate.setHelperId(UUID.fromString(helperIdString));
+        requestToUpdate.setHelperId(helperIdString);
       } catch (Exception ex) {
         return ApiUtils.returnErrorResponse(ex);
       }
@@ -245,7 +245,7 @@ public class RequestsHandler implements RequestStreamHandler {
 
     UserUtils.modifyUsersSessions(
         ApiUtils.getApiStageUriFromStageEnvVariable(STAGE),
-        requestToBeDeleted.getRequesterId().toString(),
+        requestToBeDeleted.getRequesterId(),
         requestToBeDeleted.getRequestId(),
         UserUtils.ModifyUserSessions.DELETE);
 

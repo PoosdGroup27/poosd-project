@@ -11,7 +11,7 @@ import java.util.*;
 public class RequestKnn {
   private final List<RequestKnnData> normalizedData;
   private final Request newRequest;
-  private Map<UUID, Double> distances = new HashMap<>();
+  private final Map<String, Double> distances = new HashMap<>();
 
   public RequestKnn(List<RequestKnnData> data, Request newRequest) {
     this.normalizedData = data;
@@ -25,17 +25,17 @@ public class RequestKnn {
    * @return A list of the k tutors who completed requests most similar to the request we're
    *     matching
    */
-  public ArrayList<UUID> getNearestNeighbors(int k) {
+  public ArrayList<String> getNearestNeighbors(int k) {
     RequestKnnData newRequest = new RequestKnnData(this.newRequest);
     for (RequestKnnData dataPoint : this.normalizedData) {
-      UUID helperId = dataPoint.getHelperId();
+      String helperId = dataPoint.getHelperId();
       distances.put(helperId, getScaledEuclideanDistance(dataPoint, newRequest));
     }
 
-    List<Map.Entry<UUID, Double>> distancesToNewRequest = new LinkedList<>(distances.entrySet());
+    List<Map.Entry<String, Double>> distancesToNewRequest = new LinkedList<>(distances.entrySet());
     distancesToNewRequest.sort(Map.Entry.comparingByValue());
 
-    ArrayList<UUID> results = new ArrayList<>();
+    ArrayList<String> results = new ArrayList<>();
     for (int i = 0; i < k && i < normalizedData.size(); i++) {
       results.add(distancesToNewRequest.get(i).getKey());
     }
