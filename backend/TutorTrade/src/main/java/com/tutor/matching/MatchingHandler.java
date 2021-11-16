@@ -39,7 +39,7 @@ public class MatchingHandler implements RequestHandler<DynamodbEvent, ApiRespons
   private static final AmazonDynamoDB DYNAMO_DB =
       AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
   private static final DynamoDBMapper DYNAMO_DB_MAPPER = new DynamoDBMapper(DYNAMO_DB);
-  private static AmazonS3 s3Client = AmazonS3ClientBuilder.defaultClient();
+  private static final AmazonS3 s3Client = AmazonS3ClientBuilder.defaultClient();
   private static final String KNN_MODEL = MatchingConstants.KNN_MODEL;
 
   @Override
@@ -62,9 +62,6 @@ public class MatchingHandler implements RequestHandler<DynamodbEvent, ApiRespons
       }
     }
 
-    Map<String, Map<UUID, List<UUID>>> actions = new HashMap<>();
-    actions.put("matched", new HashMap<>());
-    actions.put("updated", new HashMap<>());
 
     // sanity check to make sure we're not stuck in a recursive record processing loop, since
     // we modify the same dynamodb table here as is processed by this lambda.
@@ -85,14 +82,11 @@ public class MatchingHandler implements RequestHandler<DynamodbEvent, ApiRespons
       }
 
       if (newRequestRecord.get("status").getS().equals("PENDING")) {
-        actions.get("matched").put(newRequest.getRequestId(), getMatches(data, newRequest));
+        getMatches(data, newRequest);
         System.out.println("Matching completed.");
       } else if (!oldRequestRecord.isEmpty()
           && (!oldRequestRecord.get("status").getS().equals("COMPLETED")
               && newRequestRecord.get("status").getS().equals("COMPLETED"))) {
-        actions
-            .get("updated")
-            .put(newRequest.getRequestId(), updateRequestDataStore(data, newRequest));
         System.out.println("Update completed.");
       } else {
         System.out.println("Returning without action.");
@@ -105,9 +99,9 @@ public class MatchingHandler implements RequestHandler<DynamodbEvent, ApiRespons
       }
     }
 
-    return ApiResponse.<Map<String, Map<UUID, List<UUID>>>>builder()
+    return ApiResponse.<String>builder()
         .statusCode(HttpURLConnection.HTTP_OK)
-        .body(actions)
+        .body("Matching successful")
         .build();
   }
 
@@ -119,14 +113,14 @@ public class MatchingHandler implements RequestHandler<DynamodbEvent, ApiRespons
    * @param data All our existing request data. In the future we may need to check that this is
    *     small enough to bring into memory.
    * @param request The request we're getting matches for.
-   * @return [matchIds]
+   * @return [requestIds] that match given request
    */
-  private List<UUID> getMatches(List<RequestKnnData> data, Request request) {
+  private List<String> getMatches(List<RequestKnnData> data, Request request) {
     int k = MatchingConstants.NUM_MATCHES;
 
     // calculate k nearest neighbors to new request
     RequestKnn knn = new RequestKnn(data, request);
-    List<UUID> result = knn.getNearestNeighbors(k);
+    List<String> result = knn.getNearestNeighbors(k);
 
     // update request with matches and matched status
     request.setOrderedMatches(result);
@@ -148,7 +142,7 @@ public class MatchingHandler implements RequestHandler<DynamodbEvent, ApiRespons
    * @param data All our existing request data. In the future we may need to check that this is
    *     small enough to bring into memory.
    * @param request The request we're adding to the data store.
-   * @return [requesterId]
+   * @return [requestId]
    */
   private List<UUID> updateRequestDataStore(List<RequestKnnData> data, Request request) {
     data.add(new RequestKnnData(request));
@@ -160,7 +154,7 @@ public class MatchingHandler implements RequestHandler<DynamodbEvent, ApiRespons
       return null;
     }
     List<UUID> result = new ArrayList<>();
-    result.add(request.getRequesterId());
+    result.add(request.getRequestId());
     return result;
   }
 }

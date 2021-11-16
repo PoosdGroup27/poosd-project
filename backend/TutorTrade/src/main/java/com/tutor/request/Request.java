@@ -21,8 +21,8 @@ import java.util.UUID;
  */
 @DynamoDBTable(tableName = "requestTable-prod")
 public class Request {
-  private UUID requesterId;
-  private UUID helperId;
+  private String requesterId;
+  private String helperId;
   private UUID requestId;
   private Subject subject;
   private LocalDateTime dateRequested;
@@ -32,7 +32,7 @@ public class Request {
   private Urgency urgency;
   private Status status;
   private String description;
-  private List<UUID> orderedMatches;
+  private List<String> orderedMatches;
 
   /**
    * Constructs a Request object from a well-formed RequestBuilder.
@@ -67,20 +67,20 @@ public class Request {
   public Request() {}
 
   @DynamoDBAttribute(attributeName = "requesterId")
-  public UUID getRequesterId() {
+  public String getRequesterId() {
     return requesterId;
   }
 
-  public void setRequesterId(UUID requesterId) {
+  public void setRequesterId(String requesterId) {
     this.requesterId = requesterId;
   }
 
   @DynamoDBAttribute(attributeName = "helperId")
-  public UUID getHelperId() {
+  public String getHelperId() {
     return helperId;
   }
 
-  public void setHelperId(UUID helperId) {
+  public void setHelperId(String helperId) {
     this.helperId = helperId;
   }
 
@@ -181,11 +181,11 @@ public class Request {
   }
 
   @DynamoDBAttribute(attributeName = "orderedMatches")
-  public List<UUID> getOrderedMatches() {
+  public List<String> getOrderedMatches() {
     return orderedMatches;
   }
 
-  public void setOrderedMatches(List<UUID> orderedMatches) {
+  public void setOrderedMatches(List<String> orderedMatches) {
     this.orderedMatches = orderedMatches;
   }
 
