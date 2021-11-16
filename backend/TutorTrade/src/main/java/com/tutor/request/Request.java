@@ -8,10 +8,7 @@ import com.tutor.subject.Subject;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Request object corresponds to schema of Request table. All data must be first marshaled to
@@ -32,7 +29,7 @@ public class Request {
   private Urgency urgency;
   private Status status;
   private String description;
-  private List<String> orderedMatches;
+  private Map<String, MatchStatus> orderedMatches;
 
   /**
    * Constructs a Request object from a well-formed RequestBuilder.
@@ -51,7 +48,7 @@ public class Request {
     this.urgency = builder.urgency;
     this.status = builder.status;
     this.description = builder.description;
-    this.orderedMatches = new ArrayList<>();
+    this.orderedMatches = new HashMap<>();
   }
 
   /**
@@ -181,11 +178,11 @@ public class Request {
   }
 
   @DynamoDBAttribute(attributeName = "orderedMatches")
-  public List<String> getOrderedMatches() {
+  public Map<String, MatchStatus> getOrderedMatches() {
     return orderedMatches;
   }
 
-  public void setOrderedMatches(List<String> orderedMatches) {
+  public void setOrderedMatches(Map<String, MatchStatus> orderedMatches) {
     this.orderedMatches = orderedMatches;
   }
 
