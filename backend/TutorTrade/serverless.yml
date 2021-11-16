@@ -115,6 +115,7 @@ functions:
             template:
               application/json: ${file(./mapping_template.yml):mapping_template}\
 
+
 resources:
   Resources:
     usersTable:

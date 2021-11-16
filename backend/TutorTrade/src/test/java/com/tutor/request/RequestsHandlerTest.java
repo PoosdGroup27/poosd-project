@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.utils.ApiUtils;
 import com.tutor.utils.JsonUtils;
 import com.tutor.utils.RequestUtils;
-import com.tutor.utils.UserUtils;
 import org.junit.jupiter.api.*;
 
 import java.io.IOException;
