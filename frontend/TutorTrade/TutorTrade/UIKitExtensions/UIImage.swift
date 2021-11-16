@@ -17,4 +17,10 @@ extension UIImage {
             context.fillPath()
         }
     }
+    
+    func resizedTo(_ newSize: CGSize) -> UIImage {
+        UIGraphicsImageRenderer(size: newSize).image { _ in
+            self.draw(in: CGRect(origin: .zero, size: newSize))
+        }
+    }
 }

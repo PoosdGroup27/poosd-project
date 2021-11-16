@@ -12,10 +12,10 @@ extension UIView {
 }
 
 extension UIButton {
-    static var filterButton: UIButton {
+    static var undoButton: UIButton {
         get {
             let button = UIButton()
-            button.setImage(UIImage(named: "FilterImage")!, for: .normal)
+            button.setImage(UIImage(named: "UndoIcon")!, for: .normal)
             button.translatesAutoresizingMaskIntoConstraints = false
             return button
         }

@@ -65,6 +65,12 @@
 		5EF198552740AA6B001A354C /* TutteeRequestCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF198532740AA6B001A354C /* TutteeRequestCard.swift */; };
 		5EF198562740AA6B001A354C /* TutteeRequestCardConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF198542740AA6B001A354C /* TutteeRequestCardConfigurations.swift */; };
 		5EF198592740AAE7001A354C /* Shuffle in Frameworks */ = {isa = PBXBuildFile; productRef = 5EF198582740AAE7001A354C /* Shuffle */; };
+		5EF1985B2741BD0E001A354C /* TutoringRequestUrgency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF1985A2741BD0E001A354C /* TutoringRequestUrgency.swift */; };
+		5EF1985D2741BDF3001A354C /* TutoringMedium.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF1985C2741BDF3001A354C /* TutoringMedium.swift */; };
+		5EF1985F2741D5DA001A354C /* TuteeRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF1985E2741D5DA001A354C /* TuteeRequestManager.swift */; };
+		5EF198612741D5E3001A354C /* TuteeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF198602741D5E3001A354C /* TuteeManager.swift */; };
+		5EF198632741D5F0001A354C /* Tutee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF198622741D5F0001A354C /* Tutee.swift */; };
+		5EF198652741D5F7001A354C /* TuteeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF198642741D5F7001A354C /* TuteeRequest.swift */; };
 		5EF5C44C2720FB2100C74ADF /* Auth0 in Frameworks */ = {isa = PBXBuildFile; productRef = 5EF5C44B2720FB2100C74ADF /* Auth0 */; };
 		5EF5C44E2720FE5C00C74ADF /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5EF5C44D2720FE5C00C74ADF /* Auth0.plist */; };
 		5EF5C4522726F72300C74ADF /* PopoverEditingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF5C4512726F72300C74ADF /* PopoverEditingViewController.swift */; };
@@ -152,6 +158,12 @@
 		5ED5C72C2734A87A007628C5 /* ProfileCreationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreationRequest.swift; sourceTree = "<group>"; };
 		5EF198532740AA6B001A354C /* TutteeRequestCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutteeRequestCard.swift; sourceTree = "<group>"; };
 		5EF198542740AA6B001A354C /* TutteeRequestCardConfigurations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutteeRequestCardConfigurations.swift; sourceTree = "<group>"; };
+		5EF1985A2741BD0E001A354C /* TutoringRequestUrgency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TutoringRequestUrgency.swift; path = TutorTrade/Model/Matching/TutoringRequestUrgency.swift; sourceTree = SOURCE_ROOT; };
+		5EF1985C2741BDF3001A354C /* TutoringMedium.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TutoringMedium.swift; path = TutorTrade/Model/Matching/TutoringMedium.swift; sourceTree = SOURCE_ROOT; };
+		5EF1985E2741D5DA001A354C /* TuteeRequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TuteeRequestManager.swift; path = TutorTrade/Managers/Matching/TuteeRequestManager.swift; sourceTree = SOURCE_ROOT; };
+		5EF198602741D5E3001A354C /* TuteeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TuteeManager.swift; path = TutorTrade/Managers/Matching/TuteeManager.swift; sourceTree = SOURCE_ROOT; };
+		5EF198622741D5F0001A354C /* Tutee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Tutee.swift; path = TutorTrade/Model/Matching/Tutee.swift; sourceTree = SOURCE_ROOT; };
+		5EF198642741D5F7001A354C /* TuteeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TuteeRequest.swift; path = TutorTrade/Model/Matching/TuteeRequest.swift; sourceTree = SOURCE_ROOT; };
 		5EF5C44D2720FE5C00C74ADF /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
 		5EF5C4512726F72300C74ADF /* PopoverEditingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverEditingViewController.swift; sourceTree = "<group>"; };
 		5EF5C4532727517000C74ADF /* SchoolSelectionViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSelectionViewFactory.swift; sourceTree = "<group>"; };
@@ -220,8 +232,8 @@
 		4A386F39270F3E1F002BEC06 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				5EF198672743F500001A354C /* Matching */,
 				5E1BAE6B2728ECF300A70757 /* AuthFlow */,
-				5E1BAE6A2728EB6C00A70757 /* Matching */,
 				5E1BAE692728EB6600A70757 /* Matches */,
 				5E1BAE682728EB5F00A70757 /* Profile */,
 				5E1BAE672728EB5900A70757 /* Application */,
@@ -383,13 +395,6 @@
 			path = Request;
 			sourceTree = "<group>";
 		};
-		5E1BAE632728EB3900A70757 /* Matching */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Matching;
-			sourceTree = "<group>";
-		};
 		5E1BAE642728EB4000A70757 /* Matches */ = {
 			isa = PBXGroup;
 			children = (
@@ -436,13 +441,6 @@
 			path = Matches;
 			sourceTree = "<group>";
 		};
-		5E1BAE6A2728EB6C00A70757 /* Matching */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Matching;
-			sourceTree = "<group>";
-		};
 		5E1BAE6B2728ECF300A70757 /* AuthFlow */ = {
 			isa = PBXGroup;
 			children = (
@@ -473,9 +471,9 @@
 		5E7EA9AA2718E3C30066B189 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5EF198662743F394001A354C /* Matching */,
 				5E1BAE652728EB4700A70757 /* AuthFlow */,
 				5E1BAE642728EB4000A70757 /* Matches */,
-				5E1BAE632728EB3900A70757 /* Matching */,
 				5E1BAE622728EAF300A70757 /* Request */,
 				5E1BAE612728EAE500A70757 /* Application */,
 				5E7EA9AC2718E3C30066B189 /* Profile */,
@@ -550,6 +548,26 @@
 				5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		5EF198662743F394001A354C /* Matching */ = {
+			isa = PBXGroup;
+			children = (
+				5EF198642741D5F7001A354C /* TuteeRequest.swift */,
+				5EF198622741D5F0001A354C /* Tutee.swift */,
+				5EF1985C2741BDF3001A354C /* TutoringMedium.swift */,
+				5EF1985A2741BD0E001A354C /* TutoringRequestUrgency.swift */,
+			);
+			path = Matching;
+			sourceTree = "<group>";
+		};
+		5EF198672743F500001A354C /* Matching */ = {
+			isa = PBXGroup;
+			children = (
+				5EF198602741D5E3001A354C /* TuteeManager.swift */,
+				5EF1985E2741D5DA001A354C /* TuteeRequestManager.swift */,
+			);
+			path = Matching;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -700,10 +718,12 @@
 				4A386F3B270F3E2F002BEC06 /* RequestManager.swift in Sources */,
 				4A22D9FB270E15E700E8DA7E /* SubmitButtonView.swift in Sources */,
 				4AC9501526ED771F00FC4A97 /* TutorTradeTabBarController.swift in Sources */,
+				5EF198612741D5E3001A354C /* TuteeManager.swift in Sources */,
 				5E9853FB2737691E00E75E2A /* PhoneNumberConfigurations.swift in Sources */,
 				5E9853F5273768FA00E75E2A /* PhoneNumberController.swift in Sources */,
 				4ABAC5D3270A0D2E00CBB85B /* UrgencyView.swift in Sources */,
 				5E7EA9B32718E49A0066B189 /* Properties.swift in Sources */,
+				5EF198632741D5F0001A354C /* Tutee.swift in Sources */,
 				4A29D5982702601D00D25088 /* MatchingController.swift in Sources */,
 				5E5DB420272B0FCC008B9A0D /* WelcomePageViewController.swift in Sources */,
 				5E9853F2273765E200E75E2A /* AuthCredentials.swift in Sources */,
@@ -723,6 +743,7 @@
 				5E5DB4172729F7B9008B9A0D /* WelcomePageConfigurations.swift in Sources */,
 				5E7EA9DE2718E6800066B189 /* BorderedDisplayBox.swift in Sources */,
 				5E7EA9EB271A52B40066B189 /* APIResponse.swift in Sources */,
+				5EF1985D2741BDF3001A354C /* TutoringMedium.swift in Sources */,
 				5ED5C72B2731A1A0007628C5 /* Notification.swift in Sources */,
 				5E7EA9DD2718E6800066B189 /* NameAndRatingLabel.swift in Sources */,
 				5ED5C727272C9746007628C5 /* EditingPopoverConfigurations.swift in Sources */,
@@ -731,6 +752,7 @@
 				5E7EA9E7271900AE0066B189 /* DisplaySettingsManager.swift in Sources */,
 				5EF198552740AA6B001A354C /* TutteeRequestCard.swift in Sources */,
 				5E7EA9DF2718E6800066B189 /* CircularBorderedImageView.swift in Sources */,
+				5EF1985B2741BD0E001A354C /* TutoringRequestUrgency.swift in Sources */,
 				5E7EA9DC2718E6800066B189 /* TutoringSubjectsScrollView.swift in Sources */,
 				5E1BAE5B2728E72800A70757 /* ProfileController.swift in Sources */,
 				4A29D59A2702602700D25088 /* MatchesController.swift in Sources */,
@@ -739,8 +761,10 @@
 				4A22D9FF270E231B00E8DA7E /* RequestModel.swift in Sources */,
 				4A2DFD3C27078BA600332EE2 /* PreferredMediumView.swift in Sources */,
 				5E1BAE722728EDF700A70757 /* ProfilePageConfigurations.swift in Sources */,
+				5EF198652741D5F7001A354C /* TuteeRequest.swift in Sources */,
 				5E7EA9A52718E3250066B189 /* TutorProfileManager.swift in Sources */,
 				5E7EA9E32718E6910066B189 /* CoreGraphics.swift in Sources */,
+				5EF1985F2741D5DA001A354C /* TuteeRequestManager.swift in Sources */,
 				5E9853FC2737691E00E75E2A /* VerificationConfigurations.swift in Sources */,
 				5ED5C725272C5C75007628C5 /* UIImage.swift in Sources */,
 				4A22D9F9270E138200E8DA7E /* DescriptionView.swift in Sources */,
