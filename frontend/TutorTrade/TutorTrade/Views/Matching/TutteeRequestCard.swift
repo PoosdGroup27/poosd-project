@@ -86,7 +86,7 @@ class TutteeRequestCard: UIScrollView {
     private var descriptionDisplayBoxLabel: UILabel = .configureDescriptionLabel(font: UIFont(name: "Roboto-Bold", size: 12)!)
   
     private var schoolDisplayBoxView: BorderedDisplayBoxView  = .requestCardBoxView(withIcon: UIImage(named: "SchoolIcon")!)
-    private var ratingDisplayBoxView: BorderedDisplayBoxView  = .requestCardBoxView(withIcon: UIImage(named: "RatingIcon")!
+    private var ratingDisplayBoxView: BorderedDisplayBoxView  = .requestCardBoxView(withIcon: UIImage(named: "RatingIcon")!)
     private var subjectDisplayBoxView: BorderedDisplayBoxView  = .subjectCardBoxView(withIcon: UIImage(named: "HandRaisedIcon")!)
     private var urgencyDisplayBoxView: BorderedDisplayBoxView = .requestCardBoxView(withIcon: UIImage(named: "TimeIcon")!)
     private var descriptionDisplayBoxView: BorderedDisplayBoxView = .descriptionCardBoxView()
@@ -112,8 +112,6 @@ class TutteeRequestCard: UIScrollView {
         self.urgency = urgency
         self.helpDescription = helpDescription
         self.pointsBudget = pointsBudget
-
-        super.init(frame: .zero)
         
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = .white
@@ -131,7 +129,7 @@ class TutteeRequestCard: UIScrollView {
 
         addSubview(nameLabel) {
             NSLayoutConstraint.activate([
-                $0.heightAnchor.constraint(equalToConstant: 340)
+                $0.heightAnchor.constraint(equalToConstant: 340),
                 $0.topAnchor.constraint(equalToSystemSpacingBelow: self.profilePictureView.bottomAnchor, multiplier: 3),
                 $0.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 19)
             ])
