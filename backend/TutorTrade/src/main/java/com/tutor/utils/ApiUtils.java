@@ -5,7 +5,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
@@ -39,7 +38,7 @@ public class ApiUtils {
     }
   }
 
-  /** Given lambda's STAGE variable, returns the associated URI */
+  /** Given lambda's STAGE variable, returns the associated URI. */
   public static String getApiStageUriFromStageEnvVariable(String stage) {
     String s = stage.replace('-', '_').toUpperCase(Locale.ENGLISH);
     return ApiStages.valueOf(s).url;
@@ -116,11 +115,8 @@ public class ApiUtils {
    *     once created in GitHub wiki.
    * @return Stringified response from API or "Encountered error. See stack trace." upon error.
    *     TODO: improve error response mechanism.
-   * @throws UnsupportedEncodingException if the body string cannot be properly encoded. This should
-   *     not occur if the string is well-formed ascii json.
    */
-  public static String post(String apiUri, String pathToResource, String body)
-      throws UnsupportedEncodingException {
+  public static String post(String apiUri, String pathToResource, String body) {
     CloseableHttpClient client = HttpClients.createDefault();
     String fullPath = apiUri + pathToResource;
     HttpPost httpPost = new HttpPost(fullPath);
@@ -150,11 +146,8 @@ public class ApiUtils {
    *     once created in GitHub wiki.
    * @return Stringified response from API or "Encountered error. See stack trace." upon error.
    *     TODO: improve error response mechanism.
-   * @throws UnsupportedEncodingException if the body string cannot be properly encoded. This should
-   *     not occur if the string is well-formed ascii json.
    */
-  public static String patch(String apiUri, String pathToResource, String body)
-      throws UnsupportedEncodingException {
+  public static String patch(String apiUri, String pathToResource, String body) {
     CloseableHttpClient client = HttpClients.createDefault();
     String fullPath = apiUri + pathToResource;
     HttpPatch httpPatch = new HttpPatch(fullPath);
@@ -196,6 +189,12 @@ public class ApiUtils {
     return null;
   }
 
+  /**
+   * Helper method which formats API response given some exception.
+   *
+   * @param ex Any exception
+   * @return ApiResponse
+   */
   public static ApiResponse<String> returnErrorResponse(Exception ex) {
     return ApiResponse.<String>builder()
         .statusCode(HttpURLConnection.HTTP_OK)

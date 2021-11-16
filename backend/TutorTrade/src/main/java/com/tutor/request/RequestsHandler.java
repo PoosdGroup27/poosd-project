@@ -1,8 +1,5 @@
 package com.tutor.request;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.tutor.user.User;
-
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
@@ -11,22 +8,23 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.subject.Subject;
+import com.tutor.user.User;
 import com.tutor.utils.ApiResponse;
 import com.tutor.utils.ApiUtils;
 import com.tutor.utils.RequestUtils;
 import com.tutor.utils.UserUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.util.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /** Handles any HTTP requests to the API's /request/ path. */
 public class RequestsHandler implements RequestStreamHandler {
@@ -99,11 +97,14 @@ public class RequestsHandler implements RequestStreamHandler {
         pathParameters = (HashMap<?, ?>) params.get("path");
         OBJECT_MAPPER.writeValue(
             outputStream, deleteRequest((String) pathParameters.get("requestId")));
+        return;
+      default:
+        OBJECT_MAPPER.writeValue(outputStream, "Unsupported method requested.");
     }
   }
 
   private ApiResponse<Request> createRequest(HashMap<?, ?> body)
-      throws RequestBuilderException, UnsupportedEncodingException, JsonProcessingException {
+      throws RequestBuilderException, JsonProcessingException {
     String requesterId = (String) body.get("requesterId");
     String subject = (String) body.get("subject");
     String costInPoints = (String) body.get("costInPoints");
@@ -233,7 +234,7 @@ public class RequestsHandler implements RequestStreamHandler {
   }
 
   private ApiResponse<?> deleteRequest(String requestId)
-      throws UnsupportedEncodingException, JsonProcessingException {
+      throws JsonProcessingException {
     Request requestToBeDeleted = RequestUtils.getRequestObjectById(requestId);
 
     if (requestToBeDeleted == null) {
@@ -256,7 +257,7 @@ public class RequestsHandler implements RequestStreamHandler {
         .build();
   }
 
-  /** Returns a list of tuples of a user's session IDs along with their associated subjects */
+  /** Returns a list of tuples of a user's session IDs along with their associated subjects. */
   private ApiResponse<?> getRequestsByUserId(String userId) {
     List<List<String>> sessionSubjectsList = new ArrayList<>();
 
