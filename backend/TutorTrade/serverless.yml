@@ -86,6 +86,23 @@ functions:
 #          arn:
 #            Fn::GetAtt: [ requestsTable, StreamArn ]
 #          maximumRetryAttempts: 0
+
+  matches:
+    handler: com.tutor.matches.MatchesHandler
+    environment:
+      STAGE: ${self:provider.stage}
+    events:
+      - http:
+          path: /matches/updateMatch/{requestId}
+          method: put
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                requestId: true
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
+
   subjects:
     handler: com.tutor.subject.SubjectsHandler
     environment:

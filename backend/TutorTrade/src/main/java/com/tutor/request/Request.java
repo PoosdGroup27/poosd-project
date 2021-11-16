@@ -8,10 +8,7 @@ import com.tutor.subject.Subject;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Request object corresponds to schema of Request table. All data must be first marshaled to
@@ -32,7 +29,7 @@ public class Request {
   private Urgency urgency;
   private Status status;
   private String description;
-  private List<String> orderedMatches;
+  private Map<String, MatchStatus> orderedMatches;
 
   /**
    * Constructs a Request object from a well-formed RequestBuilder.
@@ -51,7 +48,7 @@ public class Request {
     this.urgency = builder.urgency;
     this.status = builder.status;
     this.description = builder.description;
-    this.orderedMatches = new ArrayList<>();
+    this.orderedMatches = new HashMap<>();
   }
 
   /**
@@ -180,12 +177,13 @@ public class Request {
     this.description = description;
   }
 
+  @DynamoDBTypeConverted(converter = MatchStatusConverter.class)
   @DynamoDBAttribute(attributeName = "orderedMatches")
-  public List<String> getOrderedMatches() {
+  public Map<String, MatchStatus> getOrderedMatches() {
     return orderedMatches;
   }
 
-  public void setOrderedMatches(List<String> orderedMatches) {
+  public void setOrderedMatches(Map<String, MatchStatus> orderedMatches) {
     this.orderedMatches = orderedMatches;
   }
 
@@ -241,8 +239,6 @@ public class Request {
   }
 
   public static class SubjectConverter implements DynamoDBTypeConverter<String, Subject> {
-
-
     @Override
     public String convert(Subject subject) {
       return subject.getSubjectName();
@@ -251,6 +247,23 @@ public class Request {
     @Override
     public Subject unconvert(String stringValue) {
       return Subject.fromSubjectName(stringValue);
+    }
+  }
+
+  public static class MatchStatusConverter
+      implements DynamoDBTypeConverter<Map<String, String>, Map<String, MatchStatus>> {
+    @Override
+    public Map<String, String> convert(Map<String, MatchStatus> matches) {
+      Map<String, String> newMap = new HashMap<>();
+      matches.keySet().forEach(x -> newMap.put(x, matches.get(x).toString()));
+      return newMap;
+    }
+
+    @Override
+    public Map<String, MatchStatus> unconvert(Map<String, String> stringValues) {
+      Map<String, MatchStatus> newMap = new HashMap<>();
+      stringValues.keySet().forEach(x -> newMap.put(x, MatchStatus.valueOf(stringValues.get(x))));
+      return newMap;
     }
   }
 }
