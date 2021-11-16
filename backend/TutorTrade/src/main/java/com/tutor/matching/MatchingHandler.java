@@ -16,6 +16,7 @@ import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
+import com.tutor.request.MatchStatus;
 import com.tutor.request.Request;
 import com.tutor.request.Status;
 import com.tutor.utils.ApiResponse;
@@ -62,7 +63,6 @@ public class MatchingHandler implements RequestHandler<DynamodbEvent, ApiRespons
       }
     }
 
-
     // sanity check to make sure we're not stuck in a recursive record processing loop, since
     // we modify the same dynamodb table here as is processed by this lambda.
     // We will never create more than 15 matches during testing
@@ -94,7 +94,7 @@ public class MatchingHandler implements RequestHandler<DynamodbEvent, ApiRespons
             .statusCode(HttpURLConnection.HTTP_NOT_FOUND)
             .body(
                 String.format(
-                    "Request %s is neither pending or completed. No action needed.", requestId))
+                    "Request %s is neither pending nor completed. No action needed.", requestId))
             .build();
       }
     }
@@ -113,14 +113,16 @@ public class MatchingHandler implements RequestHandler<DynamodbEvent, ApiRespons
    * @param data All our existing request data. In the future we may need to check that this is
    *     small enough to bring into memory.
    * @param request The request we're getting matches for.
-   * @return [requestIds] that match given request
    */
-  private List<String> getMatches(List<RequestKnnData> data, Request request) {
+  private void getMatches(List<RequestKnnData> data, Request request) {
     int k = MatchingConstants.NUM_MATCHES;
 
     // calculate k nearest neighbors to new request
     RequestKnn knn = new RequestKnn(data, request);
-    List<String> result = knn.getNearestNeighbors(k);
+    List<String> resultList = knn.getNearestNeighbors(k);
+
+    HashMap<String, MatchStatus> result = new HashMap<>();
+    resultList.forEach(x -> result.put(x, MatchStatus.UNANSWERED));
 
     // update request with matches and matched status
     request.setOrderedMatches(result);
@@ -130,8 +132,6 @@ public class MatchingHandler implements RequestHandler<DynamodbEvent, ApiRespons
         DynamoDBMapperConfig.builder()
             .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
             .build());
-
-    return result;
   }
 
   /**
