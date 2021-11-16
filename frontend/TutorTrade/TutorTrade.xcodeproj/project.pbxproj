@@ -158,12 +158,12 @@
 		5ED5C72C2734A87A007628C5 /* ProfileCreationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreationRequest.swift; sourceTree = "<group>"; };
 		5EF198532740AA6B001A354C /* TutteeRequestCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutteeRequestCard.swift; sourceTree = "<group>"; };
 		5EF198542740AA6B001A354C /* TutteeRequestCardConfigurations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutteeRequestCardConfigurations.swift; sourceTree = "<group>"; };
-		5EF1985A2741BD0E001A354C /* TutoringRequestUrgency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TutoringRequestUrgency.swift; path = TutorTrade/Views/Matching/TutoringRequestUrgency.swift; sourceTree = SOURCE_ROOT; };
-		5EF1985C2741BDF3001A354C /* TutoringMedium.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TutoringMedium.swift; path = TutorTrade/Views/Matching/TutoringMedium.swift; sourceTree = SOURCE_ROOT; };
-		5EF1985E2741D5DA001A354C /* TuteeRequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TuteeRequestManager.swift; path = TutorTrade/Views/Matching/TuteeRequestManager.swift; sourceTree = SOURCE_ROOT; };
-		5EF198602741D5E3001A354C /* TuteeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TuteeManager.swift; path = TutorTrade/Views/Matching/TuteeManager.swift; sourceTree = SOURCE_ROOT; };
-		5EF198622741D5F0001A354C /* Tutee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Tutee.swift; path = TutorTrade/Views/Matching/Tutee.swift; sourceTree = SOURCE_ROOT; };
-		5EF198642741D5F7001A354C /* TuteeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TuteeRequest.swift; path = TutorTrade/Views/Matching/TuteeRequest.swift; sourceTree = SOURCE_ROOT; };
+		5EF1985A2741BD0E001A354C /* TutoringRequestUrgency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TutoringRequestUrgency.swift; path = TutorTrade/Model/Matching/TutoringRequestUrgency.swift; sourceTree = SOURCE_ROOT; };
+		5EF1985C2741BDF3001A354C /* TutoringMedium.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TutoringMedium.swift; path = TutorTrade/Model/Matching/TutoringMedium.swift; sourceTree = SOURCE_ROOT; };
+		5EF1985E2741D5DA001A354C /* TuteeRequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TuteeRequestManager.swift; path = TutorTrade/Managers/Matching/TuteeRequestManager.swift; sourceTree = SOURCE_ROOT; };
+		5EF198602741D5E3001A354C /* TuteeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TuteeManager.swift; path = TutorTrade/Managers/Matching/TuteeManager.swift; sourceTree = SOURCE_ROOT; };
+		5EF198622741D5F0001A354C /* Tutee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Tutee.swift; path = TutorTrade/Model/Matching/Tutee.swift; sourceTree = SOURCE_ROOT; };
+		5EF198642741D5F7001A354C /* TuteeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TuteeRequest.swift; path = TutorTrade/Model/Matching/TuteeRequest.swift; sourceTree = SOURCE_ROOT; };
 		5EF5C44D2720FE5C00C74ADF /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
 		5EF5C4512726F72300C74ADF /* PopoverEditingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverEditingViewController.swift; sourceTree = "<group>"; };
 		5EF5C4532727517000C74ADF /* SchoolSelectionViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSelectionViewFactory.swift; sourceTree = "<group>"; };
@@ -232,8 +232,8 @@
 		4A386F39270F3E1F002BEC06 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				5EF198672743F500001A354C /* Matching */,
 				5E1BAE6B2728ECF300A70757 /* AuthFlow */,
-				5E1BAE6A2728EB6C00A70757 /* Matching */,
 				5E1BAE692728EB6600A70757 /* Matches */,
 				5E1BAE682728EB5F00A70757 /* Profile */,
 				5E1BAE672728EB5900A70757 /* Application */,
@@ -395,17 +395,6 @@
 			path = Request;
 			sourceTree = "<group>";
 		};
-		5E1BAE632728EB3900A70757 /* Matching */ = {
-			isa = PBXGroup;
-			children = (
-				5EF1985A2741BD0E001A354C /* TutoringRequestUrgency.swift */,
-				5EF1985C2741BDF3001A354C /* TutoringMedium.swift */,
-				5EF198622741D5F0001A354C /* Tutee.swift */,
-				5EF198642741D5F7001A354C /* TuteeRequest.swift */,
-			);
-			path = Matching;
-			sourceTree = "<group>";
-		};
 		5E1BAE642728EB4000A70757 /* Matches */ = {
 			isa = PBXGroup;
 			children = (
@@ -452,15 +441,6 @@
 			path = Matches;
 			sourceTree = "<group>";
 		};
-		5E1BAE6A2728EB6C00A70757 /* Matching */ = {
-			isa = PBXGroup;
-			children = (
-				5EF1985E2741D5DA001A354C /* TuteeRequestManager.swift */,
-				5EF198602741D5E3001A354C /* TuteeManager.swift */,
-			);
-			path = Matching;
-			sourceTree = "<group>";
-		};
 		5E1BAE6B2728ECF300A70757 /* AuthFlow */ = {
 			isa = PBXGroup;
 			children = (
@@ -491,9 +471,9 @@
 		5E7EA9AA2718E3C30066B189 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5EF198662743F394001A354C /* Matching */,
 				5E1BAE652728EB4700A70757 /* AuthFlow */,
 				5E1BAE642728EB4000A70757 /* Matches */,
-				5E1BAE632728EB3900A70757 /* Matching */,
 				5E1BAE622728EAF300A70757 /* Request */,
 				5E1BAE612728EAE500A70757 /* Application */,
 				5E7EA9AC2718E3C30066B189 /* Profile */,
@@ -568,6 +548,26 @@
 				5ECB1D8527025276005BDD89 /* Dosis-Bold.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		5EF198662743F394001A354C /* Matching */ = {
+			isa = PBXGroup;
+			children = (
+				5EF198642741D5F7001A354C /* TuteeRequest.swift */,
+				5EF198622741D5F0001A354C /* Tutee.swift */,
+				5EF1985C2741BDF3001A354C /* TutoringMedium.swift */,
+				5EF1985A2741BD0E001A354C /* TutoringRequestUrgency.swift */,
+			);
+			path = Matching;
+			sourceTree = "<group>";
+		};
+		5EF198672743F500001A354C /* Matching */ = {
+			isa = PBXGroup;
+			children = (
+				5EF198602741D5E3001A354C /* TuteeManager.swift */,
+				5EF1985E2741D5DA001A354C /* TuteeRequestManager.swift */,
+			);
+			path = Matching;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
