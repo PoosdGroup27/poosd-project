@@ -4,21 +4,26 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.request.MatchStatus;
+import com.tutor.request.Request;
 import com.tutor.utils.ApiResponse;
 import com.tutor.utils.ApiUtils;
+import com.tutor.utils.RequestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -67,18 +72,33 @@ public class MatchesHandler implements RequestStreamHandler {
   }
 
   private ApiResponse<?> updateRequestsMatch(String requestIdString, String tutorId, String statusUpdate) {
-    UUID requestId;
-    try {
-      requestId = UUID.fromString(requestIdString);
-    } catch (IllegalArgumentException ex) {
-      return ApiUtils.returnErrorResponse(ex);
-    }
-
     MatchStatus matchStatus;
     try {
       matchStatus = MatchStatus.valueOf(statusUpdate);
     } catch (IllegalArgumentException ex) {
       return ApiUtils.returnErrorResponse(ex);
     }
+
+    Request requestToUpdate = RequestUtils.getRequestObjectById(requestIdString);
+    if (requestToUpdate == null) {
+      return ApiUtils.returnErrorResponse(new Exception(String.format("Request %s does not exist", requestIdString)));
+    }
+
+    if (!requestToUpdate.getOrderedMatches().containsKey(tutorId)) {
+      return ApiUtils.returnErrorResponse(new Exception(String.format("Tutor %s does not exist within Request %s does not exist", tutorId, requestIdString)));
+    }
+
+    requestToUpdate.getOrderedMatches().put(tutorId, matchStatus);
+
+    DYNAMO_DB_MAPPER.save(
+            requestToUpdate,
+            DynamoDBMapperConfig.builder()
+                    .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
+                    .build());
+
+    return ApiResponse.<Request>builder()
+            .statusCode(HttpURLConnection.HTTP_OK)
+            .body(requestToUpdate)
+            .build();
   }
 }
