@@ -92,7 +92,7 @@ public class MatchesHandler implements RequestStreamHandler {
       return ApiUtils.returnErrorResponse(
           new Exception(
               String.format(
-                  "Tutor %s does not exist within Request %s does not exist",
+                  "Tutor %s does not exist within Request %s",
                   tutorId, requestIdString)));
     }
 
