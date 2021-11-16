@@ -114,7 +114,33 @@ functions:
           request:
             template:
               application/json: ${file(./mapping_template.yml):mapping_template}\
-
+  chat:
+    handler: com.tutor.chat.ChatHandler
+    environment:
+      STAGE: ${self:provider.stage}
+    events:
+      - http:
+          path: /chat/appendMessage/{chatId}
+          method: put
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                chatId: true
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
+      - http:
+          path: /chat/
+          method: post
+          integration: lambda
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
+      - http:
+          path: /chat/getPresetMessages
+          method: get
+          integration: lambda
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
 
 resources:
   Resources:
