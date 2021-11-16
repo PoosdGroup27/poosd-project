@@ -3,6 +3,12 @@
   "school": "School of Hard Knocks",
   "phoneNumber": "123-867-5309",
   "major": "Singing",
-  "subjectsTeach": ["🧠 Psychology", "📚 Literature"],
-  "subjectsLearn": ["💪 Physiology", "👩‍🏫 Education"]
+  "subjectsTeach": [
+    "🧠 Psychology",
+    "📚 Literature"
+  ],
+  "subjectsLearn": [
+    "💪 Physiology",
+    "👩‍🏫 Education"
+  ]
 }

@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.tutor.subject.Subject;
 import com.tutor.user.User;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
@@ -25,8 +24,10 @@ public class UserUtils {
       AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
   private static final DynamoDBMapper MAPPER = new DynamoDBMapper(DYNAMO_DB);
   private static final String stage = "TEST";
-  // System.getenv("STAGE").replace('-', '_').toUpperCase(Locale.ENGLISH);
 
+  /**
+   * Utility enum for tracking what we want to do when calling modifyUsersSessions().
+   */
   public enum ModifyUserSessions {
     ADD,
     DELETE
@@ -55,7 +56,7 @@ public class UserUtils {
    * Method generates a user with random but valid values and posts it to the /user/create endpoint
    * of whichever stage is defined in environmental variables.
    */
-  public static String postRandomUser(boolean isTest) throws IOException {
+  public static String postRandomUser(boolean isTest) {
     Random rand = new Random();
 
     String name = String.format("RandomUser%s", rand.nextInt());
@@ -94,19 +95,16 @@ public class UserUtils {
 
     String finalStage = isTest ? "TEST" : stage;
 
-    String response =
-        ApiUtils.post(ApiUtils.ApiStages.valueOf(finalStage).toString(), "/user/create", json);
-
-    return response;
+    return ApiUtils.post(ApiUtils.ApiStages.valueOf(finalStage).toString(), "/user/create", json);
   }
 
   /**
    * Modifies a user's session via a patch, either removes or adds the given session depending on
-   * the flag
+   * the flag.
    */
   public static void modifyUsersSessions(
       String stageUri, String userId, UUID sessionId, ModifyUserSessions modifyFlag)
-      throws JsonProcessingException, UnsupportedEncodingException {
+      throws JsonProcessingException {
     User user = UserUtils.getUserObjectById(userId);
 
     if (user == null) {
@@ -126,6 +124,15 @@ public class UserUtils {
     ApiUtils.patch(stageUri, "/user/" + user.getUserId(), mapper.writeValueAsString(user));
   }
 
+  /**
+   * Takes response of api requests to user endpoint and converts it to user POJO. This is
+   * mainly to allow us to correctly parse the time -- it is fully expanded out by DynamoDB, and we
+   * want to turn it back to a LocalDateTime object.
+   *
+   * @param APIResponseJson The JSON string returned by requests to user API
+   * @return User object which is equivalent to JSON
+   * @throws IOException Throws exception if JSON parsing fails
+   */
   public static User getUserFromAPIResponse(String APIResponseJson) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     ObjectNode userTree = (ObjectNode) mapper.readTree(APIResponseJson).get("body");
@@ -144,7 +151,7 @@ public class UserUtils {
     return mapper.treeToValue(userTree, User.class);
   }
 
-  /** Converts a list of strings to a list of subjects */
+  /** Converts a list of strings to a list of subjects. */
   public static ArrayList<Subject> convertListOfStringsToListOfSubjects(
       ArrayList<String> subjectsListOfStrings) {
     if (subjectsListOfStrings == null) {

@@ -77,15 +77,15 @@ functions:
     reservedConcurrency: 1
     environment:
       STAGE: ${self:provider.stage}
-#    let's keep this disabled for now, so we don't trigger tons of
-#    invocations during testing. Can reactivate when we're nearing
-#    demo
-#    events:
-#      - stream:
-#          type: dynamodb
-#          arn:
-#            Fn::GetAtt: [ requestsTable, StreamArn ]
-#          maximumRetryAttempts: 0
+  #    let's keep this disabled for now, so we don't trigger tons of
+  #    invocations during testing. Can reactivate when we're nearing
+  #    demo
+  #    events:
+  #      - stream:
+  #          type: dynamodb
+  #          arn:
+  #            Fn::GetAtt: [ requestsTable, StreamArn ]
+  #          maximumRetryAttempts: 0
 
   matches:
     handler: com.tutor.matches.MatchesHandler
@@ -102,7 +102,6 @@ functions:
                 requestId: true
             template:
               application/json: ${file(./mapping_template.yml):mapping_template}\
-
   subjects:
     handler: com.tutor.subject.SubjectsHandler
     environment:

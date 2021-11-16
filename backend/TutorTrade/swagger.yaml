@@ -6,33 +6,33 @@ info:
 host: "1k0cm1e1n9.execute-api.us-east-1.amazonaws.com"
 basePath: "/prod/"
 tags:
-- name: "user"
-  description: "User operations"
-- name: "request"
-  description: "Request operations"
-- name: "subjects"
-  description: "Information relating to supported subjects"
+  - name: "user"
+    description: "User operations"
+  - name: "request"
+    description: "Request operations"
+  - name: "subjects"
+    description: "Information relating to supported subjects"
 schemes:
-- "http"
+  - "http"
 paths:
   /user/create:
     post:
       tags:
-      - "user"
+        - "user"
       summary: "Create a new user."
       description: ""
       operationId: "createUser"
       consumes:
-      - "application/json"
+        - "application/json"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "body"
-        description: "User parameters"
-        required: true
-        schema:
-          $ref: "#/definitions/UserPost"
+        - in: "body"
+          name: "body"
+          description: "User parameters"
+          required: true
+          schema:
+            $ref: "#/definitions/UserPost"
       responses:
         "400":
           description: "Invalid input"
@@ -41,18 +41,18 @@ paths:
   /user/{userId}:
     get:
       tags:
-      - "user"
+        - "user"
       summary: "Find user by id."
       description: "Return the user corresponding to given id."
       operationId: "getUserById"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "userId"
-        in: "path"
-        description: "UUID representing desired user"
-        required: true
-        type: "string"
+        - name: "userId"
+          in: "path"
+          description: "UUID representing desired user"
+          required: true
+          type: "string"
       responses:
         "200":
           description: "Success"
@@ -65,19 +65,19 @@ paths:
         "404":
           description: "User not found."
     patch:
-      tags: 
-      - "user"
+      tags:
+        - "user"
       summary: "Update an existing user."
       description: "Update user and return new object. Any fields not included in body will not be modified."
       operationId: "updateUser"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "userId"
-        in: "path"
-        description: "UUID representing desired requestId"
-        required: true
-        type: "string"
+        - name: "userId"
+          in: "path"
+          description: "UUID representing desired requestId"
+          required: true
+          type: "string"
       responses:
         "200":
           description: "Success"
@@ -90,19 +90,19 @@ paths:
         "404":
           description: "Request not found."
     delete:
-      tags: 
-      - "user"
+      tags:
+        - "user"
       summary: "Delete an existing user."
       description: "Set isActive field of user to false and return now object."
       operationId: "deleteUser"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "userId"
-        in: "path"
-        description: "UUID representing desired user"
-        required: true
-        type: "string"
+        - name: "userId"
+          in: "path"
+          description: "UUID representing desired user"
+          required: true
+          type: "string"
       responses:
         "200":
           description: "Success"
@@ -117,21 +117,21 @@ paths:
   /request/create:
     post:
       tags:
-      - "request"
+        - "request"
       summary: "Create a new request for tutoring services."
       description: ""
       operationId: "createRequest"
       consumes:
-      - "application/json"
+        - "application/json"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "body"
-        description: "Request parameters"
-        required: true
-        schema:
-          $ref: "#/definitions/Request"
+        - in: "body"
+          name: "body"
+          description: "Request parameters"
+          required: true
+          schema:
+            $ref: "#/definitions/Request"
       responses:
         "400":
           description: "Invalid input"
@@ -140,18 +140,18 @@ paths:
   /request/{requestId}:
     get:
       tags:
-      - "request"
+        - "request"
       summary: "Find request by id."
       description: "Return the request corresponding to given id."
       operationId: "getRequestById"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "requestId"
-        in: "path"
-        description: "UUID representing desired requestId"
-        required: true
-        type: "string"
+        - name: "requestId"
+          in: "path"
+          description: "UUID representing desired requestId"
+          required: true
+          type: "string"
       responses:
         "200":
           description: "Success"
@@ -164,19 +164,19 @@ paths:
         "404":
           description: "Request not found."
     patch:
-      tags: 
-      - "request"
+      tags:
+        - "request"
       summary: "Update an existing request."
       description: "Update request and return new object. Any fields not included in body will not be modified."
       operationId: "updateRequest"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "requestId"
-        in: "path"
-        description: "UUID representing desired requestId"
-        required: true
-        type: "string"
+        - name: "requestId"
+          in: "path"
+          description: "UUID representing desired requestId"
+          required: true
+          type: "string"
       responses:
         "200":
           description: "Success"
@@ -189,19 +189,19 @@ paths:
         "404":
           description: "Request not found."
     delete:
-      tags: 
-      - "request"
+      tags:
+        - "request"
       summary: "Delete an existing request."
       description: "Delete request and return now deleted object."
       operationId: "deleteRequest"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "requestId"
-        in: "path"
-        description: "UUID representing desired requestId"
-        required: true
-        type: "string"
+        - name: "requestId"
+          in: "path"
+          description: "UUID representing desired requestId"
+          required: true
+          type: "string"
       responses:
         "200":
           description: "Success"
@@ -216,11 +216,11 @@ paths:
   /subjects:
     get:
       tags:
-      - "subjects"
+        - "subjects"
       summary: "Return all supported tutoring subjects."
       operationId: "getSubjects"
       produces:
-      - "application/json"
+        - "application/json"
       responses:
         "200":
           description: "Success"
@@ -231,7 +231,7 @@ paths:
         "400":
           description: "Bad request"
 
-      
+
 definitions:
   User:
     type: "object"
@@ -251,7 +251,7 @@ definitions:
         format: "int64"
       sessionIds:
         type: "array"
-        items: 
+        items:
           $ref: "#/definitions/Request"
       name:
         type: "string"
@@ -265,11 +265,11 @@ definitions:
   Request:
     type: "object"
     required:
-    - "requesterId"
-    - "subject"
-    - "costInPoints"
-    - "urgency"
-    - "platform"
+      - "requesterId"
+      - "subject"
+      - "costInPoints"
+      - "urgency"
+      - "platform"
     properties:
       requesterId:
         type: "string"
@@ -288,61 +288,61 @@ definitions:
     type: "string"
     description: "Subject with which assistance is required."
     enum:
-    - "AGRICULTURE",
-    - "ASTRONOMY",
-    - "CHEMISTRY",
-    - "GEOGRAPHY",
-    - "BIOLOGY",
-    - "FORENSICS",
-    - "MATERIALS",
-    - "PHYSICS",
-    - "BIOMED",
-    - "ENVIRONMENTAL",
-    - "SPORTS",
-    - "MATHEMATICS",
-    - "ARCHITECTURE",
-    - "CONSTRUCTION",
-    - "ACCOUNTING",
-    - "BUSINESS",
-    - "FINANCE",
-    - "MARKETING",
-    - "HR",
-    - "CS",
-    - "IT",
-    - "ART",
-    - "MUSIC",
-    - "GRAPHICS",
-    - "THEATRE",
-    - "EDUCATION",
-    - "CIVILENG",
-    - "PSYCH",
-    - "NURSING",
-    - "PHYSIOLOGY",
-    - "PHILOSOPHY",
-    - "LANGUAGES",
-    - "ARCHAEOLOGY",
-    - "LIT",
-    - "HISTORY",
-    - "RELIGION",
-    - "LAW",
-    - "JOURNALISM",
-    - "POLITICS",
-    - "HOSPITALITY",
-    - "AVIATION",
-    - "UNSUPPORTED";
-    - "RETAIL",
+      - "AGRICULTURE",
+      - "ASTRONOMY",
+      - "CHEMISTRY",
+      - "GEOGRAPHY",
+      - "BIOLOGY",
+      - "FORENSICS",
+      - "MATERIALS",
+      - "PHYSICS",
+      - "BIOMED",
+      - "ENVIRONMENTAL",
+      - "SPORTS",
+      - "MATHEMATICS",
+      - "ARCHITECTURE",
+      - "CONSTRUCTION",
+      - "ACCOUNTING",
+      - "BUSINESS",
+      - "FINANCE",
+      - "MARKETING",
+      - "HR",
+      - "CS",
+      - "IT",
+      - "ART",
+      - "MUSIC",
+      - "GRAPHICS",
+      - "THEATRE",
+      - "EDUCATION",
+      - "CIVILENG",
+      - "PSYCH",
+      - "NURSING",
+      - "PHYSIOLOGY",
+      - "PHILOSOPHY",
+      - "LANGUAGES",
+      - "ARCHAEOLOGY",
+      - "LIT",
+      - "HISTORY",
+      - "RELIGION",
+      - "LAW",
+      - "JOURNALISM",
+      - "POLITICS",
+      - "HOSPITALITY",
+      - "AVIATION",
+      - "UNSUPPORTED";
+      - "RETAIL",
   Urgency:
     type: "string"
     enum:
-    - "IMMEDIATE"
-    - "THREE_DAYS"
-    - "WEEK"
-    - "LONG_TERM"
+      - "IMMEDIATE"
+      - "THREE_DAYS"
+      - "WEEK"
+      - "LONG_TERM"
   Platform:
     type: "string"
     enum:
-    - "ONLINE"
-    - "IN_PERSON"
+      - "ONLINE"
+      - "IN_PERSON"
 externalDocs:
   description: "Find out more"
   url: "https://github.com/PoosdGroup27/poosd-project#readme"

@@ -1,10 +1,7 @@
 package com.tutor.subject;
 
-
 import com.fasterxml.jackson.annotation.JsonValue;
-
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Enum of different subjects users can be tutored for. Format of underlying string is "{emoji}
@@ -65,21 +62,18 @@ public enum Subject {
     return this.subjectName;
   }
 
-  /**
-   * Unmodifiable inverse lookup map to find a Subject instance from a subject name
-   */
+  /** Unmodifiable inverse lookup map to find a Subject instance from a subject name. */
   public static final Map<String, Subject> subjectNameMap;
 
   // Initializes the subject name map at class loading time
   static {
     final Map<String, Subject> tempSubjectNameMap = new HashMap<>();
-    Arrays.stream(values())
-            .forEach( value -> tempSubjectNameMap.put(value.subjectName, value));
+    Arrays.stream(values()).forEach(value -> tempSubjectNameMap.put(value.subjectName, value));
     subjectNameMap = Collections.unmodifiableMap(tempSubjectNameMap);
   }
 
   /**
-   * Returns a list with all the subject names and emojis
+   * Returns a list with all the subject names and emojis.
    *
    * @return List of subjects
    */
@@ -88,10 +82,11 @@ public enum Subject {
   }
 
   /**
-   * Convert a subject name to a Subject instance
+   * Convert a subject name to a Subject instance.
+   *
    * @param subjectName The associated subject name of the Subject instance
-   * @return The corresponding Subject instance, or null if the subject name does
-   * not map to any Subject instance
+   * @return The corresponding Subject instance, or null if the subject name does not map to any
+   *     Subject instance
    */
   public static Subject fromSubjectName(String subjectName) {
     return subjectNameMap.get(subjectName);

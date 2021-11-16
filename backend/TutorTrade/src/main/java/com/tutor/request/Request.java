@@ -4,7 +4,6 @@ import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.subject.Subject;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -201,8 +200,12 @@ public class Request {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     Request request = (Request) o;
     return requesterId.equals(request.requesterId)
         && Objects.equals(helperId, request.helperId)
@@ -238,6 +241,9 @@ public class Request {
     }
   }
 
+  /**
+   * Convert subject enums to strings and back when storing in DynamoDB.
+   */
   public static class SubjectConverter implements DynamoDBTypeConverter<String, Subject> {
     @Override
     public String convert(Subject subject) {
@@ -250,6 +256,9 @@ public class Request {
     }
   }
 
+  /**
+   * Convert enums in orderedMatches dictionary to strings and back when storing in DynamoDB.
+   */
   public static class MatchStatusConverter
       implements DynamoDBTypeConverter<Map<String, String>, Map<String, MatchStatus>> {
     @Override
