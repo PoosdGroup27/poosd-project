@@ -1,16 +1,21 @@
 package com.tutor.chat;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.utils.JsonUtils;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 import java.io.IOException;
 import java.util.*;
 
+@AllArgsConstructor
 @Builder
-@Data
 public class Chat {
   private UUID id;
   private String tuteeId;
@@ -25,6 +30,12 @@ public class Chat {
 
   private static final JsonUtils JSON_UTILS = new JsonUtils();
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
+  public Chat() {}
+
+  public Chat(UUID chatId) {
+    id = chatId;
+  }
 
   static {
     String filename = "presetMessages.json";
@@ -49,7 +60,7 @@ public class Chat {
    * @param userId
    * @param incomingMessage
    */
-  private void appendMessage(String userId, String incomingMessage) {
+  public void appendMessage(String userId, String incomingMessage) {
     if (!Chat.presetMessages.contains(incomingMessage)) {
       throw new IllegalArgumentException(
           String.format("Message %s not available for chat.", incomingMessage));
@@ -61,5 +72,50 @@ public class Chat {
     }
 
     messages.add(new AbstractMap.SimpleEntry<>(userId, incomingMessage));
+  }
+
+  @DynamoDBHashKey(attributeName = "chatId")
+  public UUID getId() {
+    return id;
+  }
+
+  public void setId(UUID id) {
+    this.id = id;
+  }
+
+  @DynamoDBAttribute(attributeName = "tuteeId")
+  public String getTuteeId() {
+    return tuteeId;
+  }
+
+  public void setTuteeId(String tuteeId) {
+    this.tuteeId = tuteeId;
+  }
+
+  @DynamoDBAttribute(attributeName = "tutorId")
+  public String getTutorId() {
+    return tutorId;
+  }
+
+  public void setTutorId(String tutorId) {
+    this.tutorId = tutorId;
+  }
+
+  @DynamoDBAttribute(attributeName = "messages")
+  public List<Map.Entry<String, String>> getMessages() {
+    return messages;
+  }
+
+  public void setMessages(List<Map.Entry<String, String>> messages) {
+    this.messages = messages;
+  }
+
+  @DynamoDBIgnore
+  public static HashSet<String> getPresetMessages() {
+    return presetMessages;
+  }
+
+  public static void setPresetMessages(HashSet<String> presetMessages) {
+    Chat.presetMessages = presetMessages;
   }
 }

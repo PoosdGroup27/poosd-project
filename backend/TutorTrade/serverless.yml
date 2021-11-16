@@ -132,13 +132,24 @@ functions:
       - http:
           path: /chat/
           method: post
+          request:
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
+      - http:
+          path: /chat/{chatId}
+          method: get
           integration: lambda
+          request:
+            parameters:
+              paths:
+                chatId: true
             template:
               application/json: ${file(./mapping_template.yml):mapping_template}\
       - http:
           path: /chat/getPresetMessages
           method: get
           integration: lambda
+          request:
             template:
               application/json: ${file(./mapping_template.yml):mapping_template}\
 
