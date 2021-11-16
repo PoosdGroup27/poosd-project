@@ -21,8 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ChatHandler implements RequestStreamHandler {
   private static final Logger LOG = LogManager.getLogger(com.tutor.matches.MatchesHandler.class);
@@ -50,41 +49,91 @@ public class ChatHandler implements RequestStreamHandler {
     HashMap<?, ?> params;
     HashMap<?, ?> pathParameters;
 
+    // brackets create local scopes for each case
     switch (httpMethod) {
       case "PUT":
-        // updating chat with a new message from tutor or tutee
+        {
+          // updating chat with a new message from tutor or tutee
 
-        bodyJson = (HashMap<?, ?>) event.get("body-json");
-        params = (HashMap<?, ?>) event.get("params");
-        pathParameters = (HashMap<?, ?>) params.get("path");
+          bodyJson = (HashMap<?, ?>) event.get("body-json");
+          params = (HashMap<?, ?>) event.get("params");
+          pathParameters = (HashMap<?, ?>) params.get("path");
 
-        String chatIdString = (String) pathParameters.get("chatId");
-        String userId = (String) bodyJson.get("userId");
-        String message = (String) bodyJson.get("message");
+          String chatIdString = (String) pathParameters.get("chatId");
+          String userId = (String) bodyJson.get("userId");
+          String message = (String) bodyJson.get("message");
 
-        OBJECT_MAPPER.writeValue(outputStream, updateChat(chatIdString, userId, message));
-        break;
+          OBJECT_MAPPER.writeValue(outputStream, updateChat(chatIdString, userId, message));
+          return;
+        }
       case "GET":
-        params = (HashMap<?, ?>) event.get("params");
+        {
+          params = (HashMap<?, ?>) event.get("params");
+          pathParameters = (HashMap<?, ?>) params.get("path");
 
-        System.out.println(params);
+          // preset messages endpoint
+          if (pathParameters.isEmpty()) {
+            OBJECT_MAPPER.writeValue(
+                outputStream,
+                ApiResponse.<HashSet<String>>builder()
+                    .statusCode(HttpURLConnection.HTTP_OK)
+                    .body(Chat.presetMessages)
+                    .build());
+            return;
+          }
 
-        pathParameters = (HashMap<?, ?>) params.get("path");
+          // get chat messages endpoint
+          String chatIdString = (String) pathParameters.get("chatId");
+          Chat chat = ChatUtils.getChatObjectById(chatIdString);
 
-        // preset messages endpoint
+          if (chat == null) {
+            OBJECT_MAPPER.writeValue(
+                outputStream,
+                ApiUtils.returnErrorResponse(
+                    new Exception(String.format("Chat %s does not exist", chatIdString))));
+            return;
+          }
 
-
-        // get chat messages endpoint
-
-        break;
+          OBJECT_MAPPER.writeValue(
+              outputStream,
+              ApiResponse.<List<Map.Entry<String, String>>>builder()
+                  .statusCode(HttpURLConnection.HTTP_OK)
+                  .body(chat.getMessages())
+                  .build());
+          return;
+        }
       case "POST":
-        // post a new chat object for a given tutor/tutee
+        {
+          // post a new chat object for a given tutor/tutee
+          bodyJson = (HashMap<?, ?>) event.get("body-json");
 
-//        bodyJson = (HashMap<?, ?>) event.get("body-json");
-//        params = (HashMap<?, ?>) event.get("params");
-//        pathParameters = (HashMap<?, ?>) params.get("path");
+          String tutorId = (String) bodyJson.get("tutorId");
+          String tuteeId = (String) bodyJson.get("tuteeId");
 
-        break;
+          Chat chat =
+              Chat.builder().tutorId(tutorId).tuteeId(tuteeId).id(UUID.randomUUID()).build();
+
+          DYNAMO_DB_MAPPER.save(
+              chat,
+              DynamoDBMapperConfig.builder()
+                  .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
+                  .build());
+
+          OBJECT_MAPPER.writeValue(
+              outputStream,
+              ApiResponse.<List<Map.Entry<String, String>>>builder()
+                  .statusCode(HttpURLConnection.HTTP_OK)
+                  .body(chat.getMessages())
+                  .build());
+
+          return;
+        }
+      default:
+        OBJECT_MAPPER.writeValue(
+            outputStream,
+            ApiUtils.returnErrorResponse(
+                new UnsupportedOperationException(
+                    String.format("Method %s not supported by chat endpoint", httpMethod))));
     }
   }
 

@@ -25,7 +25,7 @@ public class Chat {
   // and index n - 1 is the newest message. The map entries for the list are organized where the key
   // is the user id (either the tutee or tutor), and the value is a string from a pre-set set of
   // chat messages
-  private List<Map.Entry<String, String>> messages;
+  private List<Map.Entry<String, String>> messages = new ArrayList<>();
   public static HashSet<String> presetMessages;
 
   private static final JsonUtils JSON_UTILS = new JsonUtils();
@@ -108,14 +108,5 @@ public class Chat {
 
   public void setMessages(List<Map.Entry<String, String>> messages) {
     this.messages = messages;
-  }
-
-  @DynamoDBIgnore
-  public static HashSet<String> getPresetMessages() {
-    return presetMessages;
-  }
-
-  public static void setPresetMessages(HashSet<String> presetMessages) {
-    Chat.presetMessages = presetMessages;
   }
 }
