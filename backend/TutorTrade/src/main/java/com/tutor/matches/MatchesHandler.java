@@ -59,9 +59,10 @@ public class MatchesHandler implements RequestStreamHandler {
       pathParameters = (HashMap<?, ?>) params.get("path");
 
       String requestIdString = (String) pathParameters.get("requestId");
-      String matchToUpdate = (String) bodyJson.get("tutorId");
+      String tutorId = (String) bodyJson.get("tutorId");
       String newStatus = (String) bodyJson.get("statusUpdate");
 
+      updateRequestsMatch(requestIdString, tutorId, newStatus);
     } else {
       OBJECT_MAPPER.writeValue(
           outputStream,
