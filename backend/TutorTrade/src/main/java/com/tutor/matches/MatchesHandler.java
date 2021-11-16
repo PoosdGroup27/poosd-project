@@ -7,6 +7,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +15,8 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MatchesHandler implements RequestStreamHandler {
   private static final Logger LOG = LogManager.getLogger(com.tutor.matches.MatchesHandler.class);
@@ -29,8 +32,31 @@ public class MatchesHandler implements RequestStreamHandler {
   }
 
   @Override
-  public void handleRequest(InputStream input, OutputStream output, Context context)
+  public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context)
       throws IOException {
+    Map<Object, Object> event =
+        OBJECT_MAPPER.readValue(inputStream, new TypeReference<Map<Object, Object>>() {});
+
+    HashMap<?, ?> contextMap = (HashMap<?, ?>) event.get("context");
+    String httpMethod = (String) contextMap.get("http-method");
+
+    HashMap<?, ?> bodyJson;
+    HashMap<?, ?> params;
+    HashMap<?, ?> pathParameters;
+
+    if (httpMethod.equals("PUT")) {
+      bodyJson = (HashMap<?, ?>) event.get("body-json");
+      params = (HashMap<?, ?>) event.get("params");
+      pathParameters = (HashMap<?, ?>) params.get("path");
+
+      String matchToUpdate = (String) bodyJson.get("tutorId");
+      String newStatus = (String) bodyJson.get("statusUpdate");
+
+
+
+
+
+    }
 
   }
 }
