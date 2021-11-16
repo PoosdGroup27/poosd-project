@@ -9,6 +9,9 @@ import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tutor.request.MatchStatus;
+import com.tutor.utils.ApiResponse;
+import com.tutor.utils.ApiUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,6 +20,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class MatchesHandler implements RequestStreamHandler {
   private static final Logger LOG = LogManager.getLogger(com.tutor.matches.MatchesHandler.class);
@@ -49,14 +53,32 @@ public class MatchesHandler implements RequestStreamHandler {
       params = (HashMap<?, ?>) event.get("params");
       pathParameters = (HashMap<?, ?>) params.get("path");
 
+      String requestIdString = (String) pathParameters.get("requestId");
       String matchToUpdate = (String) bodyJson.get("tutorId");
       String newStatus = (String) bodyJson.get("statusUpdate");
 
+    } else {
+      OBJECT_MAPPER.writeValue(
+          outputStream,
+          ApiUtils.returnErrorResponse(
+              new UnsupportedOperationException(
+                  String.format("%s method not supported for matches endpoint", httpMethod))));
+    }
+  }
 
-
-
-
+  private ApiResponse<?> updateRequestsMatch(String requestIdString, String tutorId, String statusUpdate) {
+    UUID requestId;
+    try {
+      requestId = UUID.fromString(requestIdString);
+    } catch (IllegalArgumentException ex) {
+      return ApiUtils.returnErrorResponse(ex);
     }
 
+    MatchStatus matchStatus;
+    try {
+      matchStatus = MatchStatus.valueOf(statusUpdate);
+    } catch (IllegalArgumentException ex) {
+      return ApiUtils.returnErrorResponse(ex);
+    }
   }
 }
