@@ -16,7 +16,7 @@ provider:
       Resource: "*"
 
   # change stage when deploying dev stack
-  stage: test
+  stage: prod
   region: us-east-1
 
 package:
@@ -102,7 +102,6 @@ functions:
                 requestId: true
             template:
               application/json: ${file(./mapping_template.yml):mapping_template}\
-
   subjects:
     handler: com.tutor.subject.SubjectsHandler
     environment:
