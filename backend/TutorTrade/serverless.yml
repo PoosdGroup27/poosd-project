@@ -5,6 +5,7 @@ frameworkVersion: "2"
 provider:
   name: aws
   runtime: java11
+  timeout: 15
   lambdaHashingVersion: 20201221
 
   iamRoleStatements:
@@ -59,6 +60,16 @@ functions:
           request:
             template:
               application/json: ${file(./mapping_template.yml):mapping_template}\
+      - http:
+          path: /request/getRequestsByUserId/{userId}
+          method: get
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                userId: true
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
 
   matching:
     handler: com.tutor.matching.MatchingHandler
@@ -66,15 +77,31 @@ functions:
     reservedConcurrency: 1
     environment:
       STAGE: ${self:provider.stage}
-#    let's keep this disabled for now, so we don't trigger tons of
-#    invocations during testing. Can reactivate when we're nearing
-#    demo
-#    events:
-#      - stream:
-#          type: dynamodb
-#          arn:
-#            Fn::GetAtt: [ requestsTable, StreamArn ]
-#          maximumRetryAttempts: 0
+  #    let's keep this disabled for now, so we don't trigger tons of
+  #    invocations during testing. Can reactivate when we're nearing
+  #    demo
+  #    events:
+  #      - stream:
+  #          type: dynamodb
+  #          arn:
+  #            Fn::GetAtt: [ requestsTable, StreamArn ]
+  #          maximumRetryAttempts: 0
+
+  matches:
+    handler: com.tutor.matches.MatchesHandler
+    environment:
+      STAGE: ${self:provider.stage}
+    events:
+      - http:
+          path: /matches/updateMatch/{requestId}
+          method: put
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                requestId: true
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
   subjects:
     handler: com.tutor.subject.SubjectsHandler
     environment:

@@ -10,19 +10,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class UserUtilsTests {
 
-    @Test
-    public void convertListOfStringsToListOfSubjectsTest() {
-        ArrayList<String> subjectNames = new ArrayList<>();
-        subjectNames.add("🏛 Architecture");
-        subjectNames.add("🏗 Construction");
-        subjectNames.add("💻 Computer Science");
-        subjectNames.add("⚠️ Doesn't exist");
+  @Test
+  public void convertListOfStringsToListOfSubjectsTest() {
+    ArrayList<String> subjectNames = new ArrayList<>();
+    subjectNames.add("🏛 Architecture");
+    subjectNames.add("🏗 Construction");
+    subjectNames.add("💻 Computer Science");
+    subjectNames.add("⚠️ Doesn't exist");
 
-        List<Subject> subjects = UserUtils.convertListOfStringsToListOfSubjects(subjectNames);
+    List<Subject> subjects = UserUtils.convertListOfStringsToListOfSubjects(subjectNames);
 
-        assertEquals(3, subjects.size());
-        assertTrue(subjects.contains(Subject.ARCHITECTURE));
-        assertTrue(subjects.contains(Subject.CONSTRUCTION));
-        assertTrue(subjects.contains(Subject.CS));
-    }
+    assertEquals(3, subjects.size());
+    assertTrue(subjects.contains(Subject.ARCHITECTURE));
+    assertTrue(subjects.contains(Subject.CONSTRUCTION));
+    assertTrue(subjects.contains(Subject.CS));
+  }
 }

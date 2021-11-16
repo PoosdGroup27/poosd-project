@@ -44,7 +44,7 @@ class ProfileController: UIViewController {
         self.displaySettings = displaySettings
         super.init(nibName: nil, bundle: nil)
         self.editingPopoverVC = PopoverEditingViewController(fieldValues: schoolEditingFieldValues, profileManager: self.profileManager, onFinish: self.finishSchoolEditing)
-        tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), tag: 3)
+        tabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "ProfileTabBarIcon"), tag: 3)
     }
     
     required init?(coder: NSCoder) {

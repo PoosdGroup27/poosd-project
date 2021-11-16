@@ -1,17 +1,16 @@
 package com.tutor.matching;
 
 import com.tutor.request.Request;
-import java.util.UUID;
 
 /** Helper intermediary class for moving request data to the completed request data store. */
 public class RequestKnnData {
-  private UUID helperId;
+  private String helperId;
 
-  public UUID getHelperId() {
+  public String getHelperId() {
     return helperId;
   }
 
-  public void setHelperId(UUID helperId) {
+  public void setHelperId(String helperId) {
     this.helperId = helperId;
   }
 

@@ -136,6 +136,7 @@ class MatchingController: UIViewController, SwipeCardStackDataSource, SwipeCardS
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.dataSource = self
             $0.delegate = self
+
             NSLayoutConstraint.activate([
                 $0.topAnchor.constraint(equalTo: self.matchingTitleLogo.bottomAnchor, constant: UIScreen.main.bounds.height / 35),
                 $0.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),

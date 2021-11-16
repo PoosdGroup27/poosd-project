@@ -4,14 +4,10 @@ import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.subject.Subject;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Request object corresponds to schema of Request table. All data must be first marshaled to
@@ -21,8 +17,8 @@ import java.util.UUID;
  */
 @DynamoDBTable(tableName = "requestTable-prod")
 public class Request {
-  private UUID requesterId;
-  private UUID helperId;
+  private String requesterId;
+  private String helperId;
   private UUID requestId;
   private Subject subject;
   private LocalDateTime dateRequested;
@@ -32,7 +28,7 @@ public class Request {
   private Urgency urgency;
   private Status status;
   private String description;
-  private List<UUID> orderedMatches;
+  private Map<String, MatchStatus> orderedMatches;
 
   /**
    * Constructs a Request object from a well-formed RequestBuilder.
@@ -51,7 +47,7 @@ public class Request {
     this.urgency = builder.urgency;
     this.status = builder.status;
     this.description = builder.description;
-    this.orderedMatches = new ArrayList<>();
+    this.orderedMatches = new HashMap<>();
   }
 
   /**
@@ -67,20 +63,20 @@ public class Request {
   public Request() {}
 
   @DynamoDBAttribute(attributeName = "requesterId")
-  public UUID getRequesterId() {
+  public String getRequesterId() {
     return requesterId;
   }
 
-  public void setRequesterId(UUID requesterId) {
+  public void setRequesterId(String requesterId) {
     this.requesterId = requesterId;
   }
 
   @DynamoDBAttribute(attributeName = "helperId")
-  public UUID getHelperId() {
+  public String getHelperId() {
     return helperId;
   }
 
-  public void setHelperId(UUID helperId) {
+  public void setHelperId(String helperId) {
     this.helperId = helperId;
   }
 
@@ -180,12 +176,13 @@ public class Request {
     this.description = description;
   }
 
+  @DynamoDBTypeConverted(converter = MatchStatusConverter.class)
   @DynamoDBAttribute(attributeName = "orderedMatches")
-  public List<UUID> getOrderedMatches() {
+  public Map<String, MatchStatus> getOrderedMatches() {
     return orderedMatches;
   }
 
-  public void setOrderedMatches(List<UUID> orderedMatches) {
+  public void setOrderedMatches(Map<String, MatchStatus> orderedMatches) {
     this.orderedMatches = orderedMatches;
   }
 
@@ -203,8 +200,12 @@ public class Request {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     Request request = (Request) o;
     return requesterId.equals(request.requesterId)
         && Objects.equals(helperId, request.helperId)
@@ -240,9 +241,10 @@ public class Request {
     }
   }
 
+  /**
+   * Convert subject enums to strings and back when storing in DynamoDB.
+   */
   public static class SubjectConverter implements DynamoDBTypeConverter<String, Subject> {
-
-
     @Override
     public String convert(Subject subject) {
       return subject.getSubjectName();
@@ -251,6 +253,26 @@ public class Request {
     @Override
     public Subject unconvert(String stringValue) {
       return Subject.fromSubjectName(stringValue);
+    }
+  }
+
+  /**
+   * Convert enums in orderedMatches dictionary to strings and back when storing in DynamoDB.
+   */
+  public static class MatchStatusConverter
+      implements DynamoDBTypeConverter<Map<String, String>, Map<String, MatchStatus>> {
+    @Override
+    public Map<String, String> convert(Map<String, MatchStatus> matches) {
+      Map<String, String> newMap = new HashMap<>();
+      matches.keySet().forEach(x -> newMap.put(x, matches.get(x).toString()));
+      return newMap;
+    }
+
+    @Override
+    public Map<String, MatchStatus> unconvert(Map<String, String> stringValues) {
+      Map<String, MatchStatus> newMap = new HashMap<>();
+      stringValues.keySet().forEach(x -> newMap.put(x, MatchStatus.valueOf(stringValues.get(x))));
+      return newMap;
     }
   }
 }

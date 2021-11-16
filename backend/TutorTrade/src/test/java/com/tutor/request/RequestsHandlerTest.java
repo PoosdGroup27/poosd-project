@@ -11,15 +11,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.utils.ApiUtils;
 import com.tutor.utils.JsonUtils;
 import com.tutor.utils.RequestUtils;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.tutor.utils.UserUtils;
+import org.junit.jupiter.api.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -36,6 +32,18 @@ class RequestsHandlerTest {
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
   private static final JsonUtils JSON_UTILS = new JsonUtils();
   ArrayList<String> createdRequests = new ArrayList<>();
+  private static final String TEST_USER_ID = UUID.randomUUID().toString();
+
+  @BeforeAll
+  static void beforeAll() throws IOException {
+    String userBody = JSON_UTILS.getJsonFromFileAsString("validUserToPost.json");
+    ApiUtils.put(ApiUtils.ApiStages.TEST.toString(), "/user/" + TEST_USER_ID, userBody);
+  }
+
+  @AfterAll
+  static void afterAll() {
+    ApiUtils.delete(ApiUtils.ApiStages.TEST.toString(), "user/" + TEST_USER_ID);
+  }
 
   @BeforeEach
   void setUp() {}
@@ -47,16 +55,28 @@ class RequestsHandlerTest {
     }
   }
 
+  private static Map<String, String> getTestRequestFromFile(String requestBody) throws IOException {
+    Map<String, String> requestBodyFields =
+        OBJECT_MAPPER.readValue(requestBody, new TypeReference<HashMap<String, String>>() {});
+
+    // dynamically change the requesterId
+    requestBodyFields.put("requesterId", TEST_USER_ID);
+
+    return requestBodyFields;
+  }
+
   @Test
   void postTestGivenValidRequest() throws IOException {
     // GIVEN: valid request body
     String requestBody = JSON_UTILS.getJsonFromFileAsString("validPostRequest.json");
-    Map<String, String> requestBodyFields =
-        OBJECT_MAPPER.readValue(requestBody, new TypeReference<HashMap<String, String>>() {});
+    Map<String, String> requestBodyFields = getTestRequestFromFile(requestBody);
 
     // WHEN: post request to request API
     String requestPostResponseString =
-        ApiUtils.post(ApiUtils.ApiStages.TEST.toString(), "/request", requestBody);
+        ApiUtils.post(
+            ApiUtils.ApiStages.TEST.toString(),
+            "/request",
+            OBJECT_MAPPER.writeValueAsString(requestBodyFields));
 
     // THEN: request response is not null
     assertNotNull(requestPostResponseString);
@@ -97,8 +117,7 @@ class RequestsHandlerTest {
   void patchTestGivenValidChange() throws IOException, RequestBuilderException {
     // GIVEN: valid request body
     String requestBody = JSON_UTILS.getJsonFromFileAsString("validPostRequest.json");
-    Map<String, String> requestBodyFields =
-        OBJECT_MAPPER.readValue(requestBody, new TypeReference<HashMap<String, String>>() {});
+    Map<String, String> requestBodyFields = getTestRequestFromFile(requestBody);
 
     // GIVEN: valid request in DynamoDB. Put directly so as not to rely on POST method correctness
     Request request =
@@ -167,8 +186,7 @@ class RequestsHandlerTest {
   void deleteTestGivenValidRequest() throws IOException, RequestBuilderException {
     // GIVEN: valid request body
     String requestBody = JSON_UTILS.getJsonFromFileAsString("validPostRequest.json");
-    Map<String, String> requestBodyFields =
-        OBJECT_MAPPER.readValue(requestBody, new TypeReference<HashMap<String, String>>() {});
+    Map<String, String> requestBodyFields = getTestRequestFromFile(requestBody);
 
     // GIVEN: valid request in DynamoDB. Put directly so as not to rely on POST method correctness
     Request request =
@@ -206,8 +224,7 @@ class RequestsHandlerTest {
   void getTestGivenValidRequest() throws IOException, RequestBuilderException {
     // GIVEN: valid request body
     String requestBody = JSON_UTILS.getJsonFromFileAsString("validPostRequest.json");
-    Map<String, String> requestBodyFields =
-        OBJECT_MAPPER.readValue(requestBody, new TypeReference<HashMap<String, String>>() {});
+    Map<String, String> requestBodyFields = getTestRequestFromFile(requestBody);
 
     // GIVEN: valid request in DynamoDB. Put directly so as not to rely on POST method correctness
     Request request =

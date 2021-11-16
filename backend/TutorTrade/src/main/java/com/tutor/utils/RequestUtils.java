@@ -10,8 +10,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.tutor.request.Platform;
 import com.tutor.request.Request;
-import com.tutor.subject.Subject;
 import com.tutor.request.Urgency;
+import com.tutor.subject.Subject;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -41,7 +41,7 @@ public class RequestUtils {
    * Method generates a request with random but valid values and posts it to the /request/create
    * endpoint of whichever stage is defined in environmental variables.
    */
-  public static String postRandomRequest(Boolean isTest) throws IOException {
+  public static String postRandomRequest(Boolean isTest) {
     String requesterId = UUID.randomUUID().toString();
     String subject = SUBJECTS.get(RANDOM.nextInt(SUBJECTS.size() - 1)).getSubjectName();
     int costInPoints = RANDOM.nextInt(1000);
@@ -93,8 +93,8 @@ public class RequestUtils {
    * endpoint of whichever stage is defined in environmental variables, or to the test stage is test
    * boolean is true.
    */
-  public static String postCustomRequest(Request request, Boolean isTest) throws IOException {
-    String requesterId = request.getRequesterId().toString();
+  public static String postCustomRequest(Request request, Boolean isTest) {
+    String requesterId = request.getRequesterId();
     String subject = request.getSubject().getSubjectName();
     int costInPoints = request.getCostInPoints();
     String urgency = request.getUrgency().toString();
@@ -160,6 +160,15 @@ public class RequestUtils {
     return requestById.get(0);
   }
 
+  /**
+   * Takes response of api requests to request endpoint and converts it to request POJO. This is
+   * mainly to allow us to correctly parse the time -- it is fully expanded out by DynamoDB and we
+   * want to turn it back to a LocalDateTime object.
+   *
+   * @param APIResponseJson The JSON string returned by requests to request API
+   * @return Request object which is equivalent to JSON
+   * @throws IOException Throws exception if JSON parsing fails
+   */
   public static Request getRequestFromAPIResponse(String APIResponseJson) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     ObjectNode requestTree = (ObjectNode) mapper.readTree(APIResponseJson).get("body");

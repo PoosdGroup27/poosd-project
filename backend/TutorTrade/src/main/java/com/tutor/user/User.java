@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.request.Request;
 import com.tutor.subject.Subject;
 import com.tutor.utils.UserUtils;
-
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
@@ -55,9 +54,9 @@ public class User {
     this.cumulativeSessionsCompleted = 0;
     this.rating = 5;
     this.subjectsTeach =
-            (builder.subjectsTeach == null) ? new ArrayList<>() : builder.subjectsTeach;
+        (builder.subjectsTeach == null) ? new ArrayList<>() : builder.subjectsTeach;
     this.subjectsLearn =
-            (builder.subjectsLearn == null) ? new ArrayList<>() : builder.subjectsLearn;
+        (builder.subjectsLearn == null) ? new ArrayList<>() : builder.subjectsLearn;
     this.major = builder.major;
     // users shouldn't have session IDs at creation time
     this.sessionIds = new ArrayList<>();
@@ -132,6 +131,18 @@ public class User {
 
   public void setSessionIds(ArrayList<UUID> sessionIds) {
     this.sessionIds = sessionIds;
+  }
+
+  /** Adds a sessionId from the user's list. */
+  public void addSessionId(UUID sessionId) {
+    sessionIds.add(sessionId);
+  }
+
+  /** Deletes a sessionId from the user's list. */
+  public void deleteSessionId(UUID sessionId) {
+    if (sessionId != null) {
+      sessionIds.remove(sessionId);
+    }
   }
 
   @DynamoDBHashKey(attributeName = "userID")
@@ -234,8 +245,12 @@ public class User {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     User user = (User) o;
     return isActive == user.isActive
         && points == user.points
@@ -270,7 +285,7 @@ public class User {
     }
   }
 
-  /** This is necessary in order for DynamoDB mapper to save ArrayList of Subject enums */
+  /** This is necessary in order for DynamoDB mapper to save ArrayList of Subject enums. */
   public static class SubjectListConverter
       implements DynamoDBTypeConverter<ArrayList<String>, ArrayList<Subject>> {
 

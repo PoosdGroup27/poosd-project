@@ -55,6 +55,7 @@ class TutorTradeApplication: UIResponder, UIApplicationDelegate {
         } else {
             self.authFlowController = self.authFlowController ?? UINavigationController(rootViewController: WelcomePageViewController())
             self.authFlowController?.popToRootViewController(animated: false)
+            self.authFlowController?.setNavigationBarHidden(true, animated: false)
             
             window!.rootViewController = authFlowController
         }

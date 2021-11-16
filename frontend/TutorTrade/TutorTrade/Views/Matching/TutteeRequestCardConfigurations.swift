@@ -40,14 +40,14 @@ extension UILabel {
         return label
     }
     
-    static func getTitleLabel(title: String, size: CGFloat) -> UILabel {
+    static func configureRequestCardLabel(title: String, size: CGFloat) -> UILabel {
         let label = UILabel()
         label.text = title
         label.font = UIFont(name: "Roboto-Bold", size: size)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
-    
+  
     static var pointsBalanceLabel: UILabel {
             let label = UILabel()
             label.font = UIFont(name: "Roboto-Bold", size: 12)
@@ -104,6 +104,7 @@ extension UIImageView {
         case .online:
             image = UIImage(named: "OnlineIcon")!
         }
+
         let photoView = UIImageView(image: image)
         photoView.translatesAutoresizingMaskIntoConstraints = false
         return photoView

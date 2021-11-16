@@ -1,19 +1,17 @@
 package com.tutor.request;
 
 import com.tutor.subject.Subject;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.UUID;
 
 /**
  * Builder method for Requests class. Allows for chained set methods and validation during
  * construction.
  */
 public class RequestBuilder {
-  public UUID requesterId;
-  public UUID helperId;
+  public String requesterId;
+  public String helperId;
   public Subject subject;
   public LocalDateTime sessionTime;
   public Platform platform;
@@ -45,7 +43,8 @@ public class RequestBuilder {
     }
     if (request.getStatus() == null) {
       nullValues.add("status");
-    } if (request.getDescription() == null) {
+    }
+    if (request.getDescription() == null) {
       nullValues.add("description");
     }
 
@@ -55,15 +54,22 @@ public class RequestBuilder {
   }
 
   public RequestBuilder withRequesterId(String requesterId) {
-    this.requesterId = UUID.fromString(requesterId);
+    this.requesterId = requesterId;
     return this;
   }
 
   public RequestBuilder withHelperId(String helperId) {
-    this.helperId = UUID.fromString(helperId);
+    this.helperId = helperId;
     return this;
   }
 
+  /**
+   * Set subject of request.
+   *
+   * @param subject String representing subject constant in Subject enum
+   * @return RequestBuilder for chained calls
+   * @throws RequestBuilderException Throws exception if enum constant does not exist
+   */
   public RequestBuilder withSubject(String subject) throws RequestBuilderException {
     try {
       this.subject = Subject.fromSubjectName(subject);

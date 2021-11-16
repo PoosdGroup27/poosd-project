@@ -26,7 +26,7 @@ class RequestController: UIViewController {
         // Style VC
         self.init(nibName: nil, bundle: nil)
         title = "✋ Get Help"
-        tabBarItem = UITabBarItem(title: "Request", image: UIImage(systemName: "hand.raised"), tag: 1)
+        tabBarItem = UITabBarItem(title: "Request", image: UIImage(named: "RequestTabBarIcon"), tag: 1)
         
         // Create request model
         self.requestModel = RequestModel()

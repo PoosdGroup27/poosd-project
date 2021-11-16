@@ -5,11 +5,6 @@
 //  Created by Sebastian Hernandez on 11/11/21.
 //
 
-/*
- Todo:
- 1. Refactor the labels and views especially the configurations
- */
-
 import UIKit
 
 class TutteeRequestCard: UIScrollView {
@@ -77,26 +72,28 @@ class TutteeRequestCard: UIScrollView {
     }
     
     private var profilePictureView: UIImageView = .configureTuteeProfileImage(withImage: UIImage(named: "DefaultUserImage")!)
+    private var preferredMediumImage: UIImageView = .preferredMediumImage(preferredMedium: .inPerson)
+  
     private var nameLabel: UILabel = .configureTutteeNameLabel(withFont: UIFont(name: "Roboto-Bold", size: 28)!)
-    private var schoolDisplayBoxView: BorderedDisplayBoxView  = .requestCardBoxView(withIcon: UIImage(named: "SchoolIcon")!)
     private var schoolDisplayBoxLabel: UILabel = .configureLabel(withFont: UIFont(name: "Roboto-Bold", size: 12)!)
-    private var ratingDisplayBoxView: BorderedDisplayBoxView  = .requestCardBoxView(withIcon: UIImage(named: "RatingIcon")!)
-    private var ratingDisplayBoxLabel: UILabel = .configureLabel(withFont: UIFont(name: "Roboto-Bold", size: 12)!)
-    private var subjectDisplayBoxView: BorderedDisplayBoxView  = .subjectCardBoxView(withIcon: UIImage(named: "HandRaisedIcon")!)
+    private var ratingDisplayBoxLabel: UILabel = .configureLabel(withFont: UIFont(name: "Roboto-Bold", size: 12)!) 
     private var subjectDisplayBoxLabel: UILabel = .configureLabel(withFont: UIFont(name: "Roboto-Bold", size: 12)!)
-    private var urgencyDisplayBoxView: BorderedDisplayBoxView = .requestCardBoxView(withIcon: UIImage(named: "TimeIcon")!)
     private var urgencyDisplayBoxLabel: UILabel = .configureLabel(withFont: UIFont(name: "Roboto-Bold", size: 12)!)
-    private var descriptionLabel: UILabel = .getTitleLabel(title: "Description", size: 15)
-    private var budgetTitleLabel: UILabel = .getTitleLabel(title: "Budget", size: 12)
-    private var mediumTitleLabel: UILabel = .getTitleLabel(title: "Preferred Medium", size: 12)
-    private var descriptionDisplayBoxView: BorderedDisplayBoxView = .descriptionCardBoxView()
-    private var descriptionDisplayBoxLabel: UILabel = .configureDescriptionLabel(font: UIFont(name: "Roboto-Bold", size: 12)!)
-    private var budgetDisplayBoxView: BorderedDisplayBoxView = .budgetCardBoxView()
+    private var descriptionLabel: UILabel = .configureRequestCardLabel(title: "Description", size: 15)
+    private var budgetTitleLabel: UILabel = .configureRequestCardLabel(title: "Budget", size: 12)
+    private var mediumTitleLabel: UILabel = .configureRequestCardLabel(title: "Preferred Medium", size: 12)
     private var pointsBalanceDisplayBoxLabel: UILabel = .pointsBalanceLabel
+    private var descriptionDisplayBoxLabel: UILabel = .configureDescriptionLabel(font: UIFont(name: "Roboto-Bold", size: 12)!)
+  
+    private var schoolDisplayBoxView: BorderedDisplayBoxView  = .requestCardBoxView(withIcon: UIImage(named: "SchoolIcon")!)
+    private var ratingDisplayBoxView: BorderedDisplayBoxView  = .requestCardBoxView(withIcon: UIImage(named: "RatingIcon")!
+    private var subjectDisplayBoxView: BorderedDisplayBoxView  = .subjectCardBoxView(withIcon: UIImage(named: "HandRaisedIcon")!)
+    private var urgencyDisplayBoxView: BorderedDisplayBoxView = .requestCardBoxView(withIcon: UIImage(named: "TimeIcon")!)
+    private var descriptionDisplayBoxView: BorderedDisplayBoxView = .descriptionCardBoxView()
+    private var budgetDisplayBoxView: BorderedDisplayBoxView = .budgetCardBoxView()
     private var mediumDisplayBoxView: BorderedDisplayBoxView = .mediumCardBoxView()
     private var innerBudgetDisplayBoxView: BorderedDisplayBoxView = .innerBudgetCardBoxView()
     private var innerMediumDisplayBoxView: BorderedDisplayBoxView = .innerMediumCardBoxView()
-    private var preferredMediumImage: UIImageView = .preferredMediumImage(preferredMedium: .inPerson)
     
     internal init(withName name: String, withProfilePicture profilePicture: UIImage?,
                   withSchool school: String, withRating rating: Double, withSubject subject: String,
@@ -116,6 +113,7 @@ class TutteeRequestCard: UIScrollView {
         self.helpDescription = helpDescription
         self.pointsBudget = pointsBudget
 
+        super.init(frame: .zero)
         
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = .white
@@ -133,11 +131,12 @@ class TutteeRequestCard: UIScrollView {
 
         addSubview(nameLabel) {
             NSLayoutConstraint.activate([
+                $0.heightAnchor.constraint(equalToConstant: 340)
                 $0.topAnchor.constraint(equalToSystemSpacingBelow: self.profilePictureView.bottomAnchor, multiplier: 3),
                 $0.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 19)
             ])
         }
-        
+       
         // Add the school display box
         self.addSubview(schoolDisplayBoxView) {
             NSLayoutConstraint.activate([

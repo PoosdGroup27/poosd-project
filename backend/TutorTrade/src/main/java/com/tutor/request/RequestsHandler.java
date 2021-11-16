@@ -8,22 +8,23 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.subject.Subject;
+import com.tutor.user.User;
 import com.tutor.utils.ApiResponse;
 import com.tutor.utils.ApiUtils;
 import com.tutor.utils.RequestUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import com.tutor.utils.UserUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /** Handles any HTTP requests to the API's /request/ path. */
 public class RequestsHandler implements RequestStreamHandler {
@@ -32,14 +33,18 @@ public class RequestsHandler implements RequestStreamHandler {
       AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
   private static final DynamoDBMapper DYNAMO_DB_MAPPER = new DynamoDBMapper(DYNAMO_DB);
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+  private static final String STAGE = System.getenv("STAGE");
+
   static {
     // Serialization will exclude null fields
     OBJECT_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
   }
 
   @Override
-  public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
-    Map<Object, Object> event = OBJECT_MAPPER.readValue(inputStream, new TypeReference<Map<Object, Object>>() {});
+  public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context)
+      throws IOException {
+    Map<Object, Object> event =
+        OBJECT_MAPPER.readValue(inputStream, new TypeReference<Map<Object, Object>>() {});
 
     HashMap<?, ?> contextMap = (HashMap<?, ?>) event.get("context");
     String httpMethod = (String) contextMap.get("http-method");
@@ -52,9 +57,19 @@ public class RequestsHandler implements RequestStreamHandler {
       case "GET":
         params = (HashMap<?, ?>) event.get("params");
         pathParameters = (HashMap<?, ?>) params.get("path");
+
+        // getRequestsByUserId endpoint
+        String userId = (String) pathParameters.get("userId");
+        if (userId != null) {
+          OBJECT_MAPPER.writeValue(outputStream, getRequestsByUserId(userId));
+          return;
+        }
+
+        // plain old GET for a Request
         Request request =
-                RequestUtils.getRequestObjectById(((String) pathParameters.get("requestId")));
-        ApiResponse<Request> response = ApiResponse.<Request>builder()
+            RequestUtils.getRequestObjectById(((String) pathParameters.get("requestId")));
+        ApiResponse<Request> response =
+            ApiResponse.<Request>builder()
                 .statusCode(HttpURLConnection.HTTP_OK)
                 .body(request)
                 .build();
@@ -63,8 +78,8 @@ public class RequestsHandler implements RequestStreamHandler {
       case "POST":
         bodyJson = (HashMap<?, ?>) event.get("body-json");
         try {
-           OBJECT_MAPPER.writeValue(outputStream, createRequest(bodyJson));
-           return;
+          OBJECT_MAPPER.writeValue(outputStream, createRequest(bodyJson));
+          return;
         } catch (RequestBuilderException e) {
           e.printStackTrace();
           OBJECT_MAPPER.writeValue(outputStream, ApiUtils.returnErrorResponse(e));
@@ -74,16 +89,22 @@ public class RequestsHandler implements RequestStreamHandler {
         bodyJson = (HashMap<?, ?>) event.get("body-json");
         params = (HashMap<?, ?>) event.get("params");
         pathParameters = (HashMap<?, ?>) params.get("path");
-        OBJECT_MAPPER.writeValue(outputStream, updateRequest(bodyJson, (String) pathParameters.get("requestId")));
+        OBJECT_MAPPER.writeValue(
+            outputStream, updateRequest(bodyJson, (String) pathParameters.get("requestId")));
         return;
       case "DELETE":
         params = (HashMap<?, ?>) event.get("params");
         pathParameters = (HashMap<?, ?>) params.get("path");
-        OBJECT_MAPPER.writeValue(outputStream, deleteRequest((String) pathParameters.get("requestId")));
+        OBJECT_MAPPER.writeValue(
+            outputStream, deleteRequest((String) pathParameters.get("requestId")));
+        return;
+      default:
+        OBJECT_MAPPER.writeValue(outputStream, "Unsupported method requested.");
     }
   }
 
-  private ApiResponse<Request> createRequest(HashMap<?, ?> body) throws RequestBuilderException {
+  private ApiResponse<Request> createRequest(HashMap<?, ?> body)
+      throws RequestBuilderException, JsonProcessingException {
     String requesterId = (String) body.get("requesterId");
     String subject = (String) body.get("subject");
     String costInPoints = (String) body.get("costInPoints");
@@ -102,6 +123,12 @@ public class RequestsHandler implements RequestStreamHandler {
             .withStatus(status)
             .withDescription(description)
             .build();
+
+    UserUtils.modifyUsersSessions(
+        ApiUtils.getApiStageUriFromStageEnvVariable(STAGE),
+        requesterId,
+        request.getRequestId(),
+        UserUtils.ModifyUserSessions.ADD);
 
     DYNAMO_DB_MAPPER.save(request);
 
@@ -125,7 +152,7 @@ public class RequestsHandler implements RequestStreamHandler {
     String helperIdString = (String) body.get("helperId");
     if (helperIdString != null) {
       try {
-        requestToUpdate.setHelperId(UUID.fromString(helperIdString));
+        requestToUpdate.setHelperId(helperIdString);
       } catch (Exception ex) {
         return ApiUtils.returnErrorResponse(ex);
       }
@@ -206,7 +233,8 @@ public class RequestsHandler implements RequestStreamHandler {
         .build();
   }
 
-  private ApiResponse<?> deleteRequest(String requestId) {
+  private ApiResponse<?> deleteRequest(String requestId)
+      throws JsonProcessingException {
     Request requestToBeDeleted = RequestUtils.getRequestObjectById(requestId);
 
     if (requestToBeDeleted == null) {
@@ -216,10 +244,41 @@ public class RequestsHandler implements RequestStreamHandler {
           .build();
     }
 
+    UserUtils.modifyUsersSessions(
+        ApiUtils.getApiStageUriFromStageEnvVariable(STAGE),
+        requestToBeDeleted.getRequesterId(),
+        requestToBeDeleted.getRequestId(),
+        UserUtils.ModifyUserSessions.DELETE);
+
     DYNAMO_DB_MAPPER.delete(requestToBeDeleted);
     return ApiResponse.<Request>builder()
         .statusCode(HttpURLConnection.HTTP_OK)
         .body(requestToBeDeleted)
+        .build();
+  }
+
+  /** Returns a list of tuples of a user's session IDs along with their associated subjects. */
+  private ApiResponse<?> getRequestsByUserId(String userId) {
+    List<List<String>> sessionSubjectsList = new ArrayList<>();
+
+    User user = UserUtils.getUserObjectById(userId);
+
+    if (user == null) {
+      return ApiUtils.returnErrorResponse(new Exception("User does not exist"));
+    }
+
+    for (UUID sessionId : user.getSessionIds()) {
+      Request request = RequestUtils.getRequestObjectById(sessionId.toString());
+
+      if (request != null) {
+        sessionSubjectsList.add(
+            Arrays.asList(sessionId.toString(), request.getSubject().getSubjectName()));
+      }
+    }
+
+    return ApiResponse.<List<List<String>>>builder()
+        .statusCode(HttpURLConnection.HTTP_OK)
+        .body(sessionSubjectsList)
         .build();
   }
 }
