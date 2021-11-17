@@ -108,7 +108,7 @@ public class Chat {
     this.messages = messages;
   }
 
-  /** Convert subject enums to strings and back when storing in DynamoDB. */
+  /** Convert messages list to strings and back when storing in DynamoDB. */
   public static class MessagesConverter
       implements DynamoDBTypeConverter<List<Map<String, String>>, List<Map.Entry<String, String>>> {
     @Override
