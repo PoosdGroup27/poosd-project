@@ -7,6 +7,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
+import com.amazonaws.transform.MapEntry;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -96,7 +97,10 @@ public class ChatHandler implements RequestStreamHandler {
 
           OBJECT_MAPPER.writeValue(
               outputStream,
-              ApiResponse.<Chat>builder().statusCode(HttpURLConnection.HTTP_OK).body(chat).build());
+              ApiResponse.<List<Map.Entry<String, String>>>builder()
+                  .statusCode(HttpURLConnection.HTTP_OK)
+                  .body(chat.getMessages())
+                  .build());
           return;
         }
       case "POST":
