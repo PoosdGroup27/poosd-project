@@ -96,10 +96,7 @@ public class ChatHandler implements RequestStreamHandler {
 
           OBJECT_MAPPER.writeValue(
               outputStream,
-              ApiResponse.<Chat>builder()
-                  .statusCode(HttpURLConnection.HTTP_OK)
-                  .body(chat)
-                  .build());
+              ApiResponse.<Chat>builder().statusCode(HttpURLConnection.HTTP_OK).body(chat).build());
           return;
         }
       case "POST":
@@ -121,10 +118,7 @@ public class ChatHandler implements RequestStreamHandler {
 
           OBJECT_MAPPER.writeValue(
               outputStream,
-              ApiResponse.<Chat>builder()
-                  .statusCode(HttpURLConnection.HTTP_OK)
-                  .body(chat)
-                  .build());
+              ApiResponse.<Chat>builder().statusCode(HttpURLConnection.HTTP_OK).body(chat).build());
 
           return;
         }
