@@ -3,12 +3,9 @@ package com.tutor.chat;
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tutor.request.Request;
-import com.tutor.subject.Subject;
 import com.tutor.utils.JsonUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 
 import java.io.IOException;
 import java.util.*;
@@ -132,11 +129,8 @@ public class Chat {
     public List<Map.Entry<String, String>> unconvert(List<Map<String, String>> object) {
       List<Map.Entry<String, String>> outputList = new ArrayList<>();
 
-      object.stream()
-          .forEach(
-              x ->
-                  x.keySet()
-                      .forEach(y -> outputList.add(new AbstractMap.SimpleEntry<>(y, x.get(y)))));
+      object.forEach(
+          x -> x.keySet().forEach(y -> outputList.add(new AbstractMap.SimpleEntry<>(y, x.get(y)))));
 
       return outputList;
     }
