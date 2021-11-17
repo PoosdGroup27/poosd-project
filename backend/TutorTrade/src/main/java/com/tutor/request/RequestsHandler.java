@@ -51,8 +51,6 @@ public class RequestsHandler implements RequestStreamHandler {
     Map<Object, Object> event =
         OBJECT_MAPPER.readValue(inputStream, new TypeReference<Map<Object, Object>>() {});
 
-    System.out.println(event);
-
     HashMap<?, ?> contextMap = (HashMap<?, ?>) event.get("context");
     String httpMethod = (String) contextMap.get("http-method");
     String path = (String) contextMap.get("resource-path");
