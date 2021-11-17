@@ -114,6 +114,45 @@ functions:
           request:
             template:
               application/json: ${file(./mapping_template.yml):mapping_template}\
+  chat:
+    handler: com.tutor.chat.ChatHandler
+    environment:
+      STAGE: ${self:provider.stage}
+    events:
+      - http:
+          path: /chat/appendMessage/{chatId}
+          method: put
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                chatId: true
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
+      - http:
+          path: /chat/
+          method: post
+          integration: lambda
+          request:
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
+      - http:
+          path: /chat/{chatId}
+          method: get
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                chatId: true
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
+      - http:
+          path: /chat/getPresetMessages
+          method: get
+          integration: lambda
+          request:
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
 
 resources:
   Resources:
@@ -145,6 +184,19 @@ resources:
           WriteCapacityUnits: 1
         StreamSpecification:
           StreamViewType: NEW_AND_OLD_IMAGES
+    chatsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: chatTable-${self:provider.stage}
+        AttributeDefinitions:
+          - AttributeName: chatId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: chatId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
     requestDataBucket:
       Type: AWS::S3::Bucket
       Properties:

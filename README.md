@@ -37,6 +37,7 @@ file
     2. `stage: prod` in serverless.yml
     3. `@DynamoDBTable(tableName = "userTable-prod")` in User.java
     4. `@DynamoDBTable(tableName = "requestTable-prod")` in Request.java
+    5. `@DynamoDBTable(tableName = "chatTable-prod")` in Chat.java
 7. `cd` into the backend/TutorTrade directory
 8. Follow the steps under the `Creating AWS Access Keys` heading and then config access using instructions
    under `Setup with serverless config credentials command`
