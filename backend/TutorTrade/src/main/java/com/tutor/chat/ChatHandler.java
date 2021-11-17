@@ -96,9 +96,9 @@ public class ChatHandler implements RequestStreamHandler {
 
           OBJECT_MAPPER.writeValue(
               outputStream,
-              ApiResponse.<List<Map.Entry<String, String>>>builder()
+              ApiResponse.<Chat>builder()
                   .statusCode(HttpURLConnection.HTTP_OK)
-                  .body(chat.getMessages())
+                  .body(chat)
                   .build());
           return;
         }
@@ -121,9 +121,9 @@ public class ChatHandler implements RequestStreamHandler {
 
           OBJECT_MAPPER.writeValue(
               outputStream,
-              ApiResponse.<List<Map.Entry<String, String>>>builder()
+              ApiResponse.<Chat>builder()
                   .statusCode(HttpURLConnection.HTTP_OK)
-                  .body(chat.getMessages())
+                  .body(chat)
                   .build());
 
           return;

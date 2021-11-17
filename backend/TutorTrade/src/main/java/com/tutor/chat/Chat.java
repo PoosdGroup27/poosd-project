@@ -1,11 +1,10 @@
 package com.tutor.chat;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tutor.request.Request;
+import com.tutor.subject.Subject;
 import com.tutor.utils.JsonUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,6 +15,7 @@ import java.util.*;
 
 @AllArgsConstructor
 @Builder
+@DynamoDBTable(tableName = "chatTable-adam-dev")
 public class Chat {
   private UUID id;
   private String tuteeId;
@@ -101,6 +101,7 @@ public class Chat {
     this.tutorId = tutorId;
   }
 
+  @DynamoDBTypeConverted(converter = MessagesConverter.class)
   @DynamoDBAttribute(attributeName = "messages")
   public List<Map.Entry<String, String>> getMessages() {
     return messages;
@@ -108,5 +109,36 @@ public class Chat {
 
   public void setMessages(List<Map.Entry<String, String>> messages) {
     this.messages = messages;
+  }
+
+  /** Convert subject enums to strings and back when storing in DynamoDB. */
+  public static class MessagesConverter
+      implements DynamoDBTypeConverter<List<Map<String, String>>, List<Map.Entry<String, String>>> {
+    @Override
+    public List<Map<String, String>> convert(List<Map.Entry<String, String>> object) {
+      List<Map<String, String>> outputList = new ArrayList<>();
+
+      object.forEach(
+          x -> {
+            HashMap<String, String> outputMap = new HashMap<>();
+            outputMap.put(x.getKey(), x.getValue());
+            outputList.add(outputMap);
+          });
+
+      return outputList;
+    }
+
+    @Override
+    public List<Map.Entry<String, String>> unconvert(List<Map<String, String>> object) {
+      List<Map.Entry<String, String>> outputList = new ArrayList<>();
+
+      object.stream()
+          .forEach(
+              x ->
+                  x.keySet()
+                      .forEach(y -> outputList.add(new AbstractMap.SimpleEntry<>(y, x.get(y)))));
+
+      return outputList;
+    }
   }
 }
