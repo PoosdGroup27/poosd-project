@@ -5,16 +5,16 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
+import com.amazonaws.services.kms.model.NotFoundException;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
-import com.amazonaws.transform.MapEntry;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tutor.request.Request;
 import com.tutor.utils.ApiResponse;
 import com.tutor.utils.ApiUtils;
 import com.tutor.utils.ChatUtils;
+import com.tutor.utils.UserUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -111,6 +111,22 @@ public class ChatHandler implements RequestStreamHandler {
           String tutorId = (String) bodyJson.get("tutorId");
           String tuteeId = (String) bodyJson.get("tuteeId");
 
+          // user validation
+          List<String> invalidUsers = new ArrayList<>();
+          if (!isValidUser(tuteeId)) {
+            invalidUsers.add(tuteeId);
+          }
+          if (!isValidUser(tutorId)) {
+            invalidUsers.add(tutorId);
+          }
+          if (invalidUsers.size() > 0) {
+            OBJECT_MAPPER.writeValue(
+                outputStream,
+                ApiUtils.returnErrorResponse(
+                    new NotFoundException("The following users do not exist: " + invalidUsers)));
+            return;
+          }
+
           Chat chat =
               Chat.builder().tutorId(tutorId).tuteeId(tuteeId).id(UUID.randomUUID()).build();
 
@@ -159,5 +175,15 @@ public class ChatHandler implements RequestStreamHandler {
         .statusCode(HttpURLConnection.HTTP_OK)
         .body(chatToUpdate)
         .build();
+  }
+
+  /**
+   * Determines whether a user backed by the given id exists or not
+   *
+   * @param userId string userid
+   * @return true if exists, false otherwise
+   */
+  private boolean isValidUser(String userId) {
+    return (UserUtils.getUserObjectById(userId) != null);
   }
 }
