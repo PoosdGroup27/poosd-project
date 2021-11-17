@@ -70,6 +70,16 @@ functions:
                 userId: true
             template:
               application/json: ${file(./mapping_template.yml):mapping_template}\
+      - http:
+          path: /request/getAllMatchedRequests/{userId}
+          method: get
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                userId: true
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
 
   matching:
     handler: com.tutor.matching.MatchingHandler

@@ -5,6 +5,10 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
+import com.amazonaws.services.dynamodbv2.model.AttributeAction;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ScanRequest;
+import com.amazonaws.services.dynamodbv2.model.ScanResult;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -22,6 +26,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.util.*;
+import java.util.jar.Attributes;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -47,6 +53,7 @@ public class RequestsHandler implements RequestStreamHandler {
 
     HashMap<?, ?> contextMap = (HashMap<?, ?>) event.get("context");
     String httpMethod = (String) contextMap.get("http-method");
+    String path = (String) contextMap.get("resource-path");
 
     HashMap<?, ?> bodyJson;
     HashMap<?, ?> params;
@@ -56,12 +63,24 @@ public class RequestsHandler implements RequestStreamHandler {
       case "GET":
         params = (HashMap<?, ?>) event.get("params");
         pathParameters = (HashMap<?, ?>) params.get("path");
+        String[] pathArray = path.split("/");
 
-        // getRequestsByUserId endpoint
+        /**
+         * TODO: this will need to be changed if we ever implement a get method with userId as path
+         * parameter on any resource more than one layer deep. This works for
+         * /request/{someMethod}/{userID}
+         */
         String userId = (String) pathParameters.get("userId");
-        if (userId != null) {
-          OBJECT_MAPPER.writeValue(outputStream, getRequestsByUserId(userId));
-          return;
+        if (userId != null && pathArray.length == 4) {
+          // e.g. resource-path=/request/getRequestsByUserId/{userId}
+          // .split("/") = ["", "request", "getRequestsByUserId", "userID"]
+          if (pathArray[2].equals("getRequestsByUserId")) {
+            OBJECT_MAPPER.writeValue(outputStream, getRequestsByUserId(userId));
+            return;
+          } else if (pathArray[2].equals("getAllMatchedRequests")) {
+            OBJECT_MAPPER.writeValue(outputStream, getRequestsWithMatchOfUser(userId));
+            return;
+          }
         }
 
         // plain old GET for a Request
@@ -232,8 +251,7 @@ public class RequestsHandler implements RequestStreamHandler {
         .build();
   }
 
-  private ApiResponse<?> deleteRequest(String requestId)
-      throws JsonProcessingException {
+  private ApiResponse<?> deleteRequest(String requestId) throws JsonProcessingException {
     Request requestToBeDeleted = RequestUtils.getRequestObjectById(requestId);
 
     if (requestToBeDeleted == null) {
@@ -279,5 +297,24 @@ public class RequestsHandler implements RequestStreamHandler {
         .statusCode(HttpURLConnection.HTTP_OK)
         .body(sessionSubjectsList)
         .build();
+  }
+
+  private Map<String, String> getRequestsWithMatchOfUser(String userId) {
+    ScanRequest scan = new ScanRequest().withTableName(String.format("requestTable-%s", STAGE));
+
+    // returns up to 1 MB of data, which should always be fine for our
+    // purposes
+    ScanResult result = DYNAMO_DB.scan(scan);
+
+    // all matched requestIds : matching status for given user
+    Map<String, String> resultMap = new HashMap<>();
+    for (Map<String, AttributeValue> item : result.getItems()) {
+      if (item.get("orderedMatches").getM().containsKey(userId)) {
+        resultMap.put(
+            item.get("requestId").getS(), item.get("orderedMatches").getM().get(userId).getS());
+      }
+    }
+
+    return resultMap;
   }
 }
