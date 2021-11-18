@@ -20,10 +20,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -74,7 +72,8 @@ public class UserHandler implements RequestStreamHandler {
           String subject = (String) bodyJson.get("subject");
           String reviewEvaluation = (String) bodyJson.get("reviewEvaluation");
 
-          OBJECT_MAPPER.writeValue(outputStream, addReview(userId, rating, subject, reviewEvaluation));
+          OBJECT_MAPPER.writeValue(
+              outputStream, addReview(userId, rating, subject, reviewEvaluation));
           return;
         }
 
@@ -146,23 +145,33 @@ public class UserHandler implements RequestStreamHandler {
     return ApiResponse.<User>builder().statusCode(HttpURLConnection.HTTP_OK).body(user).build();
   }
 
-  private ApiResponse<?> addReview(String userId, Integer rating, String subject, String reviewEvaluation) {
+  private ApiResponse<?> addReview(
+      String userId, Integer rating, String subject, String reviewEvaluation) {
     User user = UserUtils.getUserObjectById(userId);
 
+    // validate fields
+    List<String> missingBodyValues = new ArrayList<String>();
     if (user == null) {
-      return ApiUtils.returnErrorResponse(
-          new NotFoundException(String.format("User %s does not exist", userId)));
+      missingBodyValues.add(String.format("User %s does not exist", userId));
     }
 
     if (rating == null || rating < 1 || rating > 5) {
-      return ApiUtils.returnErrorResponse(
-          new IllegalArgumentException(
-              String.format("Integer rating not specified or invalid (must be between 1 and 5).")));
+      missingBodyValues.add("Integer rating not specified or invalid (must be between 1 and 5).");
     }
 
     if (reviewEvaluation == null) {
-      return ApiUtils.returnErrorResponse(
-          new IllegalArgumentException("Evaluation for review not specified."));
+      missingBodyValues.add("reviewEvaluation string not specified.");
+    }
+
+    if (subject == null) {
+      missingBodyValues.add("Subject for review not specified.");
+    }
+
+    if (!missingBodyValues.isEmpty()) {
+      ApiUtils.returnErrorResponse(
+          new IllegalArgumentException(
+              "The following elements of the JSON body either do not exist or have issues: "
+                  + missingBodyValues));
     }
 
     user.addNewRating(rating);
