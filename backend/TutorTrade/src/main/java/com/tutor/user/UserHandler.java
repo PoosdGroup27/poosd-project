@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.subject.Subject;
 import com.tutor.utils.ApiResponse;
+import com.tutor.utils.ApiUtils;
 import com.tutor.utils.UserUtils;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +26,6 @@ import java.util.Map;
 import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 
 /**
  * Handle all incoming requests to UserService through user API. API request is routed to User
@@ -68,38 +68,12 @@ public class UserHandler implements RequestStreamHandler {
         // adding a rating to an existing user
         if (path.contains("addReview")) {
           String userId = (String) pathParameters.get("userId");
-          User user = UserUtils.getUserObjectById(userId);
-
-          if (user == null) {
-            throw new NotFoundException(String.format("User %s does not exist", userId));
-          }
 
           bodyJson = (HashMap<?, ?>) event.get("body-json");
-
           Integer rating = (Integer) bodyJson.get("rating");
-          if (rating == null || rating < 1 || rating > 5) {
-            throw new IllegalArgumentException(String.format("Integer rating not specified or invalid (must be between 1 and 5)."));
-          }
+          String reviewEvaluation = (String) bodyJson.get("reviewEvaluation");
 
-          String description = (String) bodyJson.get("description");
-          if (description == null) {
-            throw new IllegalArgumentException("Description for review not specified.");
-          }
-
-          user.addNewRating(rating);
-          // ADD LIST OF STRINGS FOR REVIEW DESCRIPTIONS
-
-          MAPPER.save(
-                  user,
-                  DynamoDBMapperConfig.builder()
-                          .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
-                          .build());
-
-          OBJECT_MAPPER.writeValue(outputStream, ApiResponse.<User>builder()
-                  .statusCode(HttpURLConnection.HTTP_OK)
-                  .body(user)
-                  .build());
-
+          OBJECT_MAPPER.writeValue(outputStream, addReview(userId, rating, reviewEvaluation));
           return;
         }
 
@@ -167,6 +141,37 @@ public class UserHandler implements RequestStreamHandler {
             .build();
 
     MAPPER.save(user);
+
+    return ApiResponse.<User>builder().statusCode(HttpURLConnection.HTTP_OK).body(user).build();
+  }
+
+  private ApiResponse<?> addReview(String userId, Integer rating, String reviewEvaluation) {
+    User user = UserUtils.getUserObjectById(userId);
+
+    if (user == null) {
+      return ApiUtils.returnErrorResponse(
+          new NotFoundException(String.format("User %s does not exist", userId)));
+    }
+
+    if (rating == null || rating < 1 || rating > 5) {
+      return ApiUtils.returnErrorResponse(
+          new IllegalArgumentException(
+              String.format("Integer rating not specified or invalid (must be between 1 and 5).")));
+    }
+
+    if (reviewEvaluation == null) {
+      return ApiUtils.returnErrorResponse(
+          new IllegalArgumentException("Evaluation for review not specified."));
+    }
+
+    user.addNewRating(rating);
+    user.addReviewEvaluation(reviewEvaluation);
+
+    MAPPER.save(
+        user,
+        DynamoDBMapperConfig.builder()
+            .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
+            .build());
 
     return ApiResponse.<User>builder().statusCode(HttpURLConnection.HTTP_OK).body(user).build();
   }
@@ -249,6 +254,11 @@ public class UserHandler implements RequestStreamHandler {
     Integer newRating = (Integer) body.get("newRating");
     if (newRating != null) {
       userToUpdate.addNewRating(newRating);
+    }
+
+    ArrayList<String> reviewEvaluations = (ArrayList<String>) body.get("reviewEvaluations");
+    if (reviewEvaluations != null) {
+      userToUpdate.setReviewEvaluations(reviewEvaluations);
     }
 
     MAPPER.save(

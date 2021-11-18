@@ -36,6 +36,7 @@ public class User {
   private int cumulativeSessionsCompleted;
   private double rating;
   private String major;
+  private ArrayList<String> reviewEvaluations;
 
   /**
    * Constructor is a wrapper for builder and should not be called directly, unless creating user
@@ -58,8 +59,10 @@ public class User {
     this.subjectsLearn =
         (builder.subjectsLearn == null) ? new ArrayList<>() : builder.subjectsLearn;
     this.major = builder.major;
-    // users shouldn't have session IDs at creation time
+
+    // users shouldn't have session IDs or reviews at creation time
     this.sessionIds = new ArrayList<>();
+    this.reviewEvaluations = new ArrayList<>();
   }
 
   /**
@@ -208,6 +211,24 @@ public class User {
 
   public void setMajor(String major) {
     this.major = major;
+  }
+
+  @DynamoDBAttribute(attributeName = "reviewEvaluations")
+  public ArrayList<String> getReviewEvaluations() {
+    return reviewEvaluations;
+  }
+
+  public void setReviewEvaluations(ArrayList<String> evals) {
+    this.reviewEvaluations = evals;
+  }
+
+  /**
+   * Adds a new evaluation to the list of review evaluations.
+   *
+   * @param eval String evaluation
+   */
+  public void addReviewEvaluation(String eval) {
+    reviewEvaluations.add(eval);
   }
 
   /**
