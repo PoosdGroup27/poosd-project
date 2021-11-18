@@ -38,6 +38,16 @@ functions:
                 id: true
             template:
               application/json: ${file(./mapping_template.yml):mapping_template}\
+      - http:
+          path: /user/addReview/{userId}
+          method: put
+          integration: lambda
+          request:
+            parameters:
+              paths:
+                userId: true
+            template:
+              application/json: ${file(./mapping_template.yml):mapping_template}\
   request:
     handler: com.tutor.request.RequestsHandler
     environment:
