@@ -71,9 +71,10 @@ public class UserHandler implements RequestStreamHandler {
 
           bodyJson = (HashMap<?, ?>) event.get("body-json");
           Integer rating = (Integer) bodyJson.get("rating");
+          String subject = (String) bodyJson.get("subject");
           String reviewEvaluation = (String) bodyJson.get("reviewEvaluation");
 
-          OBJECT_MAPPER.writeValue(outputStream, addReview(userId, rating, reviewEvaluation));
+          OBJECT_MAPPER.writeValue(outputStream, addReview(userId, rating, subject, reviewEvaluation));
           return;
         }
 
@@ -145,7 +146,7 @@ public class UserHandler implements RequestStreamHandler {
     return ApiResponse.<User>builder().statusCode(HttpURLConnection.HTTP_OK).body(user).build();
   }
 
-  private ApiResponse<?> addReview(String userId, Integer rating, String reviewEvaluation) {
+  private ApiResponse<?> addReview(String userId, Integer rating, String subject, String reviewEvaluation) {
     User user = UserUtils.getUserObjectById(userId);
 
     if (user == null) {
@@ -165,7 +166,7 @@ public class UserHandler implements RequestStreamHandler {
     }
 
     user.addNewRating(rating);
-    user.addReviewEvaluation(reviewEvaluation);
+    user.addReviewEvaluation(subject + ": " + reviewEvaluation);
 
     MAPPER.save(
         user,
