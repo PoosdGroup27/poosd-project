@@ -15,7 +15,7 @@ import java.util.*;
  * Request object. Regarding table name: set equal to requestTable-{stage_name} if deploying to non
  * prod stage.
  */
-@DynamoDBTable(tableName = "requestTable-jesse-dev")
+@DynamoDBTable(tableName = "requestTable-prod")
 public class Request {
   private String requesterId;
   private String helperId;
