@@ -87,15 +87,13 @@ functions:
     reservedConcurrency: 1
     environment:
       STAGE: ${self:provider.stage}
-  #    let's keep this disabled for now, so we don't trigger tons of
-  #    invocations during testing. Can reactivate when we're nearing
-  #    demo
-  #    events:
-  #      - stream:
-  #          type: dynamodb
-  #          arn:
-  #            Fn::GetAtt: [ requestsTable, StreamArn ]
-  #          maximumRetryAttempts: 0
+#      disabled until prod time
+#    events:
+#      - stream:
+#          type: dynamodb
+#          arn:
+#            Fn::GetAtt: [ requestsTable, StreamArn ]
+#          maximumRetryAttempts: 0
 
   matches:
     handler: com.tutor.matches.MatchesHandler

@@ -10,21 +10,19 @@ import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tutor.matching.MatchingUtils;
+import com.tutor.request.*;
 import com.tutor.subject.Subject;
 import com.tutor.utils.ApiResponse;
 import com.tutor.utils.UserUtils;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import lombok.SneakyThrows;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 
 /**
  * Handle all incoming requests to UserService through user API. API request is routed to User
@@ -44,9 +42,9 @@ public class UserHandler implements RequestStreamHandler {
     OBJECT_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
   }
 
+  @SneakyThrows
   @Override
-  public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context)
-      throws IOException {
+  public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) {
     Map<Object, Object> event =
         OBJECT_MAPPER.readValue(inputStream, new TypeReference<Map<Object, Object>>() {});
 
@@ -100,7 +98,8 @@ public class UserHandler implements RequestStreamHandler {
     OBJECT_MAPPER.writeValue(outputStream, response);
   }
 
-  private ApiResponse<?> createUser(HashMap<?, ?> body, String userId) {
+  private ApiResponse<?> createUser(HashMap<?, ?> body, String userId)
+      throws RequestBuilderException {
     String name = (String) body.get("name");
     String school = (String) body.get("school");
     String phoneNumber = (String) body.get("phoneNumber");
@@ -125,6 +124,23 @@ public class UserHandler implements RequestStreamHandler {
             .build();
 
     MAPPER.save(user);
+
+    // create a base request so we can match new users
+    Random random = new Random();
+    for (Subject subject : user.getSubjectsTeach()) {
+      Request request =
+          new RequestBuilder()
+              .withRequesterId("N/A")
+              .withHelperId(userId)
+              .withCost(random.nextInt(20))
+              .withSubject(subject.getSubjectName())
+              .withPlatform(Platform.values()[random.nextInt(Platform.values().length)].name())
+              .withUrgency(Urgency.values()[random.nextInt(Urgency.values().length)].name())
+              .withStatus(Status.COMPLETED.name())
+              .withDescription("N/A")
+              .build();
+      MatchingUtils.updateRequestDataStore(request);
+    }
 
     return ApiResponse.<User>builder().statusCode(HttpURLConnection.HTTP_OK).body(user).build();
   }

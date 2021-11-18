@@ -1,8 +1,12 @@
 package com.tutor.matching;
 
 import com.tutor.request.Request;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 /** Helper intermediary class for moving request data to the completed request data store. */
+@AllArgsConstructor
+@Builder
 public class RequestKnnData {
   private String helperId;
 
