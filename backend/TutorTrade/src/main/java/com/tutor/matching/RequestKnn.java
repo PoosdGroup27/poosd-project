@@ -43,7 +43,9 @@ public class RequestKnn {
 
     ArrayList<String> results = new ArrayList<>();
     for (int i = 0; i < k && i < distancesToNewRequest.size(); i++) {
-      results.add(distancesToNewRequest.get(i).getKey());
+      if (!distancesToNewRequest.get(i).getKey().equals(this.newRequest.getRequesterId())) {
+        results.add(distancesToNewRequest.get(i).getKey());
+      }
     }
     return results;
   }

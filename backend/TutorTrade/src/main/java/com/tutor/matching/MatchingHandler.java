@@ -103,7 +103,7 @@ public class MatchingHandler implements RequestHandler<DynamodbEvent, ApiRespons
     RequestKnn knn = new RequestKnn(data, request);
     List<String> resultList = knn.getNearestNeighbors(k);
 
-    HashMap<String, MatchStatus> result = new HashMap<>();
+    LinkedHashMap<String, MatchStatus> result = new LinkedHashMap<>();
     resultList.forEach(x -> result.put(x, MatchStatus.UNANSWERED));
 
     // update request with matches and matched status
