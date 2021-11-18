@@ -87,12 +87,12 @@ functions:
     reservedConcurrency: 1
     environment:
       STAGE: ${self:provider.stage}
-      events:
-        - stream:
-            type: dynamodb
-            arn:
-              Fn::GetAtt: [ requestsTable, StreamArn ]
-            maximumRetryAttempts: 0
+    events:
+      - stream:
+          type: dynamodb
+          arn:
+            Fn::GetAtt: [ requestsTable, StreamArn ]
+          maximumRetryAttempts: 0
 
   matches:
     handler: com.tutor.matches.MatchesHandler
