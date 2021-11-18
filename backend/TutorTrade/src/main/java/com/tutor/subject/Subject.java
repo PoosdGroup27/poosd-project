@@ -6,6 +6,9 @@ import java.util.*;
 /**
  * Enum of different subjects users can be tutored for. Format of underlying string is "{emoji}
  * {name}"
+ * Note: order here does matter, as the matching service will try to match someone with a similar
+ * subject tutor if one for their exact subject does not exist. Similarity is determined by order of
+ * enum consants.
  */
 public enum Subject {
   AGRICULTURE("🌾 Agriculture"),
