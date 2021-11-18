@@ -168,7 +168,7 @@ public class UserHandler implements RequestStreamHandler {
     }
 
     if (!missingBodyValues.isEmpty()) {
-      ApiUtils.returnErrorResponse(
+      return ApiUtils.returnErrorResponse(
           new IllegalArgumentException(
               "The following elements of the JSON body either do not exist or have issues: "
                   + missingBodyValues));
