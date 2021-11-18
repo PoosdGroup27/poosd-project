@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * object before being written to DynamoDB. User data coming from DynamoDB is read into User object.
  * Regarding table name: set equal to userTable-{stage_name} if deploying to none prod stage
  */
-@DynamoDBTable(tableName = "userTable-prod")
+@DynamoDBTable(tableName = "userTable-jesse-dev")
 public class User {
   private String name;
 
