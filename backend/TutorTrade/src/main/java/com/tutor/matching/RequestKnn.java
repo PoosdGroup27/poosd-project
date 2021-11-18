@@ -29,15 +29,23 @@ public class RequestKnn {
     RequestKnnData newRequest = new RequestKnnData(this.newRequest);
     for (RequestKnnData dataPoint : this.normalizedData) {
       String helperId = dataPoint.getHelperId();
-      distances.put(helperId, getScaledEuclideanDistance(dataPoint, newRequest));
+      Double distance = getScaledEuclideanDistance(dataPoint, newRequest);
+
+      if (!distances.containsKey(helperId) || distances.get(helperId) > distance) {
+        distances.put(helperId, distance);
+      }
+      // otherwise, we don't want to put to distances, since helper already is there with
+      // a better scoring request
     }
 
     List<Map.Entry<String, Double>> distancesToNewRequest = new LinkedList<>(distances.entrySet());
     distancesToNewRequest.sort(Map.Entry.comparingByValue());
 
     ArrayList<String> results = new ArrayList<>();
-    for (int i = 0; i < k && i < normalizedData.size(); i++) {
-      results.add(distancesToNewRequest.get(i).getKey());
+    for (int i = 0; i < k && i < distancesToNewRequest.size(); i++) {
+      if (!distancesToNewRequest.get(i).getKey().equals(this.newRequest.getRequesterId())) {
+        results.add(distancesToNewRequest.get(i).getKey());
+      }
     }
     return results;
   }
