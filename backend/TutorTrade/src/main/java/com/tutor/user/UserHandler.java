@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
+import com.amazonaws.services.kms.model.NotFoundException;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -62,6 +63,47 @@ public class UserHandler implements RequestStreamHandler {
         bodyJson = (HashMap<?, ?>) event.get("body-json");
         params = (HashMap<?, ?>) event.get("params");
         pathParameters = (HashMap<?, ?>) params.get("path");
+        String path = (String) contextMap.get("resource-path");
+
+        // adding a rating to an existing user
+        if (path.contains("addReview")) {
+          String userId = (String) pathParameters.get("userId");
+          User user = UserUtils.getUserObjectById(userId);
+
+          if (user == null) {
+            throw new NotFoundException(String.format("User %s does not exist", userId));
+          }
+
+          bodyJson = (HashMap<?, ?>) event.get("body-json");
+
+          Integer rating = (Integer) bodyJson.get("rating");
+          if (rating == null || rating < 1 || rating > 5) {
+            throw new IllegalArgumentException(String.format("Integer rating not specified or invalid (must be between 1 and 5)."));
+          }
+
+          String description = (String) bodyJson.get("description");
+          if (description == null) {
+            throw new IllegalArgumentException("Description for review not specified.");
+          }
+
+          user.addNewRating(rating);
+          // ADD LIST OF STRINGS FOR REVIEW DESCRIPTIONS
+
+          MAPPER.save(
+                  user,
+                  DynamoDBMapperConfig.builder()
+                          .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
+                          .build());
+
+          OBJECT_MAPPER.writeValue(outputStream, ApiResponse.<User>builder()
+                  .statusCode(HttpURLConnection.HTTP_OK)
+                  .body(user)
+                  .build());
+
+          return;
+        }
+
+        // creating a new user
         OBJECT_MAPPER.writeValue(
             outputStream, createUser(bodyJson, (String) pathParameters.get("id")));
         return;
