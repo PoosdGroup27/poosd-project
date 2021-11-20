@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.request.Request;
@@ -18,13 +19,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UserHandlerTest {
     private static final AmazonDynamoDB DYNAMO_DB =
@@ -57,7 +55,7 @@ public class UserHandlerTest {
         Map<String, Object> userBodyFields = getTestUserFromFile(userBody);
 
         // WHEN: post user to user API
-        String userPostResponseString = ApiUtils.post(ApiUtils.ApiStages.TEST.toString(), "/user", OBJECT_MAPPER.writeValueAsString(userBodyFields));
+        String userPostResponseString = ApiUtils.put(ApiUtils.ApiStages.TEST.toString(), String.format("/user/%s", userBodyFields.get("name")), OBJECT_MAPPER.writeValueAsString(userBodyFields));
 
         // THEN: request response is not null
         assertNotNull(userPostResponseString);
@@ -69,26 +67,37 @@ public class UserHandlerTest {
         // THEN: fields of request object match those from validPostRequest.json
         assertEquals(user.getSchool(), userBodyFields.get("school"));
         assertEquals(user.getName(), userBodyFields.get("name"));
-        assertEquals(user.getIsActive(), Boolean.valueOf((String) userBodyFields.get("isActive")));
-        assertEquals(user.getPoints(), Integer.parseInt((String) userBodyFields.get("points")));
-        assertEquals(user.getSessionIds(), OBJECT_MAPPER.readValue((String) userBodyFields.get("sessionIds"), new TypeReference<ArrayList<UUID>>() {}));
-        assertEquals(user.getUserId(), userBodyFields.get("userId"));
+        assertTrue(user.getIsActive()); // should be true on user creation
         assertEquals(user.getPhoneNumber(), userBodyFields.get("phoneNumber"));
-        assertEquals(user.getSubjectsLearn(), OBJECT_MAPPER.readValue((String) userBodyFields.get("subjectsLearn"), new TypeReference<ArrayList<Subject>>() {}));
-        assertEquals(user.getSubjectsTeach(), OBJECT_MAPPER.readValue((String) userBodyFields.get("subjectsTeach"), new TypeReference<ArrayList<Subject>>() {}));
-        assertEquals(user.getCumulativeSessionsCompleted(), Integer.parseInt(("cumulativeSessionsCompleted")));
-        assertEquals(user.getRating(), Double.parseDouble((String) userBodyFields.get("rating")));
+        assertEquals(user.getSubjectsLearn().stream().map(Subject::getSubjectName).collect(Collectors.toList()), userBodyFields.get("subjectsLearn"));
+        assertEquals(user.getSubjectsTeach().stream().map(Subject::getSubjectName).collect(Collectors.toList()), userBodyFields.get("subjectsTeach"));
         assertEquals(user.getMajor(), userBodyFields.get("major"));
-        assertEquals(user.getReviewEvaluations(), OBJECT_MAPPER.readValue((String) userBodyFields.get("reviewEvaluations"), new TypeReference<ArrayList<String>>() {}));
 
+        // WHEN: query Dynamo db directly
+        User key = new User(user.getUserId());
+        DynamoDBQueryExpression<User> queryExpression =
+                new DynamoDBQueryExpression<User>().withHashKeyValues(key);
+
+        List<User> userById =
+                DYNAMO_DB_MAPPER.query(User.class, queryExpression, DYNAMO_DB_MAPPER_CONFIG);
+        assertEquals(1, userById.size());
+        User userInDB = userById.get(0);
+
+        assertEquals(userInDB.getSchool(), userBodyFields.get("school"));
+        assertEquals(userInDB.getName(), userBodyFields.get("name"));
+        assertTrue(userInDB.getIsActive()); // should be true on user creation
+        assertEquals(userInDB.getPoints(), 100); // user given 100 points to begin with
+        assertEquals(userInDB.getSessionIds(), new ArrayList<>()); // should be empty on initialization
+        assertEquals(userInDB.getUserId(), userBodyFields.get("name")); // we just let the userId be the user's name -- must not contain spacing
+        assertEquals(userInDB.getPhoneNumber(), userBodyFields.get("phoneNumber"));
+        assertEquals(userInDB.getSubjectsLearn().stream().map(Subject::getSubjectName).collect(Collectors.toList()), userBodyFields.get("subjectsLearn"));
+        assertEquals(userInDB.getSubjectsTeach().stream().map(Subject::getSubjectName).collect(Collectors.toList()), userBodyFields.get("subjectsTeach"));
+        assertEquals(userInDB.getCumulativeSessionsCompleted(), 0); // should be zero on initialization
+        assertEquals(userInDB.getRating(), 5); // start out with a 5-star rating
+        assertEquals(userInDB.getMajor(), userBodyFields.get("major"));
+        assertEquals(userInDB.getReviewEvaluations(), new ArrayList<>()); // empty array list to start out
+
+        // cleanup
         createdUsers.add(user.getUserId());
     }
-//
-//  public static void main(String[] args) throws IOException {
-//        String json = JSON_UTILS.getJsonFromFileAsString("validUserToPost.json");
-//    System.out.println(json);
-//
-//    Map<String, Object> map = getTestUserFromFile(json);
-//    System.out.println(map);
-//  }
 }
