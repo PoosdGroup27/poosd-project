@@ -65,6 +65,7 @@ class RequestsHandlerTest {
     return requestBodyFields;
   }
 
+  // Test-Case-B01.2
   @Test
   void postTestGivenValidRequest() throws IOException {
     // GIVEN: valid request body
@@ -113,6 +114,7 @@ class RequestsHandlerTest {
     createdRequests.add(request.getRequestId().toString());
   }
 
+  // Test-Case-B01.1
   @Test
   void postTestGivenValidRandomRequest() throws IOException {
     // GIVEN: valid random request body
@@ -160,7 +162,7 @@ class RequestsHandlerTest {
     createdRequests.add(request.getRequestId().toString());
   }
 
-
+  // Test-Case-B02.2
   @Test
   void patchTestGivenValidChange() throws IOException, RequestBuilderException {
     // GIVEN: valid request body
@@ -231,6 +233,7 @@ class RequestsHandlerTest {
   }
 
 
+  // Test-Case-B02.1
   @Test
   void patchTestGivenValidRandomChange() throws IOException, RequestBuilderException {
     Random random = new Random();
@@ -302,6 +305,7 @@ class RequestsHandlerTest {
     createdRequests.add(request.getRequestId().toString());
   }
 
+  // Test-Case-B04.2
   @Test
   void deleteTestGivenValidRequest() throws IOException, RequestBuilderException {
     // GIVEN: valid request body
@@ -340,6 +344,7 @@ class RequestsHandlerTest {
     assertEquals(0, requestById.size());
   }
 
+  // Test-Case-B04.1
   @Test
   void deleteTestGivenValidRandomRequest() throws RequestBuilderException {
     // GIVEN: valid request body
@@ -377,7 +382,7 @@ class RequestsHandlerTest {
     assertEquals(0, requestById.size());
   }
 
-
+  // Test-Case-B03.2
   @Test
   void getTestGivenValidRequest() throws IOException, RequestBuilderException {
     // GIVEN: valid request body
@@ -411,6 +416,7 @@ class RequestsHandlerTest {
     assertEquals(request, requestFromGet);
   }
 
+  // Test-Case-B03.1
   @Test
   void getTestGivenValidRandomRequest() throws IOException, RequestBuilderException {
     // GIVEN: valid request body
