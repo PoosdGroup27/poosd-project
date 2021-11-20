@@ -12,7 +12,7 @@ import java.util.*;
 
 @AllArgsConstructor
 @Builder
-@DynamoDBTable(tableName = "chatTable-jesse-dev")
+@DynamoDBTable(tableName = "chatTable-prod")
 public class Chat {
   private UUID id;
   private String tuteeId;
@@ -54,8 +54,8 @@ public class Chat {
   /**
    * Appends a message to the running list of messages between the tutor and tutee
    *
-   * @param userId
-   * @param incomingMessage
+   * @param userId Id of user who message belongs to
+   * @param incomingMessage Message user would like to send
    */
   public void appendMessage(String userId, String incomingMessage) {
     if (!Chat.presetMessages.contains(incomingMessage)) {
