@@ -100,4 +100,70 @@ public class UserHandlerTest {
         // cleanup
         createdUsers.add(user.getUserId());
     }
+
+    @Test
+    void postUserGivenValidRandomFields() throws IOException {
+        // GIVEN: valid random user fields
+        Map<String, Object> userBodyFields = createRandomRequestPostBody();
+
+        // WHEN: post user to user API
+        String userPostResponseString = ApiUtils.put(ApiUtils.ApiStages.TEST.toString(), String.format("/user/%s", userBodyFields.get("name")), OBJECT_MAPPER.writeValueAsString(userBodyFields));
+
+        // THEN: request response is not null
+        assertNotNull(userPostResponseString);
+
+        // THEN: user response is a valid user object
+        User user = UserUtils.getUserFromAPIResponse(userPostResponseString);
+        assertNotNull(user);
+
+        // THEN: fields of request object match those from validPostRequest.json
+        assertEquals(user.getSchool(), userBodyFields.get("school"));
+        assertEquals(user.getName(), userBodyFields.get("name"));
+        assertTrue(user.getIsActive()); // should be true on user creation
+        assertEquals(user.getPhoneNumber(), userBodyFields.get("phoneNumber"));
+        assertEquals(user.getSubjectsLearn().stream().map(Subject::getSubjectName).collect(Collectors.toList()), userBodyFields.get("subjectsLearn"));
+        assertEquals(user.getSubjectsTeach().stream().map(Subject::getSubjectName).collect(Collectors.toList()), userBodyFields.get("subjectsTeach"));
+        assertEquals(user.getMajor(), userBodyFields.get("major"));
+
+        // WHEN: query Dynamo db directly
+        User key = new User(user.getUserId());
+        DynamoDBQueryExpression<User> queryExpression =
+                new DynamoDBQueryExpression<User>().withHashKeyValues(key);
+
+        List<User> userById =
+                DYNAMO_DB_MAPPER.query(User.class, queryExpression, DYNAMO_DB_MAPPER_CONFIG);
+        assertEquals(1, userById.size());
+        User userInDB = userById.get(0);
+
+        assertEquals(userInDB.getSchool(), userBodyFields.get("school"));
+        assertEquals(userInDB.getName(), userBodyFields.get("name"));
+        assertTrue(userInDB.getIsActive()); // should be true on user creation
+        assertEquals(userInDB.getPoints(), 100); // user given 100 points to begin with
+        assertEquals(userInDB.getSessionIds(), new ArrayList<>()); // should be empty on initialization
+        assertEquals(userInDB.getUserId(), userBodyFields.get("name")); // we just let the userId be the user's name -- must not contain spacing
+        assertEquals(userInDB.getPhoneNumber(), userBodyFields.get("phoneNumber"));
+        assertEquals(userInDB.getSubjectsLearn().stream().map(Subject::getSubjectName).collect(Collectors.toList()), userBodyFields.get("subjectsLearn"));
+        assertEquals(userInDB.getSubjectsTeach().stream().map(Subject::getSubjectName).collect(Collectors.toList()), userBodyFields.get("subjectsTeach"));
+        assertEquals(userInDB.getCumulativeSessionsCompleted(), 0); // should be zero on initialization
+        assertEquals(userInDB.getRating(), 5); // start out with a 5-star rating
+        assertEquals(userInDB.getMajor(), userBodyFields.get("major"));
+        assertEquals(userInDB.getReviewEvaluations(), new ArrayList<>()); // empty array list to start out
+
+        // cleanup
+        createdUsers.add(user.getUserId());
+    }
+
+    private static Map<String, Object> createRandomRequestPostBody() {
+        Random random = new Random();
+
+        Map<String, Object> userBodyFields = new HashMap<>();
+        userBodyFields.put("name", "TestUser" + random.nextInt());
+        userBodyFields.put("school", "TestSchool" + random.nextInt());
+        userBodyFields.put("phoneNumber", "555-555-5555");
+        userBodyFields.put("major", "TestMajor" + random.nextInt());
+        userBodyFields.put("subjectsLearn", List.of(Subject.values()[random.nextInt(Subject.values().length)].getSubjectName()));
+        userBodyFields.put("subjectsTeach", List.of(Subject.values()[random.nextInt(Subject.values().length)].getSubjectName()));
+
+        return userBodyFields;
+    }
 }
