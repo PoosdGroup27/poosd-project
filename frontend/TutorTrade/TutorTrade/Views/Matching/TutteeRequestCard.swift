@@ -129,7 +129,6 @@ class TutteeRequestCard: UIScrollView {
 
         addSubview(nameLabel) {
             NSLayoutConstraint.activate([
-                $0.heightAnchor.constraint(equalToConstant: 340),
                 $0.topAnchor.constraint(equalToSystemSpacingBelow: self.profilePictureView.bottomAnchor, multiplier: 3),
                 $0.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 19)
             ])
