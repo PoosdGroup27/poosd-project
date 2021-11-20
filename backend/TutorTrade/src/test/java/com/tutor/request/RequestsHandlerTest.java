@@ -270,7 +270,7 @@ class RequestsHandlerTest {
 
     // WHEN: patch request
     Map<String, String> changes = new HashMap<>();
-    changes.put("subject", Subject.values()[random.nextInt(Subject.values().length)].toString());
+    changes.put("subject", Subject.values()[random.nextInt(Subject.values().length)].getSubjectName());
     changes.put("costInPoints", String.valueOf(random.nextInt()));
     String body = OBJECT_MAPPER.writeValueAsString(changes);
     String response =
@@ -447,8 +447,8 @@ class RequestsHandlerTest {
     Random random = new Random();
 
     Map<String, String> requestBodyFields = new HashMap<>();
-    requestBodyFields.put("requesterId", UUID.randomUUID().toString());
-    requestBodyFields.put("subject", Subject.values()[random.nextInt(Subject.values().length)].toString());
+    requestBodyFields.put("requesterId", TEST_USER_ID);
+    requestBodyFields.put("subject", Subject.values()[random.nextInt(Subject.values().length)].getSubjectName());
     requestBodyFields.put("urgency", Urgency.values()[random.nextInt(Urgency.values().length)].toString());
     requestBodyFields.put("platform", Platform.values()[random.nextInt(Platform.values().length)].toString());
     requestBodyFields.put("costInPoints", String.valueOf(random.nextInt(10000)));
