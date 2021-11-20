@@ -8,10 +8,13 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.request.Request;
+import com.tutor.subject.Subject;
 import com.tutor.utils.ApiUtils;
 import com.tutor.utils.JsonUtils;
 import com.tutor.utils.RequestUtils;
 import com.tutor.utils.UserUtils;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -34,18 +37,24 @@ public class UserHandlerTest {
                     .build();
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final JsonUtils JSON_UTILS = new JsonUtils();
-    ArrayList<String> createdUsers = new ArrayList<>();
-    private static final String TEST_USER_ID = UUID.randomUUID().toString();
+    static ArrayList<String> createdUsers = new ArrayList<>();
 
-    private static Map<String, String> getTestUserFromFile(String userBody) throws IOException {
-        return OBJECT_MAPPER.readValue(userBody, new TypeReference<HashMap<String, String>>() {});
+    private static Map<String, Object> getTestUserFromFile(String userBody) throws IOException {
+        return OBJECT_MAPPER.readValue(userBody, new TypeReference<HashMap<String, Object>>() {});
+    }
+
+    @AfterAll
+    static void afterAll() {
+        for (String userId : createdUsers) {
+            ApiUtils.delete(ApiUtils.ApiStages.TEST.toString(), String.format("/user/%s", userId));
+        }
     }
 
     @Test
     void postUserGivenValidFields() throws IOException {
         // GIVEN: valid user fields
         String userBody = JSON_UTILS.getJsonFromFileAsString("validUserToPost.json");
-        Map<String, String> userBodyFields = getTestUserFromFile(userBody);
+        Map<String, Object> userBodyFields = getTestUserFromFile(userBody);
 
         // WHEN: post user to user API
         String userPostResponseString = ApiUtils.post(ApiUtils.ApiStages.TEST.toString(), "/user", OBJECT_MAPPER.writeValueAsString(userBodyFields));
@@ -58,22 +67,28 @@ public class UserHandlerTest {
         assertNotNull(user);
 
         // THEN: fields of request object match those from validPostRequest.json
-
         assertEquals(user.getSchool(), userBodyFields.get("school"));
         assertEquals(user.getName(), userBodyFields.get("name"));
-
-        assertEquals(user.getIsActive(), Boolean.valueOf(userBodyFields.get("isActive")));
-        assertEquals(user.getPoints(), Integer.parseInt(userBodyFields.get("points")));
-        assertEquals(user.getSessionIds(), userBodyFields.get("sessionIds"));
+        assertEquals(user.getIsActive(), Boolean.valueOf((String) userBodyFields.get("isActive")));
+        assertEquals(user.getPoints(), Integer.parseInt((String) userBodyFields.get("points")));
+        assertEquals(user.getSessionIds(), OBJECT_MAPPER.readValue((String) userBodyFields.get("sessionIds"), new TypeReference<ArrayList<UUID>>() {}));
         assertEquals(user.getUserId(), userBodyFields.get("userId"));
         assertEquals(user.getPhoneNumber(), userBodyFields.get("phoneNumber"));
-        assertEquals(user.getSubjectsLearn(), userBodyFields.get("subjectsLearn"));
-        assertEquals(user.getSubjectsTeach(), userBodyFields.get("subjectsTeach"));
-        assertEquals(user.getCumulativeSessionsCompleted(), userBodyFields.get("cumulativeSessionsCompleted"));
-        assertEquals(user.getRating(), userBodyFields.get("rating"));
+        assertEquals(user.getSubjectsLearn(), OBJECT_MAPPER.readValue((String) userBodyFields.get("subjectsLearn"), new TypeReference<ArrayList<Subject>>() {}));
+        assertEquals(user.getSubjectsTeach(), OBJECT_MAPPER.readValue((String) userBodyFields.get("subjectsTeach"), new TypeReference<ArrayList<Subject>>() {}));
+        assertEquals(user.getCumulativeSessionsCompleted(), Integer.parseInt(("cumulativeSessionsCompleted")));
+        assertEquals(user.getRating(), Double.parseDouble((String) userBodyFields.get("rating")));
         assertEquals(user.getMajor(), userBodyFields.get("major"));
-        assertEquals(user.getReviewEvaluations(), userBodyFields.get("reviewEvaluations"));
+        assertEquals(user.getReviewEvaluations(), OBJECT_MAPPER.readValue((String) userBodyFields.get("reviewEvaluations"), new TypeReference<ArrayList<String>>() {}));
 
-
+        createdUsers.add(user.getUserId());
     }
+//
+//  public static void main(String[] args) throws IOException {
+//        String json = JSON_UTILS.getJsonFromFileAsString("validUserToPost.json");
+//    System.out.println(json);
+//
+//    Map<String, Object> map = getTestUserFromFile(json);
+//    System.out.println(map);
+//  }
 }
