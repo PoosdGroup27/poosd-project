@@ -10,21 +10,20 @@ import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tutor.matching.MatchingUtils;
+import com.tutor.request.*;
 import com.tutor.subject.Subject;
 import com.tutor.utils.ApiResponse;
+import com.tutor.utils.ApiUtils;
 import com.tutor.utils.UserUtils;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import lombok.SneakyThrows;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 
 /**
  * Handle all incoming requests to UserService through user API. API request is routed to User
@@ -44,9 +43,9 @@ public class UserHandler implements RequestStreamHandler {
     OBJECT_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
   }
 
+  @SneakyThrows
   @Override
-  public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context)
-      throws IOException {
+  public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) {
     Map<Object, Object> event =
         OBJECT_MAPPER.readValue(inputStream, new TypeReference<Map<Object, Object>>() {});
 
@@ -62,6 +61,23 @@ public class UserHandler implements RequestStreamHandler {
         bodyJson = (HashMap<?, ?>) event.get("body-json");
         params = (HashMap<?, ?>) event.get("params");
         pathParameters = (HashMap<?, ?>) params.get("path");
+        String path = (String) contextMap.get("resource-path");
+
+        // adding a rating to an existing user
+        if (path.contains("addReview")) {
+          String userId = (String) pathParameters.get("userId");
+
+          bodyJson = (HashMap<?, ?>) event.get("body-json");
+          Integer rating = (Integer) bodyJson.get("rating");
+          String subject = (String) bodyJson.get("subject");
+          String reviewEvaluation = (String) bodyJson.get("reviewEvaluation");
+
+          OBJECT_MAPPER.writeValue(
+              outputStream, addReview(userId, rating, subject, reviewEvaluation));
+          return;
+        }
+
+        // creating a new user
         OBJECT_MAPPER.writeValue(
             outputStream, createUser(bodyJson, (String) pathParameters.get("id")));
         return;
@@ -100,7 +116,8 @@ public class UserHandler implements RequestStreamHandler {
     OBJECT_MAPPER.writeValue(outputStream, response);
   }
 
-  private ApiResponse<?> createUser(HashMap<?, ?> body, String userId) {
+  private ApiResponse<?> createUser(HashMap<?, ?> body, String userId)
+      throws RequestBuilderException {
     String name = (String) body.get("name");
     String school = (String) body.get("school");
     String phoneNumber = (String) body.get("phoneNumber");
@@ -125,6 +142,64 @@ public class UserHandler implements RequestStreamHandler {
             .build();
 
     MAPPER.save(user);
+
+    // create a base request so we can match new users
+    Random random = new Random();
+    for (Subject subject : user.getSubjectsTeach()) {
+      Request request =
+          new RequestBuilder()
+              .withRequesterId("N/A")
+              .withHelperId(userId)
+              .withCost(random.nextInt(20))
+              .withSubject(subject.getSubjectName())
+              .withPlatform(Platform.values()[random.nextInt(Platform.values().length)].name())
+              .withUrgency(Urgency.values()[random.nextInt(Urgency.values().length)].name())
+              .withStatus(Status.COMPLETED.name())
+              .withDescription("N/A")
+              .build();
+      MatchingUtils.updateRequestDataStore(request);
+    }
+
+    return ApiResponse.<User>builder().statusCode(HttpURLConnection.HTTP_OK).body(user).build();
+  }
+
+  private ApiResponse<?> addReview(
+      String userId, Integer rating, String subject, String reviewEvaluation) {
+    User user = UserUtils.getUserObjectById(userId);
+
+    // validate fields
+    List<String> missingBodyValues = new ArrayList<String>();
+    if (user == null) {
+      missingBodyValues.add(String.format("User %s does not exist", userId));
+    }
+
+    if (rating == null || rating < 1 || rating > 5) {
+      missingBodyValues.add("Integer rating not specified or invalid (must be between 1 and 5).");
+    }
+
+    if (reviewEvaluation == null) {
+      missingBodyValues.add("reviewEvaluation string not specified.");
+    }
+
+    if (subject == null) {
+      missingBodyValues.add("Subject for review not specified.");
+    }
+
+    if (!missingBodyValues.isEmpty()) {
+      return ApiUtils.returnErrorResponse(
+          new IllegalArgumentException(
+              "The following elements of the JSON body either do not exist or have issues: "
+                  + missingBodyValues));
+    }
+
+    user.addNewRating(rating);
+    user.addReviewEvaluation(subject + ": " + reviewEvaluation);
+
+    MAPPER.save(
+        user,
+        DynamoDBMapperConfig.builder()
+            .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
+            .build());
 
     return ApiResponse.<User>builder().statusCode(HttpURLConnection.HTTP_OK).body(user).build();
   }
@@ -207,6 +282,11 @@ public class UserHandler implements RequestStreamHandler {
     Integer newRating = (Integer) body.get("newRating");
     if (newRating != null) {
       userToUpdate.addNewRating(newRating);
+    }
+
+    ArrayList<String> reviewEvaluations = (ArrayList<String>) body.get("reviewEvaluations");
+    if (reviewEvaluations != null) {
+      userToUpdate.setReviewEvaluations(reviewEvaluations);
     }
 
     MAPPER.save(
