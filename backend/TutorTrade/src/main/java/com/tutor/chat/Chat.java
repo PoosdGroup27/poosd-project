@@ -12,7 +12,7 @@ import java.util.*;
 
 @AllArgsConstructor
 @Builder
-@DynamoDBTable(tableName = "chatTable-prod")
+@DynamoDBTable(tableName = "chatTable-jesse-dev")
 public class Chat {
   private UUID id;
   private String tuteeId;
