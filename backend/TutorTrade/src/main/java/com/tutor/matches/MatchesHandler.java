@@ -117,7 +117,7 @@ public class MatchesHandler implements RequestStreamHandler {
 
       if (tutee == null || tutor == null) {
         return ApiUtils.returnErrorResponse(
-            new NotFoundException(String.format("Either tutor %s or tutee %s", tutorId, tuteeId)));
+            new NotFoundException(String.format("Either tutor %s or tutee %s does not exist.", tutorId, tuteeId)));
       }
 
       messages.add(new AbstractMap.SimpleEntry<>(tutorId, tutor.getPhoneNumber()));
