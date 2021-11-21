@@ -394,6 +394,9 @@ public class UserHandlerTest {
     // THEN: upon deletion, user isActive simply set to false
     User userFromGet = UserUtils.getUserFromAPIResponse(response);
     assertEquals(userFromGet.getIsActive(), false);
+
+    // cleanup
+    createdUsers.add(user.getUserId());
   }
 
   @Test
@@ -418,6 +421,9 @@ public class UserHandlerTest {
     // THEN: upon deletion, user isActive simply set to false
     User userFromGet = UserUtils.getUserFromAPIResponse(response);
     assertEquals(userFromGet.getIsActive(), false);
+
+    // cleanup
+    createdUsers.add(user.getUserId());
   }
 
   @Test
@@ -452,6 +458,9 @@ public class UserHandlerTest {
     // THEN: object we receive is identical to one we put
     User userFromGet = UserUtils.getUserFromAPIResponse(response);
     assertEquals(userFromGet, user);
+
+    // cleanup
+    createdUsers.add(user.getUserId());
   }
 
   @Test
@@ -476,6 +485,9 @@ public class UserHandlerTest {
     // THEN: object we receive is identical to one we put
     User userFromGet = UserUtils.getUserFromAPIResponse(response);
     assertEquals(userFromGet, user);
+
+    // cleanup
+    createdUsers.add(user.getUserId());
   }
 
   private static Map<String, Object> createRandomRequestPostBody() {
