@@ -36,7 +36,7 @@ public class UserUtils {
   /**
    * Method finds user in DB and returns the corresponding user as a Java object.
    *
-   * @param userId UUID representing a valid and existing user
+   * @param userId String ID representing a valid and existing user
    * @return User corresponding to userId, if user is found, null otherwise.
    */
   public static User getUserObjectById(String userId) {
