@@ -5,5 +5,6 @@ public enum MatchStatus {
   CHATTING,
   DENIED,
   ACCEPTED,
-  UNANSWERED
+  UNANSWERED,
+  COMPLETED
 }
