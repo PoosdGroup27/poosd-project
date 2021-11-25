@@ -12,4 +12,5 @@ internal enum TuteeRequestStatus: String, Codable {
     case denied = "DENIED"
     case chatting = "CHATTING"
     case unanswered = "UNANSWERED"
+    case completed = "COMPLETED"
 }

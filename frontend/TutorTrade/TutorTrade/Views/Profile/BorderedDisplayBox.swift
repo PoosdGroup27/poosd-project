@@ -24,11 +24,11 @@ class BorderedDisplayBoxView: UIView {
     
     var cornerRadius : CGFloat?
     
-    var boxBackgroundColor: UIColor
+    var boxBackgroundColor: UIColor?
     
     private let titleLayer : CATextLayer
     
-    internal init(iconImage: UIImage? = nil, iconHeightRatio: CGFloat = 0.5, borderColor: UIColor?, borderWidth: CGFloat, boxSize: CGSize, cornerRadius: CGFloat = 20.0, boxBackgroundColor: UIColor = .white, withShadow: Bool = false) {
+    internal init(iconImage: UIImage? = nil, iconHeightRatio: CGFloat = 0.5, borderColor: UIColor?, borderWidth: CGFloat, boxSize: CGSize, cornerRadius: CGFloat = 20.0, boxBackgroundColor: UIColor? = .white, withShadow: Bool = false) {
         self.iconImage = iconImage
         self.iconHeightRatio = iconHeightRatio
         self.borderColor = borderColor
@@ -52,7 +52,11 @@ class BorderedDisplayBoxView: UIView {
         let context = UIGraphicsGetCurrentContext()!
         context.setLineWidth(borderWidth)
         borderColor?.setStroke()
-        boxBackgroundColor.setFill()
+        if let boxBackgroundColor = boxBackgroundColor {
+            boxBackgroundColor.setFill()
+        } else {
+            backgroundColor?.setFill()
+        }
         let borderRect = self.bounds.insetBy(dx: borderWidth, dy: borderWidth)
         let rectPath = UIBezierPath(roundedRect: borderRect, cornerRadius: self.cornerRadius ?? 0).cgPath
         self.layer.shadowPath = rectPath
