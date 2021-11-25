@@ -9,63 +9,64 @@ import UIKit
 
 class TutteeRequestCard: UIScrollView {
     
-    private var profilePicture: UIImage? {
+    var profilePicture: UIImage? {
         get {
             self.profilePictureView.image
         } set {
             self.profilePictureView.image = newValue ?? UIImage(named: "DefaultUserImage")!
         }
     }
-    private var name: String {
+    var name: String {
         get {
             self.nameLabel.text!
         } set {
             self.nameLabel.text = newValue
         }
     }
-    private var school: String {
+    var school: String {
         get {
             self.schoolDisplayBoxLabel.text!
         } set {
             self.schoolDisplayBoxLabel.text = newValue
         }
     }
-    private var rating: Double {
+    var rating: Double {
         get {
             Double(self.ratingDisplayBoxLabel.text!)!
         } set {
             self.ratingDisplayBoxLabel.text = String(newValue)
         }
     }
-    private var subject: String {
+    var subject: String {
         get {
             self.subjectDisplayBoxLabel.text!
         } set {
             self.subjectDisplayBoxLabel.text = newValue
         }
     }
-    private var urgency: TutoringRequestUrgency {
+    var urgency: TutoringRequestUrgency {
         get {
-            TutoringRequestUrgency(rawValue: self.urgencyDisplayBoxLabel.text!)!
-        } set {
-            self.urgencyDisplayBoxLabel.text = newValue.rawValue
+            TutoringRequestUrgency(textRepresentation: self.urgencyDisplayBoxLabel.text!)
+        }
+        set {
+            self.urgencyDisplayBoxLabel.text = newValue.textRepresentation
         }
     }
-    private var helpDescription: String {
+    var helpDescription: String {
         get {
             self.descriptionDisplayBoxLabel.text!
         } set {
             self.descriptionDisplayBoxLabel.text = newValue
         }
     }
-    private var pointsBudget: Int {
+    var pointsBudget: Int {
         get {
             Int(self.pointsBalanceDisplayBoxLabel.text!)!
         } set {
             self.pointsBalanceDisplayBoxLabel.text = String(newValue)
         }
     }
-    private var preferredMedium: TutoringMedium {
+    var preferredMedium: TutoringMedium {
         didSet {
             self.preferredMediumImage = .preferredMediumImage(preferredMedium: preferredMedium)
         }
@@ -180,7 +181,7 @@ class TutteeRequestCard: UIScrollView {
         
         subjectDisplayBoxView.addSubview(subjectDisplayBoxLabel) {
             NSLayoutConstraint.activate([
-                $0.leadingAnchor.constraint(equalTo: subjectDisplayBoxView.leadingAnchor, constant: 45),
+                $0.leadingAnchor.constraint(equalTo: subjectDisplayBoxView.leadingAnchor, constant: 35),
                 $0.centerYAnchor.constraint(equalTo: subjectDisplayBoxView.centerYAnchor)
             ])
         }
