@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate {
+class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate, UITextViewDelegate {
     private var profileManager: TutorProfileManager
     private var requestModel: RequestModel
     private var requestManager: RequestManager
@@ -24,11 +24,11 @@ class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegat
     private lazy var urgencyButtons: [UIButton] = UIButton.getUrgencyButtons()
     private lazy var descriptionLabel: UILabel = .requestLabel(text: "Description")
     private lazy var descriptionDisplayBox: BorderedDisplayBoxView = .helpDescriptionCardBoxView()
-    private lazy var descriptionTextField: UITextField = .descriptionTextField
+    private lazy var descriptionTextView: UITextView = .descriptionTextView
     private lazy var budgetLabel: UILabel = .requestLabel(text: "Budget")
     private lazy var budgetDisplayBox: BorderedDisplayBoxView = .budgetCardBoxView()
     private lazy var budgetTextFieldDisplayBox: BorderedDisplayBoxView = .pointBalanceTextFieldDisplayBox()
-    private lazy var budgetTextField: UITextField = .budgetTextField
+    private lazy var budgetTextView: UITextView = .budgetTextView
     private lazy var availableBudget: UILabel = .budgetHelpLabel()
     private lazy var actualBudgetLabel: UILabel = .actualBudgetLabel(points: profileManager.profile.pointBalance)
     private lazy var mediumLabel: UILabel = .requestLabel(text: "Preferred Medium")
@@ -45,8 +45,8 @@ class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegat
         return controller
     }()
     private lazy var verifyPointsAlert: UIAlertController = {
-        let controller = UIAlertController.init(title: "You're broke",
-                                                message: "Unable to confirm request, not enough points.",
+        let controller = UIAlertController.init(title: "Not enough points. 🥺",
+                                                message: "Unable to submit request, not enough points.",
                                                 preferredStyle: .alert)
 
         controller.addAction(UIAlertAction(title: "OK", style: .cancel))
@@ -231,13 +231,13 @@ class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegat
             ])
         }
         
-        self.helpScrollView.addSubview(descriptionTextField) {
+        self.helpScrollView.addSubview(descriptionTextView) {
             $0.delegate = self
             NSLayoutConstraint.activate([
                 $0.topAnchor.constraint(equalTo: self.descriptionDisplayBox.topAnchor, constant: 16),
                 $0.leadingAnchor.constraint(equalTo: self.descriptionDisplayBox.leadingAnchor, constant: 16),
-                $0.widthAnchor.constraint(equalTo: self.descriptionDisplayBox.widthAnchor),
-                $0.heightAnchor.constraint(equalTo: self.descriptionDisplayBox.heightAnchor),
+                $0.widthAnchor.constraint(equalTo: self.descriptionDisplayBox.widthAnchor, constant: -20),
+                $0.heightAnchor.constraint(equalTo: self.descriptionDisplayBox.heightAnchor, constant: -20),
             ])
         }
         
@@ -267,13 +267,13 @@ class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegat
             ])
         }
         
-        self.budgetTextFieldDisplayBox.addSubview(budgetTextField) {
+        self.budgetTextFieldDisplayBox.addSubview(budgetTextView) {
             $0.delegate = self
             NSLayoutConstraint.activate([
-                $0.centerYAnchor.constraint(equalTo: self.budgetTextFieldDisplayBox.centerYAnchor),
-                $0.leadingAnchor.constraint(equalToSystemSpacingAfter: self.budgetTextFieldDisplayBox.leadingAnchor, multiplier: 8),
-                $0.widthAnchor.constraint(equalTo: self.budgetTextFieldDisplayBox.widthAnchor),
-                $0.heightAnchor.constraint(equalTo: self.budgetTextFieldDisplayBox.heightAnchor)
+                $0.topAnchor.constraint(equalTo: self.budgetTextFieldDisplayBox.topAnchor, constant: 6),
+                $0.leadingAnchor.constraint(equalTo: self.budgetTextFieldDisplayBox.leadingAnchor, constant: 40),
+                $0.widthAnchor.constraint(equalToConstant: self.budgetTextFieldDisplayBox.bounds.width / 5),
+                $0.heightAnchor.constraint(equalTo: self.budgetTextFieldDisplayBox.heightAnchor, constant: -10),
             ])
         }
         
@@ -391,8 +391,8 @@ class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegat
     }
     
     func fieldsEmpty() -> Bool {
-        if subjectsTextField.text!.isEmpty || !urgencyButtonFlag || descriptionTextField.text!.isEmpty
-            || budgetTextField.text!.isEmpty || !mediumButtonFlag {
+        if subjectsTextField.text!.isEmpty || !urgencyButtonFlag || descriptionTextView.text!.isEmpty
+            || budgetTextView.text!.isEmpty || !mediumButtonFlag {
             return true
         }
 
@@ -403,14 +403,14 @@ class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegat
         // Verify that all fields are filled correctly.
         if fieldsEmpty() {
             self.present(self.emptyFieldsAlert, animated: true)
-        } else if invalidInputCost(inputPoints: Int(budgetTextField.text!)!, userBalance: self.profileManager.profile.pointBalance) {
+        } else if invalidInputCost(inputPoints: Int(budgetTextView.text!)!, userBalance: self.profileManager.profile.pointBalance) {
             self.present(self.verifyPointsAlert, animated: true)
         } else {
             // Populate the model
             self.requestModel.requesterId = self.profileManager.profile.userId
             self.requestModel.subject = self.subjectsTextField.text!
-            self.requestModel.description = self.descriptionTextField.text!
-            self.requestModel.costInPoints = self.budgetTextField.text!
+            self.requestModel.description = self.descriptionTextView.text!
+            self.requestModel.costInPoints = self.budgetTextView.text!
             // Set up and send request
             self.requestManager.setUpRequestManager(requestModel: self.requestModel)
             self.requestManager.setUpRequest()
@@ -418,6 +418,25 @@ class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegat
 
             print(requestModel)
             self.present(self.submitRequestAlert, animated: true)
+        }
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            if textView.tag == 0 {
+                textView.text = "What do you need help with?"
+                textView.textColor = UIColor.lightGray
+            } else {
+                textView.text = "0"
+                textView.textColor = UIColor.lightGray
+            }
         }
     }
     
@@ -434,7 +453,7 @@ class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegat
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.descriptionTextField.resignFirstResponder()
+        self.descriptionTextView.resignFirstResponder()
         self.subjectsTextField.resignFirstResponder()
         return true
     }
