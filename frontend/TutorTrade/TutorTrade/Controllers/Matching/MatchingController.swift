@@ -17,21 +17,15 @@ class MatchingController: UIViewController, SwipeCardStackDataSource, SwipeCardS
     private lazy var cardStack = SwipeCardStack()
     private lazy var matchingTitleLogo: UIImageView = .matchingTitleImage
     private lazy var undoButton: UIButton = .undoButton
+    private lazy var noRequestsRemainingView: UIView = NoRemainingRequestCardsView()
     private lazy var hapticGenerator = UINotificationFeedbackGenerator()
-    
-    let cards: [TutteeRequestCard] = [
-        .init(withName: "Hannah", withProfilePicture: UIImage(named: "UserImage1")!.resizedTo(CGSize(width: 350, height: 350)), withSchool: "University of Central Florida", withRating: 4.7, withSubject: "Mathematics", withUrgency: .today, withDescription: "Please help me", withPointsBudget: 150, withPreferredMedium: .online),
-        .init(withName: "Jesse James", withProfilePicture: UIImage(named: "UserImage4")!.resizedTo(CGSize(width: 350, height: 350)), withSchool: "Universiy of Florida", withRating: 4.9, withSubject: "Archeology", withUrgency: .today, withDescription: "I need help bad", withPointsBudget: 180, withPreferredMedium: .inPerson),
-        .init(withName: "Katie Burton", withProfilePicture: UIImage(named: "UserImage12")?.resizedTo(CGSize(width: 350, height: 350)), withSchool: "Stanford", withRating: 4.1, withSubject: "Computer Science", withUrgency: .thisWeek, withDescription: "Treaps are hell", withPointsBudget: 240, withPreferredMedium: .inPerson),
-        .init(withName: "Adam Apple", withProfilePicture: UIImage(named: "UserImage3")!.resizedTo(CGSize(width: 350, height: 350)), withSchool: "NYU", withRating: 3.1, withSubject: "IT", withUrgency: .tommorow, withDescription: "I might have to switch to business", withPointsBudget: 130, withPreferredMedium: .inPerson),
-        .init(withName: "James Jones", withProfilePicture: UIImage(named: "UserImage5")!.resizedTo(CGSize(width: 350, height: 350)), withSchool: "Grand Canyon University", withRating: 4.9, withSubject: "Music", withUrgency: .today, withDescription: "Help me play the saxaphone", withPointsBudget: 380, withPreferredMedium: .inPerson)
-    ]
+    private lazy var matchingManager = MatchingManager()
+    private var availableRequests: [CompleteTuteeRequest]!
 
     init() {
         super.init(nibName: nil, bundle: nil)
         tabBarItem = UITabBarItem(title: "Matching", image: UIImage(systemName: "house"), tag: 0)
         self.view.backgroundColor = UIColor(named: "MatchingPageColor")
-        self.hapticGenerator.prepare()
     }
     
     required init?(coder: NSCoder) {
@@ -40,7 +34,7 @@ class MatchingController: UIViewController, SwipeCardStackDataSource, SwipeCardS
     
     // Informs the card stack how many times it should call cardStack(:cardForIndexAt:)
     func numberOfCards(in cardStack: SwipeCardStack) -> Int {
-        5
+        return availableRequests.count
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -54,10 +48,17 @@ class MatchingController: UIViewController, SwipeCardStackDataSource, SwipeCardS
         self.cardStack.undoLastSwipe(animated: false)
     }
     
+    func cardStack(_ cardStack: SwipeCardStack, didUndoCardAt index: Int, from direction: SwipeDirection) {
+        matchingManager.unmatchWith(requestId: availableRequests[index].request.requestId)
+    }
+    
     func cardStack(_ cardStack: SwipeCardStack, didSwipeCardAt index: Int, with direction: SwipeDirection) {
-        // Send haptic feedback to user upon match
         if direction == .right {
+            // Send haptic feedback to user upon match
             hapticGenerator.notificationOccurred(.success)
+            matchingManager.matchWith(requestId: availableRequests[index].request.requestId)
+        } else {
+            matchingManager.declineMatchWith(requestId: availableRequests[index].request.requestId)
         }
     }
     
@@ -87,20 +88,27 @@ class MatchingController: UIViewController, SwipeCardStackDataSource, SwipeCardS
             
         ])
         // Set the card's content to the corresponding tuteeScrollView
-        card.content = cards[index]
+        let tuteeRequestCard = buildCard(atIndex: index)
+        card.content = tuteeRequestCard
         // Set self as scrollView delegate to modify bouncing behavior
-        cards[index].delegate = self
+        tuteeRequestCard.delegate = self
         
         // Set up size + position + content constaints on tuteeScrollView
         NSLayoutConstraint.activate([
-            cards[index].topAnchor.constraint(equalTo: card.topAnchor),
-            cards[index].bottomAnchor.constraint(equalTo: card.bottomAnchor),
-            cards[index].leadingAnchor.constraint(equalTo: card.leadingAnchor),
-            cards[index].trailingAnchor.constraint(equalTo: card.trailingAnchor),
-            cards[index].contentLayoutGuide.widthAnchor.constraint(equalTo: card.widthAnchor)
+            tuteeRequestCard.topAnchor.constraint(equalTo: card.topAnchor),
+            tuteeRequestCard.bottomAnchor.constraint(equalTo: card.bottomAnchor),
+            tuteeRequestCard.leadingAnchor.constraint(equalTo: card.leadingAnchor),
+            tuteeRequestCard.trailingAnchor.constraint(equalTo: card.trailingAnchor),
+            tuteeRequestCard.contentLayoutGuide.widthAnchor.constraint(equalTo: card.widthAnchor)
         ])
         // User can only swipe left for NO and right for YES
         card.swipeDirections = [.left, .right]
+        return card
+    }
+    
+    private func buildCard(atIndex index: Int) -> TutteeRequestCard {
+        let tuteeRequest = availableRequests[index]
+        let card = TutteeRequestCard(withName: tuteeRequest.tutee.name, withProfilePicture: tuteeRequest.tutee.profilePhoto, withSchool: tuteeRequest.tutee.school, withRating: tuteeRequest.tutee.rating, withSubject: String(tuteeRequest.request.subject.dropFirst()), withUrgency: tuteeRequest.request.urgency, withDescription: tuteeRequest.request.description, withPointsBudget: tuteeRequest.request.budget, withPreferredMedium: tuteeRequest.request.preferredMedium)
         return card
     }
     
@@ -111,6 +119,8 @@ class MatchingController: UIViewController, SwipeCardStackDataSource, SwipeCardS
 
     override func loadView() {
         super.loadView()
+        
+        availableRequests = matchingManager.matchedRequests
         
         // Add logo for matching page
         self.view.addSubview(matchingTitleLogo) {
@@ -129,6 +139,15 @@ class MatchingController: UIViewController, SwipeCardStackDataSource, SwipeCardS
                 $0.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -25),
                 $0.heightAnchor.constraint(equalToConstant: 30),
                 $0.widthAnchor.constraint(equalToConstant: 30)
+            ])
+        }
+        
+        self.view.addSubview(noRequestsRemainingView) {
+            NSLayoutConstraint.activate([
+                $0.topAnchor.constraint(equalTo: self.matchingTitleLogo.bottomAnchor, constant: UIScreen.main.bounds.height / 6.6),
+                $0.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 75),
+                $0.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -75),
+                $0.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -50)
             ])
         }
         

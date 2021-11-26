@@ -13,5 +13,13 @@ struct Properties {
     
     static let subjectsPath = "subject"
     
-    static let userPath = "/user"
+    static let userPath = "user"
+    
+    static let tuteePath = "user"
+    
+    static let matchingRequestsPath = "request/getAllMatchedRequests"
+    
+    static let requestPath = "request"
+    
+    static let matchPath = "matches/updateMatch"
 }
