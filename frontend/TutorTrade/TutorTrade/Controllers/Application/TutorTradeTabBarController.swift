@@ -24,15 +24,13 @@ class TutorTradeTabBarController: UITabBarController {
         
         // Initialize tab bar controller's children
         let matchingController = MatchingController()
-        let requestController = RequestController()
+        let requestController = HelpController(withBalance: 180)
         let matchesController = MatchesController()
         let profileController = ProfileController(displaySettings: displaySettings)
         
-        let requestNavController = UINavigationController(rootViewController: requestController)
         let matchesNavController = UINavigationController(rootViewController: matchesController)
         
         // Aesthetic preferences
-        requestNavController.navigationBar.prefersLargeTitles = true
         matchesNavController.navigationBar.prefersLargeTitles = true
         
         // Set tab bar color
@@ -42,7 +40,7 @@ class TutorTradeTabBarController: UITabBarController {
         tabBar.isTranslucent = false
         
         // Add child view controllers to tab bar
-        viewControllers = [matchingController, requestNavController, matchesNavController, profileController]
+        viewControllers = [matchingController, requestController, matchesNavController, profileController]
 
         // Set the initially selected view controller upon app launch
         selectedViewController = matchingController

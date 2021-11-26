@@ -309,7 +309,7 @@ public class RequestsHandler implements RequestStreamHandler {
     // all matched requestIds : matching status for given user
     Map<String, String> resultMap = new HashMap<>();
     for (Map<String, AttributeValue> item : result.getItems()) {
-      if (item.get("orderedMatches").getM().containsKey(userId)) {
+      if (item.get("orderedMatches").getM().containsKey(userId) && item.get("orderedMatches").getM().get(userId).getS().equals("UNANSWERED")) {
         resultMap.put(
             item.get("requestId").getS(), item.get("orderedMatches").getM().get(userId).getS());
       }

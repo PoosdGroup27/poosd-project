@@ -5,13 +5,16 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
+import com.amazonaws.services.kms.model.NotFoundException;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tutor.chat.Chat;
 import com.tutor.request.MatchStatus;
 import com.tutor.request.Request;
+import com.tutor.user.User;
 import com.tutor.utils.ApiResponse;
 import com.tutor.utils.ApiUtils;
 import com.tutor.utils.RequestUtils;
@@ -19,14 +22,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
+import com.tutor.utils.UserUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- * Handles requests for updating matching statuses within requests.
- */
+/** Handles requests for updating matching statuses within requests. */
 public class MatchesHandler implements RequestStreamHandler {
   private static final Logger LOG = LogManager.getLogger(com.tutor.matches.MatchesHandler.class);
   private static final AmazonDynamoDB DYNAMO_DB =
@@ -92,8 +94,7 @@ public class MatchesHandler implements RequestStreamHandler {
       return ApiUtils.returnErrorResponse(
           new Exception(
               String.format(
-                  "Tutor %s does not exist within Request %s",
-                  tutorId, requestIdString)));
+                  "Tutor %s does not exist within Request %s", tutorId, requestIdString)));
     }
 
     requestToUpdate.getOrderedMatches().put(tutorId, matchStatus);
@@ -103,6 +104,39 @@ public class MatchesHandler implements RequestStreamHandler {
         DynamoDBMapperConfig.builder()
             .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
             .build());
+
+    // if the status update is going to chat, create a new chat between the tutor
+    // and tutee
+    if (statusUpdate.equals("CHATTING")) {
+      List<Map.Entry<String, String>> messages = new ArrayList<>();
+
+      String tuteeId = requestToUpdate.getRequesterId();
+
+      User tutor = UserUtils.getUserObjectById(tutorId);
+      User tutee = UserUtils.getUserObjectById(tuteeId);
+
+      if (tutee == null || tutor == null) {
+        return ApiUtils.returnErrorResponse(
+            new NotFoundException(String.format("Either tutor %s or tutee %s does not exist.", tutorId, tuteeId)));
+      }
+
+      messages.add(new AbstractMap.SimpleEntry<>(tutorId, tutor.getPhoneNumber()));
+      messages.add(new AbstractMap.SimpleEntry<>(tutorId, tutee.getPhoneNumber()));
+
+      Chat chat =
+          Chat.builder()
+              .tutorId(tutorId)
+              .tuteeId(tuteeId)
+              .id(UUID.randomUUID())
+              .messages(messages)
+              .build();
+
+      DYNAMO_DB_MAPPER.save(
+          chat,
+          DynamoDBMapperConfig.builder()
+              .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
+              .build());
+    }
 
     return ApiResponse.<Request>builder()
         .statusCode(HttpURLConnection.HTTP_OK)
