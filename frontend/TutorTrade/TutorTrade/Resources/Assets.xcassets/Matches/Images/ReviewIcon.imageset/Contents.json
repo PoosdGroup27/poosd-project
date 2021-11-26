@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "icons8-review-60.png",
+      "filename" : "review.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "icons8-review-61.png",
+      "filename" : "review-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "icons8-review-62.png",
+      "filename" : "review-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

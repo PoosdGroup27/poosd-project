@@ -91,11 +91,11 @@ internal class MatchingManager {
     }
     
     func unmatchWith(requestId: String) {
-        updateMatch(requestId: requestId, statusUpdate: .unanswered)
+        updateMatch(requestId: requestId, statusUpdate: .undecided)
     }
     
     func declineMatchWith(requestId: String) {
-        updateMatch(requestId: requestId, statusUpdate: .denied)
+        updateMatch(requestId: requestId, statusUpdate: .declined)
     }
     
     private func updateMatch(requestId: String, statusUpdate: TuteeRequestStatus) {

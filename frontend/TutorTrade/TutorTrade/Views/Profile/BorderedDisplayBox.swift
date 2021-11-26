@@ -24,7 +24,11 @@ class BorderedDisplayBoxView: UIView {
     
     var cornerRadius : CGFloat?
     
-    var boxBackgroundColor: UIColor?
+    var boxBackgroundColor: UIColor? {
+        didSet {
+            self.setNeedsDisplay()
+        }
+    }
     
     private let titleLayer : CATextLayer
     
@@ -52,11 +56,7 @@ class BorderedDisplayBoxView: UIView {
         let context = UIGraphicsGetCurrentContext()!
         context.setLineWidth(borderWidth)
         borderColor?.setStroke()
-        if let boxBackgroundColor = boxBackgroundColor {
-            boxBackgroundColor.setFill()
-        } else {
-            backgroundColor?.setFill()
-        }
+        boxBackgroundColor?.setFill()
         let borderRect = self.bounds.insetBy(dx: borderWidth, dy: borderWidth)
         let rectPath = UIBezierPath(roundedRect: borderRect, cornerRadius: self.cornerRadius ?? 0).cgPath
         self.layer.shadowPath = rectPath

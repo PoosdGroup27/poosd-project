@@ -597,8 +597,9 @@
 				5EF1987D274F3DC6001A354C /* MatchViewConfigurations.swift */,
 				5EF19882274FEB6F001A354C /* StraightLine.swift */,
 			);
-			path = Matches;
-			sourceTree = "<group>";
+			name = Matches;
+			path = "/Users/brockdavis/Desktop/CS/poosd-project/frontend/TutorTrade/TutorTrade/Views/Matches";
+			sourceTree = "<absolute>";
 		};
 		5EF1987F274FE838001A354C /* Matches */ = {
 			isa = PBXGroup;
@@ -996,7 +997,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.brockndavis;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brocknathandavis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1016,7 +1017,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.brockndavis;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brocknathandavis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

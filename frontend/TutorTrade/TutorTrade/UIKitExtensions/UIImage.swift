@@ -23,4 +23,14 @@ extension UIImage {
             self.draw(in: CGRect(origin: .zero, size: newSize))
         }
     }
+    
+    func withCornerRadius(_ cornerRadius: CGFloat) -> UIImage {
+        UIGraphicsImageRenderer(size: self.size).image { _ in
+            let context = UIGraphicsGetCurrentContext()!
+            let clipPath = UIBezierPath(roundedRect: CGRect(origin: .zero, size: self.size), cornerRadius: cornerRadius).cgPath
+            context.addPath(clipPath)
+            context.clip()
+            self.draw(at: .zero)
+        }
+    }
 }

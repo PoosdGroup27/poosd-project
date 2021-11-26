@@ -21,6 +21,41 @@ extension UIView {
             return view
         }
     }
+    
+    static var matchesPageBackgroundView: UIView {
+        get {
+            let view = UIView()
+            view.translatesAutoresizingMaskIntoConstraints = false
+            view.backgroundColor = UIColor(named: "MatchesPageColor")!
+            return view
+        }
+    }
+}
+
+extension UIScrollView {
+    static var matchesPageScrollView: UIScrollView {
+        get {
+            let scrollView = UIScrollView()
+            scrollView.translatesAutoresizingMaskIntoConstraints = false
+            scrollView.showsVerticalScrollIndicator = false
+            scrollView.backgroundColor = UIColor(named: "MatchesPageColor")!
+            return scrollView
+        }
+    }
+}
+
+extension UIStackView {
+    static var matchesPageStackView: UIStackView {
+        get {
+            let stackView = UIStackView()
+            stackView.translatesAutoresizingMaskIntoConstraints = false
+            stackView.axis = .vertical
+            stackView.distribution = .fillEqually
+            stackView.alignment = .fill
+            stackView.spacing = 14
+            return stackView
+        }
+    }
 }
 
 extension UIImageView {
