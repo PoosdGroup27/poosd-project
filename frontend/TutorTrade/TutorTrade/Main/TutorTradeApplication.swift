@@ -14,8 +14,6 @@ class TutorTradeApplication: UIResponder, UIApplicationDelegate {
     
     private let displaySettingsManager =  DisplaySettingsManager()
 
-    private var authFlowController: UINavigationController? = nil
-
     /**
      Configures the application with window and initial view controllers
      */
@@ -36,33 +34,41 @@ class TutorTradeApplication: UIResponder, UIApplicationDelegate {
     }
     
     func loadStartupController() {
-
+        
+        let startupController: UIViewController
+        
         if DefaultAuthManager.shared.isLoggedIn {
-            
-            var semaphore: DispatchSemaphore?
-            if DefaultTutorProfileManager.shared == nil {
-                semaphore = DispatchSemaphore(value: 0)
-                DefaultTutorProfileManager.loadProfile(withId: DefaultAuthManager.shared.userId!) { success in
-                        semaphore!.signal()
-                }
+            if DefaultTutorProfileManager.shared != nil || self.loadTutorProfile() {
+                startupController = TutorTradeTabBarController(displaySettings: displaySettingsManager.appDisplaySettings!)
+            } else {
+                let createProfileController = UINavigationController(rootViewController: CreateProfileController())
+                createProfileController.setNavigationBarHidden(true, animated: false)
+                startupController = createProfileController
             }
-            semaphore?.wait()
-
-                
-            // Creates the tab bar controller and set it as the root controller of the app
-            window!.rootViewController = TutorTradeTabBarController(displaySettings: displaySettingsManager.appDisplaySettings!)
-            
         } else {
-            self.authFlowController = self.authFlowController ?? UINavigationController(rootViewController: WelcomePageViewController())
-            self.authFlowController?.popToRootViewController(animated: false)
-            self.authFlowController?.setNavigationBarHidden(true, animated: false)
-            
-            window!.rootViewController = authFlowController
+            let authFlowController = UINavigationController(rootViewController: WelcomePageViewController())
+            authFlowController.setNavigationBarHidden(true, animated: false)
+            startupController = authFlowController
         }
+        
+        self.window!.rootViewController = startupController
     }
     
     func logOut() {
         DefaultAuthManager.shared.logOut()
+        DefaultTutorProfileManager.shared?.logOut()
         loadStartupController()
+    }
+    
+    
+    private func loadTutorProfile() -> Bool {
+        var wasLoaded: Bool = false
+        let semaphore = DispatchSemaphore(value: 0)
+        DefaultTutorProfileManager.loadProfile(withId: DefaultAuthManager.shared.userId!) { success in
+                wasLoaded = success
+                semaphore.signal()
+        }
+        semaphore.wait()
+        return wasLoaded
     }
 }

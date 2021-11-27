@@ -109,4 +109,8 @@ class DefaultTutorProfileManager : TutorProfileManager, Codable {
             NotificationCenter.default.post(name: .tutorProfileLoaded, object: self)
         }.resume()
     }
+    
+    func logOut() {
+        UserDefaults.standard.removeObject(forKey: Self.userDefaultsKey)
+    }
 }
