@@ -27,6 +27,8 @@
 		5E1BAE5B2728E72800A70757 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1BAE5A2728E72800A70757 /* ProfileController.swift */; };
 		5E1BAE702728ED5C00A70757 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1BAE6F2728ED5C00A70757 /* UIView.swift */; };
 		5E1BAE722728EDF700A70757 /* ProfilePageConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1BAE712728EDF700A70757 /* ProfilePageConfigurations.swift */; };
+		5E2D1E7927528470007223B6 /* HelpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2D1E7827528470007223B6 /* HelpController.swift */; };
+		5E2D1E7B2752848D007223B6 /* HelpConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2D1E7A2752848D007223B6 /* HelpConfigurations.swift */; };
 		5E5DB4172729F7B9008B9A0D /* WelcomePageConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5DB4162729F7B9008B9A0D /* WelcomePageConfigurations.swift */; };
 		5E5DB41E272B0FAD008B9A0D /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E5DB41D272B0FAD008B9A0D /* Roboto-Regular.ttf */; };
 		5E5DB420272B0FCC008B9A0D /* WelcomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5DB41F272B0FCC008B9A0D /* WelcomePageViewController.swift */; };
@@ -134,6 +136,8 @@
 		5E1BAE5A2728E72800A70757 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		5E1BAE6F2728ED5C00A70757 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		5E1BAE712728EDF700A70757 /* ProfilePageConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePageConfigurations.swift; sourceTree = "<group>"; };
+		5E2D1E7827528470007223B6 /* HelpController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpController.swift; sourceTree = "<group>"; };
+		5E2D1E7A2752848D007223B6 /* HelpConfigurations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpConfigurations.swift; sourceTree = "<group>"; };
 		5E5DB4162729F7B9008B9A0D /* WelcomePageConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomePageConfigurations.swift; sourceTree = "<group>"; };
 		5E5DB41D272B0FAD008B9A0D /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		5E5DB41F272B0FCC008B9A0D /* WelcomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomePageViewController.swift; sourceTree = "<group>"; };
@@ -225,6 +229,7 @@
 		4A29D58F27025F6800D25088 /* Request */ = {
 			isa = PBXGroup;
 			children = (
+				5E2D1E7827528470007223B6 /* HelpController.swift */,
 				4A29D59B2702603200D25088 /* RequestController.swift */,
 			);
 			path = Request;
@@ -357,6 +362,7 @@
 		5E1BAE5C2728E9F100A70757 /* Request */ = {
 			isa = PBXGroup;
 			children = (
+				5E2D1E7A2752848D007223B6 /* HelpConfigurations.swift */,
 				4A4CB5FF270BA47C00D7D215 /* PointsView.swift */,
 				4ABAC5D2270A0D2E00CBB85B /* UrgencyView.swift */,
 				4A2DFD3B27078BA600332EE2 /* PreferredMediumView.swift */,
@@ -775,6 +781,7 @@
 				5E5DB42A272C4862008B9A0D /* CreateProfileController.swift in Sources */,
 				5EF1987A274F3B6D001A354C /* MatchView.swift in Sources */,
 				4A4CB600270BA47C00D7D215 /* PointsView.swift in Sources */,
+				5E2D1E7B2752848D007223B6 /* HelpConfigurations.swift in Sources */,
 				5E7EA9E02718E6800066B189 /* ProfilePageFactory.swift in Sources */,
 				5EF1986D2749937E001A354C /* MatchingRequest.swift in Sources */,
 				5EF1987C274F3C5F001A354C /* RequestRole.swift in Sources */,
@@ -809,6 +816,7 @@
 				5ED5C72D2734A87A007628C5 /* ProfileCreationRequest.swift in Sources */,
 				5EF1987E274F3DC6001A354C /* MatchViewConfigurations.swift in Sources */,
 				5EF19878274F36F0001A354C /* MatchesPageConfigurations.swift in Sources */,
+				5E2D1E7927528470007223B6 /* HelpController.swift in Sources */,
 				5E7EA9B12718E45B0066B189 /* TutorTradeApplication.swift in Sources */,
 				4A22D9FF270E231B00E8DA7E /* RequestModel.swift in Sources */,
 				4A2DFD3C27078BA600332EE2 /* PreferredMediumView.swift in Sources */,
