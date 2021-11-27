@@ -2,7 +2,7 @@
   "requesterId": "",
   "subject": "💻 Computer Science",
   "costInPoints": "1000",
-  "urgency": "THREE_DAYS",
+  "urgency": "TODAY",
   "platform": "ONLINE",
   "description": "This is a test"
 }

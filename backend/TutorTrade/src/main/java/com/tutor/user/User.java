@@ -68,7 +68,7 @@ public class User {
   /**
    * Used for creating object to serve as DynamoDB key (i.e. user with only an id).
    *
-   * @param userId UUID uniquely identifying user
+   * @param userId String ID uniquely identifying user
    */
   public User(String userId) {
     this.userId = userId;

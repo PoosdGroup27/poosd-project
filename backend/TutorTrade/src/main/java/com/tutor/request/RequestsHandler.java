@@ -5,7 +5,6 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
-import com.amazonaws.services.dynamodbv2.model.AttributeAction;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ScanRequest;
 import com.amazonaws.services.dynamodbv2.model.ScanResult;
@@ -26,7 +25,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.util.*;
-import java.util.jar.Attributes;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -78,7 +76,10 @@ public class RequestsHandler implements RequestStreamHandler {
             OBJECT_MAPPER.writeValue(outputStream, getRequestsByUserId(userId));
             return;
           } else if (pathArray[2].equals("getAllMatchedRequests")) {
-            OBJECT_MAPPER.writeValue(outputStream, getRequestsWithMatchOfUser(userId));
+            OBJECT_MAPPER.writeValue(outputStream, getUndecidedRequestsWithMatchOfUser(userId));
+            return;
+          } else if (pathArray[2].equals("getAllNonUndecidedRequests")) {
+            OBJECT_MAPPER.writeValue(outputStream, getNonUndecidedRequestsWithMatchOfUser(userId));
             return;
           }
         }
@@ -299,7 +300,13 @@ public class RequestsHandler implements RequestStreamHandler {
         .build();
   }
 
-  private Map<String, String> getRequestsWithMatchOfUser(String userId) {
+  /**
+   * Returns all undecided requests for a given tutor.
+   *
+   * @param userId tutorId
+   * @return a map of request Ids to status (going to be UNDECIDED)
+   */
+  private Map<String, String> getUndecidedRequestsWithMatchOfUser(String userId) {
     ScanRequest scan = new ScanRequest().withTableName(String.format("requestTable-%s", STAGE));
 
     // returns up to 1 MB of data, which should always be fine for our
@@ -309,7 +316,34 @@ public class RequestsHandler implements RequestStreamHandler {
     // all matched requestIds : matching status for given user
     Map<String, String> resultMap = new HashMap<>();
     for (Map<String, AttributeValue> item : result.getItems()) {
-      if (item.get("orderedMatches").getM().containsKey(userId)) {
+      if (item.get("orderedMatches").getM().containsKey(userId)
+          && item.get("orderedMatches").getM().get(userId).getS().equals("UNDECIDED")) {
+        resultMap.put(
+            item.get("requestId").getS(), item.get("orderedMatches").getM().get(userId).getS());
+      }
+    }
+
+    return resultMap;
+  }
+
+  /**
+   * Returns all NON undecided requests for a given tutor -- accepted, chatting, etc.
+   *
+   * @param userId tutor Id
+   * @return a map of request Ids to status.
+   */
+  private Map<String, String> getNonUndecidedRequestsWithMatchOfUser(String userId) {
+    ScanRequest scan = new ScanRequest().withTableName(String.format("requestTable-%s", STAGE));
+
+    // returns up to 1 MB of data, which should always be fine for our
+    // purposes
+    ScanResult result = DYNAMO_DB.scan(scan);
+
+    // all matched requestIds : matching status for given user
+    Map<String, String> resultMap = new HashMap<>();
+    for (Map<String, AttributeValue> item : result.getItems()) {
+      if (item.get("orderedMatches").getM().containsKey(userId)
+          && !item.get("orderedMatches").getM().get(userId).getS().equals("UNDECIDED")) {
         resultMap.put(
             item.get("requestId").getS(), item.get("orderedMatches").getM().get(userId).getS());
       }
