@@ -1,0 +1,41 @@
+[
+  {
+    "userID": "6170c75d78d57a7db2f8fee6",
+    "phoneNumber": "+17873611344",
+    "name": "Sebastian Hernandez",
+    "school": "UCF",
+    "major": "Computer Science",
+    "subjectsLearn": [],
+    "subjectsTeach":
+    [
+        "💻 Computer Science"
+    ]
+  },
+  {
+    "userID": "615cc3be78d57a7db276c1be",
+    "phoneNumber": "+13868711300",
+    "name": "Brock Davis",
+    "school": "University of Central Florida",
+    "major": "Computer Science",
+    "sessionIds":
+      [
+        "0fd76af7-84e7-4364-8242-cbd993f4e6e1"
+      ],
+    "subjectsLearn":  [],
+    "subjectsTeach":
+      [
+        "➗ Mathematics",
+        "💻 Computer Science",
+        "🦖 Archaeology",
+        "🧠 Psychology",
+        "💾 IT",
+        "💵 Finance",
+        "🏗 Construction",
+        "📊 Business",
+        "🪐 Astronomy",
+        "✈️ Aviation",
+        "📚 Literature",
+        "🧬 Biology"
+      ]
+  }
+]
