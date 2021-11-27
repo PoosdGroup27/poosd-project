@@ -101,6 +101,41 @@ extension ShadowDisplayBox {
     }
 }
 
+extension UITextView {
+    static var descriptionTextView: UITextView {
+        get {
+            let textView = UITextView()
+            textView.translatesAutoresizingMaskIntoConstraints = false
+            textView.isEditable = true
+            textView.layer.cornerRadius = 10
+            textView.backgroundColor = .clear
+            textView.textAlignment = NSTextAlignment.left
+            textView.contentMode = .scaleToFill
+            textView.text = "What do you need help with?"
+            textView.textColor = UIColor.lightGray
+            textView.font = UIFont(name: "Lato-Bold", size: 15)
+            textView.tag = 0
+            return textView
+        }
+    }
+    
+    static var budgetTextView: UITextView {
+        get {
+            let textView = UITextView()
+            textView.translatesAutoresizingMaskIntoConstraints = false
+            textView.isEditable = true
+            textView.layer.cornerRadius = 10
+            textView.backgroundColor = .clear
+            textView.textAlignment = NSTextAlignment.center
+            textView.text = "0"
+            textView.textColor = UIColor.lightGray
+            textView.font = UIFont(name: "Lato-Bold", size: 18)
+            textView.tag = 1
+            return textView
+        }
+    }
+}
+
 extension UITextField {
     static var subjectsTextField: UITextField {
         get {

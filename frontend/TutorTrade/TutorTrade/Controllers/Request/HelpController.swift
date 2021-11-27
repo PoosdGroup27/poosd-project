@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate {
+class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate, UITextViewDelegate {
     private var profileManager: TutorProfileManager
     private var requestModel: RequestModel
     private var requestManager: RequestManager
@@ -24,11 +24,11 @@ class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegat
     private lazy var urgencyButtons: [UIButton] = UIButton.getUrgencyButtons()
     private lazy var descriptionLabel: UILabel = .requestLabel(text: "Description")
     private lazy var descriptionDisplayBox: BorderedDisplayBoxView = .helpDescriptionCardBoxView()
-    private lazy var descriptionTextField: UITextField = .descriptionTextField
+    private lazy var descriptionTextView: UITextView = .descriptionTextView
     private lazy var budgetLabel: UILabel = .requestLabel(text: "Budget")
     private lazy var budgetDisplayBox: BorderedDisplayBoxView = .budgetCardBoxView()
     private lazy var budgetTextFieldDisplayBox: BorderedDisplayBoxView = .pointBalanceTextFieldDisplayBox()
-    private lazy var budgetTextField: UITextField = .budgetTextField
+    private lazy var budgetTextView: UITextView = .budgetTextView
     private lazy var availableBudget: UILabel = .budgetHelpLabel()
     private lazy var actualBudgetLabel: UILabel = .actualBudgetLabel(points: profileManager.profile.pointBalance)
     private lazy var mediumLabel: UILabel = .requestLabel(text: "Preferred Medium")
@@ -44,6 +44,24 @@ class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegat
         controller.addAction(UIAlertAction(title: "OK", style: .cancel))
         return controller
     }()
+    private lazy var verifyPointsAlert: UIAlertController = {
+        let controller = UIAlertController.init(title: "Not enough points. 🥺",
+                                                message: "Unable to submit request, not enough points.",
+                                                preferredStyle: .alert)
+
+        controller.addAction(UIAlertAction(title: "OK", style: .cancel))
+        return controller
+    }()
+    private lazy var emptyFieldsAlert: UIAlertController = {
+        let controller = UIAlertController.init(title: "Empty field",
+                                                message: "Please fill out all fields.",
+                                                preferredStyle: .alert)
+
+        controller.addAction(UIAlertAction(title: "OK", style: .cancel))
+        return controller
+    }()
+    private var urgencyButtonFlag = false
+    private var mediumButtonFlag = false
     private var subjects: [String] = ["➗ Mathematics",
                                       "🪐 Astronomy",
                                       "⚛️ Physics",
@@ -168,7 +186,7 @@ class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegat
         }
         
         self.helpScrollView.addSubview(urgencyButtons[0]) {
-            $0.addTarget(self, action: #selector(self.onTapButton), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(self.onTapUrgencyButton), for: .touchUpInside)
             NSLayoutConstraint.activate([
                 $0.topAnchor.constraint(equalToSystemSpacingBelow: self.urgencyLabel.bottomAnchor, multiplier: 2),
                 $0.leadingAnchor.constraint(equalTo: self.helpTitleLabel.leadingAnchor),
@@ -178,7 +196,7 @@ class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegat
         }
         
         self.helpScrollView.addSubview(urgencyButtons[1]) {
-            $0.addTarget(self, action: #selector(self.onTapButton), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(self.onTapUrgencyButton), for: .touchUpInside)
             NSLayoutConstraint.activate([
                 $0.topAnchor.constraint(equalToSystemSpacingBelow: self.urgencyLabel.bottomAnchor, multiplier: 2),
                 $0.leadingAnchor.constraint(equalTo: self.urgencyButtons[0].trailingAnchor, constant: 25),
@@ -188,7 +206,7 @@ class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegat
         }
         
         self.helpScrollView.addSubview(urgencyButtons[2]) {
-            $0.addTarget(self, action: #selector(self.onTapButton), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(self.onTapUrgencyButton), for: .touchUpInside)
             NSLayoutConstraint.activate([
                 $0.topAnchor.constraint(equalToSystemSpacingBelow: self.urgencyLabel.bottomAnchor, multiplier: 2),
                 $0.leadingAnchor.constraint(equalTo: self.urgencyButtons[1].trailingAnchor, constant: 25),
@@ -213,13 +231,13 @@ class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegat
             ])
         }
         
-        self.helpScrollView.addSubview(descriptionTextField) {
+        self.helpScrollView.addSubview(descriptionTextView) {
             $0.delegate = self
             NSLayoutConstraint.activate([
                 $0.topAnchor.constraint(equalTo: self.descriptionDisplayBox.topAnchor, constant: 16),
                 $0.leadingAnchor.constraint(equalTo: self.descriptionDisplayBox.leadingAnchor, constant: 16),
-                $0.widthAnchor.constraint(equalTo: self.descriptionDisplayBox.widthAnchor),
-                $0.heightAnchor.constraint(equalTo: self.descriptionDisplayBox.heightAnchor),
+                $0.widthAnchor.constraint(equalTo: self.descriptionDisplayBox.widthAnchor, constant: -20),
+                $0.heightAnchor.constraint(equalTo: self.descriptionDisplayBox.heightAnchor, constant: -20),
             ])
         }
         
@@ -249,12 +267,13 @@ class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegat
             ])
         }
         
-        self.budgetTextFieldDisplayBox.addSubview(budgetTextField) {
+        self.budgetTextFieldDisplayBox.addSubview(budgetTextView) {
+            $0.delegate = self
             NSLayoutConstraint.activate([
-                $0.centerYAnchor.constraint(equalTo: self.budgetTextFieldDisplayBox.centerYAnchor),
-                $0.leadingAnchor.constraint(equalToSystemSpacingAfter: self.budgetTextFieldDisplayBox.leadingAnchor, multiplier: 8),
-                $0.widthAnchor.constraint(equalTo: self.budgetTextFieldDisplayBox.widthAnchor),
-                $0.heightAnchor.constraint(equalTo: self.budgetTextFieldDisplayBox.heightAnchor)
+                $0.topAnchor.constraint(equalTo: self.budgetTextFieldDisplayBox.topAnchor, constant: 6),
+                $0.leadingAnchor.constraint(equalTo: self.budgetTextFieldDisplayBox.leadingAnchor, constant: 40),
+                $0.widthAnchor.constraint(equalToConstant: self.budgetTextFieldDisplayBox.bounds.width / 5),
+                $0.heightAnchor.constraint(equalTo: self.budgetTextFieldDisplayBox.heightAnchor, constant: -10),
             ])
         }
         
@@ -332,30 +351,33 @@ class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegat
         selector.layer.borderWidth = 1
     }
     
-    @objc func onTapButton(_ selector: UIButton) {
-        let tag = selector.tag
-        if tag == 0 {
+    @objc func onTapUrgencyButton(_ selector: UIButton) {
+        let urgency = TutoringRequestUrgency.init(textRepresentation: selector.titleLabel!.text!).textRepresentation
+        self.urgencyButtonFlag = true
+        
+        if urgency ==  TutoringRequestUrgency.init(textRepresentation: "Today").textRepresentation {
             selector.layer.borderWidth = 3
             urgencyButtons[1].layer.borderWidth = 1
             urgencyButtons[2].layer.borderWidth = 1
-            self.requestModel.urgency = Urgency.Today.rawValue
+            self.requestModel.urgency = TutoringRequestUrgency.today.rawValue
         }
-        else if tag == 1 {
+        else if urgency == TutoringRequestUrgency.init(textRepresentation: "Tomorrow").textRepresentation {
             selector.layer.borderWidth = 3
             urgencyButtons[0].layer.borderWidth = 1
             urgencyButtons[2].layer.borderWidth = 1
-            self.requestModel.urgency = Urgency.Tomorrow.rawValue
+            self.requestModel.urgency = TutoringRequestUrgency.tomorrow.rawValue
         }
-        else if tag == 2 {
+        else if urgency == TutoringRequestUrgency.init(textRepresentation: "This week").textRepresentation {
             selector.layer.borderWidth = 3
             urgencyButtons[0].layer.borderWidth = 1
             urgencyButtons[1].layer.borderWidth = 1
-            self.requestModel.urgency = Urgency.ThisWeek.rawValue
+            self.requestModel.urgency = TutoringRequestUrgency.thisWeek.rawValue
         }
     }
 
     @objc func onTapMediumButton(_ selector: UIButton) {
         let tag = selector.tag
+        self.mediumButtonFlag = true
         if tag == 0 {
             selector.layer.borderWidth = 3
             mediumButtons[1].layer.borderWidth = 1
@@ -368,29 +390,70 @@ class HelpController: UIViewController, UITextFieldDelegate, UIScrollViewDelegat
         }
     }
     
+    func fieldsEmpty() -> Bool {
+        if subjectsTextField.text!.isEmpty || !urgencyButtonFlag || descriptionTextView.text!.isEmpty
+            || budgetTextView.text!.isEmpty || !mediumButtonFlag {
+            return true
+        }
+
+        return false
+    }
+    
     @objc func submitRequest(_ selector: UIButton) {
-        // 1. populate the model
-        self.requestModel.requesterId = self.profileManager.profile.userId
-        self.requestModel.subject = self.subjectsTextField.text!
-        self.requestModel.description = self.descriptionTextField.text!
-        self.requestModel.costInPoints = self.budgetTextField.text!
+        // Verify that all fields are filled correctly.
+        if fieldsEmpty() {
+            self.present(self.emptyFieldsAlert, animated: true)
+        } else if invalidInputCost(inputPoints: Int(budgetTextView.text!)!, userBalance: self.profileManager.profile.pointBalance) {
+            self.present(self.verifyPointsAlert, animated: true)
+        } else {
+            // Populate the model
+            self.requestModel.requesterId = self.profileManager.profile.userId
+            self.requestModel.subject = self.subjectsTextField.text!
+            self.requestModel.description = self.descriptionTextView.text!
+            self.requestModel.costInPoints = self.budgetTextView.text!
+            // Set up and send request
+            self.requestManager.setUpRequestManager(requestModel: self.requestModel)
+            self.requestManager.setUpRequest()
+            self.requestManager.postRequestData()
 
-        // 2. send the request by using request manager
-        self.requestManager.setUpRequestManager(requestModel: self.requestModel)
-        self.requestManager.setUpRequest()
-        self.requestManager.postRequestData()
-
-        // 3. alert if the request properly sent.
-        print(requestModel)
-        self.present(self.submitRequestAlert, animated: true)
+            print(requestModel)
+            self.present(self.submitRequestAlert, animated: true)
+        }
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            if textView.tag == 0 {
+                textView.text = "What do you need help with?"
+                textView.textColor = UIColor.lightGray
+            } else {
+                textView.text = "0"
+                textView.textColor = UIColor.lightGray
+            }
+        }
     }
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
     
+    func invalidInputCost(inputPoints: Int, userBalance: Int) -> Bool {
+        if inputPoints <= 0 || inputPoints > userBalance {
+            return true
+        }
+
+        return false
+    }
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.descriptionTextField.resignFirstResponder()
+        self.descriptionTextView.resignFirstResponder()
         self.subjectsTextField.resignFirstResponder()
         return true
     }
