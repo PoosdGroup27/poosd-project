@@ -8,8 +8,10 @@
 import Foundation
 
 internal enum TuteeRequestStatus: String, Codable {
+    case undecided = "UNDECIDED"
     case accepted = "ACCEPTED"
-    case denied = "DENIED"
+    case declined = "DECLINED"
     case chatting = "CHATTING"
-    case unanswered = "UNANSWERED"
+    case completed = "COMPLETED"
+    case reviewed = "REVIEWED"
 }

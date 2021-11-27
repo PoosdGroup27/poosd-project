@@ -78,6 +78,12 @@
 		5EF198712749D476001A354C /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF198702749D476001A354C /* Match.swift */; };
 		5EF19873274EA45A001A354C /* NoRemainingRequestCardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF19872274EA45A001A354C /* NoRemainingRequestCardsView.swift */; };
 		5EF19875274EFB9C001A354C /* NoRemainingRequestCardsConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF19874274EFB9C001A354C /* NoRemainingRequestCardsConfiguration.swift */; };
+		5EF19878274F36F0001A354C /* MatchesPageConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF19877274F36F0001A354C /* MatchesPageConfigurations.swift */; };
+		5EF1987A274F3B6D001A354C /* MatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF19879274F3B6D001A354C /* MatchView.swift */; };
+		5EF1987C274F3C5F001A354C /* RequestRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF1987B274F3C5F001A354C /* RequestRole.swift */; };
+		5EF1987E274F3DC6001A354C /* MatchViewConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF1987D274F3DC6001A354C /* MatchViewConfigurations.swift */; };
+		5EF19881274FE84F001A354C /* MatchAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF19880274FE84F001A354C /* MatchAction.swift */; };
+		5EF19883274FEB6F001A354C /* StraightLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF19882274FEB6F001A354C /* StraightLine.swift */; };
 		5EF5C44C2720FB2100C74ADF /* Auth0 in Frameworks */ = {isa = PBXBuildFile; productRef = 5EF5C44B2720FB2100C74ADF /* Auth0 */; };
 		5EF5C44E2720FE5C00C74ADF /* Auth0.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5EF5C44D2720FE5C00C74ADF /* Auth0.plist */; };
 		5EF5C4522726F72300C74ADF /* PopoverEditingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF5C4512726F72300C74ADF /* PopoverEditingViewController.swift */; };
@@ -178,6 +184,12 @@
 		5EF198702749D476001A354C /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
 		5EF19872274EA45A001A354C /* NoRemainingRequestCardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoRemainingRequestCardsView.swift; sourceTree = "<group>"; };
 		5EF19874274EFB9C001A354C /* NoRemainingRequestCardsConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoRemainingRequestCardsConfiguration.swift; sourceTree = "<group>"; };
+		5EF19877274F36F0001A354C /* MatchesPageConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchesPageConfigurations.swift; sourceTree = "<group>"; };
+		5EF19879274F3B6D001A354C /* MatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchView.swift; sourceTree = "<group>"; };
+		5EF1987B274F3C5F001A354C /* RequestRole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestRole.swift; sourceTree = "<group>"; };
+		5EF1987D274F3DC6001A354C /* MatchViewConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchViewConfigurations.swift; sourceTree = "<group>"; };
+		5EF19880274FE84F001A354C /* MatchAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchAction.swift; sourceTree = "<group>"; };
+		5EF19882274FEB6F001A354C /* StraightLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StraightLine.swift; sourceTree = "<group>"; };
 		5EF5C44D2720FE5C00C74ADF /* Auth0.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Auth0.plist; sourceTree = "<group>"; };
 		5EF5C4512726F72300C74ADF /* PopoverEditingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverEditingViewController.swift; sourceTree = "<group>"; };
 		5EF5C4532727517000C74ADF /* SchoolSelectionViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSelectionViewFactory.swift; sourceTree = "<group>"; };
@@ -364,13 +376,6 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
-		5E1BAE5E2728EAC000A70757 /* Matches */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Matches;
-			sourceTree = "<group>";
-		};
 		5E1BAE5F2728EAC700A70757 /* Matching */ = {
 			isa = PBXGroup;
 			children = (
@@ -409,13 +414,6 @@
 				4A22D9FE270E231B00E8DA7E /* RequestModel.swift */,
 			);
 			path = Request;
-			sourceTree = "<group>";
-		};
-		5E1BAE642728EB4000A70757 /* Matches */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Matches;
 			sourceTree = "<group>";
 		};
 		5E1BAE652728EB4700A70757 /* AuthFlow */ = {
@@ -487,9 +485,9 @@
 		5E7EA9AA2718E3C30066B189 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5EF1987F274FE838001A354C /* Matches */,
 				5EF198662743F394001A354C /* Matching */,
 				5E1BAE652728EB4700A70757 /* AuthFlow */,
-				5E1BAE642728EB4000A70757 /* Matches */,
 				5E1BAE622728EAF300A70757 /* Request */,
 				5E1BAE612728EAE500A70757 /* Application */,
 				5E7EA9AC2718E3C30066B189 /* Profile */,
@@ -509,9 +507,9 @@
 		5E7EA9C02718E6800066B189 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5EF19876274F36C0001A354C /* Matches */,
 				5E1BAE602728EACE00A70757 /* AuthFlow */,
 				5E1BAE5F2728EAC700A70757 /* Matching */,
-				5E1BAE5E2728EAC000A70757 /* Matches */,
 				5E1BAE5C2728E9F100A70757 /* Request */,
 				5E7EA9CC2718E6800066B189 /* Profile */,
 				5E7EA9D12718E6800066B189 /* Factories */,
@@ -589,6 +587,27 @@
 				5EF1986A2749923F001A354C /* MatchingManager.swift */,
 			);
 			path = Matching;
+			sourceTree = "<group>";
+		};
+		5EF19876274F36C0001A354C /* Matches */ = {
+			isa = PBXGroup;
+			children = (
+				5EF19877274F36F0001A354C /* MatchesPageConfigurations.swift */,
+				5EF19879274F3B6D001A354C /* MatchView.swift */,
+				5EF1987D274F3DC6001A354C /* MatchViewConfigurations.swift */,
+				5EF19882274FEB6F001A354C /* StraightLine.swift */,
+			);
+			name = Matches;
+			path = "/Users/brockdavis/Desktop/CS/poosd-project/frontend/TutorTrade/TutorTrade/Views/Matches";
+			sourceTree = "<absolute>";
+		};
+		5EF1987F274FE838001A354C /* Matches */ = {
+			isa = PBXGroup;
+			children = (
+				5EF1987B274F3C5F001A354C /* RequestRole.swift */,
+				5EF19880274FE84F001A354C /* MatchAction.swift */,
+			);
+			path = Matches;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -754,12 +773,15 @@
 				5EF5C4522726F72300C74ADF /* PopoverEditingViewController.swift in Sources */,
 				5EF5C4542727517000C74ADF /* SchoolSelectionViewFactory.swift in Sources */,
 				5E5DB42A272C4862008B9A0D /* CreateProfileController.swift in Sources */,
+				5EF1987A274F3B6D001A354C /* MatchView.swift in Sources */,
 				4A4CB600270BA47C00D7D215 /* PointsView.swift in Sources */,
 				5E7EA9E02718E6800066B189 /* ProfilePageFactory.swift in Sources */,
 				5EF1986D2749937E001A354C /* MatchingRequest.swift in Sources */,
+				5EF1987C274F3C5F001A354C /* RequestRole.swift in Sources */,
 				5E1BAE702728ED5C00A70757 /* UIView.swift in Sources */,
 				4A29D59C2702603200D25088 /* RequestController.swift in Sources */,
 				5EF198712749D476001A354C /* Match.swift in Sources */,
+				5EF19883274FEB6F001A354C /* StraightLine.swift in Sources */,
 				5E9853F6273768FA00E75E2A /* VerificationController.swift in Sources */,
 				5E9853FA2737691E00E75E2A /* ShadowDisplayBox.swift in Sources */,
 				4AA06BFA2704E4FF00B58926 /* RequestScrollView.swift in Sources */,
@@ -771,6 +793,7 @@
 				5EF1985D2741BDF3001A354C /* TutoringMedium.swift in Sources */,
 				5ED5C72B2731A1A0007628C5 /* Notification.swift in Sources */,
 				5E7EA9DD2718E6800066B189 /* NameAndRatingLabel.swift in Sources */,
+				5EF19881274FE84F001A354C /* MatchAction.swift in Sources */,
 				5ED5C727272C9746007628C5 /* EditingPopoverConfigurations.swift in Sources */,
 				5E5DB426272C40E4008B9A0D /* CreateProfilePageConfigurations.swift in Sources */,
 				4A22D9FD270E17F700E8DA7E /* SubjectView.swift in Sources */,
@@ -784,6 +807,8 @@
 				5E1BAE5B2728E72800A70757 /* ProfileController.swift in Sources */,
 				4A29D59A2702602700D25088 /* MatchesController.swift in Sources */,
 				5ED5C72D2734A87A007628C5 /* ProfileCreationRequest.swift in Sources */,
+				5EF1987E274F3DC6001A354C /* MatchViewConfigurations.swift in Sources */,
+				5EF19878274F36F0001A354C /* MatchesPageConfigurations.swift in Sources */,
 				5E7EA9B12718E45B0066B189 /* TutorTradeApplication.swift in Sources */,
 				4A22D9FF270E231B00E8DA7E /* RequestModel.swift in Sources */,
 				4A2DFD3C27078BA600332EE2 /* PreferredMediumView.swift in Sources */,
@@ -972,7 +997,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.brockndavis;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brocknathandavis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -992,7 +1017,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.brockndavis;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brocknathandavis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

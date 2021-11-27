@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "point-2.png",
+      "filename" : "review.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "point-1.png",
+      "filename" : "review-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "point.png",
+      "filename" : "review-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

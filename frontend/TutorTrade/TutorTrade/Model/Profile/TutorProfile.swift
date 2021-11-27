@@ -5,7 +5,6 @@
 //  Created by brock davis on 10/10/21.
 //
 
-import Foundation
 import UIKit
 
 struct TutorProfile : Codable {
