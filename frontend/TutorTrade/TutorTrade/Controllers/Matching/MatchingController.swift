@@ -21,11 +21,24 @@ class MatchingController: UIViewController, SwipeCardStackDataSource, SwipeCardS
     private lazy var hapticGenerator = UINotificationFeedbackGenerator()
     private lazy var matchingManager = MatchingManager()
     private var availableRequests: [CompleteTuteeRequest]!
+    private var cardRefreshTimer: Timer!
 
     init() {
         super.init(nibName: nil, bundle: nil)
+        
+        self.cardRefreshTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { _ in
+            DispatchQueue.main.async(qos: .background) {
+                if self.cardStack.window == nil {
+                    self.availableRequests = self.matchingManager.matchedRequests
+                    self.cardStack.removeFromSuperview()
+                    self.cardStack = SwipeCardStack()
+                    self.addCardStackToInferface()
+                }
+            }
+        }
         tabBarItem = UITabBarItem(title: "Matching", image: UIImage(systemName: "house"), tag: 0)
         self.view.backgroundColor = UIColor(named: "MatchingPageColor")
+        
     }
     
     required init?(coder: NSCoder) {
@@ -151,6 +164,10 @@ class MatchingController: UIViewController, SwipeCardStackDataSource, SwipeCardS
             ])
         }
         
+        self.addCardStackToInferface()
+    }
+    
+    private func addCardStackToInferface() {
         self.view.addSubview(cardStack) {
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.dataSource = self

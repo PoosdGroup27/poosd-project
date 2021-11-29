@@ -265,7 +265,6 @@
 			children = (
 				5EF198672743F500001A354C /* Matching */,
 				5E1BAE6B2728ECF300A70757 /* AuthFlow */,
-				5E1BAE692728EB6600A70757 /* Matches */,
 				5E1BAE682728EB5F00A70757 /* Profile */,
 				5E1BAE672728EB5900A70757 /* Application */,
 				5E1BAE662728EB5500A70757 /* Request */,
@@ -452,13 +451,6 @@
 				5E7EA9A42718E3250066B189 /* TutorProfileManager.swift */,
 			);
 			path = Profile;
-			sourceTree = "<group>";
-		};
-		5E1BAE692728EB6600A70757 /* Matches */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Matches;
 			sourceTree = "<group>";
 		};
 		5E1BAE6B2728ECF300A70757 /* AuthFlow */ = {
