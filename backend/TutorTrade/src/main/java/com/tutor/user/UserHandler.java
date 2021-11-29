@@ -274,7 +274,7 @@ public class UserHandler implements RequestStreamHandler {
       userToUpdate.setCumulativeSessionsCompleted(cumulativeSessionsCompleted);
     }
 
-    Double rating = (Double) body.get("rating");
+    Double rating = Double.parseDouble((String) body.get("rating"));
     if (rating != null) {
       userToUpdate.setRating(rating);
     }
