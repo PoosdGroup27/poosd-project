@@ -99,12 +99,6 @@ public class MatchesHandler implements RequestStreamHandler {
 
     requestToUpdate.getOrderedMatches().put(tutorId, matchStatus);
 
-    DYNAMO_DB_MAPPER.save(
-        requestToUpdate,
-        DynamoDBMapperConfig.builder()
-            .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
-            .build());
-
     // if the status update is going to chat, create a new chat between the tutor
     // and tutee
     if (statusUpdate.equals("CHATTING")) {
@@ -138,9 +132,52 @@ public class MatchesHandler implements RequestStreamHandler {
               .build());
     }
 
+    if (statusUpdate.equals("ACCEPTED")) {
+      requestToUpdate.setHelperId(tutorId);
+    }
+
+    DYNAMO_DB_MAPPER.save(
+            requestToUpdate,
+            DynamoDBMapperConfig.builder()
+                    .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
+                    .build());
+
+    if (statusUpdate.equals("COMPLETED")) {
+      transferPoints(tutorId, requestToUpdate.getRequesterId(), requestToUpdate.getCostInPoints());
+    }
+
     return ApiResponse.<Request>builder()
         .statusCode(HttpURLConnection.HTTP_OK)
         .body(requestToUpdate)
         .build();
+  }
+
+  private void transferPoints(String tutorId, String tuteeId, int cost) {
+    User tutor = UserUtils.getUserObjectById(tutorId);
+
+    // this should never happen, given valid requests
+    if (tutor == null) {
+      return;
+    }
+    tutor.setPoints(tutor.getPoints() + cost);
+
+    DYNAMO_DB_MAPPER.save(
+            tutor,
+            DynamoDBMapperConfig.builder()
+                    .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
+                    .build());
+
+    User tutee = UserUtils.getUserObjectById(tuteeId);
+    // this should never happen, given valid requests
+    if (tutee == null) {
+      return;
+    }
+    tutee.setPoints(tutee.getPoints() - cost);
+
+    DYNAMO_DB_MAPPER.save(
+            tutee,
+            DynamoDBMapperConfig.builder()
+                    .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
+                    .build());
   }
 }
