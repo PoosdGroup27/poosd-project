@@ -22,4 +22,8 @@ struct Properties {
     static let requestPath = "request"
     
     static let matchPath = "matches/updateMatch"
+    
+    static let matchesPath = "request/getAllNonUndecidedRequests"
+    
+    static let reviewPath = "user/addReview"
 }

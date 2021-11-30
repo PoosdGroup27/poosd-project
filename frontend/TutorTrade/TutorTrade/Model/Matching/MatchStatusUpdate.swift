@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct Match: Codable {
+internal struct MatchStatusUpdate: Codable {
     
     let tutorId: String
     
