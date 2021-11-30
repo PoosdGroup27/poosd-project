@@ -277,7 +277,7 @@ public class RequestsHandler implements RequestStreamHandler {
 
   /** Returns a list of tuples of a user's session IDs along with their associated subjects. */
   private ApiResponse<?> getRequestsByUserId(String userId) {
-    List<List<String>> sessionSubjectsList = new ArrayList<>();
+    List<List<String>> sessionStatusList = new ArrayList<>();
 
     User user = UserUtils.getUserObjectById(userId);
 
@@ -289,14 +289,14 @@ public class RequestsHandler implements RequestStreamHandler {
       Request request = RequestUtils.getRequestObjectById(sessionId.toString());
 
       if (request != null) {
-        sessionSubjectsList.add(
-            Arrays.asList(sessionId.toString(), request.getSubject().getSubjectName()));
+        sessionStatusList.add(
+            Arrays.asList(sessionId.toString(), request.getStatus().toString()));
       }
     }
 
     return ApiResponse.<List<List<String>>>builder()
         .statusCode(HttpURLConnection.HTTP_OK)
-        .body(sessionSubjectsList)
+        .body(sessionStatusList)
         .build();
   }
 
