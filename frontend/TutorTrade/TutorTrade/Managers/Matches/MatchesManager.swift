@@ -48,15 +48,15 @@ internal class MatchesManager {
     private func getMatches() -> [String: MatchingRequest]? {
         
         let userId = DefaultTutorProfileManager.shared!.profile.userId
-        let matchesRequest = URLRequest(url: URL(string: Properties.backendBaseEndpoint + Properties.matchesPath + "/" + userId)!)
+        let tutorMatchesRequest = URLRequest(url: URL(string: Properties.backendBaseEndpoint + Properties.matchesPath + "/" + userId)!)
         var matches: [String: MatchingRequest] = [:]
         
-        let semaphore = DispatchSemaphore(value: 0)
+        let tutorSemaphore = DispatchSemaphore(value: 0)
         
-        URLSession.shared.dataTask(with: matchesRequest) { data, response, error in
+        URLSession.shared.dataTask(with: tutorMatchesRequest) { data, response, error in
             
             defer {
-                semaphore.signal()
+                tutorSemaphore.signal()
             }
             
             if error != nil || (response as! HTTPURLResponse).statusCode != 200 {
@@ -73,9 +73,36 @@ internal class MatchesManager {
             
         }.resume()
         
-        semaphore.wait()
+        let tuteeMatchesRequest = URLRequest(url: URL(string: Properties.backendBaseEndpoint + Properties.requestsListPath + "/" + userId)!)
+        let tuteeSemaphore = DispatchSemaphore(value: 0)
+        
+        URLSession.shared.dataTask(with: tuteeMatchesRequest) { data, response, error in
+            
+            defer {
+                tuteeSemaphore.signal()
+            }
+            
+            if error != nil || (response as! HTTPURLResponse).statusCode != 200 {
+                return
+            }
+            
+            let response = try? JSONDecoder().decode(APIResponse<Array<Array<String>>>.self, from: data!)
+            
+            if let response = response {
+                for request in response.body {
+                    matches[request[0]] = MatchingRequest(requestId: request[0], status: .accepted)
+                }
+            }
+            
+        }.resume()
+        
+        tutorSemaphore.wait()
+        tuteeSemaphore.wait()
+        
         return matches
     }
+    
+    
     
     func updateMatch(requestId: String, toStatus status: TuteeRequestStatus) {
         var request = URLRequest(url: URL(string: Properties.backendBaseEndpoint + Properties.matchPath + "/" + requestId)!)

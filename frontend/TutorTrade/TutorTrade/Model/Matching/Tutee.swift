@@ -11,8 +11,22 @@ struct Tutee: Codable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         self.userId = try values.decode(String.self, forKey: .userId)
-        self.name = try values.decode(String.self, forKey: .name)
-        self.profilePhoto = UIImage(named: "DefaultUserImage")?.resizedTo(CGSize(width: 350, height: 350))
+        let name = try values.decode(String.self, forKey: .name)
+        self.name = name
+        self.profilePhoto = {
+            switch name.split(separator: " ").first! {
+            case "Adam":
+                return UIImage(named: "AdamProfilePic")!.resizedTo(CGSize(width: 350, height: 350))
+            case "Brock":
+                return UIImage(named: "BrockProfilePic")!.resizedTo(CGSize(width: 350, height: 350))
+            case "Jesse":
+                return UIImage(named: "JesseProfilePic")!.resizedTo(CGSize(width: 350, height: 350))
+            case "Sebastian":
+                return UIImage(named: "SebastianProfilePic")!.resizedTo(CGSize(width: 350, height: 350))
+            default:
+                return UIImage(named: "DefaultUserImage")!.resizedTo(CGSize(width: 350, height: 350))
+            }
+        }()
         self.school = try values.decode(String.self, forKey: .school)
         self.rating = try values.decode(Double.self, forKey: .rating)
         self.phoneNumber = try values.decode(String.self, forKey: .phoneNumber)

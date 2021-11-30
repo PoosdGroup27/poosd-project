@@ -21,6 +21,8 @@ struct Properties {
     
     static let requestPath = "request"
     
+    static let requestsListPath = "/request/getRequestsByUserId"
+    
     static let matchPath = "matches/updateMatch"
     
     static let matchesPath = "request/getAllNonUndecidedRequests"

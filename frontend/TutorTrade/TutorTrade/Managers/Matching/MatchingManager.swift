@@ -87,7 +87,7 @@ internal class MatchingManager {
     }
     
     func matchWith(requestId: String) {
-        updateMatch(requestId: requestId, statusUpdate: .chatting)
+        updateMatch(requestId: requestId, statusUpdate: .accepted)
     }
     
     func unmatchWith(requestId: String) {

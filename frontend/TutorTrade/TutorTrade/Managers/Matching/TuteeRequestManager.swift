@@ -27,7 +27,7 @@ internal class TuteeRequestManager {
                 tuteeRequest = nil
                 return
             }
-            tuteeRequest = try! JSONDecoder().decode(APIResponse<TuteeRequest>.self, from: data!).body
+            tuteeRequest = try? JSONDecoder().decode(APIResponse<TuteeRequest>.self, from: data!).body
         }.resume()
         
         semaphore.wait()

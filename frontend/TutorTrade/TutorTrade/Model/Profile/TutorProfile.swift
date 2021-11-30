@@ -22,9 +22,23 @@ struct TutorProfile : Codable {
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        name = try values.decode(String.self, forKey: .name)
+        let name = try values.decode(String.self, forKey: .name)
+        self.name = name
         userId = try values.decode(String.self, forKey: .userId)
-        profilePhoto = UIImage(named: "DefaultProfilePhoto")!
+        profilePhoto = {
+            switch name.split(separator: " ").first! {
+            case "Adam":
+                return UIImage(named: "AdamProfilePic")!.resizedTo(CGSize(width: 350, height: 350))
+            case "Brock":
+                return UIImage(named: "BrockProfilePic")!.resizedTo(CGSize(width: 350, height: 350))
+            case "Jesse":
+                return UIImage(named: "JesseProfilePic")!.resizedTo(CGSize(width: 350, height: 350))
+            case "Sebastian":
+                return UIImage(named: "SebastianProfilePic")!.resizedTo(CGSize(width: 350, height: 350))
+            default:
+                return UIImage(named: "DefaultUserImage")!.resizedTo(CGSize(width: 350, height: 350))
+            }
+        }()
         pointBalance = try values.decode(Int.self, forKey: .points)
         school = try values.decode(String.self, forKey: .school)
         major = try values.decode(String.self, forKey: .major)
