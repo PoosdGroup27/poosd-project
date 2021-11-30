@@ -51,13 +51,16 @@ Repository for POOSD Group 27, Fall 2021 - TutorTrade
        separators, and the associated API URI as the argument
     2. Update the APIs in frontend source as needed
 
-# Resources
+# Image Resources
 
 #### This project is purely for educational purposes, and the images were used via Fair Use. Do not redistribute.
-- [Major]()
-- [Time]()
-- [Globe/Online]()
-- [Square Checkmark]()
+- [Unread Chat -- mark chat unread](https://fonts.google.com/icons?icon.query=chat)
+- [Major](https://stock.adobe.com/images/id/315003907?as_campaign=Flaticon&as_content=api&as_audience=srp&tduid=2494635b2a9db8907e49b3817624f22e&as_channel=affiliate&as_campclass=redirect&as_source=arvato)
+- [Face to Face](https://thenounproject.com/search/?q=face+to+face&i=4143277)
+- [Default Person -- Recruitment Process Vector Human Resources Choice Of Ca](https://abilitytolov3.blogspot.com/1997/02/illustration-vector-human.html)
+- [Tickbox](https://icons8.com/icon/15427/tick-box)
+- [Globe/Online](https://www.flaticon.com/free-icon/laptop_2799156?term=online%20globe%20laptop&related_id=2799156)
+- [Phone](https://thenounproject.com/search/?q=phone&i=4410706)
 - [Bookmark (changed color)](https://www.flaticon.com/free-icon/bookmark_102279?term=bookmark&page=1&position=3&page=1&position=3&related_id=102279&origin=search)
 - [Star](https://www.flaticon.com/free-icon/star_929495?term=star&page=1&position=14&page=1&position=14&related_id=929495&origin=search)
 - [Exit](https://thenounproject.com/search/?q=x&i=2663763)
@@ -74,3 +77,6 @@ Repository for POOSD Group 27, Fall 2021 - TutorTrade
 - [Question Mark](https://thenounproject.com/search/?q=question+mark&i=178771)
 - [Arrow](https://www.flaticon.com/premium-icon/next_2989988?term=arrow&page=1&position=1&page=1&position=1&related_id=2989988&origin=search)
 - [Graph](https://pixabay.com/vectors/social-media-network-people-5508549/)
+- [Requests Tab Bar Icon -- requires Nucleo app download](https://nucleoapp.com/premium-icons)
+- [Profile Tab Bar Icon -- requires Nucleo app download](https://nucleoapp.com/premium-icons)
+- [Time -- requires Nucleo app download](https://nucleoapp.com/premium-icons)
