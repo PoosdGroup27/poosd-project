@@ -226,6 +226,14 @@ public class RequestsHandler implements RequestStreamHandler {
     if (statusString != null) {
       try {
         requestToUpdate.setStatus(Status.valueOf(statusString));
+
+        if (Status.valueOf(statusString) == Status.COMPLETED) {
+          transferPoints(
+              requestToUpdate.getHelperId(),
+              requestToUpdate.getRequesterId(),
+              requestToUpdate.getCostInPoints());
+        }
+
       } catch (Exception ex) {
         return ApiUtils.returnErrorResponse(ex);
       }
@@ -350,5 +358,34 @@ public class RequestsHandler implements RequestStreamHandler {
     }
 
     return resultMap;
+  }
+
+  private void transferPoints(String tutorId, String tuteeId, int cost) {
+    User tutor = UserUtils.getUserObjectById(tutorId);
+
+    // this should never happen, given valid requests
+    if (tutor == null) {
+      return;
+    }
+    tutor.setPoints(tutor.getPoints() + cost);
+
+    DYNAMO_DB_MAPPER.save(
+        tutor,
+        DynamoDBMapperConfig.builder()
+            .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
+            .build());
+
+    User tutee = UserUtils.getUserObjectById(tuteeId);
+    // this should never happen, given valid requests
+    if (tutee == null) {
+      return;
+    }
+    tutee.setPoints(tutee.getPoints() - cost);
+
+    DYNAMO_DB_MAPPER.save(
+        tutee,
+        DynamoDBMapperConfig.builder()
+            .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
+            .build());
   }
 }
