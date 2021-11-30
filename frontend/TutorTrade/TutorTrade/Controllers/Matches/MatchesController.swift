@@ -16,26 +16,62 @@ class MatchesController: UIViewController {
     private lazy var titleContainer: UIView = .matchesTitleContainer
     private lazy var pageTitleGraphic: UIImageView = .matchesImageView
     private lazy var pageTitle: UILabel = .matchesPageTitle
-    private var matchViews: [MatchView] = [
-        MatchView(withProfileImage: UIImage(named: "UserImage1")!, withName: "Hannah", withPoints: 150, withRating: 4.9, withSubject: "💻 Computer Science", withStatus: .accepted, withRole: .tutor),
-        MatchView(withProfileImage: UIImage(named: "UserImage2")!, withName: "Katie", withPoints: 180, withRating: 4.3, withSubject: "🧬 Biology", withStatus: .chatting, withRole: .tutee),
-        MatchView(withProfileImage: UIImage(named: "UserImage3")!, withName: "Adam", withPoints: 120, withRating: 4.1, withSubject: "➕ Mathematics", withStatus: .completed, withRole: .tutor),
-        MatchView(withProfileImage: UIImage(named: "UserImage4")!, withName: "Elliot", withPoints: 300, withRating: 3.8, withSubject: "🦖 Archaeology", withStatus: .accepted, withRole: .tutee)
-    ]
     private lazy var matchesScrollView: UIScrollView = .matchesPageScrollView
     private lazy var matchesStackView: UIStackView = .matchesPageStackView
     private var stackViewHeightAnchor: NSLayoutConstraint!
     private var scrollViewHeightAnchor: NSLayoutConstraint!
+    private let matchesManager = MatchesManager()
+    private let matchBufferLock = DispatchSemaphore(value: 1)
+    private var matchBuffer: [Match] = []
+    private let matchesLock = DispatchSemaphore(value: 1)
+    private var matches: [MatchView: Match] = [:]
+    private var matchesRefreshTimer: Timer!
+    private var backgroundOverlay: UIView = .reviewBackgroundOverlay
+    private lazy var reviewController = ReviewController(completion: self.dismissReviewController)
     
-    override func viewDidAppear(_ animated: Bool) {
-        print(self.scrollViewHeightAnchor.constant)
-        print(self.matchesScrollView.contentSize)
+    private func fillMatchBuffer() {
+        DispatchQueue.global(qos: .background).async {
+            let matches = self.matchesManager.matches
+            if let matches = matches {
+                self.matchBufferLock.wait()
+                self.matchBuffer = matches
+                self.matchBufferLock.signal()
+            }
+        }
     }
+
     
     init() {
         super.init(nibName: nil, bundle: nil)
         title = "Matches"
         tabBarItem = UITabBarItem(title: "Matches", image: UIImage(named: "MatchesTabBarIcon"), tag: 2)
+        self.fillMatchBuffer()
+        matchesRefreshTimer = Timer.scheduledTimer(withTimeInterval: 20, repeats: true) { _ in
+            self.fillMatchBuffer()
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        matchBufferLock.wait()
+        matchesLock.wait()
+        
+        guard matches.count != matchBuffer.count else {
+            matchBufferLock.signal()
+            matchesLock.signal()
+            return
+        }
+        
+        self.matches.keys.forEach {
+            self.removeMatchView($0)
+        }
+        matches = [:]
+        matchBuffer.forEach {
+            let matchView = MatchView(withProfileImage: $0.tutee.profilePhoto!, withName: $0.tutee.name, withPoints: $0.request.budget, withRating: $0.tutee.rating, withSubject: $0.request.subject, withStatus: $0.status, withRole: $0.role, statusChangeOberserver: self.matchStatusChanged(matchView:status:))
+            matches[matchView] = $0
+            self.addMatchView(matchView)
+        }
+        matchesLock.signal()
+        matchBufferLock.signal()
     }
     
     required init?(coder: NSCoder) {
@@ -92,8 +128,14 @@ class MatchesController: UIViewController {
             ])
         }
         
-        for matchView in matchViews {
-            self.addMatchView(matchView)
+        self.view.addSubview(self.backgroundOverlay) {
+            $0.isHidden = true
+            NSLayoutConstraint.activate([
+                $0.topAnchor.constraint(equalTo: self.view.topAnchor),
+                $0.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+                $0.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+                $0.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            ])
         }
     }
     
@@ -101,5 +143,32 @@ class MatchesController: UIViewController {
         self.stackViewHeightAnchor.constant += 274
         self.scrollViewHeightAnchor.constant += 274
         matchesStackView.insertArrangedSubview(matchView, at: 0)
+    }
+    
+    private func removeMatchView(_ matchView: MatchView) {
+        self.stackViewHeightAnchor.constant -= 274
+        self.scrollViewHeightAnchor.constant -= 274
+        matchesStackView.removeArrangedSubview(matchView)
+    }
+    
+    private func matchStatusChanged(matchView: MatchView, status: TuteeRequestStatus) {
+        
+        let requestId = matches[matchView]!.request.requestId
+        matchesManager.updateMatch(requestId: requestId, toStatus: status)
+        
+        if status == .chatting {
+            UIApplication.shared.open(URL(string: "sms:" + matches[matchView]!.tutee.phoneNumber)!)
+        }
+        
+        if status == .reviewed {
+            self.backgroundOverlay.isHidden = false
+            self.reviewController.subject = matches[matchView]!.request.subject
+            self.reviewController.tutorId = matches[matchView]!.tutee.userId
+            self.present(reviewController, animated: true)
+        }
+    }
+    
+    private func dismissReviewController() {
+        self.backgroundOverlay.isHidden = true
     }
 }

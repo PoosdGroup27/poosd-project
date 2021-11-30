@@ -100,7 +100,7 @@ internal class MatchingManager {
     
     private func updateMatch(requestId: String, statusUpdate: TuteeRequestStatus) {
         var request = URLRequest(url: URL(string: Properties.backendBaseEndpoint + Properties.matchPath + "/" + requestId)!)
-        let match = Match(tutorId: DefaultTutorProfileManager.shared!.profile.userId, statusUpdate: statusUpdate)
+        let match = MatchStatusUpdate(tutorId: DefaultTutorProfileManager.shared!.profile.userId, statusUpdate: statusUpdate)
         request.httpMethod = "PUT"
         request.httpBody = try! JSONEncoder().encode(match)
         

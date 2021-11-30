@@ -45,14 +45,21 @@ class MatchView: UIView {
     private let ratingBox: BorderedDisplayBoxView = .matchDisplayBox(boxType: .ratingBox)
     private let subjectBox: BorderedDisplayBoxView = .matchDisplayBox(boxType: .subjectBox)
     private let lineView: UIView = .matchLineSeperator
-    private let actionButton: UIButton = .actionItemButton
-    private let actionSelectionButtons: [UIButton] = {
-        stride(from: 0, to: 3, by: 1).map { _ in
-            UIButton.matchActionSelectionButton
-        }
-    }()
+    private let actionButtons: [UIButton] = [.actionItemButton, .actionItemButton, .actionItemButton]
+    private let actionButtonsScrollView: UIScrollView = .matchActionButtonsScrollView
+    private let actionSelectionButtons: [UIButton] = [.matchActionSelectionButton, .matchActionSelectionButton, .matchActionSelectionButton]
     private let actionSelectionButtonStackView: UIStackView = .matchActionSelectionButtonStackView
-    
+    private let actionButtonSize = CGSize(width: UIScreen.main.bounds.width / 1.838, height: UIScreen.main.bounds.height / 19.333)
+    private let actionButtonSelectionSize = CGSize(width: UIScreen.main.bounds.width / 46.875, height: UIScreen.main.bounds.width / 46.875)
+    private lazy var matchReviewedBox: BorderedDisplayBoxView = .matchReviewedBox
+    private lazy var matchReviewedBoxLabel: UILabel = .matchReviewedBoxLabel
+    private let statusChangeOberserver: ((MatchView, TuteeRequestStatus) -> ())?
+    private var status: TuteeRequestStatus {
+        didSet {
+            self.scrollToSelectedIndex()
+            statusChangeOberserver?(self, status)
+        }
+    }
     
     private let profileImageView: UIImageView
     private let nameLabel: UILabel
@@ -66,11 +73,26 @@ class MatchView: UIView {
         fatalError("init(coder:) not implemented")
     }
     
-    init(withProfileImage profileImage: UIImage, withName name: String, withPoints points: Int, withRating rating: Double, withSubject subject: String, withStatus status: TuteeRequestStatus, withRole role: RequestRole) {
+    init(withProfileImage profileImage: UIImage, withName name: String, withPoints points: Int, withRating rating: Double, withSubject subject: String, withStatus status: TuteeRequestStatus, withRole role: RequestRole, statusChangeOberserver: ((MatchView, TuteeRequestStatus) -> ())?) {
         
         let imageSize = CGSize(width: UIScreen.main.bounds.width / 4.076, height: UIScreen.main.bounds.height / 7.185)
         self.profileImageView = .matchProfileImage(withProfilePic: profileImage.resizedTo(imageSize))
         self.nameLabel = .matchBoxLabel(withText: name, withFontSize: UIScreen.main.bounds.width / 25)
+        self.status = status
+        self.statusChangeOberserver = statusChangeOberserver
+        
+        let selectedIndex: Int = {
+            switch status {
+            case .accepted:
+                return 0
+            case .chatting:
+                return 1
+            case .completed:
+                return 2
+            default:
+                return 0
+            }
+        }()
         
         let (pointsText, pointsBoxColor): (String, UIColor) = {
             switch role {
@@ -87,7 +109,6 @@ class MatchView: UIView {
         self.subjectLabel = .matchBoxLabel(withText: subject, withFontSize: UIScreen.main.bounds.width / 31.25)
         
         super.init(frame: .zero)
-        self.setActionButton(forStatus: status)
         
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = .white
@@ -113,7 +134,7 @@ class MatchView: UIView {
             NSLayoutConstraint.activate([
                 $0.topAnchor.constraint(equalTo: self.profileImageView.topAnchor),
                 $0.leadingAnchor.constraint(equalTo: self.profileImageView.trailingAnchor, constant: UIScreen.main.bounds.width / 25),
-                $0.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -UIScreen.main.bounds.width / 5.434),
+                $0.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -UIScreen.main.bounds.width / 6.434),
                 $0.heightAnchor.constraint(equalToConstant: self.nameLabel.intrinsicContentSize.height * 1.7)
     
             ])
@@ -183,15 +204,125 @@ class MatchView: UIView {
             ])
         }
         
-        self.addSubview(self.actionButton) {
+        if status != .reviewed {
+        
+            self.addSubview(self.actionButtonsScrollView) {
+                NSLayoutConstraint.activate([
+                    $0.topAnchor.constraint(equalTo: self.lineView.bottomAnchor, constant: 12),
+                    $0.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+                    $0.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+                    $0.heightAnchor.constraint(equalToConstant: actionButtonSize.height * 1.2),
+                    $0.contentLayoutGuide.heightAnchor.constraint(equalToConstant: actionButtonSize.height),
+                    $0.contentLayoutGuide.widthAnchor.constraint(equalToConstant: ((UIScreen.main.bounds.center.x / 2.5) * 4) + (actionButtonSize.width * 3))
+                ])
+            }
+            
+            var previousActionButton: UIButton?
+            for (index, actionButton) in actionButtons.enumerated() {
+                let (matchAction, actionText, actionMethod): (MatchAction, String, Selector) = {
+                   switch index {
+                   case 0:
+                       return (.message, "Message", #selector(self.messageButtonTapped))
+                   case 1:
+                       return (.markAsComplete, "Mark as complete", #selector(self.markAsCompleteButtonTapped))
+                   default:
+                       return (.review, "Review", #selector(self.reviewButtonTapped))
+                   }
+                }()
+                actionButton.setTitle(actionText, for: .normal)
+                actionButton.setBackgroundImage(.matchActionBackgroundImage(forAction: matchAction, size: actionButtonSize), for: .normal)
+                actionButton.addTarget(self, action: actionMethod, for: .touchUpInside)
+                
+                if index == 1 {
+                    actionButton.addGestureRecognizer(UISwipeGestureRecognizer(target: self, action: #selector(self.userSwipedRightOnCompleteButton)))
+                }
+                
+                self.actionButtonsScrollView.addSubview(actionButton) {
+                    NSLayoutConstraint.activate([
+                        $0.topAnchor.constraint(equalTo: self.actionButtonsScrollView.topAnchor),
+                        $0.leadingAnchor.constraint(equalTo: (previousActionButton != nil) ? previousActionButton!.trailingAnchor : self.actionButtonsScrollView.leadingAnchor, constant: UIScreen.main.bounds.center.x / 2.5)
+                    ])
+                }
+                previousActionButton = actionButton
+            }
+
+            
+            for (index, actionSelectionButton) in actionSelectionButtons.enumerated() {
+                let isSelected = index == selectedIndex
+                actionSelectionButton.setBackgroundImage(.matchActionSelectionButton(isSelected: isSelected, size: actionButtonSelectionSize), for: .normal)
+                actionSelectionButtonStackView.addArrangedSubview(actionSelectionButton)
+                actionSelectionButton.isSelected = isSelected
+            }
+            
+            let actionSelectionButtonSpacing = UIScreen.main.bounds.width / 28.846
+            
+            self.addSubview(actionSelectionButtonStackView) {
+                NSLayoutConstraint.activate([
+                    $0.widthAnchor.constraint(equalToConstant: actionButtonSelectionSize.width * 3 + actionSelectionButtonSpacing * 2),
+                    $0.topAnchor.constraint(equalTo: self.actionButtonsScrollView.bottomAnchor, constant: UIScreen.main.bounds.height / 60),
+                    $0.heightAnchor.constraint(equalToConstant: actionButtonSelectionSize.height),
+                    $0.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+                ])
+            }
+        } else {
+            self.addSubview(self.matchReviewedBox) {
+                NSLayoutConstraint.activate([
+                    $0.topAnchor.constraint(equalTo: self.lineView.bottomAnchor, constant: 20),
+                    $0.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+                    $0.widthAnchor.constraint(equalToConstant: self.actionButtonSize.width),
+                    $0.heightAnchor.constraint(equalToConstant: self.actionButtonSize.height)
+                ])
+            }
+            
+            self.matchReviewedBox.addSubview(self.matchReviewedBoxLabel) {
+                NSLayoutConstraint.activate([
+                    $0.centerYAnchor.constraint(equalTo: self.matchReviewedBox.centerYAnchor),
+                    $0.leadingAnchor.constraint(equalTo: self.matchReviewedBox.leadingAnchor, constant: 50)
+                ])
+            }
+        }
+    }
+    
+    @objc func userSwipedRightOnCompleteButton() {
+        self.status = .accepted
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.scrollToSelectedIndex()
+    }
+    
+    @objc private func messageButtonTapped() {
+        self.status = .chatting
+    }
+    
+    @objc private func markAsCompleteButtonTapped() {
+        self.status = .completed
+    }
+    
+    @objc private func reviewButtonTapped() {
+        print("review button tapped")
+        self.status = .reviewed
+        self.actionButtonsScrollView.removeFromSuperview()
+        self.actionSelectionButtonStackView.removeFromSuperview()
+        self.addSubview(self.matchReviewedBox) {
             NSLayoutConstraint.activate([
+                $0.topAnchor.constraint(equalTo: self.lineView.bottomAnchor, constant: 20),
                 $0.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-                $0.topAnchor.constraint(equalTo: self.lineView.bottomAnchor, constant: UIScreen.main.bounds.height / 54.133)
+                $0.widthAnchor.constraint(equalToConstant: self.actionButtonSize.width),
+                $0.heightAnchor.constraint(equalToConstant: self.actionButtonSize.height)
             ])
         }
         
-        let actionButtonSelectionSize = CGSize(width: UIScreen.main.bounds.width / 46.875, height: UIScreen.main.bounds.width / 46.875)
-        
+        self.matchReviewedBox.addSubview(self.matchReviewedBoxLabel) {
+            NSLayoutConstraint.activate([
+                $0.centerYAnchor.constraint(equalTo: self.matchReviewedBox.centerYAnchor),
+                $0.leadingAnchor.constraint(equalTo: self.matchReviewedBox.leadingAnchor, constant: 50)
+            ])
+        }
+    }
+    
+    private func scrollToSelectedIndex() {
         let selectedIndex: Int = {
             switch status {
             case .accepted:
@@ -204,41 +335,16 @@ class MatchView: UIView {
                 return 0
             }
         }()
+        let offsetPoint = CGPoint(x: Int((UIScreen.main.bounds.center.x / 2.4 + actionButtons.first!.intrinsicContentSize.width)) * selectedIndex, y: 0)
+        self.actionButtonsScrollView.setContentOffset(offsetPoint, animated: true)
         
-        for (index, actionSelectionButton) in actionSelectionButtons.enumerated() {
-            actionSelectionButton.setBackgroundImage(.matchActionSelectionButton(isSelected: index == selectedIndex, size: actionButtonSelectionSize), for: .normal)
-            actionSelectionButtonStackView.addArrangedSubview(actionSelectionButton)
-        }
-        
-        let actionSelectionButtonSpacing = UIScreen.main.bounds.width / 28.846
-        
-        self.addSubview(actionSelectionButtonStackView) {
-            NSLayoutConstraint.activate([
-                $0.widthAnchor.constraint(equalToConstant: actionButtonSelectionSize.width * 3 + actionSelectionButtonSpacing * 2),
-                $0.topAnchor.constraint(equalTo: self.actionButton.bottomAnchor, constant: UIScreen.main.bounds.height / 47.764),
-                $0.heightAnchor.constraint(equalToConstant: actionButtonSelectionSize.height),
-                $0.centerXAnchor.constraint(equalTo: self.centerXAnchor)
-            ])
-        }
-    }
-    
-    private func setActionButton(forStatus status: TuteeRequestStatus) {
-        let actionButtonSize = CGSize(width: UIScreen.main.bounds.width / 1.838, height: UIScreen.main.bounds.height / 19.333)
-        let (matchAction, actionText): (MatchAction, String) = {
-            switch status {
-            case .accepted:
-                return (.message, "Message")
-            case .chatting:
-                return (.markAsComplete, "Mark as complete")
-            case .completed:
-                return (.review, "Review")
-            default:
-            return (.message, "Message")
+        self.actionSelectionButtons.forEach {
+            if $0.isSelected {
+                $0.setBackgroundImage(.matchActionSelectionButton(isSelected: false, size: actionButtonSelectionSize), for: .normal)
+                $0.isSelected = false
             }
-        }()
-        
-        self.actionButton.setTitle(actionText, for: .normal)
-        self.actionButton.setBackgroundImage(.matchActionBackgroundImage(forAction: matchAction, size: actionButtonSize), for: .normal)
+        }
+        self.actionSelectionButtons[selectedIndex].setBackgroundImage(.matchActionSelectionButton(isSelected: true, size: actionButtonSelectionSize), for: .normal)
+        self.actionSelectionButtons[selectedIndex].isSelected = true
     }
-
 }

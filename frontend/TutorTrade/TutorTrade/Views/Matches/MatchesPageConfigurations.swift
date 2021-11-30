@@ -30,6 +30,13 @@ extension UIView {
             return view
         }
     }
+
+    static var reviewBackgroundOverlay: UIView {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor(named: "popoverBackgroundOverlay")!
+        return view
+    }
 }
 
 extension UIScrollView {

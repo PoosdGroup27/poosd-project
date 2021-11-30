@@ -39,6 +39,16 @@ extension UIButton {
     }
 }
 
+extension UIScrollView {
+    static var matchActionButtonsScrollView: UIScrollView {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.isScrollEnabled = false
+        return scrollView
+    }
+}
+
 extension UIStackView {
     static var matchActionSelectionButtonStackView: UIStackView {
         get {
@@ -125,6 +135,15 @@ extension UILabel {
         label.font = UIFont(name: "Roboto-Bold", size: fontSize)!
         return label
     }
+    
+    static var matchReviewedBoxLabel: UILabel {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Completed"
+        label.textColor = .white
+        label.font = UIFont(name: "Roboto-Bold", size: UIScreen.main.bounds.width / 22.5)
+        return label
+    }
 }
 
 internal enum MatchDisplayBoxType {
@@ -152,6 +171,12 @@ extension BorderedDisplayBoxView {
         let displayBox = BorderedDisplayBoxView(iconImage: icon, iconHeightRatio: 0.5, borderColor: nil, borderWidth: 0, boxSize: boxSize, cornerRadius: borderRadius, boxBackgroundColor: UIColor(named: "MatchBoxColor")!, withShadow: false)
         displayBox.translatesAutoresizingMaskIntoConstraints = false
         displayBox.backgroundColor = .clear
+        return displayBox
+    }
+    
+    static var matchReviewedBox: BorderedDisplayBoxView {
+        let displayBox = BorderedDisplayBoxView(iconImage: UIImage(named: "ReviewedMatchIcon")!, iconHeightRatio: 0.7, borderColor: nil, borderWidth: 1.5, boxSize: CGSize(width: UIScreen.main.bounds.width / 1.875, height: 40), cornerRadius: 25, boxBackgroundColor: UIColor(named: "ReviewedMatchBoxColor"), withShadow: false)
+        displayBox.translatesAutoresizingMaskIntoConstraints = false
         return displayBox
     }
 }
