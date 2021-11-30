@@ -54,3 +54,23 @@ Repository for POOSD Group 27, Fall 2021 - TutorTrade
 # Resources
 
 #### This project is purely for educational purposes, and the images were used via Fair Use. Do not redistribute.
+- [Major]()
+- [Time]()
+- [Globe/Online]()
+- [Square Checkmark]()
+- [Bookmark (changed color)](https://www.flaticon.com/free-icon/bookmark_102279?term=bookmark&page=1&position=3&page=1&position=3&related_id=102279&origin=search)
+- [Star](https://www.flaticon.com/free-icon/star_929495?term=star&page=1&position=14&page=1&position=14&related_id=929495&origin=search)
+- [Exit](https://thenounproject.com/search/?q=x&i=2663763)
+- [Undo](https://www.flaticon.com/free-icon/undo_725004?term=undo&page=1&position=19&page=1&position=19&related_id=725004&origin=search)
+- [No Cards Remaining](https://www.flaticon.com/free-icon/confetti_3163797?term=star%20confetti&related_id=3163797)
+- [Filter](https://iconscout.com/icon/filter-1774652)
+- [Star Chat Bubble](https://thenounproject.com/search/?q=star+inside+chat+bubble&i=3774537)
+- [3 Dots](https://thenounproject.com/search/?q=three+dots&i=384290)
+- [Circle Checkmark](https://www.flaticon.com/premium-icon/check_3747610?term=checkmark%20in%20circle&page=1&position=18&page=1&position=18&related_id=3747610&origin=search)
+- [Finger Swipe](https://www.flaticon.com/free-icon/swipe_6009248?term=finger%20swipe&page=2&position=7&page=2&position=7&related_id=6009248&origin=search)
+- [Chat Message](https://www.flaticon.com/premium-icon/comment_3193061?term=chat%20message&page=1&position=13&page=1&position=13&related_id=3193061&origin=search)
+- [School](https://www.flaticon.com/premium-icon/school_2602414?term=school&page=1&position=2&page=1&position=2&related_id=2602414&origin=search)
+- [Points](https://www.flaticon.com/free-icon/point_4291373?term=points&page=1&position=25&page=1&position=25&related_id=4291373&origin=search)
+- [Question Mark](https://thenounproject.com/search/?q=question+mark&i=178771)
+- [Arrow](https://www.flaticon.com/premium-icon/next_2989988?term=arrow&page=1&position=1&page=1&position=1&related_id=2989988&origin=search)
+- [Graph](https://pixabay.com/vectors/social-media-network-people-5508549/)
