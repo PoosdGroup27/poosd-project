@@ -99,12 +99,6 @@ public class MatchesHandler implements RequestStreamHandler {
 
     requestToUpdate.getOrderedMatches().put(tutorId, matchStatus);
 
-    DYNAMO_DB_MAPPER.save(
-        requestToUpdate,
-        DynamoDBMapperConfig.builder()
-            .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
-            .build());
-
     // if the status update is going to chat, create a new chat between the tutor
     // and tutee
     if (statusUpdate.equals("CHATTING")) {
@@ -137,6 +131,17 @@ public class MatchesHandler implements RequestStreamHandler {
               .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
               .build());
     }
+
+    if (statusUpdate.equals("ACCEPTED")) {
+      requestToUpdate.setHelperId(tutorId);
+    }
+
+    DYNAMO_DB_MAPPER.save(
+            requestToUpdate,
+            DynamoDBMapperConfig.builder()
+                    .withSaveBehavior(DynamoDBMapperConfig.SaveBehavior.UPDATE_SKIP_NULL_ATTRIBUTES)
+                    .build());
+
 
     return ApiResponse.<Request>builder()
         .statusCode(HttpURLConnection.HTTP_OK)
