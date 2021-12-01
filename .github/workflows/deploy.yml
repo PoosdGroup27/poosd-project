@@ -5,7 +5,7 @@ on:
     branches:
       - 'main'
     paths:
-      - 'backend/**'
+      - 'backend/TutorTrade/src/**'
       - '.github/workflows/**'
 jobs:
   deploy:

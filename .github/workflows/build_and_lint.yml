@@ -5,11 +5,7 @@ on:
     branches:
       - 'main'
     paths:
-      - 'backend/**'
-  push:
-    branches:
-      - 'jesse/**'
-      - 'adam/**'
+      - 'backend/TutorTrade/src/**'
 
 jobs:
   build-and-lint:
