@@ -1,6 +1,8 @@
+<!---
 ![Backend Deployment](https://github.com/PoosdGroup27/poosd-project/actions/workflows/deploy.yml/badge.svg)
 ![Backend Build + Lint Lint](https://github.com/PoosdGroup27/poosd-project/actions/workflows/build_and_lint.yml/badge.svg)
 ![Swift Lint](https://github.com/PoosdGroup27/poosd-project/actions/workflows/swift_lint.yml/badge.svg)
+-->
 
 Repository for POOSD Group 27, Fall 2021 - TutorTrade
 
