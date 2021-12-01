@@ -1,3 +1,6 @@
+# This is the default mapping template provided by AWS in AWS API Gateway portal. It passes all data available in API request to lambda.
+# Rather than clicking box activating this for each lambda, it is placed here so it can be added to each lambda in serverless file.
+# See https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-mapping-template-reference.html for more details
 mapping_template: '#set($allParams = $input.params())
   {
     "body-json" : $input.json(''$''),
